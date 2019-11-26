@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
 
 class MenuBox extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
 
     render() {
         return (
@@ -13,11 +9,15 @@ class MenuBox extends Component {
                 mode="inline"
                 theme="dark"
                 defaultSelectedKeys={['模板']}
-                style={{ height: '100%', borderRight: 0 }}
+                style={{ height: '100%', borderRight: 0, background: '#30303d' }}
             >
                 <Menu.Item key="模板">
                     <Icon type="file-protect" />
                     <span className="nav-text">模板</span>
+                </Menu.Item>
+                <Menu.Item key="代码块">
+                    <Icon type="file-protect" />
+                    <span className="nav-text">代码块</span>
                 </Menu.Item>
             </Menu>
         );
