@@ -7,9 +7,20 @@ const ignoreFile = {
 };
 
 module.exports = function displayFiles(filePaths) {
-    const filesArray = [];
-    let key = 1;
-    function fileDisplayDeep(filePath, filesArray) {
+    const filesArray = [
+        {
+            title: '/',
+            key: 1,
+        }
+    ];
+    const foldersArray = [
+        {
+            title: '/',
+            key: 1,
+        }
+    ];
+    let key = 2;
+    function fileDisplayDeep(filePath, filesArray, foldersArray) {
         const files = fs.readdirSync(filePath);
         files.forEach(filename => {
             const filedir = path.join(filePath, filename);
@@ -21,16 +32,25 @@ module.exports = function displayFiles(filePaths) {
                 });
             }
             if (stats.isDirectory() && !ignoreFile[filename]) { // 文件夹
-                const children = [];
+                const childrenFiles = [];
+                const childrenFolders = [];
                 filesArray.push({
                     title: filename,
-                    key: ++key,
-                    children,
+                    key: key++,
+                    children: childrenFiles,
                 });
-                fileDisplayDeep(filedir, children);
+                foldersArray.push({
+                    title: filename,
+                    key: key++,
+                    children: childrenFolders,
+                });
+                fileDisplayDeep(filedir, childrenFiles, childrenFolders);
             }
         });
     }
-    fileDisplayDeep(filePaths, filesArray);
-    return filesArray;
+    fileDisplayDeep(filePaths, filesArray, foldersArray);
+    return {
+        filesArray,
+        foldersArray,
+    };
 };
