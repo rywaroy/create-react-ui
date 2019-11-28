@@ -1,7 +1,8 @@
 export default {
     namespace: 'global',
     state: {
-        files: [],
+        files: [], // 文件列表
+        folders: [], // 文件夹列表
     },
     effects: {
         updateFiles() {
