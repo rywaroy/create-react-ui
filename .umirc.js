@@ -35,6 +35,7 @@ export default {
             /model\.(t|j)sx?$/,
             /service\.(t|j)sx?$/,
             /components\//,
+            /images\//,
           ],
         },
       },

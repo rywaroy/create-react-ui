@@ -1,0 +1,181 @@
+/* --------------------重置 ----------------------- */
+
+body {
+    font-family: 'microsoft yahei', arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.5),
+(min-resolution: 2dppx) {
+    /* Retina 下仍使用默认字体渲染 */
+    body {
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+}
+html,
+body,
+address,
+blockquote,
+div,
+dl,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+p,
+pre,
+table,
+ul,
+dd,
+dt,
+li,
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr,
+button,
+del,
+ins,
+map,
+object,
+a,
+abbr,
+acronym,
+b,
+big,
+br,
+cite,
+code,
+dfn,
+em,
+i,
+img,
+kbd,
+q,
+samp,
+small,
+span,
+strong,
+sub,
+sup,
+tt,
+var,
+legend,
+fieldset {
+  margin: 0;
+  padding: 0;
+  word-break: break-all;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption,
+th {
+  text-align: left;
+}
+
+ol,
+ul,
+li {
+  list-style: none;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+th,
+var {
+  font-style: normal;
+  font-weight: normal;
+}
+
+img,
+fieldset,
+abbr,
+acronym {
+  border: 0;
+}
+
+img {
+  vertical-align: top;
+  max-width: 100%;
+  width: auto\9;
+  /* ie8 */
+}
+
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+time,
+div,
+ul,
+li,
+dl,
+dt,
+dd {
+  font-weight: normal;
+  font-family: "\5FAE\8F6F\96C5\9ED1";
+}
+
+a {
+  text-decoration: none;
+}
+
+a,
+img {
+  -webkit-touch-callout: none;
+  -moz-touch-callout: none;
+  touch-callout: none;
+}
+
+i{
+  font-style:normal;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .2);
+    background-color: #ddd;
+}

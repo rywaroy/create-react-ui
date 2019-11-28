@@ -1,0 +1,53 @@
+.item {
+    float: left;
+    width: 220px;
+    background: #30303d;
+    padding: 12px;
+}
+
+.img {
+    height: 160px;
+    background: #fff;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.defaultImg {
+    background: url('./images/default.png') no-repeat center;
+    background-size: cover;
+}
+
+.title {
+    font-size: 14px;
+    line-height: 22px;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+}
+
+.intro {
+    margin-top: 4px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0;
+    line-height: 20px;
+    height: 40px;
+    margin-bottom: 0;
+}
+
+.mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.mask:hover {
+    opacity: 1;
+}
