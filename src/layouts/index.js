@@ -1,10 +1,34 @@
 import React, { Component } from 'react';
 import { Layout } from 'antd';
+import { connect } from 'dva';
 import MenuBox from '@/components/MenuBox';
 
 const { Content, Sider } = Layout;
 
 class BasicLayout extends Component {
+
+    componentDidMount() {
+        this.props.dispatch({
+            type: 'global/updateFiles'
+        });
+        window.socket.on('set-files', files => {
+            console.log(files);
+            this.props.dispatch({
+                type: 'global/updateState',
+                payload: {
+                    files,
+                }
+            });
+        });
+        window.socket.on('set-folders', folders => {
+            this.props.dispatch({
+                type: 'global/updateState',
+                payload: {
+                    folders,
+                }
+            });
+        });
+    }
 
     render() {
         return (
@@ -30,4 +54,4 @@ class BasicLayout extends Component {
     }
 }
 
-export default BasicLayout;
+export default connect(({ global }) => ({ global }))(BasicLayout);
