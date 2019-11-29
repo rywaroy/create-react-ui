@@ -15,7 +15,7 @@ class Template extends Component {
         return (
             <div>
                 <div className="list">
-                    <DefaultTemplate />
+                    <DefaultTemplate folders={this.props.global.folders}/>
                 </div>
             </div>
         );
