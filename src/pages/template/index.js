@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import TemplateItem from './components/TemplateItem';
+import DefaultTemplate from './components/DefaultTemplate';
 
 class Template extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
+    }
 
     render() {
         return (
             <div>
-                <ul className="clearfix">
-                    <TemplateItem
-                        title="默认react模板"
-                        intro="包含index.js 可配置变量名"
-                        imgClassName="defaultImg"/>
-                </ul>
+                <div className="list">
+                    <DefaultTemplate />
+                </div>
             </div>
         );
     }
