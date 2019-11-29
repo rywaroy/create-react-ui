@@ -8,14 +8,12 @@ class DefaultTemplate extends Component {
         super(props);
         this.state = {
             visible: false,
-            key: Math.random(),
         };
     }
 
     addDefaultTemplate = () => {
         this.setState({
             visible: true,
-            key: Math.random(),
         });
         this.props.form.setFields({
             url: {
@@ -36,7 +34,8 @@ class DefaultTemplate extends Component {
     handleOk = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                window.socket.emit('create-default-template', values);
+                this.handleCancel();
             }
         });
     }
@@ -48,7 +47,7 @@ class DefaultTemplate extends Component {
     }
 
     render() {
-        const { visible, key } = this.state;
+        const { visible } = this.state;
         const { folders } = this.props;
         const { getFieldDecorator } = this.props.form;
 
@@ -61,7 +60,6 @@ class DefaultTemplate extends Component {
                     add={this.addDefaultTemplate}/>
                 <Modal
                     title="添加默认模板"
-                    key={key}
                     visible={visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}>
