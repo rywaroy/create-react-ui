@@ -27,7 +27,6 @@ class FolderTreeSelect extends Component {
                 dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                 placeholder="请选择路径"
                 allowClear
-                treeDefaultExpandAll
                 onChange={this.onChange}
             >
                 {
