@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Layout } from 'antd';
+import { Layout, LocaleProvider } from 'antd';
 import { connect } from 'dva';
+import 'antd/dist/antd.css';
 import MenuBox from '@/components/MenuBox';
+import zhCN from 'antd/es/locale/zh_CN';
 
 const { Content, Sider } = Layout;
 
@@ -12,7 +14,6 @@ class BasicLayout extends Component {
             type: 'global/updateFiles'
         });
         window.socket.on('set-files', files => {
-            console.log(files);
             this.props.dispatch({
                 type: 'global/updateState',
                 payload: {
@@ -45,7 +46,9 @@ class BasicLayout extends Component {
                                 minHeight: 280,
                             }}
                         >
-                            {this.props.children}
+                            <LocaleProvider locale={zhCN}>
+                                {this.props.children}
+                            </LocaleProvider>
                         </Content>
                     </Layout>
                 </Layout>
