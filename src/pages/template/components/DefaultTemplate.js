@@ -16,9 +16,6 @@ class DefaultTemplate extends Component {
             visible: true,
         });
         this.props.form.setFields({
-            url: {
-                value: '',
-            },
             folderName: {
                 value: '',
             },
