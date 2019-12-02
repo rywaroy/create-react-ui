@@ -5,7 +5,7 @@ const defaultTemplate = require('../templateString/default-template');
 
 module.exports = function createDefaultTemplate({ url, folderName, fileName, variable }) {
     let base = path.join(process.cwd(), url ? url : '');
-    variable = variable ? variable : 'Component';
+    variable = variable ? variable : 'Template';
 
     // 创建文件夹
     if (folderName) {
