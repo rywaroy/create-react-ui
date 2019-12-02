@@ -1,4 +1,5 @@
 const createDefaultTemplate = require('./create-default-template');
+const displayFiles = require('../file/display-files');
 
 module.exports = function template(socket) {
 
@@ -10,6 +11,7 @@ module.exports = function template(socket) {
                 state: 1,
                 msg: '创建成功',
             });
+            updateFiles(socket);
         } catch (e) {
             socket.emit('msg', {
                 state: 0,
@@ -18,3 +20,9 @@ module.exports = function template(socket) {
         }
     });
 };
+
+function updateFiles(socket) {
+    const { filesArray, foldersArray } = displayFiles(process.cwd());
+    socket.emit('set-files', filesArray);
+    socket.emit('set-folders', foldersArray);
+}
