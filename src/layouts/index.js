@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, LocaleProvider } from 'antd';
+import { Layout, ConfigProvider, notification, Icon } from 'antd';
 import { connect } from 'dva';
 import 'antd/dist/antd.css';
 import MenuBox from '@/components/MenuBox';
@@ -29,6 +29,12 @@ class BasicLayout extends Component {
                 }
             });
         });
+        window.socket.on('msg', data => {
+            notification.open({
+                message: data.msg,
+                icon: data.state === 1 ? <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /> : <Icon type="close-circle" style={{ color: 'red' }} />,
+            });
+        });
     }
 
     render() {
@@ -46,9 +52,9 @@ class BasicLayout extends Component {
                                 minHeight: 280,
                             }}
                         >
-                            <LocaleProvider locale={zhCN}>
+                            <ConfigProvider locale={zhCN}>
                                 {this.props.children}
-                            </LocaleProvider>
+                            </ConfigProvider>
                         </Content>
                     </Layout>
                 </Layout>
