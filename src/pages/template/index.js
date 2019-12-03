@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import DefaultTemplate from './components/DefaultTemplate';
+import UmiTemplate from './components/UmiTemplate';
+import styles from './index.less';
 
 class Template extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-
-        };
-    }
-
     render() {
+        const { folders } = this.props.global;
         return (
             <div>
-                <div className="list">
-                    <DefaultTemplate folders={this.props.global.folders}/>
+                <div className={styles.list}>
+                    <DefaultTemplate folders={folders}/>
+                    <UmiTemplate folders={folders}/>
                 </div>
             </div>
         );
