@@ -12,10 +12,10 @@ module.exports = function template(socket) {
                 msg: '创建成功',
             });
             updateFiles(socket);
-        } catch (e) {
+        } catch (err) {
             socket.emit('msg', {
                 state: 0,
-                msg: e.message,
+                msg: err,
             });
         }
     });
