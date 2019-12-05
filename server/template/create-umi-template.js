@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const execa = require('execa');
+const umiTemplate = require('../templateString/umi-template');
 
 module.exports = function createUmiTemplate({ url, folderName, fileName, variable, namespace, oilConfig }) {
     return new Promise(function (resolve, reject) {
@@ -15,6 +16,9 @@ module.exports = function createUmiTemplate({ url, folderName, fileName, variabl
             }
             execa.commandSync(`mkdir ${base}`);
         }
+        const script = umiTemplate(variable, namespace);
+
+        fs.writeFileSync(path.join(base, fileName), script);
         resolve();
     });
 };
