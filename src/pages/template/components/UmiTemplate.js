@@ -110,7 +110,7 @@ class UmiTemplate extends Component {
                                 })(<Input />)
                             }
                         </Form.Item>
-                        <Form.Item label="model namespace">
+                        <Form.Item label="model 命名空间">
                             {
                                 getFieldDecorator('namespace', {
                                     rules: [
