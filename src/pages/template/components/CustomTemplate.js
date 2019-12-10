@@ -52,7 +52,7 @@ class CustomTemplate extends Component {
             <div>
                 <TemplateItem
                     title="自定义模板"
-                    intro=""
+                    intro="可自定义模板文件，根据指定模板文件生成代码"
                     imgClassName="customImg"
                     add={this.addCustomTemplate}/>
                 <Modal
