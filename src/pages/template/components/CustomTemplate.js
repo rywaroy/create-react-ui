@@ -85,15 +85,10 @@ class CustomTemplate extends Component {
                                 })(<Input />)
                             }
                         </Form.Item>
-                        <Form.Item label="文件名">
+                        {/* <Form.Item label="主文件名">
                             {
                                 getFieldDecorator('fileName', {
-                                    initialValue: 'index.js',
                                     rules: [
-                                        {
-                                            required: true,
-                                            message: '请填写文件名',
-                                        },
                                         {
                                             pattern: /^[a-zA-Z0-9\-\_]+\.[a-zA-Z0-9\-\_]+$/,
                                             message: '请填写正确文件名',
@@ -101,7 +96,7 @@ class CustomTemplate extends Component {
                                     ],
                                 })(<Input />)
                             }
-                        </Form.Item>
+                        </Form.Item> */}
                         <Form.Item label="变量名">
                             {
                                 getFieldDecorator('variable', {
