@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import DefaultTemplate from './components/DefaultTemplate';
 import UmiTemplate from './components/UmiTemplate';
+import CustomTemplate from './components/CustomTemplate';
 import styles from './index.less';
 
 class Template extends Component {
@@ -13,6 +14,7 @@ class Template extends Component {
                 <div className={styles.list}>
                     <DefaultTemplate folders={folders}/>
                     <UmiTemplate folders={folders}/>
+                    <CustomTemplate folders={folders} />
                 </div>
             </div>
         );
