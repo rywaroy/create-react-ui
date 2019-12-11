@@ -6,6 +6,8 @@ const io = require('socket.io')(server);
 const cors = require('koa-cors');
 const bodyparser = require('koa-bodyparser');
 const staticServer = require('koa-static');
+
+const router = require('./router');
 const file = require('./socket/file');
 const template = require('./socket/template');
 
@@ -16,6 +18,9 @@ app.use(bodyparser({
     formLimit: '5mb',
 }));
 app.use(staticServer(`${__dirname}/static`));
+
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 io.on('connection', (socket) => {
 
