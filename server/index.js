@@ -18,6 +18,7 @@ app.use(bodyparser({
     formLimit: '5mb',
 }));
 app.use(staticServer(`${__dirname}/static`));
+app.use(require('./middlewares/returnData'));
 
 app.use(router.routes());
 app.use(router.allowedMethods());
