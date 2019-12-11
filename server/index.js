@@ -6,8 +6,8 @@ const io = require('socket.io')(server);
 const cors = require('koa-cors');
 const bodyparser = require('koa-bodyparser');
 const staticServer = require('koa-static');
-const file = require('./file');
-const template = require('./template');
+const file = require('./socket/file');
+const template = require('./socket/template');
 
 app.use(cors({
     methods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
