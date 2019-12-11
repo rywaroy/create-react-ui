@@ -14,7 +14,7 @@ router.get('/api/file/template', async ctx => {
             ctx.success(200, '', file);
         }
     } else {
-        ctx.error(0, '找不到文件目录', null);
+        ctx.error(0, '找不到/crui/template文件目录', null);
     }
 });
 
