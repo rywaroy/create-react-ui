@@ -16,7 +16,7 @@ module.exports = function template(socket) {
         } catch (err) {
             socket.emit('msg', {
                 state: 0,
-                msg: err,
+                msg: err.message ? err.message : err,
             });
         }
     });
@@ -33,7 +33,7 @@ module.exports = function template(socket) {
         } catch (err) {
             socket.emit('msg', {
                 state: 0,
-                msg: err,
+                msg: err.message ? err.message : err,
             });
         }
     });
