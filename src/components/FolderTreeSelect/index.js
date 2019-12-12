@@ -28,20 +28,8 @@ class FolderTreeSelect extends Component {
                 placeholder="请选择路径"
                 allowClear
                 onChange={this.onChange}
-            >
-                {
-                    this.props.folders.map(folder => (
-                        <TreeNode value={folder.value} title={folder.title} key={folder.key}>
-                            {
-                                folder.children &&
-                                    folder.children.map(child => (
-                                        <TreeNode value={child.value} title={child.title} key={child.key}></TreeNode>
-                                    ))
-                            }
-                        </TreeNode>
-                    ))
-                }
-            </TreeSelect>
+                treeData={this.props.folders}
+            />
         );
     }
 }
