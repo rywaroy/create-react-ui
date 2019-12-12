@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { TreeSelect } from 'antd';
 
-const { TreeNode } = TreeSelect;
-
 class FolderTreeSelect extends Component {
     constructor(props) {
         super(props);
