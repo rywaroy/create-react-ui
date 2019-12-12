@@ -2,30 +2,36 @@ import React, { Component } from 'react';
 import { Modal, Form, Input, Icon, Tooltip } from 'antd';
 import TemplateItem from './TemplateItem';
 import FolderTreeSelect from '@/components/FolderTreeSelect';
+import axios from '@/utils/axios';
 
 class CustomTemplate extends Component {
     constructor(props) {
         super(props);
         this.state = {
             visible: false,
+            files: [],
         };
     }
 
     addCustomTemplate = () => {
-        this.setState({
-            visible: true,
-        });
-        this.props.form.setFields({
-            folderName: {
-                value: '',
-            },
-            fileName: {
-                value: 'index.js',
-            },
-            variable: {
-                value: '',
-            },
-        });
+        axios.get('file/template')
+            .then(res => {
+                this.setState({
+                    visible: true,
+                    files: res.data.data,
+                });
+                this.props.form.setFields({
+                    folderName: {
+                        value: '',
+                    },
+                    fileName: {
+                        value: 'index.js',
+                    },
+                    variable: {
+                        value: '',
+                    },
+                });
+            });
     }
 
     handleOk = () => {
