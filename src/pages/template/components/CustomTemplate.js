@@ -50,7 +50,7 @@ class CustomTemplate extends Component {
     }
 
     render() {
-        const { visible } = this.state;
+        const { visible, files } = this.state;
         const { folders } = this.props;
         const { getFieldDecorator } = this.props.form;
 
@@ -91,18 +91,11 @@ class CustomTemplate extends Component {
                                 })(<Input />)
                             }
                         </Form.Item>
-                        {/* <Form.Item label="主文件名">
+                        <Form.Item label="主文件名">
                             {
-                                getFieldDecorator('fileName', {
-                                    rules: [
-                                        {
-                                            pattern: /^[a-zA-Z0-9\-\_]+\.[a-zA-Z0-9\-\_]+$/,
-                                            message: '请填写正确文件名',
-                                        },
-                                    ],
-                                })(<Input />)
+                                getFieldDecorator('fileName')(<FolderTreeSelect folders={files}/>)
                             }
-                        </Form.Item> */}
+                        </Form.Item>
                         <Form.Item label="变量名">
                             {
                                 getFieldDecorator('variable', {
