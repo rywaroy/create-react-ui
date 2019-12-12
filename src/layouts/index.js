@@ -32,7 +32,7 @@ class BasicLayout extends Component {
         window.socket.on('msg', data => {
             notification.open({
                 message: data.msg,
-                icon: data.state === 1 ? <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /> : <Icon type="close-circle" style={{ color: 'red' }} />,
+                icon: data.state === 200 ? <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /> : <Icon type="close-circle" style={{ color: 'red' }} />,
             });
         });
     }
