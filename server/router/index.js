@@ -11,7 +11,17 @@ router.get('/api/file/template', async ctx => {
         if (file.length === 0) {
             ctx.error(0, '该目录下没有文件', null);
         } else {
-            ctx.success(200, '', file);
+            const data = [];
+            file.forEach((item, index) => {
+                if (/^.+\..+$/.test(item)) { // 判断是文件
+                    data.push({
+                        title: item,
+                        key: index + 1,
+                        value: path.join('crui', 'template', item),
+                    });
+                }
+            });
+            ctx.success(200, '', data);
         }
     } else {
         ctx.error(0, '找不到/crui/template文件目录', null);
