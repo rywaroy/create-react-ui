@@ -25,7 +25,7 @@ class CustomTemplate extends Component {
                         value: '',
                     },
                     fileName: {
-                        value: 'index.js',
+                        value: '',
                     },
                     variable: {
                         value: '',
@@ -91,7 +91,7 @@ class CustomTemplate extends Component {
                                 })(<Input />)
                             }
                         </Form.Item>
-                        <Form.Item label="主文件名">
+                        <Form.Item label={<span>主文件名 <Tooltip title={'默认导出组件的文件，配合修改变量名/类名'} ><Icon type="question-circle" /></Tooltip></span>}>
                             {
                                 getFieldDecorator('fileName')(<FolderTreeSelect folders={files}/>)
                             }
