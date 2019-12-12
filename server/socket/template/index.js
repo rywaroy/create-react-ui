@@ -9,13 +9,13 @@ module.exports = function template(socket) {
         try {
             await createDefaultTemplate(data);
             socket.emit('msg', {
-                state: 1,
+                status: 200,
                 msg: '创建成功',
             });
             updateFiles(socket);
         } catch (err) {
             socket.emit('msg', {
-                state: 0,
+                status: 0,
                 msg: err.message ? err.message : err,
             });
         }
@@ -26,13 +26,13 @@ module.exports = function template(socket) {
         try {
             await createUmiTemplate(data);
             socket.emit('msg', {
-                state: 1,
+                status: 200,
                 msg: '创建成功',
             });
             updateFiles(socket);
         } catch (err) {
             socket.emit('msg', {
-                state: 0,
+                status: 0,
                 msg: err.message ? err.message : err,
             });
         }
