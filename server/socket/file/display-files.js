@@ -32,7 +32,7 @@ module.exports = function displayFiles(filePaths) {
         files.forEach(filename => {
             const urlStack = JSON.parse(JSON.stringify(stack)); // 深拷贝路由栈
             urlStack.push(filename);
-            const url = urlStack.join('/');
+            const url = path.join(...urlStack);
             const filedir = path.join(filePath, filename);
             const stats = fs.statSync(filedir);
             if (stats.isFile() && !/^\..*$/.test(filename)) { // 文件
