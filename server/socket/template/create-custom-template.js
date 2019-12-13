@@ -1,6 +1,10 @@
 const path = require('path');
 const fs = require('fs');
 const execa = require('execa');
+const babelParser = require('@babel/parser');
+const traverse = require('@babel/traverse').default;
+const generate = require('@babel/generator').default;
+const t = require('babel-types');
 
 module.exports = function createCustomTemplate({ url, folderName, fileName, variable }) {
     return new Promise(function (resolve, reject) {
@@ -22,5 +26,10 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
                 readable.pipe(writable);
             });
         });
+        if (fileName && variable) {
+            const ast = babelParser.parse(fs.readFileSync(path.join(targetPath, fileName), 'utf-8'), {
+                sourceType: 'module',
+            });
+        }
     });
 };
