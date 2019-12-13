@@ -1,3 +1,5 @@
+@import "./assets/reset.css";
+
 html, body, #root {
   height: 100%;
 }
@@ -11,6 +13,14 @@ body {
   padding: 0;
 }
 
+.clearfix:after {
+  display: block;
+  clear: both;
+  content: ' ';
+  visibility: hidden;
+  height: 0;
+}
+
 
 .ant-menu.ant-menu-dark .ant-menu-item.ant-menu-item-selected {
   background-color: hsla(0,0%,100%,.05);
@@ -19,4 +29,12 @@ body {
 
 .ant-menu.ant-menu-dark .ant-menu-item {
   border-left: 2px solid #23232e;
+}
+
+.ant-select-search__field {
+  background-color: #17171f;
+}
+
+body .ant-select-tree li .ant-select-tree-node-content-wrapper.ant-select-tree-node-selected {
+  background-color: #272733;
 }
