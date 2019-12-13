@@ -19,13 +19,13 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
         }
         const modelPath = path.join(process.cwd(), 'crui', 'template');
         // 复制文件到目标文件夹
-        fs.readdir(modelPath, (err, files) => {
-            files.forEach(file => {
-                const readable = fs.createReadStream(path.join(modelPath, file));
-                const writable = fs.createWriteStream(path.join(targetPath, file));
-                readable.pipe(writable);
-            });
+        const files = fs.readdirSync(modelPath);
+        files.forEach(file => {
+            const readable = fs.createReadStream(path.join(modelPath, file));
+            const writable = fs.createWriteStream(path.join(targetPath, file));
+            readable.pipe(writable);
         });
+
         if (fileName && variable) {
             const ast = babelParser.parse(fs.readFileSync(path.join(targetPath, fileName), 'utf-8'), {
                 sourceType: 'module',
