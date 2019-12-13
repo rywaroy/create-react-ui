@@ -1,5 +1,6 @@
 const createDefaultTemplate = require('./create-default-template');
 const createUmiTemplate = require('./create-umi-template');
+const createCoustomTemplate = require('./create-custom-template');
 const displayFiles = require('../file/display-files');
 
 module.exports = function template(socket) {
@@ -25,6 +26,23 @@ module.exports = function template(socket) {
     socket.on('create-umi-template', async data => {
         try {
             await createUmiTemplate(data);
+            socket.emit('msg', {
+                status: 200,
+                msg: '创建成功',
+            });
+            updateFiles(socket);
+        } catch (err) {
+            socket.emit('msg', {
+                status: 0,
+                msg: err.message ? err.message : err,
+            });
+        }
+    });
+
+    // 创建自定义模板
+    socket.on('create-custom-template', async data => {
+        try {
+            await createCoustomTemplate(data);
             socket.emit('msg', {
                 status: 200,
                 msg: '创建成功',
