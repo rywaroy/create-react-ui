@@ -6,6 +6,7 @@ const traverse = require('@babel/traverse').default;
 const generate = require('@babel/generator').default;
 const t = require('babel-types');
 
+
 module.exports = function createCustomTemplate({ url, folderName, fileName, variable }) {
     return new Promise(function (resolve, reject) {
         let targetPath = path.join(process.cwd(), url ? url : '');
@@ -30,6 +31,19 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
             const ast = babelParser.parse(fs.readFileSync(path.join(targetPath, fileName), 'utf-8'), {
                 sourceType: 'module',
             });
+            traverse(ast, createVisitor(variable));
         }
     });
 };
+
+/**
+ *
+ * @param {String} variable - 变量名
+ * @returns {Object} visitor
+ */
+function createVisitor(variable) {
+    const visitor = {
+
+    };
+    return visitor;
+}
