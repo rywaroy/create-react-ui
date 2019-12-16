@@ -17,7 +17,7 @@ router.get('/api/file/template', async ctx => {
                     data.push({
                         title: item,
                         key: index + 1,
-                        value: path.join('.crui', 'template', item),
+                        value: item,
                     });
                 }
             });
