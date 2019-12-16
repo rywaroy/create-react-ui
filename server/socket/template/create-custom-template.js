@@ -26,12 +26,14 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
             const writable = fs.createWriteStream(path.join(targetPath, file));
             readable.pipe(writable);
         });
-
         if (fileName && variable) {
-            const ast = babelParser.parse(fs.readFileSync(path.join(targetPath, fileName), 'utf-8'), {
+            const url = path.join(targetPath, fileName);
+            const ast = babelParser.parse(fs.readFileSync(url, 'utf-8'), {
                 sourceType: 'module',
             });
             traverse(ast, createVisitor(variable));
+            const output = generate(ast);
+            fs.writeFileSync(url, output.code);
         }
     });
 };
