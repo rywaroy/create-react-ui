@@ -45,7 +45,19 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
  */
 function createVisitor(variable) {
     const visitor = {
+        ExportDefaultDeclaration(path) {
+            if (path.node.declaration.type === 'FunctionDeclaration') {
 
+                /**
+                * 导出函数式组件
+                * @example
+                * export default function Component(props) {
+                *
+                * }
+                */
+                path.node.declaration.id.name = variable;
+            }
+        }
     };
     return visitor;
 }
