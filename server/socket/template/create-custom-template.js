@@ -17,7 +17,7 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
             }
             execa.commandSync(`mkdir ${targetPath}`);
         }
-        const modelPath = path.join(process.cwd(), 'crui', 'template');
+        const modelPath = path.join(process.cwd(), '.crui', 'template');
         // 复制文件到目标文件夹
         const files = fs.readdirSync(modelPath);
         files.forEach(file => {

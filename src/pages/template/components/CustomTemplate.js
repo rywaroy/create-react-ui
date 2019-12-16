@@ -67,10 +67,10 @@ class CustomTemplate extends Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}>
                     <Form>
-                        <Form.Item label={<span>模板文件夹 <Tooltip title={'在根目录下创建crui/template文件夹,该文件夹内所有文件将作为模板使用'} ><Icon type="question-circle" /></Tooltip></span>} colon={false}>
+                        <Form.Item label={<span>模板文件夹 <Tooltip title={'在根目录下创建.crui/template文件夹,该文件夹内所有文件将作为模板使用'} ><Icon type="question-circle" /></Tooltip></span>} colon={false}>
                             {
                                 getFieldDecorator('mode', {
-                                    initialValue: '/crui/template',
+                                    initialValue: '/.crui/template',
                                 })(<Input disabled />)
                             }
                         </Form.Item>
