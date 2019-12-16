@@ -24,9 +24,6 @@ class CustomTemplate extends Component {
                     folderName: {
                         value: '',
                     },
-                    fileName: {
-                        value: '',
-                    },
                     variable: {
                         value: '',
                     },
