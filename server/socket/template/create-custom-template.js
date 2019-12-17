@@ -4,7 +4,6 @@ const execa = require('execa');
 const babelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const generate = require('@babel/generator').default;
-const t = require('babel-types');
 
 
 module.exports = function createCustomTemplate({ url, folderName, fileName, variable }) {
