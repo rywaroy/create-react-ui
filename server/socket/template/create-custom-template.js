@@ -29,7 +29,7 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
             const ast = babelParser.parse(fs.readFileSync(url, 'utf-8'), {
                 sourceType: 'module',
             });
-            traverse(ast, createVisitor(variable));
+            traverse(ast, createVisitor(ast, variable));
             const output = generate(ast);
             fs.writeFileSync(url, output.code);
         }
@@ -41,7 +41,7 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
  * @param {String} variable - 变量名
  * @returns {Object} visitor
  */
-function createVisitor(variable) {
+function createVisitor(ast, variable) {
     const visitor = {
         ExportDefaultDeclaration(path) {
             if (path.node.declaration.type === 'FunctionDeclaration') {
@@ -55,6 +55,7 @@ function createVisitor(variable) {
                 */
                 path.node.declaration.id.name = variable;
             }
+
             if (path.node.declaration.type === 'ClassDeclaration') {
 
                 /**
@@ -65,6 +66,19 @@ function createVisitor(variable) {
                 * }
                 */
                 path.node.declaration.id.name = variable;
+            }
+
+            if (path.node.declaration.type === 'Identifier') {
+
+                /**
+                 * 导出变量
+                 * @example
+                 * class Component extends react.Component {}
+                 * export default Component;
+                 */
+                const identifier = path.node.declaration.name;
+                path.node.declaration.name = variable;
+                traverse(ast, createVisitor(ast, identifier));
             }
         }
     };
