@@ -41,7 +41,7 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
  * @param {String} variable - 变量名
  * @returns {Object} visitor
  */
-function createVisitor(ast, variable) {
+function createVisitor(ast, variable, identifier) {
     const visitor = {
         ExportDefaultDeclaration(path) {
             if (path.node.declaration.type === 'FunctionDeclaration') {
@@ -78,9 +78,14 @@ function createVisitor(ast, variable) {
                  */
                 const identifier = path.node.declaration.name;
                 path.node.declaration.name = variable;
-                traverse(ast, createVisitor(ast, identifier));
+                traverse(ast, createVisitor(ast, variable, identifier));
             }
-        }
+        },
+        FunctionDeclaration(path) {
+            if (path.node.id.name === identifier) {
+                path.node.id.name = variable;
+            }
+        },
     };
     return visitor;
 }
