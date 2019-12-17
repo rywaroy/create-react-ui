@@ -93,6 +93,11 @@ function createVisitor(ast, variable, identifier) {
                 path.node.id.name = variable;
             }
         },
+        ClassDeclaration(path) {
+            if (path.node.id.name === identifier) {
+                path.node.id.name = variable;
+            }
+        },
     };
     return visitor;
 }
