@@ -29,7 +29,7 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
             const ast = babelParser.parse(fs.readFileSync(url, 'utf-8'), {
                 sourceType: 'module',
             });
-            traverse(ast, createVisitor(ast, variable));
+            traverse(ast, createExportVisitor(ast, variable));
             const output = generate(ast);
             fs.writeFileSync(url, output.code);
         }
@@ -41,7 +41,7 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
  * @param {String} variable - 变量名
  * @returns {Object} visitor
  */
-function createVisitor(ast, variable, identifier) {
+function createExportVisitor(ast, variable) {
     const visitor = {
         ExportDefaultDeclaration(path) {
             if (path.node.declaration.type === 'FunctionDeclaration') {
@@ -81,6 +81,13 @@ function createVisitor(ast, variable, identifier) {
                 traverse(ast, createVisitor(ast, variable, identifier));
             }
         },
+
+    };
+    return visitor;
+}
+
+function createVisitor(ast, variable, identifier) {
+    const visitor = {
         FunctionDeclaration(path) {
             if (path.node.id.name === identifier) {
                 path.node.id.name = variable;
