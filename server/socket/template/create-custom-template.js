@@ -55,6 +55,17 @@ function createVisitor(variable) {
                 */
                 path.node.declaration.id.name = variable;
             }
+            if (path.node.declaration.type === 'ClassDeclaration') {
+
+                /**
+                * 导出类组件
+                * @example
+                * export default class Component extends react.Component {
+                *
+                * }
+                */
+                path.node.declaration.id.name = variable;
+            }
         }
     };
     return visitor;
