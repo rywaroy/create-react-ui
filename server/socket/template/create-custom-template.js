@@ -27,11 +27,16 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
             const url = path.join(targetPath, fileName);
             const ast = babelParser.parse(fs.readFileSync(url, 'utf-8'), {
                 sourceType: 'module',
+                plugins: [
+                    'classProperties',
+                    'jsx',
+                ],
             });
             traverse(ast, createExportVisitor(ast, variable));
             const output = generate(ast);
             fs.writeFileSync(url, output.code);
         }
+        resolve();
     });
 };
 
