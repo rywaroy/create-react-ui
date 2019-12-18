@@ -9,7 +9,7 @@ class ${variable} extends Component {
 
     render() {
         return (
-            <div>About</div>
+            <div>${variable}</div>
         );
     }
 }
