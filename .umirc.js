@@ -1,6 +1,6 @@
 // ref: https://umijs.org/config/
 const path = require('path');
-import { dark, light } from 'umi-ui-theme';
+import { dark } from 'umi-ui-theme';
 
 export default {
   treeShaking: true,
@@ -46,5 +46,6 @@ export default {
     '@': path.resolve(__dirname, 'src'),
   },
   theme: dark,
+  outputPath: './server/static'
 };
 
