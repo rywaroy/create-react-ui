@@ -15,10 +15,6 @@ class MenuBox extends Component {
                     <Icon type="file-protect" />
                     <span className="nav-text">模板</span>
                 </Menu.Item>
-                <Menu.Item key="代码块">
-                    <Icon type="file-protect" />
-                    <span className="nav-text">代码块</span>
-                </Menu.Item>
             </Menu>
         );
     }
