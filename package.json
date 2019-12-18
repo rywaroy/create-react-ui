@@ -1,5 +1,8 @@
 {
-  "private": true,
+  "name": "crui",
+  "version": "1.0.3",
+  "description": "快速react代码生成工具",
+  "main": "server/index.js",
   "scripts": {
     "start": "umi dev",
     "build": "umi build",
@@ -7,36 +10,39 @@
     "lint": "eslint --ext .js src mock tests",
     "precommit": "lint-staged"
   },
-  "dependencies": {
-    "antd": "^3.19.5",
-    "axios": "^0.19.0",
-    "dva": "^2.6.0-beta.6",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "socket.io-client": "^2.3.0"
+  "bin": {
+    "crui": "server/index.js"
   },
-  "devDependencies": {
+  "dependencies": {
     "@babel/generator": "^7.7.4",
     "@babel/parser": "^7.7.5",
     "@babel/traverse": "^7.7.4",
+    "antd": "^3.19.5",
+    "axios": "^0.19.0",
+    "dva": "^2.6.0-beta.6",
+    "commander": "^4.0.1",
+    "execa": "^3.4.0",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-cors": "^0.0.16",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
+  },
+  "devDependencies": {
     "babel-eslint": "^9.0.0",
-    "babel-types": "^6.26.0",
     "eslint": "^5.4.0",
     "eslint-config-umi": "^1.4.0",
     "eslint-plugin-flowtype": "^2.50.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.11.1",
-    "execa": "^3.4.0",
     "husky": "^0.14.3",
-    "koa": "^2.11.0",
-    "koa-bodyparser": "^4.2.1",
-    "koa-cors": "^0.0.16",
-    "koa-router": "^7.4.0",
-    "koa-static": "^5.0.0",
     "lint-staged": "^7.2.2",
     "react-test-renderer": "^16.7.0",
-    "socket.io": "^2.3.0",
     "umi": "^2.7.7",
     "umi-plugin-react": "^1.8.4",
     "umi-ui-theme": "^1.2.1"
