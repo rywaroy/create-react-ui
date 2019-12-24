@@ -11,6 +11,10 @@ export default {
       routes: [
         {
           path: '/',
+          redirect: 'template'
+        },
+        {
+          path: 'template',
           component: '../pages/template',
         },
         {
