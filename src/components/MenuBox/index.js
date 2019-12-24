@@ -31,7 +31,7 @@ class MenuBox extends Component {
     onClickItem = item => {
     	router.push(item.url);
         this.setState({
-            defaultSelectedKey: [item.title]
+            defaultSelectedKey: [item.key]
         });
     }
 
