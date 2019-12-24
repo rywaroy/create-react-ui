@@ -7,17 +7,17 @@ class MenuBox extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            defaultSelectedKey: ['模板'],
+            defaultSelectedKey: ['template'],
             map: [
                 {
                     title: '模板',
-                    key: '模板',
+                    key: 'template',
                     icon: 'file-protect',
                     url: '/'
                 },
                 {
                     title: '代码块',
-                    key: '代码块',
+                    key: 'code',
                     icon: 'gold',
                     url: '/code'
                 }
@@ -32,6 +32,13 @@ class MenuBox extends Component {
     	router.push(item.url);
         this.setState({
             defaultSelectedKey: [item.title]
+        });
+    }
+
+    componentDidMount() {
+        const pathname = window.location.pathname;
+        this.setState({
+            defaultSelectedKey: pathname.split('/')[1]
         });
     }
 
