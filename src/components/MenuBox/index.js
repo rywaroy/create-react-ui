@@ -43,14 +43,6 @@ class MenuBox extends Component {
                 selectedKeys={this.state.defaultSelectedKey}
                 style={{ height: '100%', borderRight: 0, background: '#30303d' }}
             >
-                {/* <Menu.Item key="模板">
-                    <Icon type="file-protect" />
-                    <span className="nav-text">模板</span>
-                </Menu.Item>
-                <Menu.Item key="代码块" onClick={this.onClickItem()}>
-                    <Icon type="file-protect" />
-                    <span className="nav-text">代码块</span>
-                </Menu.Item> */}
                 {
                     this.state.map.map(item => (
                         <Menu.Item key={item.key} onClick={() => this.onClickItem(item)}>
