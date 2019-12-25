@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import styles from './index.less';
+import TableCode from './components/TableCode';
 
 class Code extends Component {
 
     render() {
+        const { folders } = this.props.global;
         return (
             <div>
-                1
+                <div className="template-list">
+                    <TableCode folders={folders}/>
+                </div>
             </div>
         );
     }
