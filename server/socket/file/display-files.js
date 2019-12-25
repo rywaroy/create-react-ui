@@ -8,13 +8,7 @@ const ignoreFile = {
 };
 
 module.exports = function displayFiles(filePaths) {
-    const filesArray = [
-        {
-            title: '/',
-            key: 1,
-            value: '',
-        }
-    ];
+    const filesArray = [];
     const foldersArray = [
         {
             title: '/',
@@ -38,8 +32,8 @@ module.exports = function displayFiles(filePaths) {
             if (stats.isFile() && !/^\..*$/.test(filename)) { // 文件
                 filesArray.push({
                     title: filename,
-                    vaule: url,
-                    key: key++,
+                    value: url,
+                    key: ++key,
                 });
             }
             if (stats.isDirectory() && !ignoreFile[filename]) { // 文件夹
