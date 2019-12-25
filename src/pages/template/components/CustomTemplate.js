@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Form, Input, Icon, Tooltip } from 'antd';
-import TemplateItem from './TemplateItem';
+import TemplateItem from '@/components/TemplateItem';
 import FolderTreeSelect from '@/components/FolderTreeSelect';
 import axios from '@/utils/axios';
 

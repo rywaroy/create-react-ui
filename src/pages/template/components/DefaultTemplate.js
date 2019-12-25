@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Form, Input } from 'antd';
-import TemplateItem from './TemplateItem';
+import TemplateItem from '@/components/TemplateItem';
 import FolderTreeSelect from '@/components/FolderTreeSelect';
 
 class DefaultTemplate extends Component {

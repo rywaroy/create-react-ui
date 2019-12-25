@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Form, Input, Radio } from 'antd';
-import TemplateItem from './TemplateItem';
+import TemplateItem from '@/components/TemplateItem';
 import FolderTreeSelect from '@/components/FolderTreeSelect';
 
 class UmiTemplate extends Component {
