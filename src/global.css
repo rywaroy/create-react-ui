@@ -38,3 +38,8 @@ body {
 body .ant-select-tree li .ant-select-tree-node-content-wrapper.ant-select-tree-node-selected {
   background-color: #272733;
 }
+
+.template-list {
+  display: flex;
+  flex-wrap: wrap;
+}
