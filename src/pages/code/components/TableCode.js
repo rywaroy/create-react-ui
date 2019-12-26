@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Icon, Tooltip } from 'antd';
+import { Modal, Form, Input, Icon, Button } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import FolderTreeSelect from '@/components/FolderTreeSelect';
 
@@ -7,18 +7,37 @@ class TableCode extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            configVisible: false
+            configVisible: false,
+            configKey: Math.random(),
+            codeVisible: false,
         };
     }
 
-    addTableCode = () => {
+    /**
+     * 打开table文件配置
+     */
+    openTableCode = () => {
         this.setState({
-            configVisible: true
+            configKey: Math.random(),
+        }, () => {
+            this.setState({
+                configVisible: true,
+            });
         });
     }
 
+    /**
+     * 关闭table文件配置
+     */
+    closeTableCode = () => {
+        this.setState({
+            configVisible: false,
+        });
+    }
+
+
     render() {
-        const { configVisible } = this.state;
+        const { configVisible, codeVisible, configKey } = this.state;
         const { files } = this.props;
         const { getFieldDecorator } = this.props.form;
 
@@ -28,10 +47,12 @@ class TableCode extends Component {
                     title="table组件配置对象"
                     intro=""
                     imgClassName="customImg"
-                    add={this.addTableCode}/>
+                    add={this.openTableCode}/>
                 <Modal
                     title="table组件配置"
-                    visible={configVisible}>
+                    key={configKey}
+                    visible={configVisible}
+                    onCancel={this.closeTableCode}>
                     <Form>
                         <Form.Item label="导出文件">
                             {
@@ -40,7 +61,7 @@ class TableCode extends Component {
                                         {
                                             required: true,
                                             message: '请填写导出文件',
-                                        },
+                                        }
                                     ]
                                 })(<FolderTreeSelect folders={files}/>)
                             }
