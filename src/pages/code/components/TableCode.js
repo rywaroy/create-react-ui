@@ -3,6 +3,7 @@ import { Modal, Form, Input, Icon, Button } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import FolderTreeSelect from '@/components/FolderTreeSelect';
 import CreateTable from '@/components/CreateTable';
+import axios from '@/utils/axios';
 
 class TableCode extends Component {
     constructor(props) {
@@ -71,6 +72,22 @@ class TableCode extends Component {
         });
     }
 
+    /**
+     * 验证是否是js文件
+     */
+    isJs = (rule, value, callback) => {
+        axios.get('file/isjs', {
+            params: {
+                url: value
+            }
+        }).then(() => {
+            callback();
+        }).catch(err => {
+            callback(err);
+        });
+
+    }
+
     render() {
         const { configVisible, codeVisible, configKey } = this.state;
         const { files } = this.props;
@@ -96,6 +113,9 @@ class TableCode extends Component {
                                         {
                                             required: true,
                                             message: '请填写导出文件',
+                                        },
+                                        {
+                                            validator: this.isJs
                                         }
                                     ]
                                 })(<FolderTreeSelect folders={files}/>)
