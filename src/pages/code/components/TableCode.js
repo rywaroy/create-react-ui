@@ -54,6 +54,22 @@ class TableCode extends Component {
         });
     }
 
+    /**
+     * 生成的代码
+     */
+    createCode = () => {
+        this.createTable.create();
+        this.closeCreateCode();
+    }
+
+    /**
+     * 获取生成的代码
+     */
+    getCode = code => {
+        this.props.form.setFieldsValue({
+            code
+        });
+    }
 
     render() {
         const { configVisible, codeVisible, configKey } = this.state;
@@ -80,7 +96,7 @@ class TableCode extends Component {
                                         {
                                             required: true,
                                             message: '请填写导出文件',
-                                        },
+                                        }
                                     ]
                                 })(<FolderTreeSelect folders={files}/>)
                             }
@@ -108,7 +124,9 @@ class TableCode extends Component {
                     onCancel={this.closeCreateCode}
                     okText="生成代码"
                     zIndex="1002">
-                    <CreateTable/>
+                    <CreateTable
+                        ref={ref => this.createTable = ref}
+                        getCode={this.getCode}/>
                 </Modal>
             </div>
         );
