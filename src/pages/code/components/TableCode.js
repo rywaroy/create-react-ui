@@ -14,6 +14,7 @@ class TableCode extends Component {
             configKey: Math.random(),
             codeVisible: false,
             code: '', // 代码片段
+            codeKey: Math.random(),
         };
     }
 
@@ -96,6 +97,18 @@ class TableCode extends Component {
         });
     }
 
+    /**
+     * 创建文件
+     */
+    create = () => {
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                window.socket.emit('create-table-code', values);
+                this.closeTableCode();
+            }
+        });
+    }
+
     componentDidMount() {
         this.clipboard = new Clipboard('#code');
         this.clipboard.on('success', () => {
@@ -111,7 +124,7 @@ class TableCode extends Component {
     }
 
     render() {
-        const { configVisible, codeVisible, configKey, code } = this.state;
+        const { configVisible, codeVisible, configKey, code, codeKey } = this.state;
         const { files } = this.props;
         const { getFieldDecorator } = this.props.form;
 
@@ -126,7 +139,8 @@ class TableCode extends Component {
                     title="table组件配置"
                     key={configKey}
                     visible={configVisible}
-                    onCancel={this.closeTableCode}>
+                    onCancel={this.closeTableCode}
+                    onOk={this.create}>
                     <Form>
                         <Form.Item label="导出文件">
                             {
@@ -161,6 +175,7 @@ class TableCode extends Component {
                 <Modal
                     title="table组件配置"
                     width="1200px"
+                    key={codeKey}
                     visible={codeVisible}
                     onOk={this.createCode}
                     onCancel={this.closeCreateCode}
