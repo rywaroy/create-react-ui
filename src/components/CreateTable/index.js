@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Table, Button, Modal, InputNumber, Icon, Input } from 'antd';
-import SetColumn from '../setColumn';
-import SetOpt from '../setOpt';
+import SetColumn from './setColumn';
+import SetOpt from './setOpt';
 import cloneDeep from 'loadsh/cloneDeep';
+
+const DEFAULT_VARIABLE = 'listColumn';
 
 class CreateTable extends Component {
     constructor(props) {
@@ -19,6 +21,7 @@ class CreateTable extends Component {
             visibleOpt: false, // 是否显示添加操作弹窗
             optKey: Math.random(),
             setOptObj: {},
+            variable: DEFAULT_VARIABLE
         };
     }
 
@@ -45,10 +48,13 @@ class CreateTable extends Component {
      */
     editTitle(index) {
         this.setState({
-            visibleSetColumn: true,
-            setIndex: index,
             setColumnKey: Math.random(),
-            setColumnObj: { ...this.state.columns[index] },
+        }, () => {
+            this.setState({
+                visibleSetColumn: true,
+                setIndex: index,
+                setColumnObj: { ...this.state.columns[index] },
+            });
         });
     }
 
@@ -163,8 +169,11 @@ class CreateTable extends Component {
             return;
         }
         this.setState({
-            visibleOpt: true,
             optKey: Math.random(),
+        }, () => {
+            this.setState({
+                visibleOpt: true,
+            });
         });
     }
 
@@ -253,9 +262,12 @@ class CreateTable extends Component {
      */
     editOpt(index) {
         this.setState({
-            visibleOpt: true,
             optKey: Math.random(),
-            setOptObj: this.state.columns[index],
+        }, () => {
+            this.setState({
+                visibleOpt: true,
+                setOptObj: this.state.columns[index],
+            });
         });
     }
 
@@ -274,14 +286,28 @@ class CreateTable extends Component {
             }
         }
         const str = `${JSON.stringify(columns)}`;
-        const s = str
+        let s = str
             .replace(/\"(\(\).*\))\"/g, (a, b) => {
                 return b;
             })
             .replace(/\\\"(opt-link|mr10|_blank|\/)\\\"/g, (a, b) => {
                 return `\"${b}\"`;
             });
+        s = `export function ${this.state.variable}(_self) { return ${s}; }`;
         this.props.getCode(s);
+    }
+
+    /**
+     * 修改变量名
+     */
+    changeVariable = e => {
+        let variable = e.target.value;
+        if (!variable) {
+            variable = DEFAULT_VARIABLE;
+        }
+        this.setState({
+            variable
+        });
     }
 
     render() {
@@ -295,6 +321,7 @@ class CreateTable extends Component {
             visibleOpt,
             optKey,
             setOptObj,
+            variable,
         } = this.state;
 
         return (
@@ -313,6 +340,7 @@ class CreateTable extends Component {
                 >
                     添加操作
                 </Button>
+                变量名：<Input placeholder="变量名" style={{ margin: '20px 0', width: '200px' }} value={variable} onChange={this.changeVariable}/>
                 <Table columns={columns} dataSource={dataSource} rowKey={r => r.id}></Table>
                 <Modal
                     title="批量添加"
