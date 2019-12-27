@@ -35,12 +35,12 @@ router.get('/api/file/template', async ctx => {
  * 判断是否是js文件
  */
 router.get('/api/file/isjs', async ctx => {
-    const base = path.join(process.cwd(), ctx.query.url);
+    const base = path.join(process.cwd(), ctx.query.url ? ctx.query.url : '');
     if (fs.existsSync(base)) {
         const stat = fs.statSync(base);
         if (stat.isFile()) {
             if (path.extname(base) === '.js') {
-                ctx.success(200, '不是js文件', null);
+                ctx.success(200, '验证成功', null);
             } else {
                 ctx.error(-1, '不是js文件', null);
             }
