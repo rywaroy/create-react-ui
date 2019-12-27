@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Icon, Button } from 'antd';
+import { Modal, Form, Input, Icon, Button, message } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import FolderTreeSelect from '@/components/FolderTreeSelect';
 import CreateTable from '@/components/CreateTable';
 import axios from '@/utils/axios';
+import Clipboard from 'clipboard';
 
 class TableCode extends Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class TableCode extends Component {
             configVisible: false,
             configKey: Math.random(),
             codeVisible: false,
+            code: '', // 代码片段
         };
     }
 
@@ -42,7 +44,11 @@ class TableCode extends Component {
      */
     openCreateCode = () => {
         this.setState({
-            codeVisible: true
+            codeKey: Math.random(),
+        }, () => {
+            this.setState({
+                codeVisible: true
+            });
         });
     }
 
@@ -70,6 +76,9 @@ class TableCode extends Component {
         this.props.form.setFieldsValue({
             code
         });
+        this.setState({
+            code,
+        });
     }
 
     /**
@@ -85,11 +94,24 @@ class TableCode extends Component {
         }).catch(err => {
             callback(err);
         });
+    }
 
+    componentDidMount() {
+        this.clipboard = new Clipboard('#code');
+        this.clipboard.on('success', () => {
+            message.success('复制成功');
+        });
+        this.clipboard.on('error', () => {
+            message.error('复制失败');
+        });
+    }
+
+    componentWillUnmount() {
+        this.clipboard.destroy();
     }
 
     render() {
-        const { configVisible, codeVisible, configKey } = this.state;
+        const { configVisible, codeVisible, configKey, code } = this.state;
         const { files } = this.props;
         const { getFieldDecorator } = this.props.form;
 
@@ -121,7 +143,7 @@ class TableCode extends Component {
                                 })(<FolderTreeSelect folders={files}/>)
                             }
                         </Form.Item>
-                        <Form.Item label={<span>代码片段 <Icon type="copy" /></span>}>
+                        <Form.Item label={<span>代码片段 <button style={{ background: 'none', border: '0', outline: 'none' }} data-clipboard-text={code} id="code"><Icon type="copy"/></button></span>}>
                             {
                                 getFieldDecorator('code', {
                                     rules: [
@@ -130,7 +152,7 @@ class TableCode extends Component {
                                             message: '请先生成代码片段',
                                         },
                                     ]
-                                })(<Input disabled />)
+                                })(<Input disabled/>)
                             }
                         </Form.Item>
                         <Button type="primary" onClick={this.openCreateCode}>代码生成</Button>
