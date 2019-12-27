@@ -4,7 +4,7 @@ const path = require('path');
 const ignoreFile = {
     'node_modules': true,
     '.git': true,
-    '.crui': true,
+    '.crui': false,
 };
 
 module.exports = function displayFiles(filePaths) {
