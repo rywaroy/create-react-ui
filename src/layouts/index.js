@@ -35,6 +35,9 @@ class BasicLayout extends Component {
                 icon: data.status === 200 ? <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /> : <Icon type="close-circle" style={{ color: 'red' }} />,
             });
         });
+        setInterval(() => {
+            window.socket.emit('heart-link');
+        }, 10000);
     }
 
     render() {
