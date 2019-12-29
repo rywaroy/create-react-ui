@@ -133,7 +133,7 @@ class TableCode extends Component {
                 <TemplateItem
                     title="table组件配置对象"
                     intro=""
-                    imgClassName="customImg"
+                    imgClassName="tableImg"
                     add={this.openTableCode}/>
                 <Modal
                     title="table组件配置"
