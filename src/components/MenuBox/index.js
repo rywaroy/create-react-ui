@@ -13,7 +13,7 @@ class MenuBox extends Component {
                     title: '模板',
                     key: 'template',
                     icon: 'file-protect',
-                    url: '/'
+                    url: '/template'
                 },
                 {
                     title: '代码块',
@@ -29,7 +29,10 @@ class MenuBox extends Component {
      * 点击跳转
      */
     onClickItem = item => {
-    	router.push(item.url);
+    	if (item.key === this.state.defaultSelectedKey[0]) {
+            return;
+        }
+        router.push(item.url);
         this.setState({
             defaultSelectedKey: [item.key]
         });
