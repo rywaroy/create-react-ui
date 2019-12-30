@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Icon, Tooltip } from 'antd';
+import { Modal, Form, Input, Icon, Tooltip, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
-import FolderTreeSelect from '@/components/FolderTreeSelect';
 import axios from '@/utils/axios';
 
 class CustomTemplate extends Component {
@@ -73,7 +72,15 @@ class CustomTemplate extends Component {
                         </Form.Item>
                         <Form.Item label="添加到">
                             {
-                                getFieldDecorator('url')(<FolderTreeSelect folders={folders}/>)
+                                getFieldDecorator('url')(
+                                    <TreeSelect
+                                        showSearch
+                                        style={{ width: '100%' }}
+                                        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                        placeholder="请选择路径"
+                                        allowClear
+                                        treeData={folders}/>
+                                )
                             }
                         </Form.Item>
                         <Form.Item label="文件夹名">
@@ -90,7 +97,15 @@ class CustomTemplate extends Component {
                         </Form.Item>
                         <Form.Item label={<span>主文件名 <Tooltip title={'默认导出组件的文件，配合修改变量名/类名'} ><Icon type="question-circle" /></Tooltip></span>}>
                             {
-                                getFieldDecorator('fileName')(<FolderTreeSelect folders={files}/>)
+                                getFieldDecorator('fileName')(
+                                    <TreeSelect
+                                        showSearch
+                                        style={{ width: '100%' }}
+                                        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                        placeholder="请选择路径"
+                                        allowClear
+                                        treeData={files}/>
+                                )
                             }
                         </Form.Item>
                         <Form.Item label="变量名">
