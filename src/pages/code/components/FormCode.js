@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TemplateItem from '@/components/TemplateItem';
 
 class FormCode extends Component {
     constructor(props) {
@@ -8,7 +9,12 @@ class FormCode extends Component {
 
     render() {
         return (
-            <div></div>
+            <div>
+                <TemplateItem
+                    title="form组件配置对象"
+                    intro="配合油涟组件GenerateForm使用"
+                    imgClassName="formImg"/>
+            </div>
         );
     }
 }
