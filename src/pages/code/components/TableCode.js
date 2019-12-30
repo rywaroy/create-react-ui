@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Icon, Button, message } from 'antd';
+import { Modal, Form, Input, Icon, Button, message, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
-import FolderTreeSelect from '@/components/FolderTreeSelect';
 import CreateTable from '@/components/CreateTable';
 import axios from '@/utils/axios';
 import Clipboard from 'clipboard';
@@ -154,7 +153,13 @@ class TableCode extends Component {
                                             validator: this.isJs
                                         }
                                     ]
-                                })(<FolderTreeSelect folders={files}/>)
+                                })(<TreeSelect
+                                    showSearch
+                                    style={{ width: '100%' }}
+                                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                    placeholder="请选择路径"
+                                    allowClear
+                                    treeData={files}/>)
                             }
                         </Form.Item>
                         <Form.Item label={<span>代码片段 <button style={{ background: 'none', border: '0', outline: 'none' }} data-clipboard-text={code} id="code"><Icon type="copy"/></button></span>}>
