@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Button, InputNumber, Input, message, Form, Radio } from 'antd';
+import { Button, InputNumber, Input, Form, Radio } from 'antd';
 import cloneDeep from 'loadsh/cloneDeep';
-import Clipboard from 'clipboard';
 import GenerateForm from '../GenerateForm';
 import SetForm from './SetForm';
 import styles from './index.less';
@@ -15,8 +14,6 @@ const variableTypeOptions = [
     { value: 'Array', label: 'Array' },
     { value: 'Function', label: 'Function' },
 ];
-
-const { TextArea } = Input;
 
 class CreateForm extends Component {
     constructor(props) {
@@ -197,16 +194,6 @@ class CreateForm extends Component {
         });
     }
 
-    componentDidMount() {
-        const clipboard = new Clipboard('.createFormButton');
-        clipboard.on('success', () => {
-            message.success('复制成功');
-        });
-        clipboard.on('error', () => {
-            message.error('复制失败');
-        });
-    }
-
     render() {
         const {
             formOption,
@@ -220,7 +207,6 @@ class CreateForm extends Component {
             labelCol,
             wrapperCol,
             defaultLayout,
-            s,
         } = this.state;
         const formItemLayout = {
             labelCol: { span: 4 },
