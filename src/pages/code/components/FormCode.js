@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Form, Input, Icon, Button, message, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
+import CreateForm from '@/components/CreateForm';
 
 class FormCode extends Component {
     constructor(props) {
@@ -59,7 +60,7 @@ class FormCode extends Component {
     }
 
     render() {
-        const { configVisible, configKey, code } = this.state;
+        const { configVisible, configKey, code, codeKey, codeVisible } = this.state;
         const { files } = this.props;
         const { getFieldDecorator } = this.props.form;
         return (
@@ -106,6 +107,19 @@ class FormCode extends Component {
                         </Form.Item>
                         <Button type="primary" onClick={this.openCreateCode}>代码生成</Button>
                     </Form>
+                </Modal>
+                <Modal
+                    title="form组件配置"
+                    width="1200px"
+                    key={codeKey}
+                    visible={codeVisible}
+                    onOk={this.createCode}
+                    onCancel={this.closeCreateCode}
+                    okText="生成代码"
+                    zIndex="1002">
+                    <CreateForm
+                        ref={ref => this.createForm = ref}
+                        getCode={this.getCode}/>
                 </Modal>
             </div>
         );
