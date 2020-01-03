@@ -59,6 +59,26 @@ class FormCode extends Component {
         });
     }
 
+    /**
+     * 生成的代码
+     */
+    createCode = () => {
+        this.createForm.create();
+        this.closeCreateCode();
+    }
+
+    /**
+     * 获取生成的代码
+     */
+    getCode = code => {
+        this.props.form.setFieldsValue({
+            code
+        });
+        this.setState({
+            code,
+        });
+    }
+
     render() {
         const { configVisible, configKey, code, codeKey, codeVisible } = this.state;
         const { files } = this.props;
