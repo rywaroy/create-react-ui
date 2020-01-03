@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Button, InputNumber, Icon, Input, message, Form, Radio } from 'antd';
+import { Button, InputNumber, Input, message, Form, Radio } from 'antd';
 import cloneDeep from 'loadsh/cloneDeep';
 import Clipboard from 'clipboard';
 import GenerateForm from '../GenerateForm';
-import SetForm from '../SetForm';
+import SetForm from './SetForm';
 import styles from './index.less';
 
 const typeOptions = [
