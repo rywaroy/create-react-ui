@@ -138,7 +138,7 @@ class FormCode extends Component {
                     okText="生成代码"
                     zIndex="1002">
                     <CreateForm
-                        ref={ref => this.createForm = ref}
+                        wrappedComponentRef={ref => this.createForm = ref}
                         getCode={this.getCode}/>
                 </Modal>
             </div>
