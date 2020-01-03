@@ -237,13 +237,6 @@ class CreateForm extends Component {
                     >
                         添加
                     </Button>
-                    <Button
-                        type="primary"
-                        onClick={this.create.bind(this)}
-                        style={{ marginRight: '10px' }}
-                    >
-                        生成代码
-                    </Button>
                 </div>
                 <div className={`${styles.formWrap} clearfix`}>
                     <div className={styles.formOption}>
@@ -325,20 +318,6 @@ class CreateForm extends Component {
                         )}
                     </div>
                 </div>
-                <TextArea
-                    id="createFormTextarea"
-                    value={s}
-                    placeholder="代码片段"
-                    autoSize={{ minRows: 3, maxRows: 6 }}
-                />
-                <Button
-                    type="primary"
-                    className="createFormButton"
-                    data-clipboard-target="#createFormTextarea"
-                    style={{ marginTop: '10px' }}
-                >
-                    复制
-                </Button>
                 <SetForm
                     visibleSetForm={visibleSetForm}
                     key={setFormKey}
