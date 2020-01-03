@@ -30,7 +30,6 @@ class CreateForm extends Component {
             wrapperCol: 16,
             span: 24,
             defaultLayout: false,
-            s: '',
         };
     }
 
@@ -189,9 +188,7 @@ class CreateForm extends Component {
         s = s.replace(/\"(formItemLayout)\"/g, (a, b) => {
             return b;
         });
-        this.setState({
-            s,
-        });
+        this.props.getCode(s);
     }
 
     render() {
