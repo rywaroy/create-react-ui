@@ -110,7 +110,7 @@ class FormCode extends Component {
                 </Modal>
                 <Modal
                     title="form组件配置"
-                    width="1200px"
+                    width="1400px"
                     key={codeKey}
                     visible={codeVisible}
                     onOk={this.createCode}

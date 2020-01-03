@@ -201,6 +201,7 @@ class SetForm extends Component {
                 visible={visibleSetForm}
                 onOk={this.setForm.bind(this)}
                 onCancel={this.closeSetForm.bind(this)}
+                zIndex="1003"
             >
                 <Form {...formItemLayout}>
                     <Form.Item label="类型 type">
