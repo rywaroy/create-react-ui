@@ -9,6 +9,8 @@ class FormCode extends Component {
             configVisible: false,
             configKey: Math.random(),
             code: '',
+            codeKey: Math.random(),
+            codeVisible: false,
         };
     }
 
@@ -31,6 +33,28 @@ class FormCode extends Component {
     closeFormCode = () => {
         this.setState({
             configVisible: false,
+        });
+    }
+
+    /**
+     * 代开代码生成弹窗
+     */
+    openCreateCode = () => {
+        this.setState({
+            codeKey: Math.random(),
+        }, () => {
+            this.setState({
+                codeVisible: true
+            });
+        });
+    }
+
+    /**
+     * 关闭代码生成弹窗
+     */
+    closeCreateCode = () => {
+        this.setState({
+            codeVisible: false
         });
     }
 
