@@ -93,7 +93,9 @@ class FormCode extends Component {
                 <Modal
                     title="form组件配置"
                     key={configKey}
-                    visible={configVisible}>
+                    visible={configVisible}
+                    onCancel={this.closeFormCode}
+                    onOk={this.create}>
                     <Form>
                         <Form.Item label="导出文件">
                             {
