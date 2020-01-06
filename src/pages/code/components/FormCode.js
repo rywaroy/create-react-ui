@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Form, Input, Icon, Button, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import CreateForm from '@/components/CreateForm';
+import axios from '@/utils/axios';
 
 class FormCode extends Component {
     constructor(props) {
@@ -79,6 +80,21 @@ class FormCode extends Component {
         });
     }
 
+    /**
+     * 验证是否是js文件
+     */
+    isJs = (rule, value, callback) => {
+        axios.get('file/isjs', {
+            params: {
+                url: value
+            }
+        }).then(() => {
+            callback();
+        }).catch(err => {
+            callback(err);
+        });
+    }
+
     render() {
         const { configVisible, configKey, code, codeKey, codeVisible } = this.state;
         const { files } = this.props;
@@ -105,6 +121,9 @@ class FormCode extends Component {
                                             required: true,
                                             message: '请填写导出文件',
                                         },
+                                        {
+                                            validator: this.isJs
+                                        }
                                     ]
                                 })(<TreeSelect
                                     showSearch
