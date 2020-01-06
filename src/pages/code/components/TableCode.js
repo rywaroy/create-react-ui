@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Icon, Button, message, TreeSelect } from 'antd';
+import { Modal, Form, Input, Icon, Button, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import CreateTable from '@/components/CreateTable';
 import axios from '@/utils/axios';
-import Clipboard from 'clipboard';
 
 class TableCode extends Component {
     constructor(props) {
@@ -106,20 +105,6 @@ class TableCode extends Component {
                 this.closeTableCode();
             }
         });
-    }
-
-    componentDidMount() {
-        this.clipboard = new Clipboard('#code');
-        this.clipboard.on('success', () => {
-            message.success('复制成功');
-        });
-        this.clipboard.on('error', () => {
-            message.error('复制失败');
-        });
-    }
-
-    componentWillUnmount() {
-        this.clipboard.destroy();
     }
 
     render() {
