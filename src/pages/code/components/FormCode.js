@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Icon, Button, message, TreeSelect } from 'antd';
+import { Modal, Form, Input, Icon, Button, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import CreateForm from '@/components/CreateForm';
 
