@@ -95,6 +95,18 @@ class FormCode extends Component {
         });
     }
 
+    /**
+     * 创建文件
+     */
+    create = () => {
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                window.socket.emit('create-form-code', values);
+                this.closeFormCode();
+            }
+        });
+    }
+
     render() {
         const { configVisible, configKey, code, codeKey, codeVisible } = this.state;
         const { files } = this.props;
