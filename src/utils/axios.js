@@ -25,8 +25,10 @@ Axios.interceptors.request.use(
 Axios.interceptors.response.use(
     res => {
         if (res.data.status !== 200) {
-            message.error(res.data.msg);
-            return Promise.reject(res.data.Msg);
+            if (res.data.status === 0) {
+                message.error(res.data.msg);
+            }
+            return Promise.reject(res.data.msg);
         }
         return res;
     },

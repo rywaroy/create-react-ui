@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
-import styles from '../index.less';
+import styles from './index.less';
 
 function TemplateItem(props) {
     const { title, intro, imgClassName } = props;

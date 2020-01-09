@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input } from 'antd';
-import TemplateItem from './TemplateItem';
-import FolderTreeSelect from '@/components/FolderTreeSelect';
+import { Modal, Form, Input, TreeSelect } from 'antd';
+import TemplateItem from '@/components/TemplateItem';
 
 class DefaultTemplate extends Component {
     constructor(props) {
@@ -63,7 +62,15 @@ class DefaultTemplate extends Component {
                     <Form>
                         <Form.Item label="添加到">
                             {
-                                getFieldDecorator('url')(<FolderTreeSelect folders={folders}/>)
+                                getFieldDecorator('url')(
+                                    <TreeSelect
+                                        showSearch
+                                        style={{ width: '100%' }}
+                                        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                        placeholder="请选择路径"
+                                        allowClear
+                                        treeData={folders}/>
+                                )
                             }
                         </Form.Item>
                         <Form.Item label="文件夹名">

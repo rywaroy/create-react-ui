@@ -11,7 +11,15 @@ export default {
       routes: [
         {
           path: '/',
+          redirect: 'template'
+        },
+        {
+          path: 'template',
           component: '../pages/template',
+        },
+        {
+          path: 'code',
+          component: '../pages/code',
         },
       ],
     },
@@ -27,7 +35,7 @@ export default {
           webpackChunkName: true,
         },
         title: 'crui',
-        dll: true,
+        dll: false,
         routes: {
           exclude: [
             /models\//,

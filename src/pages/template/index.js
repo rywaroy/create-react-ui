@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import DefaultTemplate from './components/DefaultTemplate';
 import UmiTemplate from './components/UmiTemplate';
 import CustomTemplate from './components/CustomTemplate';
-import styles from './index.less';
 
 class Template extends Component {
 
@@ -11,7 +10,7 @@ class Template extends Component {
         const { folders } = this.props.global;
         return (
             <div>
-                <div className={styles.list}>
+                <div className="template-list">
                     <DefaultTemplate folders={folders}/>
                     <UmiTemplate folders={folders}/>
                     <CustomTemplate folders={folders} />

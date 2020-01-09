@@ -5,15 +5,12 @@ const Koa = require('koa');
 
 const app = new Koa();
 const server = require('http').createServer(app.callback());
-const io = require('socket.io')(server);
 const cors = require('koa-cors');
 const bodyparser = require('koa-bodyparser');
 const staticServer = require('koa-static');
 const cp = require('child_process');
-
 const router = require('./router');
-const file = require('./socket/file');
-const template = require('./socket/template');
+const createSocket = require('./socket');
 
 const version = require('../package.json').version;
 
@@ -32,14 +29,8 @@ app.use(require('./middlewares/returnData'));
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-io.on('connection', (socket) => {
-
-    // 文件相关
-    file(socket);
-
-    // 模板相关
-    template(socket);
-});
+// socket
+createSocket(server);
 
 const PORT = 2019;
 server.listen(PORT, () => {

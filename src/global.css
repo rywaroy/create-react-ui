@@ -38,3 +38,36 @@ body {
 body .ant-select-tree li .ant-select-tree-node-content-wrapper.ant-select-tree-node-selected {
   background-color: #272733;
 }
+
+body .ant-table-thead > tr > th {
+  background-color: #272733;
+}
+
+.template-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.set-opt-line {
+  padding: 5px 0;
+}
+
+.set-opt-line .set-opt-input {
+  width: 100px;
+  margin-right: 20px;
+}
+
+.opt-link {
+  color: #1890ff;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.ant-radio {
+  border-radius: 50%;
+  border: 1px solid #1890ff;
+}
+
+.mr10 {
+  margin-right: 10px;
+}
