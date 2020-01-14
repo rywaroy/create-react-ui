@@ -7,7 +7,7 @@ const router = new Router();
 /**
  * 获取.crui/template下模板文件的目录
  */
-router.get('/api/file/template', async ctx => {
+router.get('/template', async ctx => {
     const base = path.join(process.cwd(), '.crui', 'template');
     if (fs.existsSync(base)) {
         const file = fs.readdirSync(base);
@@ -34,7 +34,7 @@ router.get('/api/file/template', async ctx => {
 /**
  * 判断是否是js文件
  */
-router.get('/api/file/isjs', async ctx => {
+router.get('/isjs', async ctx => {
     const base = path.join(process.cwd(), ctx.query.url ? ctx.query.url : '');
     if (fs.existsSync(base)) {
         const stat = fs.statSync(base);
