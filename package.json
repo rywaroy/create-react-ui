@@ -9,7 +9,8 @@
     "test": "umi test",
     "lint": "eslint --ext .js src mock tests",
     "precommit": "lint-staged",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "dev": "NODE_ENV=development node server/index.js"
   },
   "bin": {
     "crui": "server/index.js"
