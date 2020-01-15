@@ -21,7 +21,8 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
         // 复制文件到目标文件夹
         const files = fs.readdirSync(modelPath);
         files.forEach(file => {
-            fs.writeFileSync(path.join(targetPath, file), fs.readFileSync(path.join(modelPath, file), 'utf-8'));
+            const data = fs.readFileSync(path.join(modelPath, file));
+            fs.writeFileSync(path.join(targetPath, file), data, 'utf-8');
         });
         if (fileName && variable) {
             const url = path.join(targetPath, fileName);
