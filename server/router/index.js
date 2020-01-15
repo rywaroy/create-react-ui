@@ -3,6 +3,6 @@ const file = require('./file');
 
 const router = new Router();
 
-router.use('/api/file', file.routes(), file.allowedMethods());
+router.use('/api/file', file.routes());
 
 module.exports = router;
