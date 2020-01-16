@@ -22,7 +22,14 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
         const files = fs.readdirSync(modelPath);
         files.forEach(file => {
             if (file.indexOf('.') === -1) { // 简单判断是否是文件夹
-
+                const folderPath = path.join(targetPath, file);
+                execa.commandSync(`mkdir ${folderPath}`);
+                const folderFiles = fs.readdirSync(path.join(modelPath, file));
+                folderFiles.forEach(ffiler => { // 二级文件夹复制
+                    console.log(path.join(modelPath, file, ffiler));
+                    const data = fs.readFileSync(path.join(modelPath, file, ffiler));
+                    fs.writeFileSync(path.join(folderPath, ffiler), data, 'utf-8');
+                });
             } else {
                 const data = fs.readFileSync(path.join(modelPath, file));
                 fs.writeFileSync(path.join(targetPath, file), data, 'utf-8');
