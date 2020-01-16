@@ -21,8 +21,13 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
         // 复制文件到目标文件夹
         const files = fs.readdirSync(modelPath);
         files.forEach(file => {
-            const data = fs.readFileSync(path.join(modelPath, file));
-            fs.writeFileSync(path.join(targetPath, file), data, 'utf-8');
+            if (file.indexOf('.') === -1) { // 简单判断是否是文件夹
+
+            } else {
+                const data = fs.readFileSync(path.join(modelPath, file));
+                fs.writeFileSync(path.join(targetPath, file), data, 'utf-8');
+            }
+
         });
         if (fileName && variable) {
             const url = path.join(targetPath, fileName);
