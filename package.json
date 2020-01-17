@@ -1,7 +1,7 @@
 {
   "name": "crui",
-  "version": "1.1.0",
-  "description": "快速react代码生成工具",
+  "version": "1.1.1",
+  "description": "react代码快速生成工具",
   "main": "server/index.js",
   "scripts": {
     "start": "umi dev",
