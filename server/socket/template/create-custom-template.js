@@ -1,10 +1,8 @@
 const path = require('path');
-const fs = require('fs');
-const execa = require('execa');
+const fs = require('fs-extra');
 const babelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const generate = require('@babel/generator').default;
-
 
 module.exports = function createCustomTemplate({ url, folderName, fileName, variable }) {
     return new Promise(function (resolve, reject) {
@@ -18,24 +16,10 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
             fs.mkdirSync(targetPath);
         }
         const modelPath = path.join(process.cwd(), '.crui', 'template');
-        // 复制文件到目标文件夹
-        const files = fs.readdirSync(modelPath);
-        files.forEach(file => {
-            if (file.indexOf('.') === -1) { // 简单判断是否是文件夹
-                const folderPath = path.join(targetPath, file);
-                execa.commandSync(`mkdir ${folderPath}`);
-                const folderFiles = fs.readdirSync(path.join(modelPath, file));
-                folderFiles.forEach(ffiler => { // 二级文件夹复制
-                    console.log(path.join(modelPath, file, ffiler));
-                    const data = fs.readFileSync(path.join(modelPath, file, ffiler));
-                    fs.writeFileSync(path.join(folderPath, ffiler), data, 'utf-8');
-                });
-            } else {
-                const data = fs.readFileSync(path.join(modelPath, file));
-                fs.writeFileSync(path.join(targetPath, file), data, 'utf-8');
-            }
 
-        });
+        // 复制文件到目标文件夹
+        fs.copySync(modelPath, targetPath);
+
         if (fileName && variable) {
             const url = path.join(targetPath, fileName);
             const ast = babelParser.parse(fs.readFileSync(url, 'utf-8'), {
