@@ -5,20 +5,30 @@ const displayFiles = require('../file/display-files');
 
 module.exports = function template(socket) {
 
+    // 成功创建文件
+    function createSuccess() {
+        socket.emit('msg', {
+            status: 200,
+            msg: '创建成功',
+        });
+    }
+
+    // 创建失败
+    function createFail(err) {
+        socket.emit('msg', {
+            status: 0,
+            msg: err.message ? err.message : err,
+        });
+    }
+
     // 创建默认模板
     socket.on('create-default-template', async data => {
         try {
             await createDefaultTemplate(data);
-            socket.emit('msg', {
-                status: 200,
-                msg: '创建成功',
-            });
+            createSuccess();
             updateFiles(socket);
         } catch (err) {
-            socket.emit('msg', {
-                status: 0,
-                msg: err.message ? err.message : err,
-            });
+            createFail(err);
         }
     });
 
@@ -26,16 +36,10 @@ module.exports = function template(socket) {
     socket.on('create-umi-template', async data => {
         try {
             await createUmiTemplate(data);
-            socket.emit('msg', {
-                status: 200,
-                msg: '创建成功',
-            });
+            createSuccess();
             updateFiles(socket);
         } catch (err) {
-            socket.emit('msg', {
-                status: 0,
-                msg: err.message ? err.message : err,
-            });
+            createFail(err);
         }
     });
 
@@ -43,20 +47,18 @@ module.exports = function template(socket) {
     socket.on('create-custom-template', async data => {
         try {
             await createCoustomTemplate(data);
-            socket.emit('msg', {
-                status: 200,
-                msg: '创建成功',
-            });
+            createSuccess();
             updateFiles(socket);
         } catch (err) {
-            socket.emit('msg', {
-                status: 0,
-                msg: err.message ? err.message : err,
-            });
+            createFail(err);
         }
     });
 };
 
+/**
+ * 更新文件
+ * @param {Object} socket - socket
+ */
 function updateFiles(socket) {
     const { filesArray, foldersArray } = displayFiles(process.cwd());
     socket.emit('set-files', filesArray);
