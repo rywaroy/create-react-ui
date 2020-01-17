@@ -1,14 +1,16 @@
 {
   "name": "crui",
-  "version": "1.1.0",
-  "description": "快速react代码生成工具",
+  "version": "1.1.1",
+  "description": "react代码快速生成工具",
   "main": "server/index.js",
   "scripts": {
     "start": "umi dev",
     "build": "umi build",
     "test": "umi test",
     "lint": "eslint --ext .js src mock tests",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "commit": "git-cz",
+    "dev": "NODE_ENV=development node server/index.js"
   },
   "bin": {
     "crui": "server/index.js"
@@ -23,6 +25,7 @@
     "commander": "^4.0.1",
     "dva": "^2.6.0-beta.6",
     "execa": "^3.4.0",
+    "glob": "^7.1.6",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
     "koa-cors": "^0.0.16",
@@ -42,6 +45,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.11.1",
+    "git-cz": "^3.3.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.2",
     "react-test-renderer": "^16.7.0",

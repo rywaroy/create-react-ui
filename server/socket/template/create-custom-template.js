@@ -21,7 +21,20 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
         // 复制文件到目标文件夹
         const files = fs.readdirSync(modelPath);
         files.forEach(file => {
-            fs.writeFileSync(path.join(targetPath, file), fs.readFileSync(path.join(modelPath, file), 'utf-8'));
+            if (file.indexOf('.') === -1) { // 简单判断是否是文件夹
+                const folderPath = path.join(targetPath, file);
+                execa.commandSync(`mkdir ${folderPath}`);
+                const folderFiles = fs.readdirSync(path.join(modelPath, file));
+                folderFiles.forEach(ffiler => { // 二级文件夹复制
+                    console.log(path.join(modelPath, file, ffiler));
+                    const data = fs.readFileSync(path.join(modelPath, file, ffiler));
+                    fs.writeFileSync(path.join(folderPath, ffiler), data, 'utf-8');
+                });
+            } else {
+                const data = fs.readFileSync(path.join(modelPath, file));
+                fs.writeFileSync(path.join(targetPath, file), data, 'utf-8');
+            }
+
         });
         if (fileName && variable) {
             const url = path.join(targetPath, fileName);

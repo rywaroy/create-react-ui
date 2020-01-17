@@ -34,16 +34,19 @@ createSocket(server);
 
 const PORT = 2019;
 server.listen(PORT, () => {
-    console.log('启动成功');
+    console.log('🚀启动成功');
     const url = `http://127.0.0.1:${PORT}/`;
-    switch (process.platform) {
-    case 'darwin':
-        cp.exec(`open ${url}`);
-        break;
-    case 'win32':
-        cp.exec(`start ${url}`);
-        break;
-    default:
-        cp.exec(`open ${url}`);
+    if (process.env.NODE_ENV !== 'development') {
+        switch (process.platform) {
+        case 'darwin':
+            cp.exec(`open ${url}`);
+            break;
+        case 'win32':
+            cp.exec(`start ${url}`);
+            break;
+        default:
+            cp.exec(`open ${url}`);
+        }
     }
+
 });
