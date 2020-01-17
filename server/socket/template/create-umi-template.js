@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const execa = require('execa');
 const umiModel = require('../../templateString/umi-model');
 const umiTemplate = require('../../templateString/umi-template');
 
@@ -16,7 +15,7 @@ module.exports = function createUmiTemplate({ url, folderName, fileName, variabl
             if (fs.existsSync(base)) {
                 reject('该文件夹已存在');
             }
-            execa.commandSync(`mkdir ${base}`);
+            fs.mkdirSync(base);
         }
         const script = umiTemplate(variable, namespace);
         const modelscript = umiModel(namespace, oilConfig);

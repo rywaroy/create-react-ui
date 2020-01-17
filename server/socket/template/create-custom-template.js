@@ -15,7 +15,7 @@ module.exports = function createCustomTemplate({ url, folderName, fileName, vari
             if (fs.existsSync(targetPath)) {
                 reject('该文件夹已存在');
             }
-            execa.commandSync(`mkdir ${targetPath}`);
+            fs.mkdirSync(targetPath);
         }
         const modelPath = path.join(process.cwd(), '.crui', 'template');
         // 复制文件到目标文件夹
