@@ -1,8 +1,7 @@
 const createDefaultTemplate = require('./create-default-template');
 const createUmiTemplate = require('./create-umi-template');
 const createCoustomTemplate = require('./create-custom-template');
-const displayFiles = require('../file/display-files');
-const { createSuccessMsg, createFailMsg } = require('../common');
+const { createSuccessMsg, createFailMsg, updateFiles } = require('../common');
 
 module.exports = function template(socket) {
 
@@ -39,13 +38,3 @@ module.exports = function template(socket) {
         }
     });
 };
-
-/**
- * 更新文件
- * @param {Object} socket - socket
- */
-function updateFiles(socket) {
-    const { filesArray, foldersArray } = displayFiles(process.cwd());
-    socket.emit('set-files', filesArray);
-    socket.emit('set-folders', foldersArray);
-}
