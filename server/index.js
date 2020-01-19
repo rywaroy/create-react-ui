@@ -34,7 +34,7 @@ createSocket(server);
 
 const PORT = 2019;
 server.listen(PORT, () => {
-    console.log('🚀启动成功');
+    console.log('🚀  启动成功');
     const url = `http://127.0.0.1:${PORT}/`;
     if (process.env.NODE_ENV !== 'development') {
         switch (process.platform) {
