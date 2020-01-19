@@ -1,3 +1,5 @@
+const displayFiles = require('../file/display-files');
+
 module.exports = {
     createSuccessMsg(socket) {
         socket.emit('msg', {
@@ -10,5 +12,15 @@ module.exports = {
             status: 0,
             msg: err.message ? err.message : err,
         });
+    },
+
+    /**
+     * 更新文件
+     * @param {Object} socket - socket
+     */
+    updateFiles(socket) {
+        const { filesArray, foldersArray } = displayFiles(process.cwd());
+        socket.emit('set-files', filesArray);
+        socket.emit('set-folders', foldersArray);
     }
 };
