@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Form, Input, Icon, Button, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import CreateTable from '@/components/CreateTable';
-import axios from '@/utils/axios';
+import { isJs } from '@/services/file';
 
 class TableCode extends Component {
     constructor(props) {
@@ -84,10 +84,8 @@ class TableCode extends Component {
      * 验证是否是js文件
      */
     isJs = (rule, value, callback) => {
-        axios.get('file/isjs', {
-            params: {
-                url: value
-            }
+        isJs({
+            url: value
         }).then(() => {
             callback();
         }).catch(err => {
