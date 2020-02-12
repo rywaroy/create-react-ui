@@ -1,3 +1,5 @@
+import { getFiles } from '@/services/file';
+
 export default {
     namespace: 'global',
     state: {
@@ -5,8 +7,16 @@ export default {
         folders: [], // 文件夹列表
     },
     effects: {
-        updateFiles() {
-            window.socket.emit('get-files');
+        *updateFiles({ payload }, { call, put }) {
+            const res = yield call(getFiles);
+            const { filesArray, foldersArray } = res.data.data;
+            yield put({
+                type: 'updateState',
+                payload: {
+                    files: filesArray,
+                    folders: foldersArray
+                }
+            });
         },
     },
     reducers: {
