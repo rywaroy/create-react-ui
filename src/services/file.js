@@ -6,3 +6,12 @@ import axios from '@/utils/axios';
 export function getFiles() {
     return axios.get('file/display');
 }
+
+/**
+ * 验证是否是js文件
+ */
+export function isJs(params) {
+    return axios.get('file/isjs', {
+        params,
+    });
+}
