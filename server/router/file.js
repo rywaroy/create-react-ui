@@ -56,7 +56,12 @@ router.get('/isjs', async ctx => {
  * 获取文件目录
  */
 router.get('/display', async ctx => {
-
+    const files = displayFiles(process.cwd());
+    try {
+        ctx.success(200, '获取成功', files);
+    } catch (err) {
+        ctx.error(0, err.message, null);
+    }
 });
 
 const ignoreFile = {
