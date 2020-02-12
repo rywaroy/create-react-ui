@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, Icon, Tooltip, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
-import axios from '@/utils/axios';
+import { getTemplate } from '@/services/file';
 
 function CustomTemplate(props) {
 
@@ -11,7 +11,7 @@ function CustomTemplate(props) {
     const { getFieldDecorator } = props.form;
 
     const addCustomTemplate = () => {
-        axios.get('file/template')
+        getTemplate()
             .then(res => {
                 setVisible(true);
                 setFiles(res.data.data);

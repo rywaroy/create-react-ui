@@ -15,3 +15,10 @@ export function isJs(params) {
         params,
     });
 }
+
+/**
+ * 获取模板目录
+ */
+export function getTemplate() {
+    return axios.get('file/template');
+}
