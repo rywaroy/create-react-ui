@@ -13,22 +13,6 @@ class BasicLayout extends Component {
         this.props.dispatch({
             type: 'global/updateFiles'
         });
-        window.socket.on('set-files', files => {
-            this.props.dispatch({
-                type: 'global/updateState',
-                payload: {
-                    files,
-                }
-            });
-        });
-        window.socket.on('set-folders', folders => {
-            this.props.dispatch({
-                type: 'global/updateState',
-                payload: {
-                    folders,
-                }
-            });
-        });
         window.socket.on('msg', data => {
             notification.open({
                 message: data.msg,
