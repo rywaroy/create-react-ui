@@ -1,20 +1,8 @@
-const createDefaultTemplate = require('./create-default-template');
 const createUmiTemplate = require('./create-umi-template');
 const createCoustomTemplate = require('./create-custom-template');
 const { createSuccessMsg, createFailMsg, updateFiles } = require('../common');
 
 module.exports = function template(socket) {
-
-    // 创建默认模板
-    socket.on('create-default-template', async data => {
-        try {
-            await createDefaultTemplate(data);
-            createSuccessMsg(socket);
-            updateFiles(socket);
-        } catch (err) {
-            createFailMsg(socket, err);
-        }
-    });
 
     // 创建umi模板
     socket.on('create-umi-template', async data => {
