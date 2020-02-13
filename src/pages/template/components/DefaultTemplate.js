@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
+import { createDefaultTemplate } from '@/services/template';
 
 function DefaultTemplate(props) {
 
@@ -26,8 +27,11 @@ function DefaultTemplate(props) {
     const handleOk = () => {
         props.form.validateFields((err, values) => {
             if (!err) {
-                window.socket.emit('create-default-template', values);
-                handleCancel();
+                createDefaultTemplate(values)
+                    .then(() => {
+                        handleCancel();
+                        this.props.updateFiles();
+                    });
             }
         });
     };
