@@ -30,7 +30,7 @@ function DefaultTemplate(props) {
                 createDefaultTemplate(values)
                     .then(() => {
                         handleCancel();
-                        this.props.updateFiles();
+                        props.updateFiles();
                     });
             }
         });
