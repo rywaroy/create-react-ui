@@ -25,3 +25,5 @@ router.get('/default', async ctx => {
     fs.outputFileSync(path.join(base, fileName), script);
     ctx.success(200, '创建成功', null);
 });
+
+module.exports = router;
