@@ -9,10 +9,16 @@ function Template(props) {
 
     const { folders } = props.global;
 
+    const updateFiles = () => {
+        props.dispatch({
+            type: 'global/updateFiles'
+        });
+    };
+
     return (
         <div>
             <div className="template-list">
-                <DefaultTemplate folders={folders}/>
+                <DefaultTemplate folders={folders} updateFiles={updateFiles}/>
                 <UmiTemplate folders={folders}/>
                 <CustomTemplate folders={folders} />
             </div>
