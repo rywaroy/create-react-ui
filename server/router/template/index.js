@@ -26,4 +26,11 @@ router.get('/default', async ctx => {
     ctx.success(200, '创建成功', null);
 });
 
+/**
+ * 创建umi模板
+ */
+router.get('/umi', async ctx => {
+    let { url, folderName, fileName, variable, namespace, oilConfig } = ctx.query;
+});
+
 module.exports = router;
