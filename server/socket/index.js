@@ -1,4 +1,3 @@
-const file = require('./file');
 const template = require('./template');
 const code = require('./code');
 
@@ -9,9 +8,6 @@ module.exports = function createSocket(server) {
 
         // 心跳
         socket.on('heart-link', () => {});
-
-        // 文件相关
-        file(socket);
 
         // 模板相关
         template(socket);
