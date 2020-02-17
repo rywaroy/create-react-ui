@@ -19,7 +19,7 @@ function Template(props) {
         <div>
             <div className="template-list">
                 <DefaultTemplate folders={folders} updateFiles={updateFiles}/>
-                <UmiTemplate folders={folders}/>
+                <UmiTemplate folders={folders} updateFiles={updateFiles}/>
                 <CustomTemplate folders={folders} />
             </div>
         </div>
