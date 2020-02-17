@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, Radio, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
+import { createUmiTemplate } from '@/services/template';
 
 function UmiTemplate(props) {
 
@@ -29,8 +30,11 @@ function UmiTemplate(props) {
     const handleOk = () => {
         props.form.validateFields((err, values) => {
             if (!err) {
-                window.socket.emit('create-umi-template', values);
-                handleCancel();
+                createUmiTemplate(values)
+                    .then(() => {
+                        handleCancel();
+                        props.updateFiles();
+                    });
             }
         });
     };
