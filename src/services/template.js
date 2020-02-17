@@ -8,3 +8,12 @@ export function createDefaultTemplate(params) {
         params
     });
 }
+
+/**
+ * 创建umi模板
+ */
+export function createUmiTemplate(params) {
+    return axios.get('template/umi', {
+        params
+    });
+}
