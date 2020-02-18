@@ -17,3 +17,12 @@ export function createUmiTemplate(params) {
         params
     });
 }
+
+/**
+ * 创建自定义模板
+ */
+export function createCustomTemplate(params) {
+    return axios.get('template/custom', {
+        params
+    });
+}
