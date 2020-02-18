@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Form, Input, Icon, Tooltip, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import { getTemplate } from '@/services/file';
+import { createCustomTemplate } from '@/services/template';
 
 function CustomTemplate(props) {
 
@@ -29,8 +30,11 @@ function CustomTemplate(props) {
     const handleOk = () => {
         props.form.validateFields((err, values) => {
             if (!err) {
-                window.socket.emit('create-custom-template', values);
-                handleCancel();
+                createCustomTemplate(values)
+                    .then(() => {
+                        handleCancel();
+                        props.updateFiles();
+                    });
             }
         });
     };
