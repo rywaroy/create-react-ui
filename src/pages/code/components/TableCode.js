@@ -3,6 +3,7 @@ import { Modal, Form, Input, Icon, Button, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import CreateTable from '@/components/CreateTable';
 import { isJs } from '@/services/file';
+import { createTableCode } from '@/services/code';
 
 class TableCode extends Component {
     constructor(props) {
@@ -99,8 +100,11 @@ class TableCode extends Component {
     create = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                window.socket.emit('create-table-code', values);
-                this.closeTableCode();
+                createTableCode(values)
+                    .then(() => {
+                        this.closeTableCode();
+                        this.props.updateFiles();
+                    });
             }
         });
     }
