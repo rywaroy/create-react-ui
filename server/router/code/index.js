@@ -5,7 +5,7 @@ const Router = require('koa-router');
 const router = new Router();
 
 /**
- * 创建表单代码块
+ * 创建表格代码块
  */
 router.get('/table', async ctx => {
     const { url, code } = ctx.query;
