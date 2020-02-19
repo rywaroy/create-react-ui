@@ -21,12 +21,18 @@ class Code extends Component {
         this.clipboard.destroy();
     }
 
+    updateFiles = () => {
+        this.props.dispatch({
+            type: 'global/updateFiles'
+        });
+    };
+
     render() {
         const { files } = this.props.global;
         return (
             <div>
                 <div className="template-list">
-                    <TableCode files={files}/>
+                    <TableCode files={files} updateFiles={this.updateFiles}/>
                     <FormCode files={files}/>
                 </div>
             </div>
