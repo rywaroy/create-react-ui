@@ -1,6 +1,8 @@
 {
   "extends": "eslint-config-umi",
+  "plugins": ["prettier"],
   "rules": {
+    "prettier/prettier": "error",
     "arrow-spacing": 2,
     "comma-spacing": ["error", { "before": false, "after": true }], // 代码之间空格
     "jsx-quotes": 2, // JSX 属性双引号
