@@ -1,7 +1,9 @@
 {
   "singleQuote": true,
-  "trailingComma": "all",
+  "trailingComma": "es5",
   "printWidth": 100,
+  "tabWidth": 4,
+  "jsxBracketSameLine": true,
   "overrides": [
     {
       "files": ".prettierrc",
