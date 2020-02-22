@@ -5,6 +5,15 @@ import axios from '@/utils/axios';
  */
 export function createTableCode(params) {
     return axios.get('code/table', {
-        params
+        params,
+    });
+}
+
+/**
+ * 创建表单代码块
+ */
+export function createFormCode(params) {
+    return axios.get('code/form', {
+        params,
     });
 }
