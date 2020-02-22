@@ -3,6 +3,7 @@ import { Modal, Form, Input, Icon, Button, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import CreateForm from '@/components/CreateForm';
 import { isJs } from '@/services/file';
+import { createFormCode } from '@/services/code';
 
 class FormCode extends Component {
     constructor(props) {
@@ -107,8 +108,10 @@ class FormCode extends Component {
     create = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                window.socket.emit('create-form-code', values);
-                this.closeFormCode();
+                createFormCode(values).then(() => {
+                    this.closeFormCode();
+                    this.props.updateFiles();
+                });
             }
         });
     };
