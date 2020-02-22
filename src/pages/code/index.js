@@ -32,7 +32,7 @@ class Code extends Component {
             <div>
                 <div className="template-list">
                     <TableCode files={files} updateFiles={this.updateFiles} />
-                    <FormCode files={files} />
+                    <FormCode files={files} updateFiles={this.updateFiles} />
                 </div>
             </div>
         );
