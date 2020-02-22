@@ -6,7 +6,6 @@ import FormCode from './components/FormCode';
 import Clipboard from 'clipboard';
 
 class Code extends Component {
-
     componentDidMount() {
         this.clipboard = new Clipboard('#code');
         this.clipboard.on('success', () => {
@@ -23,7 +22,7 @@ class Code extends Component {
 
     updateFiles = () => {
         this.props.dispatch({
-            type: 'global/updateFiles'
+            type: 'global/updateFiles',
         });
     };
 
@@ -32,8 +31,8 @@ class Code extends Component {
         return (
             <div>
                 <div className="template-list">
-                    <TableCode files={files} updateFiles={this.updateFiles}/>
-                    <FormCode files={files}/>
+                    <TableCode files={files} updateFiles={this.updateFiles} />
+                    <FormCode files={files} />
                 </div>
             </div>
         );
