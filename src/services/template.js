@@ -5,7 +5,7 @@ import axios from '@/utils/axios';
  */
 export function createDefaultTemplate(params) {
     return axios.get('template/default', {
-        params
+        params,
     });
 }
 
@@ -14,7 +14,7 @@ export function createDefaultTemplate(params) {
  */
 export function createUmiTemplate(params) {
     return axios.get('template/umi', {
-        params
+        params,
     });
 }
 
@@ -23,6 +23,6 @@ export function createUmiTemplate(params) {
  */
 export function createCustomTemplate(params) {
     return axios.get('template/custom', {
-        params
+        params,
     });
 }
