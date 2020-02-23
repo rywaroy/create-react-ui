@@ -31,4 +31,12 @@ module.exports = {
     "no-console": 1,
     "arrow-parens": 0
   },
+  settings: {
+    "import/resolver": {
+      "webpack" : {
+        "config": "webpack.config.js"
+      }
+    }
+    
+  }
 };
