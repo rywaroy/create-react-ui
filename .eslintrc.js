@@ -28,6 +28,7 @@ module.exports = {
     "indent": [2, 4], // 使用tab
     "import/prefer-default-export": 0,
     "jsx-a11y/label-has-associated-control": 0,
-    "no-console": 1
+    "no-console": 1,
+    "arrow-parens": 0
   },
 };
