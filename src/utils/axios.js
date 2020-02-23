@@ -12,9 +12,7 @@ const Axios = axios.create({
 
 // POST传参序列化(添加请求拦截器)
 Axios.interceptors.request.use(
-    config => {
-        return config;
-    },
+    config => config,
     error => {
         message.error(error.message);
         return Promise.reject(error.message);
