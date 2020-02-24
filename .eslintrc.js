@@ -31,10 +31,7 @@ module.exports = {
     "jsx-a11y/label-has-associated-control": 0,
     "no-console": 1,
     "arrow-parens": 0,
-    "object-curly-newline": ["error", {
-      "ObjectExpression": "always",
-      "ObjectPattern": { "multiline": true }
-    }],
+    "object-curly-newline": 0,
     "react/prop-types": 0,
     "react/destructuring-assignment": 0,
     "react/jsx-indent": 0,
