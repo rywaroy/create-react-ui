@@ -154,13 +154,8 @@ class TableCode extends Component {
                             })(
                                 <TreeSelect
                                     showSearch
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                    dropdownStyle={{
-                                        maxHeight: 400,
-                                        overflow: 'auto',
-                                    }}
+                                    style={{ width: '100%' }}
+                                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                                     placeholder="请选择路径"
                                     allowClear
                                     treeData={files}
@@ -179,8 +174,7 @@ class TableCode extends Component {
                                             outline: 'none',
                                         }}
                                         data-clipboard-text={code}
-                                        id="code"
-                                    >
+                                        id="code">
                                         <Icon type="copy" />
                                     </button>
                                 </span>

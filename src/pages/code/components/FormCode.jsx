@@ -93,13 +93,11 @@ class FormCode extends Component {
     isJs = (rule, value, callback) => {
         isJs({
             url: value,
-        })
-            .then(() => {
-                callback();
-            })
-            .catch(err => {
-                callback(err);
-            });
+        }).then(() => {
+            callback();
+        }).catch(err => {
+            callback(err);
+        });
     };
 
     /**
@@ -149,12 +147,8 @@ class FormCode extends Component {
                             })(
                                 <TreeSelect
                                     showSearch
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                    dropdownStyle={{
-                                        maxHeight: 400, overflow: 'auto',
-                                    }}
+                                    style={{ width: '100%' }}
+                                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                                     placeholder="请选择路径"
                                     allowClear
                                     treeData={files}
@@ -168,7 +162,9 @@ class FormCode extends Component {
                                     {' '}
                                     <button
                                         style={{
-                                            background: 'none', border: '0', outline: 'none',
+                                            background: 'none',
+                                            border: '0',
+                                            outline: 'none',
                                         }}
                                         data-clipboard-text={code}
                                         id="code">
