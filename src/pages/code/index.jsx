@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { message } from 'antd';
+import Clipboard from 'clipboard';
 import TableCode from './components/TableCode';
 import FormCode from './components/FormCode';
-import Clipboard from 'clipboard';
 
 class Code extends Component {
     componentDidMount() {
@@ -39,4 +39,6 @@ class Code extends Component {
     }
 }
 
-export default connect(({ global }) => ({ global }))(Code);
+export default connect(({ global }) => ({
+    global,
+}))(Code);

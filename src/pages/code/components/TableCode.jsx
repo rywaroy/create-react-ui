@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import { Modal, Form, Input, Icon, Button, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
-import CreateForm from '@/components/CreateForm';
+import CreateTable from '@/components/CreateTable';
 import { isJs } from '@/services/file';
-import { createFormCode } from '@/services/code';
+import { createTableCode } from '@/services/code';
 
-class FormCode extends Component {
+class TableCode extends Component {
     constructor(props) {
         super(props);
         this.state = {
             configVisible: false,
             configKey: Math.random(),
-            code: '',
-            codeKey: Math.random(),
             codeVisible: false,
+            code: '', // 代码片段
+            codeKey: Math.random(),
         };
     }
 
     /**
-     * 打开form文件配置
+     * 打开table文件配置
      */
-    openFormCode = () => {
+    openTableCode = () => {
         this.setState(
             {
                 configKey: Math.random(),
@@ -29,21 +29,21 @@ class FormCode extends Component {
                 this.setState({
                     configVisible: true,
                 });
-            }
+            },
         );
     };
 
     /**
-     * 关闭form文件配置
+     * 关闭table文件配置
      */
-    closeFormCode = () => {
+    closeTableCode = () => {
         this.setState({
             configVisible: false,
         });
     };
 
     /**
-     * 代开代码生成弹窗
+     * 打开代码生成弹窗
      */
     openCreateCode = () => {
         this.setState(
@@ -54,7 +54,7 @@ class FormCode extends Component {
                 this.setState({
                     codeVisible: true,
                 });
-            }
+            },
         );
     };
 
@@ -71,7 +71,7 @@ class FormCode extends Component {
      * 生成的代码
      */
     createCode = () => {
-        this.createForm.create();
+        this.createTable.create();
         this.closeCreateCode();
     };
 
@@ -93,13 +93,11 @@ class FormCode extends Component {
     isJs = (rule, value, callback) => {
         isJs({
             url: value,
-        })
-            .then(() => {
-                callback();
-            })
-            .catch(err => {
-                callback(err);
-            });
+        }).then(() => {
+            callback();
+        }).catch(err => {
+            callback(err);
+        });
     };
 
     /**
@@ -108,8 +106,8 @@ class FormCode extends Component {
     create = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                createFormCode(values).then(() => {
-                    this.closeFormCode();
+                createTableCode(values).then(() => {
+                    this.closeTableCode();
                     this.props.updateFiles();
                 });
             }
@@ -117,22 +115,29 @@ class FormCode extends Component {
     };
 
     render() {
-        const { configVisible, configKey, code, codeKey, codeVisible } = this.state;
+        const {
+            configVisible,
+            codeVisible,
+            configKey,
+            code,
+            codeKey,
+        } = this.state;
         const { files } = this.props;
         const { getFieldDecorator } = this.props.form;
+
         return (
             <div>
                 <TemplateItem
-                    title="form组件配置对象"
-                    intro="配合油涟组件GenerateForm使用"
-                    imgClassName="formImg"
-                    add={this.openFormCode}
+                    title="table组件配置对象"
+                    intro=""
+                    imgClassName="tableImg"
+                    add={this.openTableCode}
                 />
                 <Modal
-                    title="form组件配置"
+                    title="table组件配置"
                     key={configKey}
                     visible={configVisible}
-                    onCancel={this.closeFormCode}
+                    onCancel={this.closeTableCode}
                     onOk={this.create}>
                     <Form>
                         <Form.Item label="导出文件">
@@ -149,26 +154,37 @@ class FormCode extends Component {
                             })(
                                 <TreeSelect
                                     showSearch
-                                    style={{ width: '100%' }}
-                                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                    dropdownStyle={{
+                                        maxHeight: 400,
+                                        overflow: 'auto',
+                                    }}
                                     placeholder="请选择路径"
                                     allowClear
                                     treeData={files}
-                                />
+                                />,
                             )}
                         </Form.Item>
                         <Form.Item
-                            label={
+                            label={(
                                 <span>
-                                    代码片段{' '}
+                                    代码片段
+                                    {' '}
                                     <button
-                                        style={{ background: 'none', border: '0', outline: 'none' }}
+                                        style={{
+                                            background: 'none',
+                                            border: '0',
+                                            outline: 'none',
+                                        }}
                                         data-clipboard-text={code}
-                                        id="code">
+                                        id="code"
+                                    >
                                         <Icon type="copy" />
                                     </button>
                                 </span>
-                            }>
+                            )}>
                             {getFieldDecorator('code', {
                                 rules: [
                                     {
@@ -184,16 +200,16 @@ class FormCode extends Component {
                     </Form>
                 </Modal>
                 <Modal
-                    title="form组件配置"
-                    width="1400px"
+                    title="table组件配置"
+                    width="1200px"
                     key={codeKey}
                     visible={codeVisible}
                     onOk={this.createCode}
                     onCancel={this.closeCreateCode}
                     okText="生成代码"
                     zIndex="1002">
-                    <CreateForm
-                        wrappedComponentRef={ref => (this.createForm = ref)}
+                    <CreateTable
+                        ref={ref => { this.createTable = ref; }}
                         getCode={this.getCode}
                     />
                 </Modal>
@@ -202,4 +218,4 @@ class FormCode extends Component {
     }
 }
 
-export default Form.create()(FormCode);
+export default Form.create()(TableCode);
