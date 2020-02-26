@@ -37,7 +37,8 @@ module.exports = {
     "react/jsx-indent": 0,
     "react/jsx-indent-props": 0,
     "react/button-has-type": 0,
-    "react/jsx-closing-bracket-location": 0
+    "react/jsx-closing-bracket-location": 0,
+    "no-use-before-define": 0
   },
   settings: {
     "import/resolver": {
