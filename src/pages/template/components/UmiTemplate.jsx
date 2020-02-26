@@ -4,8 +4,7 @@ import TemplateItem from '@/components/TemplateItem';
 import { createUmiTemplate } from '@/services/template';
 
 function UmiTemplate(props) {
-
-    const [ visible, setVisible ] = useState(false);
+    const [visible, setVisible] = useState(false);
     const { folders } = props;
     const { getFieldDecorator } = props.form;
 
@@ -50,7 +49,7 @@ function UmiTemplate(props) {
                 title="umi模板"
                 intro="包含index.js model.js 可配置变量名"
                 imgClassName="umiImg"
-                add={addUmiTemplate}/>
+                add={addUmiTemplate} />
             <Modal
                 title="添加umi模板"
                 visible={visible}
@@ -66,7 +65,7 @@ function UmiTemplate(props) {
                                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                                     placeholder="请选择路径"
                                     allowClear
-                                    treeData={folders}/>
+                                    treeData={folders} />,
                             )
                         }
                     </Form.Item>
@@ -75,7 +74,7 @@ function UmiTemplate(props) {
                             getFieldDecorator('folderName', {
                                 rules: [
                                     {
-                                        pattern: /^((?!\\|\/|\:|\?|\*|\"|<|>|\^).)*$/,
+                                        pattern: /^((?!\\|\/|:|\?|\*|"|<|>|\^).)*$/,
                                         message: '请填写正确文件夹名',
                                     },
                                 ],
@@ -92,7 +91,7 @@ function UmiTemplate(props) {
                                         message: '请填写文件名',
                                     },
                                     {
-                                        pattern: /^[a-zA-Z0-9\-\_]+\.[a-zA-Z0-9\-\_]+$/,
+                                        pattern: /^[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+$/,
                                         message: '请填写正确文件名',
                                     },
                                 ],
@@ -104,7 +103,7 @@ function UmiTemplate(props) {
                             getFieldDecorator('variable', {
                                 rules: [
                                     {
-                                        pattern: /^[a-zA-Z\$_][a-zA-Z\d_]*$/,
+                                        pattern: /^[a-zA-Z$_][a-zA-Z\d_]*$/,
                                         message: '请填写正确变量名',
                                     },
                                 ],
@@ -116,7 +115,7 @@ function UmiTemplate(props) {
                             getFieldDecorator('namespace', {
                                 rules: [
                                     {
-                                        pattern: /^[a-zA-Z\$_][a-zA-Z\d_]*$/,
+                                        pattern: /^[a-zA-Z$_][a-zA-Z\d_]*$/,
                                         message: '请填写正确变量名',
                                     },
                                 ],
@@ -126,18 +125,19 @@ function UmiTemplate(props) {
                     <Form.Item label="油涟自定义配置">
                         {
                             getFieldDecorator('oilConfig', {
-                                initialValue: false
-                            })(<Radio.Group>
-                                <Radio value={false}>否</Radio>
-                                <Radio value={true}>是</Radio>
-                            </Radio.Group>)
+                                initialValue: false,
+                            })(
+                                <Radio.Group>
+                                    <Radio value={false}>否</Radio>
+                                    <Radio value>是</Radio>
+                                </Radio.Group>,
+                            )
                         }
                     </Form.Item>
                 </Form>
             </Modal>
         </div>
     );
-
 }
 
 export default Form.create()(UmiTemplate);
