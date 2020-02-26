@@ -5,9 +5,8 @@ import { getTemplate } from '@/services/file';
 import { createCustomTemplate } from '@/services/template';
 
 function CustomTemplate(props) {
-
-    const [ visible, setVisible ] = useState(false);
-    const [ files, setFiles ] = useState([]);
+    const [visible, setVisible] = useState(false);
+    const [files, setFiles] = useState([]);
     const { folders } = props;
     const { getFieldDecorator } = props.form;
 
@@ -50,14 +49,21 @@ function CustomTemplate(props) {
                 title="自定义模板"
                 intro="可自定义模板文件，根据指定模板文件生成代码"
                 imgClassName="customImg"
-                add={addCustomTemplate}/>
+                add={addCustomTemplate} />
             <Modal
                 title="添加自定义模板"
                 visible={visible}
                 onOk={handleOk}
                 onCancel={handleCancel}>
                 <Form>
-                    <Form.Item label={<span>模板文件夹 <Tooltip title={'在根目录下创建.crui/template文件夹,该文件夹内所有文件将作为模板使用'} ><Icon type="question-circle" /></Tooltip></span>} colon={false}>
+                    <Form.Item
+                        label={(
+                            <span>
+模板文件夹
+                                <Tooltip title="在根目录下创建.crui/template文件夹,该文件夹内所有文件将作为模板使用"><Icon type="question-circle" /></Tooltip>
+                            </span>
+                        )}
+                        colon={false}>
                         {
                             getFieldDecorator('mode', {
                                 initialValue: '/.crui/template',
@@ -73,7 +79,7 @@ function CustomTemplate(props) {
                                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                                     placeholder="请选择路径"
                                     allowClear
-                                    treeData={folders}/>
+                                    treeData={folders} />,
                             )
                         }
                     </Form.Item>
@@ -82,14 +88,19 @@ function CustomTemplate(props) {
                             getFieldDecorator('folderName', {
                                 rules: [
                                     {
-                                        pattern: /^((?!\\|\/|\:|\?|\*|\"|<|>|\^).)*$/,
+                                        pattern: /^((?!\\|\/|:|\?|\*|"|<|>|\^).)*$/,
                                         message: '请填写正确文件夹名',
                                     },
                                 ],
                             })(<Input />)
                         }
                     </Form.Item>
-                    <Form.Item label={<span>主文件名 <Tooltip title={'默认导出组件的文件，配合修改变量名/类名'} ><Icon type="question-circle" /></Tooltip></span>}>
+                    <Form.Item label={(
+                        <span>
+主文件名
+                            <Tooltip title="默认导出组件的文件，配合修改变量名/类名"><Icon type="question-circle" /></Tooltip>
+                        </span>
+                    )}>
                         {
                             getFieldDecorator('fileName')(
                                 <TreeSelect
@@ -98,7 +109,7 @@ function CustomTemplate(props) {
                                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                                     placeholder="请选择路径"
                                     allowClear
-                                    treeData={files}/>
+                                    treeData={files} />,
                             )
                         }
                     </Form.Item>
@@ -107,7 +118,7 @@ function CustomTemplate(props) {
                             getFieldDecorator('variable', {
                                 rules: [
                                     {
-                                        pattern: /^[a-zA-Z\$_][a-zA-Z\d_]*$/,
+                                        pattern: /^[a-zA-Z$_][a-zA-Z\d_]*$/,
                                         message: '请填写正确变量名',
                                     },
                                 ],
@@ -118,7 +129,6 @@ function CustomTemplate(props) {
             </Modal>
         </div>
     );
-
 }
 
 export default Form.create()(CustomTemplate);
