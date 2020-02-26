@@ -4,8 +4,7 @@ import TemplateItem from '@/components/TemplateItem';
 import { createDefaultTemplate } from '@/services/template';
 
 function DefaultTemplate(props) {
-
-    const [ visible, setVisible ] = useState(false);
+    const [visible, setVisible] = useState(false);
     const { folders } = props;
     const { getFieldDecorator } = props.form;
 
@@ -46,7 +45,7 @@ function DefaultTemplate(props) {
                 title="默认react模板"
                 intro="包含index.js 可配置变量名"
                 imgClassName="defaultImg"
-                add={addDefaultTemplate}/>
+                add={addDefaultTemplate} />
             <Modal
                 title="添加默认模板"
                 visible={visible}
@@ -62,7 +61,7 @@ function DefaultTemplate(props) {
                                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                                     placeholder="请选择路径"
                                     allowClear
-                                    treeData={folders}/>
+                                    treeData={folders} />,
                             )
                         }
                     </Form.Item>
@@ -71,7 +70,7 @@ function DefaultTemplate(props) {
                             getFieldDecorator('folderName', {
                                 rules: [
                                     {
-                                        pattern: /^((?!\\|\/|\:|\?|\*|\"|<|>|\^).)*$/,
+                                        pattern: /^((?!\\|\/|:|\?|\*|"|<|>|\^).)*$/,
                                         message: '请填写正确文件夹名',
                                     },
                                 ],
@@ -88,7 +87,7 @@ function DefaultTemplate(props) {
                                         message: '请填写文件名',
                                     },
                                     {
-                                        pattern: /^[a-zA-Z0-9\-\_]+\.[a-zA-Z0-9\-\_]+$/,
+                                        pattern: /^[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+$/,
                                         message: '请填写正确文件名',
                                     },
                                 ],
@@ -100,7 +99,7 @@ function DefaultTemplate(props) {
                             getFieldDecorator('variable', {
                                 rules: [
                                     {
-                                        pattern: /^[a-zA-Z\$_][a-zA-Z\d_]*$/,
+                                        pattern: /^[a-zA-Z$_][a-zA-Z\d_]*$/,
                                         message: '请填写正确变量名',
                                     },
                                 ],
