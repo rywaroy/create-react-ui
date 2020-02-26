@@ -6,21 +6,20 @@ import CustomTemplate from './components/CustomTemplate';
 
 
 function Template(props) {
-
     const { folders } = props.global;
 
     const updateFiles = () => {
         props.dispatch({
-            type: 'global/updateFiles'
+            type: 'global/updateFiles',
         });
     };
 
     return (
         <div>
             <div className="template-list">
-                <DefaultTemplate folders={folders} updateFiles={updateFiles}/>
-                <UmiTemplate folders={folders} updateFiles={updateFiles}/>
-                <CustomTemplate folders={folders} updateFiles={updateFiles}/>
+                <DefaultTemplate folders={folders} updateFiles={updateFiles} />
+                <UmiTemplate folders={folders} updateFiles={updateFiles} />
+                <CustomTemplate folders={folders} updateFiles={updateFiles} />
             </div>
         </div>
     );
