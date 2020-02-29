@@ -11,7 +11,7 @@ class FolderTreeSelect extends Component {
 
     onChange = value => {
         this.setState({
-            value
+            value,
         });
         this.props.onChange && this.props.onChange(value);
     }
