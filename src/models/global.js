@@ -7,15 +7,15 @@ export default {
         folders: [], // 文件夹列表
     },
     effects: {
-        *updateFiles({ payload }, { call, put }) {
+        * updateFiles(action, { call, put }) {
             const res = yield call(getFiles);
             const { filesArray, foldersArray } = res.data.data;
             yield put({
                 type: 'updateState',
                 payload: {
                     files: filesArray,
-                    folders: foldersArray
-                }
+                    folders: foldersArray,
+                },
             });
         },
     },
@@ -23,5 +23,5 @@ export default {
         updateState(state, { payload }) {
             return { ...state, ...payload };
         },
-    }
+    },
 };
