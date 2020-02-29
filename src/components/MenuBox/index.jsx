@@ -3,7 +3,6 @@ import { Menu, Icon } from 'antd';
 import router from 'umi/router';
 
 class MenuBox extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -13,15 +12,15 @@ class MenuBox extends Component {
                     title: '模板',
                     key: 'template',
                     icon: 'file-protect',
-                    url: '/template'
+                    url: '/template',
                 },
                 {
                     title: '代码块',
                     key: 'code',
                     icon: 'gold',
-                    url: '/code'
-                }
-            ]
+                    url: '/code',
+                },
+            ],
         };
     }
 
@@ -29,19 +28,19 @@ class MenuBox extends Component {
      * 点击跳转
      */
     onClickItem = item => {
-    	if (item.key === this.state.defaultSelectedKey[0]) {
+        if (item.key === this.state.defaultSelectedKey[0]) {
             return;
         }
         router.push(item.url);
         this.setState({
-            defaultSelectedKey: [item.key]
+            defaultSelectedKey: [item.key],
         });
     }
 
     componentDidMount() {
-        const pathname = window.location.pathname;
+        const { pathname } = window.location;
         this.setState({
-            defaultSelectedKey: pathname.split('/')[1]
+            defaultSelectedKey: pathname.split('/')[1],
         });
     }
 
