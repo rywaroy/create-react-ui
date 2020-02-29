@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { Layout, ConfigProvider, notification, Icon } from 'antd';
 import { connect } from 'dva';
 import 'antd/dist/antd.css';
-import MenuBox from '@/components/MenuBox';
 import zhCN from 'antd/es/locale/zh_CN';
+import MenuBox from '@/components/MenuBox';
 
 const { Content, Sider } = Layout;
 
 class BasicLayout extends Component {
-
     componentDidMount() {
         this.props.dispatch({
-            type: 'global/updateFiles'
+            type: 'global/updateFiles',
         });
         window.socket.on('msg', data => {
             notification.open({
