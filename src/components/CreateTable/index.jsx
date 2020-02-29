@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Button, Modal, InputNumber, Icon, Input } from 'antd';
+import cloneDeep from 'loadsh/cloneDeep';
 import SetColumn from './setColumn';
 import SetOpt from './setOpt';
-import cloneDeep from 'loadsh/cloneDeep';
 
 const DEFAULT_VARIABLE = 'listColumn';
 
@@ -21,14 +21,14 @@ class CreateTable extends Component {
             visibleOpt: false, // 是否显示添加操作弹窗
             optKey: Math.random(),
             setOptObj: {},
-            variable: DEFAULT_VARIABLE
+            variable: DEFAULT_VARIABLE,
         };
     }
 
     /**
      * 打开批量添加弹窗
      */
-    openAdd() {
+    openAdd = () => {
         this.setState({
             visibleAdd: true,
         });
@@ -37,7 +37,7 @@ class CreateTable extends Component {
     /**
      * 关闭批量添加弹窗
      */
-    closeAdd() {
+    closeAdd = () => {
         this.setState({
             visibleAdd: false,
         });
@@ -112,7 +112,7 @@ class CreateTable extends Component {
     /**
      * 批量添加
      */
-    add() {
+    add = () => {
         const { addNumber, columns, dataSource } = this.state;
         const len = columns.length;
         const c = [...columns];
@@ -155,7 +155,7 @@ class CreateTable extends Component {
     /**
      * 监听批量数字
      */
-    addNumberChange(number) {
+    addNumberChange = (number) => {
         this.setState({
             addNumber: number,
         });
@@ -164,7 +164,7 @@ class CreateTable extends Component {
     /**
      * 打开添加操作弹窗
      */
-    openOpt() {
+    openOpt = () => {
         if (this.state.columns.length === 0) {
             return;
         }
@@ -180,12 +180,11 @@ class CreateTable extends Component {
     /**
      * 设置操作
      */
-    opt(values) {
+    opt = (values) => {
         const columns = [...this.state.columns];
         const index = columns.length;
         const opt = {
-            title: () => {
-                return (
+            title: () => (
                     <>
                         操作
                         <Icon
@@ -196,36 +195,28 @@ class CreateTable extends Component {
                             style={{ marginLeft: '5px' }}
                         />
                     </>
-                );
-            },
+            ),
             titleText: '操作',
             dataIndex: 'action',
             render() {
                 return (
                     <>
-                        {values.opts.map((item, index) =>
-                            item.link ? (
-                                <a href={'/'} target="_blank" className="mr10" key={index}>
-                                    {item.text}
-                                </a>
-                            ) : (
-                                <span
-                                    className="opt-link"
-                                    key={index}
-                                >
-                                    {item.text}
-                                </span>
-                            ),
-                        )}
+                        {values.opts.map((item, i) => (item.link ? (
+                            <a href="/" target="_blank" className="mr10" key={i}>
+                                {item.text}
+                            </a>
+                        ) : (
+                            <span className="opt-link" key={i}>
+                                {item.text}
+                            </span>
+                        )))}
                     </>
                 );
             },
             renderText: `() => (<>${values.opts
-                .map((item, index) =>
-                    item.link
-                        ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
-                        : `<span className="opt-link" onClick={() => {}}>${item.text}</span>`,
-                )
+                .map(item => (item.link
+                    ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
+                    : `<span className="opt-link" onClick={() => {}}>${item.text}</span>`))
                 .join('')}</>)`,
             opts: values.opts,
         };
@@ -251,7 +242,7 @@ class CreateTable extends Component {
     /**
      * 关闭添加操作弹窗
      */
-    closeOpt() {
+    closeOpt = () => {
         this.setState({
             visibleOpt: false,
         });
@@ -287,12 +278,8 @@ class CreateTable extends Component {
         }
         const str = `${JSON.stringify(columns)}`;
         let s = str
-            .replace(/\"(\(\).*\))\"/g, (a, b) => {
-                return b;
-            })
-            .replace(/\\\"(opt-link|mr10|_blank|\/)\\\"/g, (a, b) => {
-                return `\"${b}\"`;
-            });
+            .replace(/"(\(\).*\))"/g, (a, b) => b)
+            .replace(/\\"(opt-link|mr10|_blank|\/)\\"/g, (a, b) => `"${b}"`);
         s = `export function ${this.state.variable}(_self) { return ${s}; }`;
         this.props.getCode(s);
     }
@@ -306,7 +293,7 @@ class CreateTable extends Component {
             variable = DEFAULT_VARIABLE;
         }
         this.setState({
-            variable
+            variable,
         });
     }
 
@@ -328,32 +315,33 @@ class CreateTable extends Component {
             <div className="indexWrap">
                 <Button
                     type="primary"
-                    onClick={this.openAdd.bind(this)}
+                    onClick={this.openAdd}
                     style={{ marginRight: '10px' }}
                 >
                     批量添加
                 </Button>
                 <Button
                     type="primary"
-                    onClick={this.openOpt.bind(this)}
+                    onClick={this.openOpt}
                     style={{ marginRight: '10px' }}
                 >
                     添加操作
                 </Button>
-                变量名：<Input placeholder="变量名" style={{ margin: '20px 0', width: '200px' }} value={variable} onChange={this.changeVariable}/>
-                <Table columns={columns} dataSource={dataSource} rowKey={r => r.id}></Table>
+                变量名：
+                <Input placeholder="变量名" style={{ margin: '20px 0', width: '200px' }} value={variable} onChange={this.changeVariable} />
+                <Table columns={columns} dataSource={dataSource} rowKey={r => r.id} />
                 <Modal
                     title="批量添加"
                     visible={visibleAdd}
-                    onOk={this.add.bind(this)}
-                    onCancel={this.closeAdd.bind(this)}
+                    onOk={this.add}
+                    onCancel={this.closeAdd}
                     zIndex="1003"
                 >
                     <InputNumber
                         style={{ width: '400px' }}
                         min={1}
                         defaultValue={5}
-                        onChange={this.addNumberChange.bind(this)}
+                        onChange={this.addNumberChange}
                     />
                 </Modal>
                 <SetColumn
@@ -368,8 +356,8 @@ class CreateTable extends Component {
                     key={optKey}
                     visibleOpt={visibleOpt}
                     {...setOptObj}
-                    onOk={this.opt.bind(this)}
-                    onCancel={this.closeOpt.bind(this)}
+                    onOk={this.opt}
+                    onCancel={this.closeOpt}
                     zIndex="1003"
                 />
             </div>

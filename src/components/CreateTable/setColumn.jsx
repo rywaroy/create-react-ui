@@ -13,11 +13,10 @@ const ellipsisOptions = [
 ];
 
 class SetColumn extends Component {
-
     /**
      * 配置列
      */
-    setLine() {
+    setLine = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 this.props.onOk(values);
@@ -28,17 +27,17 @@ class SetColumn extends Component {
     /**
      * 关闭配置列弹窗
      */
-    closeSetLine() {
+    closeSetLine = () => {
         this.props.onCancel();
     }
 
     componentDidMount() {
         const { width, align, ellipsis, className } = this.props;
         this.props.form.setFieldsValue({
-            width: width ? width : undefined,
-            align: align ? align : undefined,
-            ellipsis: ellipsis ? ellipsis : undefined,
-            className: className ? className : undefined,
+            width: width || undefined,
+            align: align || undefined,
+            ellipsis: ellipsis || undefined,
+            className: className || undefined,
         });
     }
 
@@ -54,32 +53,32 @@ class SetColumn extends Component {
             <Modal
                 title="设置"
                 visible={visibleSetColumn}
-                onOk={this.setLine.bind(this)}
-                onCancel={this.closeSetLine.bind(this)}
+                onOk={this.setLine}
+                onCancel={this.closeSetLine}
                 zIndex={zIndex}>
                 <Form {...formItemLayout}>
                     <Form.Item
                         label="width">
                         {getFieldDecorator('width')(
-                            <InputNumber />
+                            <InputNumber />,
                         )}
                     </Form.Item>
                     <Form.Item
                         label="align">
                         {getFieldDecorator('align')(
-                            <Radio.Group options={alignOptions} />
+                            <Radio.Group options={alignOptions} />,
                         )}
                     </Form.Item>
                     <Form.Item
                         label="ellipsis">
                         {getFieldDecorator('ellipsis')(
-                            <Radio.Group options={ellipsisOptions} />
+                            <Radio.Group options={ellipsisOptions} />,
                         )}
                     </Form.Item>
                     <Form.Item
                         label="className">
                         {getFieldDecorator('className')(
-                            <Input />
+                            <Input />,
                         )}
                     </Form.Item>
                 </Form>

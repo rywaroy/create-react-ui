@@ -13,12 +13,11 @@ const linkOptions = [
 ];
 
 class SetOpt extends Component {
-
     state = {
         opts: [],
     }
 
-    setOpt() {
+    setOpt = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const res = this.state.opts.every(item => item.text);
@@ -31,18 +30,18 @@ class SetOpt extends Component {
         });
     }
 
-    closeOpt() {
+    closeOpt = () => {
         this.props.onCancel();
     }
 
-    addOpt() {
+    addOpt = () => {
         const opts = [...this.state.opts];
         opts.push({
             text: '',
             link: false,
         });
         this.setState({
-            opts
+            opts,
         });
     }
 
@@ -50,7 +49,7 @@ class SetOpt extends Component {
         const opts = [...this.state.opts];
         opts[index].text = e.target.value;
         this.setState({
-            opts
+            opts,
         });
     }
 
@@ -58,19 +57,19 @@ class SetOpt extends Component {
         const opts = [...this.state.opts];
         opts[index].link = e.target.value;
         this.setState({
-            opts
+            opts,
         });
     }
 
     componentDidMount() {
         const { width, fixed, opts } = this.props;
         this.props.form.setFieldsValue({
-            width: width ? width : undefined,
-            fixed: fixed ? fixed : undefined,
+            width: width || undefined,
+            fixed: fixed || undefined,
         });
         if (opts) {
             this.setState({
-                opts
+                opts,
             });
         }
     }
@@ -87,29 +86,33 @@ class SetOpt extends Component {
             <Modal
                 title="操作"
                 visible={visibleOpt}
-                onOk={this.setOpt.bind(this)}
-                onCancel={this.closeOpt.bind(this)}
+                onOk={this.setOpt}
+                onCancel={this.closeOpt}
                 zIndex={zIndex}>
                 <Form {...formItemLayout}>
                     <Form.Item
                         label="width">
                         {getFieldDecorator('width')(
-                            <InputNumber />
+                            <InputNumber />,
                         )}
                     </Form.Item>
                     <Form.Item
                         label="fixed">
                         {getFieldDecorator('fixed')(
-                            <Radio.Group options={fixedOptions} />
+                            <Radio.Group options={fixedOptions} />,
                         )}
                     </Form.Item>
-                    <div>操作按钮： <Button type="primary" onClick={this.addOpt.bind(this)}>添加</Button></div>
+                    <div>
+                        操作按钮：
+                        {' '}
+                        <Button type="primary" onClick={this.addOpt}>添加</Button>
+                    </div>
                     {
                         this.state.opts.map((item, index) => (
                             <div className="set-opt-line" key={index}>
-                                <Input placeholder="操作名称" className="set-opt-input" allowClear onChange={e => this.optInputChange(e, index)} value={item.text}/>
+                                <Input placeholder="操作名称" className="set-opt-input" allowClear onChange={e => this.optInputChange(e, index)} value={item.text} />
                                     link: &nbsp;&nbsp;&nbsp;&nbsp;
-                                <Radio.Group options={linkOptions} value={item.link} onChange={e => this.optRadioChange(e, index)}/>
+                                <Radio.Group options={linkOptions} value={item.link} onChange={e => this.optRadioChange(e, index)} />
                             </div>
                         ))
                     }
