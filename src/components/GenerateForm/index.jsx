@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Form, Select, DatePicker, Row, Col, Input, InputNumber, Checkbox, Radio, Button } from 'antd';
 // import { TfOilAddr, CertificateUpload, ImportExcel, NumRange, TimePickerRange, FileUpload, MonthPickerRange } from '../../../components';
 import styles from './index.less';
@@ -12,7 +11,7 @@ const RadioButton = Radio.Button;
 const CheckboxGroup = Checkbox.Group;
 const { RangePicker, MonthPicker } = DatePicker;
 
-/* 目前支持的form表单类型*/
+/* 目前支持的form表单类型 */
 const mapTypeToComponent = {
     // 'excel': {
     //     WrappedComponent: ImportExcel,
@@ -39,10 +38,10 @@ const mapTypeToComponent = {
     select: {
         WrappedComponent: Select,
         defaultProps: {
-            allowClear: true
+            allowClear: true,
         },
         optionsData: 'selectOptions',
-        SubComponent: Option
+        SubComponent: Option,
     },
     // 'timepickerrange': {
     //     WrappedComponent: TimePickerRange
@@ -64,14 +63,14 @@ const mapTypeToComponent = {
         optionsData: 'checkboxOptions',
         SubComponent: Checkbox,
         style: {
-            marginLeft: '10px'
-        }
+            marginLeft: '10px',
+        },
     },
     textarea: {
         WrappedComponent: TextArea,
         defaultProps: {
-            autosize: { minRows: 2, maxRows: 3 }
-        }
+            autosize: { minRows: 2, maxRows: 3 },
+        },
     },
     radiogroup: {
         WrappedComponent: RadioGroup,
@@ -79,11 +78,11 @@ const mapTypeToComponent = {
         SubComponent: Radio,
         SubComponentMap: {
             defalut: Radio,
-            button: RadioButton
+            button: RadioButton,
         },
         style: {
-            marginLeft: '10px'
-        }
+            marginLeft: '10px',
+        },
     },
     // 'fileupload': {
     //     WrappedComponent: FileUpload,
@@ -102,30 +101,19 @@ class GenerateForm extends React.Component {
     };
 
 
-    /* form 实例*/
-    getForm = () => {
-        return this.props.form;
-    };
+    /* form 实例 */
+    getForm = () => this.props.form;
 
-    resetFields = () => {
-        return this.props.form.resetFields();
-    };
+    resetFields = () => this.props.form.resetFields();
 
-    getFieldValue = (key) => {
-        return this.props.form.getFieldValue(key);
-    };
+    getFieldValue = (key) => this.props.form.getFieldValue(key);
 
-    setFields = (obj) => {
-        return this.props.form.setFields(obj);
-    };
+    setFields = (obj) => this.props.form.setFields(obj);
 
-    setFieldsValue = (obj) => {
-        return this.props.form.setFieldsValue(obj);
-    };
+    setFieldsValue = (obj) => this.props.form.setFieldsValue(obj);
 
     render() {
-
-        /* formSet代表form表单的配置*/
+        /* formSet代表form表单的配置 */
         const { className, formSet, form, gutter = 0, formType } = this.props;
         const { getFieldDecorator } = form;
 
@@ -145,9 +133,9 @@ class GenerateForm extends React.Component {
                                 props, // 外部传入给组件的属性
                                 name, // ant design Form原生name属性
                                 span = formType === 'filter' ? 8 : 12, // 表单项的布局长度
-                                colClass = '', /* 表单col的样式*/
+                                colClass = '', /* 表单col的样式 */
                                 options = {}, // //ant design Form原生表单项options
-                                formItemLayout = { labelCol: { span: 8 }, wrapperCol: { span: 16 } } // 表单项lable、表单组件的布局
+                                formItemLayout = { labelCol: { span: 8 }, wrapperCol: { span: 16 } }, // 表单项lable、表单组件的布局
                             } = item;
                             const { WrappedComponent, defaultProps } = mapTypeToComponent[type.toLowerCase()];
 
@@ -162,37 +150,35 @@ class GenerateForm extends React.Component {
                                 realOptions.initialValue = initialValue;
                             }
 
-                            /* 控制编辑、新增时,部分选型是否显示*/
+                            /* 控制编辑、新增时,部分选型是否显示 */
                             if (!isShow) {
                                 return null;
                             }
 
                             /* select 、radiogroup、checkboxgroup等含有子项的组件 */
                             if (type.toLowerCase() === 'select' || type.toLowerCase() === 'radiogroup' || type.toLowerCase() === 'checkboxgroup') {
+                                /* 对于存在多种类型子组件时，可以通过subComponent字段告知组件使用哪种类型的子组件，子组件类型定义在mapTypeToComponent的SubComponentMap中 */
+                                const { optionsData, SubComponentMap, style } = mapTypeToComponent[type.toLowerCase()];
+                                let { SubComponent } = mapTypeToComponent[type.toLowerCase()];
+                                const subOptionsData = item[optionsData];
+                                const { models } = item;
+                                const [valueKey = 'value', labelKey = 'label'] = models || [];
 
-                                /* 对于存在多种类型子组件时，可以通过subComponent字段告知组件使用哪种类型的子组件，子组件类型定义在mapTypeToComponent的SubComponentMap中*/
-                                let { optionsData, SubComponent, SubComponentMap, style } = mapTypeToComponent[type.toLowerCase()];
-                                let subOptionsData = item[optionsData];
-                                let models = item.models;
-                                let [valueKey = 'value', labelKey = 'label'] = models || [];
-
-                                /* 当前组件有个子组件时，通过subComponent可配置具体选择哪个*/
-                                if (item['subComponent']) {
-                                    SubComponent = SubComponentMap[item['subComponent']] || SubComponentMap['defalut'];
+                                /* 当前组件有个子组件时，通过subComponent可配置具体选择哪个 */
+                                if (item.subComponent) {
+                                    SubComponent = SubComponentMap[item.subComponent] || SubComponentMap.defalut;
                                 }
 
                                 return (
                                     <Col span={span} key={key} className={colClass}>
-                                        <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)}/>
-                                        <FormItem label={label} colon={colon} {...formItemLayout} >
+                                        <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
+                                        <FormItem label={label} colon={colon} {...formItemLayout}>
                                             {getFieldDecorator(name, realOptions)(
                                                 <WrappedComponent {...defaultProps} {...props}>
                                                     {
-                                                        subOptionsData.length > 0 && subOptionsData.map((v, i) => {
-                                                            return <SubComponent key={i} value={v[valueKey]} style={style}>{v[labelKey]}</SubComponent>;
-                                                        })
+                                                        subOptionsData.length > 0 && subOptionsData.map((v, i) => <SubComponent key={i} value={v[valueKey]} style={style}>{v[labelKey]}</SubComponent>)
                                                     }
-                                                </WrappedComponent>
+                                                </WrappedComponent>,
                                             )}
                                             {
                                                 item.addonAfter && item.addonAfter
@@ -202,11 +188,11 @@ class GenerateForm extends React.Component {
                                 );
                             }
 
-                            /* 文本*/
+                            /* 文本 */
                             if (type.toLowerCase() === 'label') {
                                 return (
                                     <Col span={span} key={key} className={colClass}>
-                                        <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)}/>
+                                        <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
                                         <FormItem label={label} colon={colon} {...formItemLayout}>
                                             <span style={{ margin: '0 10px' }}>{initialValue}</span>
                                             {
@@ -219,11 +205,11 @@ class GenerateForm extends React.Component {
 
                             return (
                                 <Col span={span} key={key} className={colClass}>
-                                    <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)}/>
-                                    <FormItem label={label} colon={colon} {...formItemLayout} >
+                                    <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
+                                    <FormItem label={label} colon={colon} {...formItemLayout}>
 
                                         {getFieldDecorator(name, realOptions)(
-                                            <WrappedComponent {...defaultProps} {...props} form={form}></WrappedComponent>
+                                            <WrappedComponent {...defaultProps} {...props} form={form} />,
                                         )}
                                         {
                                             item.addonAfter && item.addonAfter
@@ -238,10 +224,5 @@ class GenerateForm extends React.Component {
         );
     }
 }
-
-GenerateForm.propTypes = {
-    formSet: PropTypes.array, // 表单配置项
-    className: PropTypes.string, // 外部传入的class
-};
 
 export default Form.create()(GenerateForm);
