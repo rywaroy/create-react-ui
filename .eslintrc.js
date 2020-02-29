@@ -42,7 +42,12 @@ module.exports = {
     "react/sort-comp": 0,
     "no-param-reassign": 0,
     "react/no-access-state-in-setstate": 0,
-    "no-restricted-syntax": 0
+    "no-restricted-syntax": 0,
+    "max-len": 0,
+    "react/no-array-index-key": 0,
+    "no-plusplus": 0,
+    "no-unused-expressions": 0,
+    "import/no-extraneous-dependencies": 0
   },
   settings: {
     "import/resolver": {
