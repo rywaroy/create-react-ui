@@ -33,14 +33,14 @@ class CreateForm extends Component {
         };
     }
 
-    openAdd() {
+    openAdd = () => {
         this.setState({
             visibleSetForm: true,
             setFormKey: Math.random(),
         });
     }
 
-    closeAdd() {
+    closeAdd = () => {
         this.setState({
             visibleSetForm: false,
         });
@@ -48,7 +48,7 @@ class CreateForm extends Component {
 
     add = values => {
         const formOption = [...this.state.formOption];
-        let defaultLayout = this.state.defaultLayout;
+        let { defaultLayout } = this.state;
         if (values.formItemLayoutText) {
             // 默认变量布局
             const { labelCol, wrapperCol, span } = this.state;
@@ -152,7 +152,7 @@ class CreateForm extends Component {
         }
         this.setState({
             formOption,
-            defaultLayout
+            defaultLayout,
         });
     }
 
@@ -185,9 +185,7 @@ class CreateForm extends Component {
         if (isVar) {
             s = `const formItemLayout = {labelCol:{span:${labelCol}}, wrapperCol:{span:${wrapperCol}}}; ${s}`;
         }
-        s = s.replace(/\"(formItemLayout)\"/g, (a, b) => {
-            return b;
-        });
+        s = s.replace(/"(formItemLayout)"/g, (a, b) => b);
         this.props.getCode(s);
     }
 
@@ -215,7 +213,7 @@ class CreateForm extends Component {
                 <div>
                     <Button
                         type="primary"
-                        onClick={this.openAdd.bind(this)}
+                        onClick={this.openAdd}
                         style={{ marginRight: '10px' }}
                     >
                         添加
@@ -287,8 +285,8 @@ class CreateForm extends Component {
                         <GenerateForm
                             formSet={formOption}
                             formType={type}
-                            wrappedComponentRef={el => (this.generateForm = el)}
-                            deleteItem={this.deleteItem.bind(this)}
+                            wrappedComponentRef={el => { this.generateForm = el; }}
+                            deleteItem={this.deleteItem}
                         />
                         {formOption.length > 0 && (
                             <Button
@@ -304,8 +302,8 @@ class CreateForm extends Component {
                 <SetForm
                     visibleSetForm={visibleSetForm}
                     key={setFormKey}
-                    onCancel={this.closeAdd.bind(this)}
-                    onOk={this.add.bind(this)}
+                    onCancel={this.closeAdd}
+                    onOk={this.add}
                 />
             </div>
         );

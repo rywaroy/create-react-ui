@@ -56,14 +56,14 @@ class SetForm extends Component {
         };
     }
 
-    setForm() {
+    setForm = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const { type, label, initialValue, colClass, colon, addonAfter, span, formItemLayout, labelCol, wrapperCol } = values;
                 const obj = {
                     type,
                     label,
-                    name: label
+                    name: label,
                 };
                 if (initialValue) obj.initialValue = '';
                 if (colClass) obj.colClass = colClass;
@@ -82,7 +82,7 @@ class SetForm extends Component {
                 if (this.state.rules.length > 0) {
                     obj.rules = this.state.rules.map(item => ({
                         [item.rule]: item.content,
-                        message: item.message
+                        message: item.message,
                     }));
                 }
                 if (type === 'select') {
@@ -102,7 +102,7 @@ class SetForm extends Component {
     /**
      * 关闭配置表单弹窗
      */
-    closeSetForm() {
+    closeSetForm = () => {
         this.props.onCancel();
     }
 
@@ -131,7 +131,7 @@ class SetForm extends Component {
             id: Math.random(),
         });
         this.setState({
-            rules
+            rules,
         });
     }
 
@@ -148,7 +148,7 @@ class SetForm extends Component {
         }
         rules[index].message = '';
         this.setState({
-            rules
+            rules,
         });
     }
 
@@ -159,7 +159,7 @@ class SetForm extends Component {
         const rules = [...this.state.rules];
         rules.splice(index, 1);
         this.setState({
-            rules
+            rules,
         });
     }
 
@@ -170,7 +170,7 @@ class SetForm extends Component {
         const rules = [...this.state.rules];
         rules[index].content = value;
         this.setState({
-            rules
+            rules,
         });
     }
 
@@ -181,7 +181,7 @@ class SetForm extends Component {
         const rules = [...this.state.rules];
         rules[index].message = e.target.value;
         this.setState({
-            rules
+            rules,
         });
     }
 
@@ -199,8 +199,8 @@ class SetForm extends Component {
             <Modal
                 title="设置"
                 visible={visibleSetForm}
-                onOk={this.setForm.bind(this)}
-                onCancel={this.closeSetForm.bind(this)}
+                onOk={this.setForm}
+                onCancel={this.closeSetForm}
                 zIndex="1003"
             >
                 <Form {...formItemLayout}>
@@ -214,101 +214,109 @@ class SetForm extends Component {
                                         {item.label}
                                     </Option>
                                 ))}
-                            </Select>
+                            </Select>,
                         )}
                     </Form.Item>
                     <Form.Item label="标签 label">
                         {getFieldDecorator('label', {
                             rules: [
-                                { required: true, message: '请输入标签' }
-                            ]
+                                { required: true, message: '请输入标签' },
+                            ],
                         })(
-                            <Input />
+                            <Input />,
                         )}
                     </Form.Item>
                     <Form.Item label="默认值 initialValue">
                         {getFieldDecorator('initialValue', {
-                            initialValue: false
+                            initialValue: false,
                         })(
-                            <Radio.Group options={initialValueOptions} />
+                            <Radio.Group options={initialValueOptions} />,
                         )}
                     </Form.Item>
                     <Form.Item label="自定义类 colClass">
                         {getFieldDecorator('colClass')(
-                            <Input />
+                            <Input />,
                         )}
                     </Form.Item>
                     <Form.Item label="冒号 colon">
                         {getFieldDecorator('colon', {
-                            initialValue: true
+                            initialValue: true,
                         })(
-                            <Radio.Group options={colonOptions} />
+                            <Radio.Group options={colonOptions} />,
                         )}
                     </Form.Item>
                     <Form.Item label="后缀 addonAfter">
                         {getFieldDecorator('addonAfter', {
-                            initialValue: false
+                            initialValue: false,
                         })(
-                            <Radio.Group options={addonAfterOptions} />
+                            <Radio.Group options={addonAfterOptions} />,
                         )}
                     </Form.Item>
                     <Form.Item label="长度 span">
                         {getFieldDecorator('span')(
-                            <InputNumber />
+                            <InputNumber />,
                         )}
                     </Form.Item>
                     <Form.Item label="布局 formItemLayout">
                         {getFieldDecorator('formItemLayout', {
-                            initialValue: false
+                            initialValue: false,
                         })(
-                            <Radio.Group options={formItemLayoutOptions} onChange={this.layoutChange}/>
+                            <Radio.Group options={formItemLayoutOptions} onChange={this.layoutChange} />,
                         )}
                     </Form.Item>
                     {
-                        showCol &&
-                        <Form.Item label="labelCol">
-                            {getFieldDecorator('labelCol', {
-                                rules: [
-                                    { required: true, message: '请输入标签' }
-                                ]
-                            })(
-                                <InputNumber />
-                            )}
-                        </Form.Item>
+                        showCol
+                        && (
+                            <Form.Item label="labelCol">
+                                {getFieldDecorator('labelCol', {
+                                    rules: [
+                                        { required: true, message: '请输入标签' },
+                                    ],
+                                })(
+                                    <InputNumber />,
+                                )}
+                            </Form.Item>
+                        )
                     }
                     {
-                        showCol &&
-                        <Form.Item label="wrapperCol">
-                            {getFieldDecorator('wrapperCol', {
-                                rules: [
-                                    { required: true, message: '请输入标签' }
-                                ]
-                            })(
-                                <InputNumber />
-                            )}
-                        </Form.Item>
+                        showCol
+                        && (
+                            <Form.Item label="wrapperCol">
+                                {getFieldDecorator('wrapperCol', {
+                                    rules: [
+                                        { required: true, message: '请输入标签' },
+                                    ],
+                                })(
+                                    <InputNumber />,
+                                )}
+                            </Form.Item>
+                        )
                     }
-                    <Form.Item label={<span>规则 rules <Button type="primary" icon="plus" size="small" onClick={this.addRule}/></span>}>
+                    <Form.Item label={(
+                        <span>
+                            规则 rules
+                            {' '}
+                            <Button type="primary" icon="plus" size="small" onClick={this.addRule} />
+                        </span>
+                    )}>
                         {
-                            rules.map((item, index) => {
-                                return (
-                                    <div key={item.id} style={{ border: '1px solid #ccc', padding: '5px 10px', borderRadius: 8, marginBottom: 5 }}>
-                                        <Select style={{ width: 100, marginRight: 10 }} value={item.rule} onChange={value => this.rulesChange(value, index)}>
-                                            {ruleTypes.map((item, r) => (
-                                                <Option value={item} key={r}>
-                                                    {item}
-                                                </Option>
-                                            ))}
-                                        </Select>
-                                        {
-                                            (item.rule === 'len' || item.rule === 'max' || item.rule === 'min') &&
-                                            <InputNumber style={{ marginRight: 10 }} onChange={value => this.contentChange(value, index)}/>
-                                        }
-                                        <Button type="primary" icon="close" size="small" onClick={() => this.deleteRule(index)}/>
-                                        <Input placeholder="message" onChange={e => this.messageChange(e, index)}/>
-                                    </div>
-                                );
-                            })
+                            rules.map((item, index) => (
+                                <div key={item.id} style={{ border: '1px solid #ccc', padding: '5px 10px', borderRadius: 8, marginBottom: 5 }}>
+                                    <Select style={{ width: 100, marginRight: 10 }} value={item.rule} onChange={value => this.rulesChange(value, index)}>
+                                        {ruleTypes.map((rule, r) => (
+                                            <Option value={rule} key={r}>
+                                                {rule}
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                    {
+                                        (item.rule === 'len' || item.rule === 'max' || item.rule === 'min')
+                                            && <InputNumber style={{ marginRight: 10 }} onChange={value => this.contentChange(value, index)} />
+                                    }
+                                    <Button type="primary" icon="close" size="small" onClick={() => this.deleteRule(index)} />
+                                    <Input placeholder="message" onChange={e => this.messageChange(e, index)} />
+                                </div>
+                            ))
                         }
                     </Form.Item>
                 </Form>
