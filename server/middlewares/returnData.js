@@ -8,11 +8,12 @@ function getData(ctx) {
         data.status = status;
         data.msg = msg;
         data.data = obj || {};
-        return ctx.body = data;
+        ctx.body = data;
+        // return ctx.body;
     };
 }
 
-module.exports = async function (ctx, next) {
+module.exports = async function returnData(ctx, next) {
     if (!ctx.success) {
         // 成功
         ctx.success = getData(ctx);
