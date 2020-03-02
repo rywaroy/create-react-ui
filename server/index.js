@@ -12,7 +12,7 @@ const cp = require('child_process');
 const router = require('./router');
 const createSocket = require('./socket');
 
-const version = require('../package.json').version;
+const { version } = require('../package.json');
 
 program
     .version(version);
@@ -48,5 +48,4 @@ server.listen(PORT, () => {
             cp.exec(`open ${url}`);
         }
     }
-
 });
