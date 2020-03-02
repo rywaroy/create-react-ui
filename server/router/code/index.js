@@ -9,7 +9,7 @@ const router = new Router();
  */
 router.get('/table', async ctx => {
     const { url, code } = ctx.query;
-    const base = path.join(process.cwd(), url ? url : '');
+    const base = path.join(process.cwd(), url || '');
     if (fs.existsSync(base)) {
         fs.appendFileSync(base, `\n\n${code}`, 'utf8');
         ctx.success(200, '创建成功', null);
@@ -23,7 +23,7 @@ router.get('/table', async ctx => {
  */
 router.get('/form', async ctx => {
     const { url, code } = ctx.query;
-    const base = path.join(process.cwd(), url ? url : '');
+    const base = path.join(process.cwd(), url || '');
     if (fs.existsSync(base)) {
         fs.appendFileSync(base, `\n\n${code}`, 'utf8');
         ctx.success(200, '创建成功', null);
