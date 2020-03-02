@@ -49,14 +49,14 @@ module.exports = {
     "react/no-array-index-key": 0,
     "no-plusplus": 0,
     "no-unused-expressions": 0,
-    "import/no-extraneous-dependencies": 0
+    "import/no-extraneous-dependencies": 0,
+    "global-require": 0,
   },
   settings: {
     "import/resolver": {
-      "webpack" : {
-        "config": "webpack.config.js"
-      }
+      "webpack": {
+        "config": "webpack.config.js",
+      },
     }
-    
   }
 };
