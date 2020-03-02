@@ -9,7 +9,6 @@ module.exports = function createExportVisitor(ast, variable) {
     const visitor = {
         ExportDefaultDeclaration(path) {
             if (path.node.declaration.type === 'FunctionDeclaration') {
-
                 /**
                 * 导出函数式组件
                 * @example
@@ -21,7 +20,6 @@ module.exports = function createExportVisitor(ast, variable) {
             }
 
             if (path.node.declaration.type === 'ClassDeclaration') {
-
                 /**
                 * 导出类组件
                 * @example
@@ -33,7 +31,6 @@ module.exports = function createExportVisitor(ast, variable) {
             }
 
             if (path.node.declaration.type === 'Identifier') {
-
                 /**
                  * 导出变量
                  * @example
@@ -46,7 +43,6 @@ module.exports = function createExportVisitor(ast, variable) {
             }
 
             if (path.node.declaration.type === 'CallExpression') {
-
                 /**
                  * 导出表达式
                  * @example

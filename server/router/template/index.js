@@ -15,9 +15,10 @@ const router = new Router();
  * 创建默认模板
  */
 router.get('/default', async ctx => {
-    let { url, folderName, fileName, variable } = ctx.query;
-    let base = path.join(process.cwd(), url ? url : '');
-    variable = variable ? variable : 'Template';
+    let { variable } = ctx.query;
+    const { url, folderName, fileName } = ctx.query;
+    let base = path.join(process.cwd(), url || '');
+    variable = variable || 'Template';
 
     // 创建文件夹
     if (folderName) {
@@ -36,10 +37,11 @@ router.get('/default', async ctx => {
  * 创建umi模板
  */
 router.get('/umi', async ctx => {
-    let { url, folderName, fileName, variable, namespace, oilConfig } = ctx.query;
-    let base = path.join(process.cwd(), url ? url : '');
-    variable = variable ? variable : 'Template';
-    namespace = namespace ? namespace : 'global';
+    let { variable, namespace } = ctx.query;
+    const { url, folderName, fileName, oilConfig } = ctx.query;
+    let base = path.join(process.cwd(), url || '');
+    variable = variable || 'Template';
+    namespace = namespace || 'global';
 
     // 创建文件夹
     if (folderName) {
@@ -61,8 +63,8 @@ router.get('/umi', async ctx => {
  * 创建自定义模板
  */
 router.get('/custom', async ctx => {
-    let { url, folderName, fileName, variable } = ctx.query;
-    let targetPath = path.join(process.cwd(), url ? url : '');
+    const { url, folderName, fileName, variable } = ctx.query;
+    let targetPath = path.join(process.cwd(), url || '');
     // 创建文件夹
     if (folderName) {
         targetPath = path.join(targetPath, folderName);
@@ -77,8 +79,8 @@ router.get('/custom', async ctx => {
     fs.copySync(modelPath, targetPath);
 
     if (fileName && variable) {
-        const url = path.join(targetPath, fileName);
-        const ast = babelParser.parse(fs.readFileSync(url, 'utf-8'), {
+        const targetUrl = path.join(targetPath, fileName);
+        const ast = babelParser.parse(fs.readFileSync(targetUrl, 'utf-8'), {
             sourceType: 'module',
             plugins: [
                 'classProperties',
@@ -87,7 +89,7 @@ router.get('/custom', async ctx => {
         });
         traverse(ast, createExportVisitor(ast, variable));
         const output = generate(ast);
-        fs.writeFileSync(url, output.code);
+        fs.writeFileSync(targetUrl, output.code);
     }
     ctx.success(200, '创建成功', null);
 });
