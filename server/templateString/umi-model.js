@@ -1,5 +1,4 @@
 module.exports = function umiModel(namespace, isOilConfig) {
-
     if (isOilConfig) {
         return `const initState = () => ({});
 
