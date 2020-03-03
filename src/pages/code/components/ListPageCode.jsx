@@ -11,6 +11,28 @@ class ListPageCode extends Component {
         };
     }
 
+    /**
+     * 打开ListPage文件配置
+     */
+    openListPageCode = () => {
+        this.setState({
+            configKey: Math.random(),
+        }, () => {
+            this.setState({
+                configVisible: true,
+            });
+        });
+    }
+
+    /**
+     * 关闭ListPage文件配置
+     */
+    closeListPageCode = () => {
+        this.setState({
+            configVisible: false,
+        });
+    }
+
     render() {
         const { configKey, configVisible } = this.state;
 
@@ -23,7 +45,8 @@ class ListPageCode extends Component {
                 <Modal
                     title="form组件配置"
                     key={configKey}
-                    visible={configVisible}>
+                    visible={configVisible}
+                    onCancel={this.closeListPageCode}>
                     <div />
                 </Modal>
             </div>
