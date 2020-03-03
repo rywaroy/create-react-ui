@@ -45,6 +45,7 @@ class ListPageCode extends Component {
                 <Modal
                     title="form组件配置"
                     key={configKey}
+                    maskClosable={false}
                     visible={configVisible}
                     onCancel={this.closeListPageCode}>
                     <div />
