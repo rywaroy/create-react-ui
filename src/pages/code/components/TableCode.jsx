@@ -137,6 +137,7 @@ class TableCode extends Component {
                     title="table组件配置"
                     key={configKey}
                     visible={configVisible}
+                    maskClosable={false}
                     onCancel={this.closeTableCode}
                     onOk={this.create}>
                     <Form>
@@ -198,6 +199,7 @@ class TableCode extends Component {
                     width="1200px"
                     key={codeKey}
                     visible={codeVisible}
+                    maskClosable={false}
                     onOk={this.createCode}
                     onCancel={this.closeCreateCode}
                     okText="生成代码"

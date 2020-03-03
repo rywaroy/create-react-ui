@@ -130,6 +130,7 @@ class FormCode extends Component {
                     title="form组件配置"
                     key={configKey}
                     visible={configVisible}
+                    maskClosable={false}
                     onCancel={this.closeFormCode}
                     onOk={this.create}>
                     <Form>
@@ -191,6 +192,7 @@ class FormCode extends Component {
                     width="1400px"
                     key={codeKey}
                     visible={codeVisible}
+                    maskClosable={false}
                     onOk={this.createCode}
                     onCancel={this.closeCreateCode}
                     okText="生成代码"
