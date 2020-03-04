@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, TreeSelect } from 'antd';
+import { Modal, Form, TreeSelect, Input } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 
 class ListPageCode extends Component {
@@ -69,6 +69,20 @@ class ListPageCode extends Component {
                                     treeData={folders}
                                 />,
                             )}
+                        </Form.Item>
+                        <Form.Item label="页面名字">
+                            {getFieldDecorator('name', {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: '请填写页面名字',
+                                    },
+                                    {
+                                        pattern: /^((?!\\|\/|:|\?|\*|"|<|>|\^).)*$/,
+                                        message: '请填写正确页面名字',
+                                    },
+                                ],
+                            })(<Input placeholder="请填写页面名字" />)}
                         </Form.Item>
                     </Form>
                 </Modal>
