@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, TreeSelect, Input } from 'antd';
+import { Modal, Form, TreeSelect, Input, Button } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 
 class ListPageCode extends Component {
@@ -99,6 +99,9 @@ class ListPageCode extends Component {
                                     ],
                                 })(<Input placeholder="请输入model namespace" />)
                             }
+                        </Form.Item>
+                        <Form.Item label="页面配置">
+                            <Button type="primary">设置</Button>
                         </Form.Item>
                     </Form>
                 </Modal>
