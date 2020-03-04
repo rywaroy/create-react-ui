@@ -84,6 +84,22 @@ class ListPageCode extends Component {
                                 ],
                             })(<Input placeholder="请填写页面名字" />)}
                         </Form.Item>
+                        <Form.Item label="namespace">
+                            {
+                                getFieldDecorator('namespace', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '请填写页面空间命名',
+                                        },
+                                        {
+                                            pattern: /^[a-zA-Z$_][a-zA-Z\d_]*$/,
+                                            message: '请填写正确空间命名',
+                                        },
+                                    ],
+                                })(<Input placeholder="请输入model namespace" />)
+                            }
+                        </Form.Item>
                     </Form>
                 </Modal>
             </div>
