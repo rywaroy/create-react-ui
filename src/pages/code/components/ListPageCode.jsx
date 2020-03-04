@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal } from 'antd';
+import { Modal, Form, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 
 class ListPageCode extends Component {
@@ -35,6 +35,8 @@ class ListPageCode extends Component {
 
     render() {
         const { configKey, configVisible } = this.state;
+        const { folders } = this.props;
+        const { getFieldDecorator } = this.props.form;
 
         return (
             <div>
@@ -48,7 +50,27 @@ class ListPageCode extends Component {
                     maskClosable={false}
                     visible={configVisible}
                     onCancel={this.closeListPageCode}>
-                    <div />
+                    <Form>
+                        <Form.Item label="导出文件夹">
+                            {getFieldDecorator('url', {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: '请填写导出文件夹',
+                                    },
+                                ],
+                            })(
+                                <TreeSelect
+                                    showSearch
+                                    style={{ width: '100%' }}
+                                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                    placeholder="请选择路径"
+                                    allowClear
+                                    treeData={folders}
+                                />,
+                            )}
+                        </Form.Item>
+                    </Form>
                 </Modal>
             </div>
 
@@ -56,4 +78,4 @@ class ListPageCode extends Component {
     }
 }
 
-export default ListPageCode;
+export default Form.create()(ListPageCode);
