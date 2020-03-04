@@ -33,6 +33,17 @@ class ListPageCode extends Component {
         });
     }
 
+    /**
+     * 生成页面
+     */
+    sendListPageCode = () => {
+        this.props.form.validateFields((err) => {
+            if (!err) {
+                this.closeListPageCode();
+            }
+        });
+    }
+
     render() {
         const { configKey, configVisible } = this.state;
         const { folders } = this.props;
@@ -49,7 +60,8 @@ class ListPageCode extends Component {
                     key={configKey}
                     maskClosable={false}
                     visible={configVisible}
-                    onCancel={this.closeListPageCode}>
+                    onCancel={this.closeListPageCode}
+                    onOk={this.sendListPageCode}>
                     <Form>
                         <Form.Item label="导出文件夹">
                             {getFieldDecorator('url', {
