@@ -28,13 +28,13 @@ class Code extends Component {
     };
 
     render() {
-        const { files } = this.props.global;
+        const { files, folders } = this.props.global;
         return (
             <div>
                 <div className="template-list">
                     <TableCode files={files} updateFiles={this.updateFiles} />
                     <FormCode files={files} updateFiles={this.updateFiles} />
-                    <ListPageCode />
+                    <ListPageCode folders={folders} />
                 </div>
             </div>
         );
