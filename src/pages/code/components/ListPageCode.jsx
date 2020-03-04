@@ -56,7 +56,7 @@ class ListPageCode extends Component {
                     imgClassName="listPageImg"
                     add={this.openListPageCode} />
                 <Modal
-                    title="form组件配置"
+                    title="列表页面组件配置"
                     key={configKey}
                     maskClosable={false}
                     visible={configVisible}
