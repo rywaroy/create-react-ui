@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Input } from 'antd';
+import { Modal, Input, Button } from 'antd';
 import styles from '../index.less';
 
 class ListPageModal extends Component {
@@ -29,7 +29,7 @@ class ListPageModal extends Component {
 
     render() {
         const { visible, onCancel } = this.props;
-        const { title, buttonTitle } = this.state;
+        const { title, buttonTitle, buttons } = this.state;
         return (
             <Modal
                 visible={visible}
@@ -40,6 +40,11 @@ class ListPageModal extends Component {
                     <div className={styles.title}>
                         <Input placeholder="页面标题" className={styles.titleInput} value={title} onChange={e => this.setState({ title: e.target.value })} />
                         <div>
+                            {
+                                buttons.map((item, index) => (
+                                    <Button type="primary" key={index} className={styles.button}>{item}</Button>
+                                ))
+                            }
                             <Input placeholder="回车添加操作按钮" className={styles.buttonInput} onChange={e => this.setState({ buttonTitle: e.target.value })} onKeyDown={this.addButton} value={buttonTitle} />
                         </div>
                     </div>
