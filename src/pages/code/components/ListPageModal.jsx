@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Modal, Input, Button } from 'antd';
+import { Modal, Input, Button, Popover } from 'antd';
 import styles from '../index.less';
+
 
 class ListPageModal extends Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class ListPageModal extends Component {
     }
 
     /**
-     * 添加
+     * 添加按钮
      */
     addButton = e => {
         if (e.keyCode === 13) {
@@ -25,6 +26,15 @@ class ListPageModal extends Component {
                 buttonTitle: '',
             });
         }
+    }
+
+    /**
+     * 删除按钮
+     */
+    deleteButton = index => {
+        const buttons = [...this.state.buttons];
+        buttons.splice(index, 1);
+        this.setState({ buttons });
     }
 
     render() {
@@ -42,7 +52,9 @@ class ListPageModal extends Component {
                         <div>
                             {
                                 buttons.map((item, index) => (
-                                    <Button type="primary" key={index} className={styles.button}>{item}</Button>
+                                    <Popover trigger="hover" content={<span className={styles.deleteButton} onClick={() => this.deleteButton(index)}>删除</span>} key={index}>
+                                        <Button type="primary" className={styles.button}>{item}</Button>
+                                    </Popover>
                                 ))
                             }
                             <Input placeholder="回车添加操作按钮" className={styles.buttonInput} onChange={e => this.setState({ buttonTitle: e.target.value })} onKeyDown={this.addButton} value={buttonTitle} />
