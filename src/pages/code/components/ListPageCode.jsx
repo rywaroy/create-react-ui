@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Form, TreeSelect, Input, Button } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
+import ListPageModal from './ListPageModal';
 
 class ListPageCode extends Component {
     constructor(props) {
@@ -8,6 +9,8 @@ class ListPageCode extends Component {
         this.state = {
             configVisible: false,
             configKey: Math.random(),
+            lpVisible: false,
+            lpKey: Math.random(),
         };
     }
 
@@ -45,7 +48,7 @@ class ListPageCode extends Component {
     }
 
     render() {
-        const { configKey, configVisible } = this.state;
+        const { configKey, configVisible, lpVisible, lpKey } = this.state;
         const { folders } = this.props;
         const { getFieldDecorator } = this.props.form;
 
@@ -117,6 +120,9 @@ class ListPageCode extends Component {
                         </Form.Item>
                     </Form>
                 </Modal>
+                <ListPageModal
+                    visible={lpVisible}
+                    key={lpKey} />
             </div>
 
         );
