@@ -47,6 +47,15 @@ class ListPageCode extends Component {
         });
     }
 
+    /**
+     * 打开列表页面配置
+     */
+    openListPageModal = () => {
+        this.setState({
+            lpVisible: true,
+        });
+    }
+
     render() {
         const { configKey, configVisible, lpVisible, lpKey } = this.state;
         const { folders } = this.props;
@@ -116,7 +125,7 @@ class ListPageCode extends Component {
                             }
                         </Form.Item>
                         <Form.Item label="页面配置">
-                            <Button type="primary">设置</Button>
+                            <Button type="primary" onClick={this.openListPageModal}>设置</Button>
                         </Form.Item>
                     </Form>
                 </Modal>
