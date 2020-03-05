@@ -10,12 +10,13 @@ class ListPageModal extends Component {
     }
 
     render() {
-        const { visible } = this.props;
+        const { visible, onCancel } = this.props;
         return (
             <Modal
                 visible={visible}
                 title="配置"
-                width="1200px">
+                width="1200px"
+                onCancel={() => { onCancel(); }}>
                 <div />
             </Modal>
         );

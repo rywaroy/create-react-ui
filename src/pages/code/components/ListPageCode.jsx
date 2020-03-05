@@ -56,6 +56,15 @@ class ListPageCode extends Component {
         });
     }
 
+    /**
+     * 关闭列表页面配置
+     */
+    closeListPageModal = () => {
+        this.setState({
+            lpVisible: false,
+        });
+    }
+
     render() {
         const { configKey, configVisible, lpVisible, lpKey } = this.state;
         const { folders } = this.props;
@@ -131,7 +140,8 @@ class ListPageCode extends Component {
                 </Modal>
                 <ListPageModal
                     visible={lpVisible}
-                    key={lpKey} />
+                    key={lpKey}
+                    onCancel={this.closeListPageModal} />
             </div>
 
         );
