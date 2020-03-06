@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Input, Button, Popover } from 'antd';
-import styles from '../index.less';
+import styles from './index.less';
 
 
 class ListPageModal extends Component {
