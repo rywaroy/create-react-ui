@@ -8,7 +8,6 @@ class ListPageFilter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            formOption: [],
             visibleSetForm: false,
             setFormKey: Math.random(),
         };
@@ -45,28 +44,24 @@ class ListPageFilter extends Component {
      * 删除item
      */
     deleteItem = index => {
-        const formOption = [...this.state.formOption];
+        const formOption = [...this.props.formOption];
         formOption.splice(index, 1);
-        this.setState({
-            formOption,
-        });
+        this.props.getFormOption(formOption);
     }
 
     /**
      * 添加
      */
     add = values => {
-        console.log(values);
-        const formOption = [...this.state.formOption];
+        const formOption = [...this.props.formOption];
         formOption.push(values);
-        this.setState({
-            formOption,
-        });
+        this.props.getFormOption(formOption);
         this.closeAdd();
     }
 
     render() {
-        const { formOption, visibleSetForm, setFormKey } = this.state;
+        const { visibleSetForm, setFormKey } = this.state;
+        const { formOption } = this.props;
         return (
             <div style={{ marginTop: '20px' }}>
                 <div>
@@ -80,11 +75,6 @@ class ListPageFilter extends Component {
                         wrappedComponentRef={el => { this.generateForm = el; }}
                         deleteItem={this.deleteItem}
                     />
-                    {formOption.length > 0 && (
-                        <Button type="primary" onClick={this.handleSubmit} className={styles.testButton}>
-                            测试rules
-                        </Button>
-                    )}
                 </div>
                 <SetForm
                     visibleSetForm={visibleSetForm}
@@ -92,7 +82,7 @@ class ListPageFilter extends Component {
                     onCancel={this.closeAdd}
                     onOk={this.add}
                     zIndex="1002"
-                    disableFormItemLayout
+                    isFilterForm
                 />
             </div>
         );

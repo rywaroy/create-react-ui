@@ -11,13 +11,14 @@ class ListPageModal extends Component {
         this.state = {
             title: '', // 页面标题
             buttons: [], // 页面操作按钮
+            formOption: [], // 表单配置
         };
     }
 
 
     render() {
         const { visible, onCancel } = this.props;
-        const { title, buttons } = this.state;
+        const { title, buttons, formOption } = this.state;
         return (
             <Modal
                 visible={visible}
@@ -30,7 +31,9 @@ class ListPageModal extends Component {
                         buttons={buttons}
                         getTitle={text => this.setState({ title: text })}
                         getButtons={list => this.setState({ buttons: list })} />
-                    <ListPageFilter />
+                    <ListPageFilter
+                        formOption={formOption}
+                        getFormOption={values => this.setState({ formOption: values })} />
                 </div>
             </Modal>
         );
