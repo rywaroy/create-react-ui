@@ -54,7 +54,9 @@ class SetForm extends Component {
             showCol: false,
             rules: [],
         };
-        if (this.props.disableFormItemLayout) {
+
+        // 判断是否是给筛选表单组件的配置的Form，筛选表单不用选择formItemLayoutOptions以及rules
+        if (this.props.isFilterForm) {
             formItemLayoutOptions.forEach(item => { item.disabled = true; });
         }
     }
@@ -190,7 +192,7 @@ class SetForm extends Component {
 
 
     render() {
-        const { visibleSetForm } = this.props;
+        const { visibleSetForm, isFilterForm } = this.props;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 8 },
@@ -295,33 +297,39 @@ class SetForm extends Component {
                             </Form.Item>
                         )
                     }
-                    <Form.Item label={(
-                        <span>
-                            规则 rules
-                            {' '}
-                            <Button type="primary" icon="plus" size="small" onClick={this.addRule} />
-                        </span>
-                    )}>
-                        {
-                            rules.map((item, index) => (
-                                <div key={item.id} style={{ border: '1px solid #ccc', padding: '5px 10px', borderRadius: 8, marginBottom: 5 }}>
-                                    <Select style={{ width: 100, marginRight: 10 }} value={item.rule} onChange={value => this.rulesChange(value, index)}>
-                                        {ruleTypes.map((rule, r) => (
-                                            <Option value={rule} key={r}>
-                                                {rule}
-                                            </Option>
-                                        ))}
-                                    </Select>
-                                    {
-                                        (item.rule === 'len' || item.rule === 'max' || item.rule === 'min')
-                                            && <InputNumber style={{ marginRight: 10 }} onChange={value => this.contentChange(value, index)} />
-                                    }
-                                    <Button type="primary" icon="close" size="small" onClick={() => this.deleteRule(index)} />
-                                    <Input placeholder="message" onChange={e => this.messageChange(e, index)} />
-                                </div>
-                            ))
-                        }
-                    </Form.Item>
+                    {
+                        !isFilterForm
+                        && (
+                            <Form.Item label={(
+                                <span>
+                                    规则 rules
+                                    {' '}
+                                    <Button type="primary" icon="plus" size="small" onClick={this.addRule} />
+                                </span>
+                            )}>
+                                {
+                                    rules.map((item, index) => (
+                                        <div key={item.id} style={{ border: '1px solid #ccc', padding: '5px 10px', borderRadius: 8, marginBottom: 5 }}>
+                                            <Select style={{ width: 100, marginRight: 10 }} value={item.rule} onChange={value => this.rulesChange(value, index)}>
+                                                {ruleTypes.map((rule, r) => (
+                                                    <Option value={rule} key={r}>
+                                                        {rule}
+                                                    </Option>
+                                                ))}
+                                            </Select>
+                                            {
+                                                (item.rule === 'len' || item.rule === 'max' || item.rule === 'min')
+                                                && <InputNumber style={{ marginRight: 10 }} onChange={value => this.contentChange(value, index)} />
+                                            }
+                                            <Button type="primary" icon="close" size="small" onClick={() => this.deleteRule(index)} />
+                                            <Input placeholder="message" onChange={e => this.messageChange(e, index)} />
+                                        </div>
+                                    ))
+                                }
+                            </Form.Item>
+                        )
+
+                    }
                 </Form>
             </Modal>
         );
