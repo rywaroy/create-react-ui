@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'antd';
 import GenerateForm from '@/components/GenerateForm';
+import SetForm from '@/components/CreateForm/SetForm';
 import styles from './index.less';
 
 class ListPageFilter extends Component {
@@ -8,14 +9,9 @@ class ListPageFilter extends Component {
         super(props);
         this.state = {
             formOption: [],
+            visibleSetForm: false,
+            setFormKey: Math.random(),
         };
-    }
-
-    /**
-     * 打开添加弹窗
-     */
-    openAdd = () => {
-
     }
 
     /**
@@ -26,8 +22,27 @@ class ListPageFilter extends Component {
         this.generateForm.verify();
     };
 
+    /**
+     * 打开添加弹窗
+     */
+    openAdd = () => {
+        this.setState({
+            visibleSetForm: true,
+            setFormKey: Math.random(),
+        });
+    }
+
+    /**
+     * 关闭添加弹窗
+     */
+    closeAdd = () => {
+        this.setState({
+            visibleSetForm: false,
+        });
+    }
+
     render() {
-        const { formOption } = this.state;
+        const { formOption, visibleSetForm, setFormKey } = this.state;
         return (
             <div style={{ marginTop: '20px' }}>
                 <div>
@@ -47,7 +62,13 @@ class ListPageFilter extends Component {
                         </Button>
                     )}
                 </div>
-
+                <SetForm
+                    visibleSetForm={visibleSetForm}
+                    key={setFormKey}
+                    onCancel={this.closeAdd}
+                    onOk={this.add}
+                    zIndex="1002"
+                />
             </div>
         );
     }
