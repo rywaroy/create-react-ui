@@ -41,6 +41,30 @@ class ListPageFilter extends Component {
         });
     }
 
+    /**
+     * 删除item
+     */
+    deleteItem = index => {
+        const formOption = [...this.state.formOption];
+        formOption.splice(index, 1);
+        this.setState({
+            formOption,
+        });
+    }
+
+    /**
+     * 添加
+     */
+    add = values => {
+        console.log(values);
+        const formOption = [...this.state.formOption];
+        formOption.push(values);
+        this.setState({
+            formOption,
+        });
+        this.closeAdd();
+    }
+
     render() {
         const { formOption, visibleSetForm, setFormKey } = this.state;
         return (
@@ -68,6 +92,7 @@ class ListPageFilter extends Component {
                     onCancel={this.closeAdd}
                     onOk={this.add}
                     zIndex="1002"
+                    disableFormItemLayout
                 />
             </div>
         );
