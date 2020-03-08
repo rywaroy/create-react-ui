@@ -54,6 +54,9 @@ class SetForm extends Component {
             showCol: false,
             rules: [],
         };
+        if (this.props.disableFormItemLayout) {
+            formItemLayoutOptions.forEach(item => { item.disabled = true; });
+        }
     }
 
     setForm = () => {
