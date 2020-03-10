@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Modal } from 'antd';
+import CreateTable from '@/components/CreateTable';
 import ListPageHeader from './ListPageHeader';
 import ListPageFilter from './ListPageFilter';
-import ListPageTable from './ListPageTable';
 import styles from './index.less';
 
 
@@ -14,6 +14,18 @@ class ListPageModal extends Component {
             buttons: [], // 页面操作按钮
             formOption: [], // 表单配置
         };
+    }
+
+    tableCode = '' // 表格代码
+
+    tableColumns = [] // 表格配置
+
+    getTableCode = code => {
+        this.tableCode = code;
+    }
+
+    getTableColumns = columns => {
+        this.tableColumns = columns;
     }
 
 
@@ -35,7 +47,10 @@ class ListPageModal extends Component {
                     <ListPageFilter
                         formOption={formOption}
                         getFormOption={values => this.setState({ formOption: values })} />
-                    <ListPageTable />
+                    <CreateTable
+                        isEditVariable={false}
+                        getCode={this.getTableCode}
+                        getColumns={this.getTableColumns} />
                 </div>
             </Modal>
         );
