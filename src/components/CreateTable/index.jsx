@@ -281,7 +281,9 @@ class CreateTable extends Component {
             .replace(/"(\(\).*\))"/g, (a, b) => b)
             .replace(/\\"(opt-link|mr10|_blank|\/)\\"/g, (a, b) => `"${b}"`);
         s = `export function ${this.state.variable}(_self) { return ${s}; }`;
-        this.props.getCode(s);
+        const { getCode, getColumns } = this.props;
+        getCode && getCode(s);
+        getColumns && getColumns(columns);
     }
 
     /**
