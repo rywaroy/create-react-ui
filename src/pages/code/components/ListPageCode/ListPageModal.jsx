@@ -20,14 +20,6 @@ class ListPageModal extends Component {
 
     tableColumns = [] // 表格配置
 
-    getTableCode = code => {
-        this.tableCode = code;
-    }
-
-    getTableColumns = columns => {
-        this.tableColumns = columns;
-    }
-
 
     render() {
         const { visible, onCancel } = this.props;
@@ -49,8 +41,8 @@ class ListPageModal extends Component {
                         getFormOption={values => this.setState({ formOption: values })} />
                     <CreateTable
                         isEditVariable={false}
-                        getCode={this.getTableCode}
-                        getColumns={this.getTableColumns} />
+                        getCode={code => { this.tableCode = code; }}
+                        getColumns={columns => { this.tableColumns = columns; }} />
                 </div>
             </Modal>
         );
