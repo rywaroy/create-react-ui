@@ -63,7 +63,7 @@ class ListPageFilter extends Component {
         const { visibleSetForm, setFormKey } = this.state;
         const { formOption } = this.props;
         return (
-            <div style={{ marginTop: '20px' }}>
+            <div className={styles.filterBox}>
                 <div>
                     筛选表单：
                     <Button type="primary" onClick={this.openAdd}>添加</Button>
