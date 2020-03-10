@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal } from 'antd';
 import ListPageHeader from './ListPageHeader';
 import ListPageFilter from './ListPageFilter';
+import ListPageTable from './ListPageTable';
 import styles from './index.less';
 
 
@@ -34,6 +35,7 @@ class ListPageModal extends Component {
                     <ListPageFilter
                         formOption={formOption}
                         getFormOption={values => this.setState({ formOption: values })} />
+                    <ListPageTable />
                 </div>
             </Modal>
         );
