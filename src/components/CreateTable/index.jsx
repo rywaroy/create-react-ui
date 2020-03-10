@@ -311,6 +311,8 @@ class CreateTable extends Component {
             variable,
         } = this.state;
 
+        const { isEditVariable } = this.props;
+
         return (
             <div className="indexWrap">
                 <Button
@@ -327,8 +329,17 @@ class CreateTable extends Component {
                 >
                     添加操作
                 </Button>
-                变量名：
-                <Input placeholder="变量名" style={{ margin: '20px 0', width: '200px' }} value={variable} onChange={this.changeVariable} />
+                {
+                    isEditVariable
+                    && (
+                        <div style={{ display: 'inline-block' }}>
+                            变量名：
+                            <Input placeholder="变量名" style={{ margin: '20px 0', width: '200px' }} value={variable} onChange={this.changeVariable} />
+                        </div>
+                    )
+
+                }
+
                 <Table columns={columns} dataSource={dataSource} rowKey={r => r.id} />
                 <Modal
                     title="批量添加"
@@ -364,5 +375,9 @@ class CreateTable extends Component {
         );
     }
 }
+
+CreateTable.defaultProps = {
+    isEditVariable: true,
+};
 
 export default CreateTable;
