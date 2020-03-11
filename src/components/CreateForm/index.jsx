@@ -186,7 +186,9 @@ class CreateForm extends Component {
             s = `const formItemLayout = {labelCol:{span:${labelCol}}, wrapperCol:{span:${wrapperCol}}}; ${s}`;
         }
         s = s.replace(/"(formItemLayout)"/g, (a, b) => b);
-        this.props.getCode(s);
+        const { getCode, getOption } = this.props;
+        getCode && getCode(s);
+        getOption && getOption(options);
     }
 
     render() {
