@@ -203,7 +203,7 @@ class CreateForm extends Component {
             wrapperCol,
             defaultLayout,
         } = this.state;
-        const { isEditVariable } = this.props;
+        const { isEditVariable, height } = this.props;
         const formItemLayout = {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
@@ -288,14 +288,14 @@ class CreateForm extends Component {
                         )
                     }
 
-                    <div className={styles.formBox} style={{ width: `${width}px` }}>
+                    <div className={styles.formBox} style={{ width: `${width}px`, minHeight: `${height}px` }}>
                         <GenerateForm
                             formSet={formOption}
                             formType={type}
                             wrappedComponentRef={el => { this.generateForm = el; }}
                             deleteItem={this.deleteItem}
                         />
-                        {formOption.length > 0 && (
+                        {formOption.length > 0 && isEditVariable && (
                             <Button
                                 type="primary"
                                 onClick={this.handleSubmit}
@@ -311,6 +311,8 @@ class CreateForm extends Component {
                     key={setFormKey}
                     onCancel={this.closeAdd}
                     onOk={this.add}
+                    isFilterForm={!isEditVariable}
+                    zIndex="1002"
                 />
             </div>
         );
@@ -319,6 +321,7 @@ class CreateForm extends Component {
 
 CreateForm.defaultProps = {
     isEditVariable: true,
+    height: 300,
 };
 
 const CreateFormForm = Form.create()(CreateForm);
