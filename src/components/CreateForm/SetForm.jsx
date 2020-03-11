@@ -54,11 +54,6 @@ class SetForm extends Component {
             showCol: false,
             rules: [],
         };
-
-        // 判断是否是给筛选表单组件的配置的Form，筛选表单不用选择formItemLayoutOptions以及rules
-        if (this.props.isFilterForm) {
-            formItemLayoutOptions.forEach(item => { item.disabled = true; });
-        }
     }
 
     setForm = () => {
@@ -257,18 +252,30 @@ class SetForm extends Component {
                             <Radio.Group options={addonAfterOptions} />,
                         )}
                     </Form.Item>
-                    <Form.Item label="长度 span">
-                        {getFieldDecorator('span')(
-                            <InputNumber />,
-                        )}
-                    </Form.Item>
-                    <Form.Item label="布局 formItemLayout">
-                        {getFieldDecorator('formItemLayout', {
-                            initialValue: false,
-                        })(
-                            <Radio.Group options={formItemLayoutOptions} onChange={this.layoutChange} />,
-                        )}
-                    </Form.Item>
+                    {
+                        !isFilterForm
+                        && (
+                            <Form.Item label="长度 span">
+                                {getFieldDecorator('span')(
+                                    <InputNumber />,
+                                )}
+                            </Form.Item>
+                        )
+                    }
+
+                    {
+                        !isFilterForm
+                        && (
+                            <Form.Item label="布局 formItemLayout">
+                                {getFieldDecorator('formItemLayout', {
+                                    initialValue: false,
+                                })(
+                                    <Radio.Group options={formItemLayoutOptions} onChange={this.layoutChange} />,
+                                )}
+                            </Form.Item>
+                        )
+                    }
+
                     {
                         showCol
                         && (
