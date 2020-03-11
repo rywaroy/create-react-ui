@@ -11,8 +11,8 @@ const typeOptions = [
 ];
 
 const variableTypeOptions = [
-    { value: 'Array', label: 'Array' },
     { value: 'Function', label: 'Function' },
+    { value: 'Array', label: 'Array' },
 ];
 
 class CreateForm extends Component {
@@ -25,7 +25,7 @@ class CreateForm extends Component {
             width: 1000, // 容器宽度
             type: 'filter', // 表单类型
             name: 'listFiltles', // 变量名
-            variableType: 'Array', // 变量类型
+            variableType: 'Function', // 变量类型
             labelCol: 8,
             wrapperCol: 16,
             span: 24,
