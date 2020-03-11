@@ -203,6 +203,7 @@ class CreateForm extends Component {
             wrapperCol,
             defaultLayout,
         } = this.state;
+        const { isEditVariable } = this.props;
         const formItemLayout = {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
@@ -220,67 +221,73 @@ class CreateForm extends Component {
                     </Button>
                 </div>
                 <div className={`${styles.formWrap} clearfix`}>
-                    <div className={styles.formOption}>
-                        <Form {...formItemLayout}>
-                            <Form.Item label="表单类型">
-                                <Radio.Group
-                                    options={typeOptions}
-                                    onChange={this.typeChange}
-                                    value={type}
-                                />
-                            </Form.Item>
-                            <Form.Item label="容器宽度">
-                                <InputNumber
-                                    step={100}
-                                    max={1300}
-                                    min={500}
-                                    onChange={value => this.setState({ width: value })}
-                                    value={width}
-                                />
-                            </Form.Item>
-                            <Form.Item label="变量名">
-                                <Input
-                                    style={{ width: 200 }}
-                                    onChange={e => this.setState({ name: e.target.value })}
-                                    value={name}
-                                />
-                            </Form.Item>
-                            <Form.Item label="变量类型">
-                                <Radio.Group
-                                    options={variableTypeOptions}
-                                    onChange={e => this.setState({ variableType: e.target.value })}
-                                    value={variableType}
-                                />
-                            </Form.Item>
-                            {defaultLayout && (
-                                <Form.Item label="默认span">
-                                    <InputNumber
-                                        style={{ width: 200 }}
-                                        onChange={this.spanChange}
-                                        value={span}
-                                    />
-                                </Form.Item>
-                            )}
-                            {defaultLayout && (
-                                <Form.Item label="默认labelCol">
-                                    <InputNumber
-                                        style={{ width: 200 }}
-                                        onChange={this.labelColChange}
-                                        value={labelCol}
-                                    />
-                                </Form.Item>
-                            )}
-                            {defaultLayout && (
-                                <Form.Item label="默认wrapperCol">
-                                    <InputNumber
-                                        style={{ width: 200 }}
-                                        onChange={this.wrapperColChange}
-                                        value={wrapperCol}
-                                    />
-                                </Form.Item>
-                            )}
-                        </Form>
-                    </div>
+                    {
+                        isEditVariable
+                        && (
+                            <div className={styles.formOption}>
+                                <Form {...formItemLayout}>
+                                    <Form.Item label="表单类型">
+                                        <Radio.Group
+                                            options={typeOptions}
+                                            onChange={this.typeChange}
+                                            value={type}
+                                        />
+                                    </Form.Item>
+                                    <Form.Item label="容器宽度">
+                                        <InputNumber
+                                            step={100}
+                                            max={1300}
+                                            min={500}
+                                            onChange={value => this.setState({ width: value })}
+                                            value={width}
+                                        />
+                                    </Form.Item>
+                                    <Form.Item label="变量名">
+                                        <Input
+                                            style={{ width: 200 }}
+                                            onChange={e => this.setState({ name: e.target.value })}
+                                            value={name}
+                                        />
+                                    </Form.Item>
+                                    <Form.Item label="变量类型">
+                                        <Radio.Group
+                                            options={variableTypeOptions}
+                                            onChange={e => this.setState({ variableType: e.target.value })}
+                                            value={variableType}
+                                        />
+                                    </Form.Item>
+                                    {defaultLayout && (
+                                        <Form.Item label="默认span">
+                                            <InputNumber
+                                                style={{ width: 200 }}
+                                                onChange={this.spanChange}
+                                                value={span}
+                                            />
+                                        </Form.Item>
+                                    )}
+                                    {defaultLayout && (
+                                        <Form.Item label="默认labelCol">
+                                            <InputNumber
+                                                style={{ width: 200 }}
+                                                onChange={this.labelColChange}
+                                                value={labelCol}
+                                            />
+                                        </Form.Item>
+                                    )}
+                                    {defaultLayout && (
+                                        <Form.Item label="默认wrapperCol">
+                                            <InputNumber
+                                                style={{ width: 200 }}
+                                                onChange={this.wrapperColChange}
+                                                value={wrapperCol}
+                                            />
+                                        </Form.Item>
+                                    )}
+                                </Form>
+                            </div>
+                        )
+                    }
+
                     <div className={styles.formBox} style={{ width: `${width}px` }}>
                         <GenerateForm
                             formSet={formOption}
@@ -309,6 +316,10 @@ class CreateForm extends Component {
         );
     }
 }
+
+CreateForm.defaultProps = {
+    isEditVariable: true,
+};
 
 const CreateFormForm = Form.create()(CreateForm);
 export default CreateFormForm;
