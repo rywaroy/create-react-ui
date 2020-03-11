@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Modal } from 'antd';
 import CreateTable from '@/components/CreateTable';
+import CreateForm from '@/components/CreateForm';
 import ListPageHeader from './ListPageHeader';
-import ListPageFilter from './ListPageFilter';
 import styles from './index.less';
 
 
@@ -12,7 +12,6 @@ class ListPageModal extends Component {
         this.state = {
             title: '', // 页面标题
             buttons: [], // 页面操作按钮
-            formOption: [], // 表单配置
         };
     }
 
@@ -20,10 +19,12 @@ class ListPageModal extends Component {
 
     tableColumns = [] // 表格配置
 
+    formCode = '' // filter表单代码
+
 
     render() {
         const { visible, onCancel } = this.props;
-        const { title, buttons, formOption } = this.state;
+        const { title, buttons } = this.state;
         return (
             <Modal
                 visible={visible}
@@ -36,9 +37,10 @@ class ListPageModal extends Component {
                         buttons={buttons}
                         getTitle={text => this.setState({ title: text })}
                         getButtons={list => this.setState({ buttons: list })} />
-                    <ListPageFilter
-                        formOption={formOption}
-                        getFormOption={values => this.setState({ formOption: values })} />
+                    <CreateForm
+                        isEditVariable={false}
+                        height={150}
+                        getCode={code => { this.formCode = code; }} />
                     <CreateTable
                         isEditVariable={false}
                         getCode={code => { this.tableCode = code; }}
