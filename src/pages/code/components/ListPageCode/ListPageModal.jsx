@@ -45,10 +45,12 @@ class ListPageModal extends Component {
                             height={150}
                             getCode={code => { this.formCode = code; }} />
                     </div>
-                    <CreateTable
-                        isEditVariable={false}
-                        getCode={code => { this.tableCode = code; }}
-                        getColumns={columns => { this.tableColumns = columns; }} />
+                    <div className={styles.listPageBox}>
+                        <CreateTable
+                            isEditVariable={false}
+                            getCode={code => { this.tableCode = code; }}
+                            getColumns={columns => { this.tableColumns = columns; }} />
+                    </div>
                 </div>
             </Modal>
         );
