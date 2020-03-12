@@ -33,6 +33,7 @@ class ListPageModal extends Component {
                 onCancel={() => { onCancel(); }}>
                 <div className={styles.listPage}>
                     <div className={styles.listPageBox}>
+                        <span className={styles.listPageTag}>页面头部</span>
                         <ListPageHeader
                             title={title}
                             buttons={buttons}
@@ -40,12 +41,14 @@ class ListPageModal extends Component {
                             getButtons={list => this.setState({ buttons: list })} />
                     </div>
                     <div className={styles.listPageBox}>
+                        <span className={styles.listPageTag}>筛选</span>
                         <CreateForm
                             isEditVariable={false}
                             height={150}
                             getCode={code => { this.formCode = code; }} />
                     </div>
                     <div className={styles.listPageBox}>
+                        <span className={styles.listPageTag}>表格</span>
                         <CreateTable
                             isEditVariable={false}
                             getCode={code => { this.tableCode = code; }}

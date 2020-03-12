@@ -1,6 +1,6 @@
 .listPage {
     .title {
-        height: 40px;
+        height: 60px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -43,4 +43,22 @@
     border-radius: 8px;
     border: 1px dashed #aaa;
     margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+    .listPageTag {
+        position: absolute;
+        font-size: 14px;
+        line-height: 18px;
+        padding: 0 5px;
+        right: 0;
+        top: 0;
+        background: #1890ff;
+        color: #fff;
+        border-radius: 2px;
+        opacity: 0;
+        transition: opacity .3s;
+    }
+    &:hover .listPageTag{
+        opacity: 1;
+    }
 }
