@@ -32,11 +32,14 @@ class ListPageModal extends Component {
                 width="1200px"
                 onCancel={() => { onCancel(); }}>
                 <div className={styles.listPage}>
-                    <ListPageHeader
-                        title={title}
-                        buttons={buttons}
-                        getTitle={text => this.setState({ title: text })}
-                        getButtons={list => this.setState({ buttons: list })} />
+                    <div className={styles.listPageBox}>
+                        <ListPageHeader
+                            title={title}
+                            buttons={buttons}
+                            getTitle={text => this.setState({ title: text })}
+                            getButtons={list => this.setState({ buttons: list })} />
+                    </div>
+
                     <CreateForm
                         isEditVariable={false}
                         height={150}
