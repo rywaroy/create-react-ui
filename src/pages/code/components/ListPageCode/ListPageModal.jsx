@@ -39,11 +39,12 @@ class ListPageModal extends Component {
                             getTitle={text => this.setState({ title: text })}
                             getButtons={list => this.setState({ buttons: list })} />
                     </div>
-
-                    <CreateForm
-                        isEditVariable={false}
-                        height={150}
-                        getCode={code => { this.formCode = code; }} />
+                    <div className={styles.listPageBox}>
+                        <CreateForm
+                            isEditVariable={false}
+                            height={150}
+                            getCode={code => { this.formCode = code; }} />
+                    </div>
                     <CreateTable
                         isEditVariable={false}
                         getCode={code => { this.tableCode = code; }}
