@@ -31,6 +31,14 @@ class CreateForm extends Component {
             span: 24,
             defaultLayout: false,
         };
+
+        // 配置默认的type
+        if (this.props.type) {
+            this.state.type = this.props.type;
+            if (this.props.type === 'modal') {
+                this.state.width = 520;
+            }
+        }
     }
 
     openAdd = () => {
