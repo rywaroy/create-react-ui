@@ -3,6 +3,7 @@ import { Modal } from 'antd';
 import CreateTable from '@/components/CreateTable';
 import CreateForm from '@/components/CreateForm';
 import ListPageHeader from './ListPageHeader';
+import ListPagePopup from './ListPagePopup';
 import styles from './index.less';
 
 
@@ -30,6 +31,7 @@ class ListPageModal extends Component {
                 visible={visible}
                 title="配置"
                 width="1200px"
+                maskClosable={false}
                 onCancel={() => { onCancel(); }}>
                 <div className={styles.listPage}>
                     <div className={styles.listPageBox}>
@@ -53,6 +55,10 @@ class ListPageModal extends Component {
                             isEditVariable={false}
                             getCode={code => { this.tableCode = code; }}
                             getColumns={columns => { this.tableColumns = columns; }} />
+                    </div>
+                    <div className={styles.listPageBox}>
+                        <span className={styles.listPageTag}>弹窗</span>
+                        <ListPagePopup />
                     </div>
                 </div>
             </Modal>
