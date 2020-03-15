@@ -183,15 +183,15 @@ class CreateForm extends Component {
             return item;
         });
         let s = JSON.stringify(array);
-
+        let formItemLayoutCode = '';
+        if (isVar) {
+            formItemLayoutCode = `const formItemLayout = {labelCol:{span:${labelCol}}, wrapperCol:{span:${wrapperCol}}};`;
+        }
         if (variableType === 'Array') {
-            s = `export const ${name} = ${s};`;
+            s = `${formItemLayoutCode} export const ${name} = ${s};`;
         }
         if (variableType === 'Function') {
-            s = `export function ${name}(_self) { return ${s}; }`;
-        }
-        if (isVar) {
-            s = `const formItemLayout = {labelCol:{span:${labelCol}}, wrapperCol:{span:${wrapperCol}}}; ${s}`;
+            s = `export function ${name}(_self) {${formItemLayoutCode} return ${s}; }`;
         }
         s = s.replace(/"(formItemLayout)"/g, (a, b) => b);
         const { getCode, getOption } = this.props;
