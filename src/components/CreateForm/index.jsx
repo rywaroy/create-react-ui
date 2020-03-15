@@ -314,7 +314,7 @@ class CreateForm extends Component {
                     onCancel={this.closeAdd}
                     onOk={this.add}
                     isFilterForm={!isEditVariable}
-                    zIndex="1002"
+                    zIndex={1002}
                 />
             </div>
         );

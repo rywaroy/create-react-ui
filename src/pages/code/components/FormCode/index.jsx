@@ -196,7 +196,7 @@ class FormCode extends Component {
                     onOk={this.createCode}
                     onCancel={this.closeCreateCode}
                     okText="生成代码"
-                    zIndex="1002">
+                    zIndex={1002}>
                     <CreateForm
                         wrappedComponentRef={ref => { this.createForm = ref; }}
                         getCode={this.getCode}

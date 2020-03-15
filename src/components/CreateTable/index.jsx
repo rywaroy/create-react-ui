@@ -348,7 +348,7 @@ class CreateTable extends Component {
                     visible={visibleAdd}
                     onOk={this.add}
                     onCancel={this.closeAdd}
-                    zIndex="1003"
+                    zIndex={1003}
                 >
                     <InputNumber
                         style={{ width: '400px' }}
@@ -363,7 +363,7 @@ class CreateTable extends Component {
                     {...setColumnObj}
                     onOk={this.setColumn}
                     onCancel={this.closeSetColumn}
-                    zIndex="1003"
+                    zIndex={1003}
                 />
                 <SetOpt
                     key={optKey}
@@ -371,7 +371,7 @@ class CreateTable extends Component {
                     {...setOptObj}
                     onOk={this.opt}
                     onCancel={this.closeOpt}
-                    zIndex="1003"
+                    zIndex={1003}
                 />
             </div>
         );

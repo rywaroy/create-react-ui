@@ -81,7 +81,7 @@ class ListPageFilter extends Component {
                     key={setFormKey}
                     onCancel={this.closeAdd}
                     onOk={this.add}
-                    zIndex="1002"
+                    zIndex={1002}
                     isFilterForm
                 />
             </div>
