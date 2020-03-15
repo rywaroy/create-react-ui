@@ -203,7 +203,7 @@ class TableCode extends Component {
                     onOk={this.createCode}
                     onCancel={this.closeCreateCode}
                     okText="生成代码"
-                    zIndex="1002">
+                    zIndex={1002}>
                     <CreateTable
                         ref={ref => { this.createTable = ref; }}
                         getCode={this.getCode}
