@@ -114,7 +114,7 @@ class GenerateForm extends React.Component {
 
     render() {
         /* formSet代表form表单的配置 */
-        const { className, formSet, form, gutter = 0, formType } = this.props;
+        const { className, formSet, form, gutter = 0, formType, isEdit } = this.props;
         const { getFieldDecorator } = form;
 
         return (
@@ -171,7 +171,11 @@ class GenerateForm extends React.Component {
 
                                 return (
                                     <Col span={span} key={key} className={colClass}>
-                                        <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
+                                        {
+                                            isEdit
+                                            && <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
+                                        }
+
                                         <FormItem label={label} colon={colon} {...formItemLayout}>
                                             {getFieldDecorator(name, realOptions)(
                                                 <WrappedComponent {...defaultProps} {...props}>
@@ -224,5 +228,9 @@ class GenerateForm extends React.Component {
         );
     }
 }
+
+GenerateForm.defaultProps = {
+    isEdit: true,
+};
 
 export default Form.create()(GenerateForm);
