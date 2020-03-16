@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'antd';
 import CreateForm from '@/components/CreateForm';
+import GenerateForm from '@/components/GenerateForm';
+import styles from './index.less';
 
 class ListPagePopup extends Component {
     constructor(props) {
@@ -27,6 +29,9 @@ class ListPagePopup extends Component {
         return (
             <div>
                 <Button type="primary" onClick={this.addPopup}>添加弹窗</Button>
+                <div className={styles.popupBox}>
+                    <GenerateForm isEdit={false} />
+                </div>
                 <Modal
                     title="popup组件配置"
                     width="1400px"
