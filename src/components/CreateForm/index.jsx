@@ -168,7 +168,7 @@ class CreateForm extends Component {
      * 生成代码
      */
     create() {
-        const { formOption, name, variableType, labelCol, wrapperCol } = this.state;
+        const { formOption, name, variableType, labelCol, wrapperCol, width } = this.state;
         if (formOption.length === 0) {
             return;
         }
@@ -184,6 +184,17 @@ class CreateForm extends Component {
         });
         let s = JSON.stringify(array);
         let formItemLayoutCode = '';
+
+        // 用来展示form的对象
+        const displayOption = array.map(item => {
+            if (item.formItemLayout === 'formItemLayout') {
+                item.formItemLayout = {
+                    label: { span: labelCol },
+                    wrapperCol: { span: wrapperCol },
+                };
+            }
+            return item;
+        });
         if (isVar) {
             formItemLayoutCode = `const formItemLayout = {labelCol:{span:${labelCol}}, wrapperCol:{span:${wrapperCol}}};`;
         }
@@ -198,7 +209,12 @@ class CreateForm extends Component {
         getCode && getCode(s);
         getFormObject && getFormObject({
             code: s,
-            options: array,
+            options: displayOption,
+            name,
+            variableType,
+            labelCol,
+            wrapperCol,
+            width,
         });
     }
 
