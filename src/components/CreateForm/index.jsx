@@ -189,7 +189,7 @@ class CreateForm extends Component {
         const displayOption = array.map(item => {
             if (item.formItemLayout === 'formItemLayout') {
                 item.formItemLayout = {
-                    label: { span: labelCol },
+                    labelCol: { span: labelCol },
                     wrapperCol: { span: wrapperCol },
                 };
             }
