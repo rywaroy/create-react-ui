@@ -196,7 +196,10 @@ class GenerateForm extends React.Component {
                             if (type.toLowerCase() === 'label') {
                                 return (
                                     <Col span={span} key={key} className={colClass}>
-                                        <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
+                                        {
+                                            isEdit
+                                            && <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
+                                        }
                                         <FormItem label={label} colon={colon} {...formItemLayout}>
                                             <span style={{ margin: '0 10px' }}>{initialValue}</span>
                                             {
@@ -209,7 +212,10 @@ class GenerateForm extends React.Component {
 
                             return (
                                 <Col span={span} key={key} className={colClass}>
-                                    <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
+                                    {
+                                        isEdit
+                                        && <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
+                                    }
                                     <FormItem label={label} colon={colon} {...formItemLayout}>
 
                                         {getFieldDecorator(name, realOptions)(
