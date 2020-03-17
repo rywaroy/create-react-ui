@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'antd';
 import CreateForm from '@/components/CreateForm';
-import GenerateForm from '@/components/GenerateForm';
+// import GenerateForm from '@/components/GenerateForm';
 import styles from './index.less';
 
 class ListPagePopup extends Component {
@@ -10,6 +10,7 @@ class ListPagePopup extends Component {
         this.state = {
             visible: false,
             modalKey: Math.random(),
+            forms: [], // 弹窗列表
         };
     }
 
@@ -23,6 +24,17 @@ class ListPagePopup extends Component {
         });
     }
 
+    /**
+     * 接收form
+     */
+    getFormObject = values => {
+        const forms = [...this.state.forms];
+        forms.push(values);
+        this.setState({
+            forms,
+        });
+    }
+
     render() {
         const { visible, modalKey } = this.state;
 
@@ -30,7 +42,9 @@ class ListPagePopup extends Component {
             <div>
                 <Button type="primary" onClick={this.addPopup}>添加弹窗</Button>
                 <div className={styles.popupBox}>
-                    <GenerateForm isEdit={false} />
+                    {/* <GenerateForm
+                        isEdit={false}
+                        forms/> */}
                 </div>
                 <Modal
                     title="popup组件配置"
@@ -40,7 +54,9 @@ class ListPagePopup extends Component {
                     maskClosable={false}
                     zIndex={1002}>
                     <CreateForm
-                        type="modal" />
+                        type="modal"
+                        wrappedComponentRef={ref => { this.createForm = ref; }}
+                        getFormObject={this.getFormObject} />
                 </Modal>
             </div>
         );
