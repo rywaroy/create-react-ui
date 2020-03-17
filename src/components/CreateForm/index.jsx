@@ -194,9 +194,12 @@ class CreateForm extends Component {
             s = `export function ${name}(_self) {${formItemLayoutCode} return ${s}; }`;
         }
         s = s.replace(/"(formItemLayout)"/g, (a, b) => b);
-        const { getCode, getOption } = this.props;
+        const { getCode, getFormObject } = this.props;
         getCode && getCode(s);
-        getOption && getOption(options);
+        getFormObject && getFormObject({
+            code: s,
+            options: array,
+        });
     }
 
     render() {
