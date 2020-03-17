@@ -10,7 +10,6 @@ class ListPagePopup extends Component {
         this.state = {
             visible: false,
             modalKey: Math.random(),
-            forms: [], // 弹窗列表
         };
     }
 
@@ -25,14 +24,20 @@ class ListPagePopup extends Component {
     }
 
     /**
-     * 接收form
+     * 关闭弹窗配置弹窗
      */
-    getFormObject = values => {
-        const forms = [...this.state.forms];
-        forms.push(values);
+    closePopupModal = () => {
         this.setState({
-            forms,
+            visible: false,
         });
+    }
+
+    /**
+     * 生成弹窗
+     */
+    createPopup = () => {
+        this.createForm.create();
+        this.closePopupModal();
     }
 
     render() {
@@ -52,7 +57,9 @@ class ListPagePopup extends Component {
                     visible={visible}
                     key={modalKey}
                     maskClosable={false}
-                    zIndex={1002}>
+                    zIndex={1002}
+                    onCancel={this.closePopupModal}
+                    onOk={this.createPopup}>
                     <CreateForm
                         type="modal"
                         wrappedComponentRef={ref => { this.createForm = ref; }}
