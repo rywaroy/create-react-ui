@@ -10,6 +10,7 @@ class ListPagePopup extends Component {
         this.state = {
             visible: false,
             modalKey: Math.random(),
+            forms: [], // 弹窗列表
         };
     }
 
@@ -40,13 +41,29 @@ class ListPagePopup extends Component {
         this.closePopupModal();
     }
 
+    /**
+     * 接收form
+     */
+    getFormObject = values => {
+        const forms = [...this.state.forms];
+        forms.push(values);
+        this.setState({
+            forms,
+        });
+    }
+
     render() {
-        const { visible, modalKey } = this.state;
+        const { visible, modalKey, forms } = this.state;
 
         return (
             <div>
                 <Button type="primary" onClick={this.addPopup}>添加弹窗</Button>
                 <div className={styles.popupBox}>
+                    {
+                        forms.map(item => (
+                            <div className={styles.popupItem} style={{ width: `${item.width}px ` }} key={item.name} />
+                        ))
+                    }
                     {/* <GenerateForm
                         isEdit={false}
                         forms/> */}
