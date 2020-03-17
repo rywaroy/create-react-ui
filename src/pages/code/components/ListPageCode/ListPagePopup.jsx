@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'antd';
 import CreateForm from '@/components/CreateForm';
-// import GenerateForm from '@/components/GenerateForm';
+import GenerateForm from '@/components/GenerateForm';
 import styles from './index.less';
 
 class ListPagePopup extends Component {
@@ -61,12 +61,14 @@ class ListPagePopup extends Component {
                 <div className={styles.popupBox}>
                     {
                         forms.map(item => (
-                            <div className={styles.popupItem} style={{ width: `${item.width}px ` }} key={item.name} />
+                            <div className={styles.popupItem} style={{ width: `${item.width}px ` }} key={item.name}>
+                                <GenerateForm
+                                    isEdit={false}
+                                    formSet={item.options} />
+                            </div>
                         ))
                     }
-                    {/* <GenerateForm
-                        isEdit={false}
-                        forms/> */}
+
                 </div>
                 <Modal
                     title="popup组件配置"
