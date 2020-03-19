@@ -31,14 +31,24 @@ class ListPageModal extends Component {
         this.filterForm.create();
         this.table.create();
         this.popup.create();
-        const { title } = this.state;
+        const { title, buttons } = this.state;
         if (!title) {
             message.error('请输入页面标题');
             return;
         }
         if (this.tableColumns.length === 0) {
             message.error('请添加页面表格');
+            return;
         }
+        const { getPageOtion } = this.props;
+        getPageOtion && getPageOtion({
+            title,
+            buttons,
+            tableCode: this.tableCode,
+            tableColumns: this.tableColumns,
+            formCode: this.formCode,
+            popupForms: this.popupForms,
+        });
     }
 
 
