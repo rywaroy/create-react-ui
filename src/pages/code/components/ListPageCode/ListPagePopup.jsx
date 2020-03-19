@@ -95,7 +95,6 @@ class ListPagePopup extends Component {
                             </div>
                         ))
                     }
-
                 </div>
                 <Modal
                     title="popup组件配置"
