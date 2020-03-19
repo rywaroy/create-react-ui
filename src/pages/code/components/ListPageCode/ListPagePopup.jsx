@@ -76,7 +76,8 @@ class ListPagePopup extends Component {
                 <div className={styles.popupBox}>
                     {
                         forms.map(item => (
-                            <div className={styles.popupItem} style={{ width: `${item.width}px ` }} key={item.name}>
+                            <div className={styles.popupItem} style={{ width: `${item.width}px` }} key={item.name}>
+                                <Button type="primary" icon="delete" size="small" className={styles.popupDelete} />
                                 <GenerateForm
                                     isEdit={false}
                                     formSet={item.options} />
