@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import CreateTable from '@/components/CreateTable';
 import CreateForm from '@/components/CreateForm';
 import ListPageHeader from './ListPageHeader';
@@ -31,7 +31,14 @@ class ListPageModal extends Component {
         this.filterForm.create();
         this.table.create();
         this.popup.create();
-        console.log(this.popupForms);
+        const { title } = this.state;
+        if (!title) {
+            message.error('请输入页面标题');
+            return;
+        }
+        if (this.tableColumns.length === 0) {
+            message.error('请添加页面表格');
+        }
     }
 
 
