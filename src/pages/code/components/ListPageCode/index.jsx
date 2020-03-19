@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, TreeSelect, Input, Button } from 'antd';
+import { Modal, Form, TreeSelect, Input, Button, Icon } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import ListPageModal from './ListPageModal';
 
@@ -11,6 +11,7 @@ class ListPageCode extends Component {
             configKey: Math.random(),
             lpVisible: false,
             lpKey: Math.random(),
+            pageOption: null, // 页面配置对象
         };
     }
 
@@ -65,8 +66,18 @@ class ListPageCode extends Component {
         });
     }
 
+    /**
+     * 获取页面总配置对象
+     */
+    getPageOtion = option => {
+        this.setState({
+            pageOption: option,
+        });
+        this.closeListPageModal();
+    }
+
     render() {
-        const { configKey, configVisible, lpVisible, lpKey } = this.state;
+        const { configKey, configVisible, lpVisible, lpKey, pageOption } = this.state;
         const { folders } = this.props;
         const { getFieldDecorator } = this.props.form;
 
@@ -133,7 +144,15 @@ class ListPageCode extends Component {
                                 })(<Input placeholder="请输入model namespace" />)
                             }
                         </Form.Item>
-                        <Form.Item label="页面配置">
+                        <Form.Item label={(
+                            <span>
+                                页面配置
+                                {' '}
+                                {
+                                    pageOption && <Icon type="check" style={{ color: 'red' }} />
+                                }
+                            </span>
+                        )}>
                             <Button type="primary" onClick={this.openListPageModal}>设置</Button>
                         </Form.Item>
                     </Form>
@@ -141,7 +160,8 @@ class ListPageCode extends Component {
                 <ListPageModal
                     visible={lpVisible}
                     key={lpKey}
-                    onCancel={this.closeListPageModal} />
+                    onCancel={this.closeListPageModal}
+                    getPageOtion={this.getPageOtion} />
             </div>
 
         );
