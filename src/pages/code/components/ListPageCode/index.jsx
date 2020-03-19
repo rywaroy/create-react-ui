@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Modal, Form, TreeSelect, Input, Button, Icon } from 'antd';
+import { Modal, Form, TreeSelect, Input, Button, Icon, message } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
+import axios from '@/utils/axios';
 import ListPageModal from './ListPageModal';
 
 class ListPageCode extends Component {
@@ -41,9 +42,20 @@ class ListPageCode extends Component {
      * 生成页面
      */
     sendListPageCode = () => {
-        this.props.form.validateFields((err) => {
+        this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.closeListPageCode();
+                const { pageOption } = this.state;
+                if (!pageOption) {
+                    message.error('请选配置页面');
+                    return;
+                }
+                axios.post('code/listpage', {
+                    ...values,
+                    pageOption,
+                }).then(() => {
+                    message.success('创建成功');
+                    this.closeListPageCode();
+                });
             }
         });
     }
