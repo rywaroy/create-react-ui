@@ -78,6 +78,15 @@ class ListPagePopup extends Component {
         });
     }
 
+    /**
+     * 传出弹窗对象
+     */
+    create = () => {
+        const { getForms } = this.props;
+        const { forms } = this.state;
+        getForms && getForms(forms);
+    }
+
     render() {
         const { visible, modalKey, forms } = this.state;
 
