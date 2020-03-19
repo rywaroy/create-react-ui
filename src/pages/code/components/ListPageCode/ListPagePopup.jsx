@@ -46,10 +46,25 @@ class ListPagePopup extends Component {
      */
     getFormObject = values => {
         const forms = [...this.state.forms];
+        const { name } = values;
+        values.name = this.checkName(name, forms);
         forms.push(values);
         this.setState({
             forms,
         });
+    }
+
+    /**
+     * 检查同名
+     */
+    checkName(name, forms) {
+        for (let i = 0; i < forms.length; i++) {
+            if (forms[i].name === name) {
+                name = `${name}1`;
+                return this.checkName(name, forms);
+            }
+        }
+        return name;
     }
 
     render() {
