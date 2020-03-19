@@ -67,6 +67,17 @@ class ListPagePopup extends Component {
         return name;
     }
 
+    /**
+     * 删除弹窗
+     */
+    deletePopup(index) {
+        const forms = [...this.state.forms];
+        forms.splice(index, 1);
+        this.setState({
+            forms,
+        });
+    }
+
     render() {
         const { visible, modalKey, forms } = this.state;
 
@@ -75,9 +86,9 @@ class ListPagePopup extends Component {
                 <Button type="primary" onClick={this.addPopup}>添加弹窗</Button>
                 <div className={styles.popupBox}>
                     {
-                        forms.map(item => (
+                        forms.map((item, index) => (
                             <div className={styles.popupItem} style={{ width: `${item.width}px` }} key={item.name}>
-                                <Button type="primary" icon="delete" size="small" className={styles.popupDelete} />
+                                <Button type="primary" icon="delete" size="small" className={styles.popupDelete} onClick={() => this.deletePopup(index)} />
                                 <GenerateForm
                                     isEdit={false}
                                     formSet={item.options} />
