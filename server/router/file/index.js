@@ -1,6 +1,4 @@
 const Router = require('koa-router');
-const fs = require('fs');
-const path = require('path');
 const displayFiles = require('./display-files');
 const fileController = require('../../controller/file');
 
@@ -14,23 +12,7 @@ router.get('/template', fileController.template);
 /**
  * 判断是否是js文件
  */
-router.get('/isjs', async ctx => {
-    const base = path.join(process.cwd(), ctx.query.url ? ctx.query.url : '');
-    if (fs.existsSync(base)) {
-        const stat = fs.statSync(base);
-        if (stat.isFile()) {
-            if (path.extname(base) === '.js') {
-                ctx.success(200, '验证成功', null);
-            } else {
-                ctx.error(-1, '不是js文件', null);
-            }
-        } else {
-            ctx.error(-1, '不是文件', null);
-        }
-    } else {
-        ctx.error(-1, '找不到该文件', null);
-    }
-});
+router.get('/isjs', fileController.isjs);
 
 /**
  * 获取文件目录
