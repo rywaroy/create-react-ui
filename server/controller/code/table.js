@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports = async function table(ctx) {
-    const { url, code } = ctx.query;
+    const { url, code } = ctx.request.body;
     const base = path.join(process.cwd(), url || '');
     if (fs.existsSync(base)) {
         fs.appendFileSync(base, `\n\n${code}`, 'utf8');

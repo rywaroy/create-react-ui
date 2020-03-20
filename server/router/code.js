@@ -6,11 +6,11 @@ const router = new Router();
 /**
  * 创建表格代码块
  */
-router.get('/table', codeController.table);
+router.post('/table', codeController.table);
 
 /**
  * 创建表单代码块
  */
-router.get('/form', codeController.form);
+router.post('/form', codeController.form);
 
 module.exports = router;
