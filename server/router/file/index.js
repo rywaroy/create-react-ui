@@ -1,5 +1,4 @@
 const Router = require('koa-router');
-const displayFiles = require('./display-files');
 const fileController = require('../../controller/file');
 
 const router = new Router();
@@ -17,13 +16,6 @@ router.get('/isjs', fileController.isjs);
 /**
  * 获取文件目录
  */
-router.get('/display', async ctx => {
-    const files = displayFiles(process.cwd());
-    try {
-        ctx.success(200, '获取成功', files);
-    } catch (err) {
-        ctx.error(0, err.message, null);
-    }
-});
+router.get('/display', fileController.display);
 
 module.exports = router;
