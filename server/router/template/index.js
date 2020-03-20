@@ -4,34 +4,18 @@ const fs = require('fs-extra');
 const babelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const generate = require('@babel/generator').default;
-const defaultTemplate = require('../../templateString/default-template');
+
 const umiModel = require('../../templateString/umi-model');
 const umiTemplate = require('../../templateString/umi-template');
 const createExportVisitor = require('./create-export-visitor');
+const templateController = require('../../controller/template');
 
 const router = new Router();
 
 /**
  * 创建默认模板
  */
-router.get('/default', async ctx => {
-    let { variable } = ctx.query;
-    const { url, folderName, fileName } = ctx.query;
-    let base = path.join(process.cwd(), url || '');
-    variable = variable || 'Template';
-
-    // 创建文件夹
-    if (folderName) {
-        base = path.join(base, folderName);
-        if (fs.existsSync(base)) {
-            ctx.error(0, '该文件夹已存在', null);
-            return;
-        }
-    }
-    const script = defaultTemplate(variable);
-    fs.outputFileSync(path.join(base, fileName), script);
-    ctx.success(200, '创建成功', null);
-});
+router.get('/default', templateController.default);
 
 /**
  * 创建umi模板
