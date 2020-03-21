@@ -12,8 +12,9 @@ module.exports = async function listpage(ctx) {
     const mapString = oilListpageMap(formCode, tableCode, popupFormsCode);
 
     // model.js
+    const popupFormsName = popupForms.map(item => item.name);
     const modelBase = path.join(process.cwd(), url, name, 'model.js');
-    const modelString = oilListpageModel(namespace);
+    const modelString = oilListpageModel(namespace, popupFormsName);
     try {
         fs.outputFileSync(mapBase, mapString);
         fs.outputFileSync(modelBase, modelString);

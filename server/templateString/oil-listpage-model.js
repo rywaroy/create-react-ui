@@ -1,4 +1,7 @@
-module.exports = function oilListpageModel(namespace) {
+module.exports = function oilListpageModel(namespace, popupFormsName) {
+    const popupFormsNames = popupFormsName.map(item => `    ${item}Visible,
+    ${item}ModalKey,`).join('\n');
+
     return `
 const initState = () => ({
     listData: [],
@@ -6,6 +9,7 @@ const initState = () => ({
     pageNum: 1,
     pageSize: 10,
     searchFormData: {},
+${popupFormsNames}
 });
 
 export default {
