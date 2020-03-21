@@ -24,7 +24,7 @@ class CreateForm extends Component {
             setFormKey: Math.random(),
             width: 1000, // 容器宽度
             type: 'filter', // 表单类型
-            name: 'listFiltles', // 变量名
+            name: 'listFilter', // 变量名
             variableType: 'Function', // 变量类型
             labelCol: 8,
             wrapperCol: 16,
@@ -92,7 +92,7 @@ class CreateForm extends Component {
         this.setState({
             type,
             width: type === 'filter' ? 1000 : 520,
-            name: type === 'filter' ? 'listFiltles' : 'modalForm',
+            name: type === 'filter' ? 'listFilter' : 'modalForm',
         });
     };
 
