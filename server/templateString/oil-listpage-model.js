@@ -16,30 +16,30 @@ export default {
     namespace: '${namespace}',
     state: initState(),
     effects: {
-        *updateStateCall(action, { call, put }) {
+        *updateStateCall({ payload }, { call, put }) {
             yield put({
                 type: 'updateState',
-                payload: action.payload
+                payload,
             });
         },
-        *queryList({ payload }, { call, put, select }) {// 列表查询
+        *queryList({ payload }, { call, put, select }) { // 列表查询
             const ${namespace} = yield select(state => state.${namespace});
-            let { pageNum, pageSize, searchFormData } = ${namespace};
-            let params = {
+            const { pageNum, pageSize, searchFormData } = ${namespace};
+            const params = {
                 pageNum,
                 pageSize,
                 ...searchFormData,
                 ...payload,
             };
-            const data = yield call(queryListData, params);
-            if (data && data.code === 0) {
-                yield put({
-                    type: 'updateState',
-                    payload: {
-                        listData: data.data || [],
-                        total: data.count
-                    }
-                });
+            // const data = yield call(queryListData, params);
+            // if (data && data.code === 0) {
+            //    yield put({
+            //        type: 'updateState',
+            //        payload: {
+            //            listData: data.data || [],
+            //            total: data.count
+            //        }
+            //    });
             }
         },
     },
