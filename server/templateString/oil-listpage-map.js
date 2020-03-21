@@ -1,9 +1,9 @@
-module.exports = function oilListpageMap(formCode, tableCode, popupForms) {
+module.exports = function oilListpageMap(formCode, tableCode, popupFormsCode) {
     return `
 ${formCode}
 
 ${tableCode}
 
-${popupForms.map(item => item.code).join('\n\n')}
+${popupFormsCode}
 `;
 };

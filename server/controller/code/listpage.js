@@ -7,8 +7,9 @@ module.exports = async function listpage(ctx) {
     const { url, name, pageOption, namespace } = ctx.request.body;
     const { formCode, tableCode, popupForms } = pageOption;
     // map.js
+    const popupFormsCode = popupForms.map(item => item.code).join('\n\n');
     const mapBase = path.join(process.cwd(), url, name, 'map.js');
-    const mapString = oilListpageMap(formCode, tableCode, popupForms);
+    const mapString = oilListpageMap(formCode, tableCode, popupFormsCode);
 
     // model.js
     const modelBase = path.join(process.cwd(), url, name, 'model.js');
