@@ -13,4 +13,9 @@ router.post('/table', codeController.table);
  */
 router.post('/form', codeController.form);
 
+/**
+ * 创建列表页面
+ */
+router.post('/listpage', codeController.listpage);
+
 module.exports = router;
