@@ -1,5 +1,7 @@
-module.exports = function oilListpageMap(formCode) {
+module.exports = function oilListpageMap(formCode, tableCode) {
     return `
 ${formCode}
+
+${tableCode}
 `;
 };

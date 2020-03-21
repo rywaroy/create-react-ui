@@ -4,9 +4,9 @@ const oilListpageMap = require('../../templateString/oil-listpage-map');
 
 module.exports = async function listpage(ctx) {
     const { url, name, pageOption } = ctx.request.body;
-    const { formCode } = pageOption;
+    const { formCode, tableCode } = pageOption;
     const base = path.join(process.cwd(), url, name, 'map.js');
-    const mapString = oilListpageMap(formCode);
+    const mapString = oilListpageMap(formCode, tableCode);
     try {
         fs.outputFileSync(base, mapString);
         ctx.success(200, '创建成功', null);
