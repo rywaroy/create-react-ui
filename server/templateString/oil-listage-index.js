@@ -6,7 +6,7 @@ module.exports = function oilListpageIndex(name, title, namespace, buttons, isFi
     let headerJSX = '';
     if (buttons.length > 0) {
         headerJSX = `<SubHeader title="${title}">
-    ${buttons.map(item => `                <Button type="primary">${item}</Button>\n    `).join('')}
+    ${buttons.map(item => `                <Button type="primary">${item}</Button>`).join('\n    ')}
                 </SubHeader>`;
     } else {
         headerJSX = `<SubHeader title="${title}" />`;
@@ -23,7 +23,7 @@ module.exports = function oilListpageIndex(name, title, namespace, buttons, isFi
             width: ${item.width},
             onCancel: this.${item.name}ModalCancel,
             onOk: this.${item.name}ModalSubmit,
-        };\n        `).join('');
+        };`).join('\n        ');
     }
 
     // 弹窗form methods
@@ -46,14 +46,14 @@ module.exports = function oilListpageIndex(name, title, namespace, buttons, isFi
                 ${item.name}Visible: false,
             }
         });
-    }\n\n   ${''}`).join('');
+    }`).join('\n\n   ');
     }
 
     return `
 import React from 'react';
 import { connect } from 'dva';
 import { ${buttons.length > 0 ? 'Button, ' : ''}Table } from 'antd';
-import { ${isFilter ? 'listFilter, ' : ''}listColumn } from './map';
+import { ${isFilter ? 'listFilter, ' : ''}${popupForms.map(item => `${item.name}, `).join('')}listColumn } from './map';
 import { ${isFilter ? 'ListFilter, ' : ''}${popupForms.length > 0 ? 'GenerateModal, ' : ''}SubHeader } from '@/components';
 import { Global_Pagination } from '@/lib/enum';
 
@@ -127,6 +127,7 @@ class ${pageClassName} extends React.Component {
                     ${isFilter ? '<ListFilter filters={listFilter(this)} onSearch={this.searchHandel} ref={el => this.listFilter = el} />' : ''}
                     <Table className="mt10" columns={listColumn(this)} dataSource={${namespace}.listData} pagination={pagination} rowKey={r => r.id} />
                 </div>
+                ${popupForms.map(item => `<GenerateModal {...${item.name}ModalProps} />`).join('\n                ')}
             </div>
         );
     }
