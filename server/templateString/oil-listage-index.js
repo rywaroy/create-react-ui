@@ -1,12 +1,21 @@
-module.exports = function oilListpageIndex(name) {
+module.exports = function oilListpageIndex(name, title, buttons) {
     // 组件名
     const pageClassName = name.charAt(0).toUpperCase() + name.slice(1);
 
+    // 头部组件jsx
+    let headerJSX = '';
+    if (buttons.length > 0) {
+        headerJSX = `<SubHeader title="${title}">
+    ${buttons.map(item => `<Button type="primary">${item}</Button>`).join('')}
+</SubHeader>`;
+    } else {
+        headerJSX = `<SubHeader title="${title}" />`;
+    }
 
     return `
 import React from 'react';
 import { connect } from 'dva';
-import { Table } from 'antd';
+import { ${buttons.length > 0 ? 'Button, ' : ''}Table } from 'antd';
 import { listFilter, listColumn } from './map';
 import { ListFilter, SubHeader } from '@/components';
 import { Global_Pagination } from '@/lib/enum';
@@ -73,6 +82,7 @@ class ${pageClassName} extends React.Component {
 
         return (
             <div className="bg-w">
+                ${headerJSX}
                 <div className="padding20">
                     <ListFilter filters={listFilter(this)} onSearch={this.searchHandel} ref={el => this.listFilter = el}/>
                     <Table className="mt10" columns={listColumn(this)} dataSource={accountDriver.listData} pagination={pagination} rowKey={r => r.partyId} />

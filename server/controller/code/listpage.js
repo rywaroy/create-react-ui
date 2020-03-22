@@ -6,7 +6,7 @@ const oilListpageIndex = require('../../templateString/oil-listage-index');
 
 module.exports = async function listpage(ctx) {
     const { url, name, pageOption, namespace } = ctx.request.body;
-    const { formCode, tableCode, popupForms } = pageOption;
+    const { formCode, tableCode, popupForms, title, buttons } = pageOption;
     // map.js
     const popupFormsCode = popupForms.map(item => item.code).join('\n\n');
     const mapBase = path.join(process.cwd(), url, name, 'map.js');
@@ -19,7 +19,7 @@ module.exports = async function listpage(ctx) {
 
     // index.js
     const indexBase = path.join(process.cwd(), url, name, 'index.js');
-    const indexString = oilListpageIndex(name);
+    const indexString = oilListpageIndex(name, title, buttons);
 
     try {
         fs.outputFileSync(mapBase, mapString);
