@@ -1,4 +1,4 @@
-module.exports = function oilListpageIndex(name, title, buttons, isFilter) {
+module.exports = function oilListpageIndex(name, title, namespace, buttons, isFilter) {
     // 组件名
     const pageClassName = name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -32,10 +32,10 @@ class ${pageClassName} extends React.Component {
      */
     queryList(params = {}) {
         this.props.dispatch({
-            type: 'accountDriver/updateStateCall',
+            type: '${namespace}/updateStateCall',
             payload: { ...params },
         }).then(() => {
-            this.props.dispatch({ type: 'accountDriver/queryList' });
+            this.props.dispatch({ type: '${namespace}/queryList' });
         });
     }
 
@@ -57,7 +57,7 @@ class ${pageClassName} extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.dispatch({ type: 'accountDriver/resetState' });
+        this.props.dispatch({ type: '${namespace}/resetState' });
     }
 
     componentDidMount() {
@@ -65,12 +65,12 @@ class ${pageClassName} extends React.Component {
     }
 
     render() {
-        const { accountDriver } = this.props;
+        const { ${namespace} } = this.props;
         const {
             total,
             pageNum,
             pageSize,
-        } = accountDriver;
+        } = ${namespace};
         const pagination = {
             ...Global_Pagination,
             total,
@@ -85,13 +85,13 @@ class ${pageClassName} extends React.Component {
                 ${headerJSX}
                 <div className="padding20">
                     ${isFilter ? '<ListFilter filters={listFilter(this)} onSearch={this.searchHandel} ref={el => this.listFilter = el} />' : ''}
-                    <Table className="mt10" columns={listColumn(this)} dataSource={accountDriver.listData} pagination={pagination} rowKey={r => r.partyId} />
+                    <Table className="mt10" columns={listColumn(this)} dataSource={${namespace}.listData} pagination={pagination} rowKey={r => r.partyId} />
                 </div>
             </div>
         );
     }
 }
 
-export default connect(({ accountDriver }) => ({ accountDriver }))(${pageClassName});    
+export default connect(({ ${namespace} }) => ({ ${namespace} }))(${pageClassName});    
 `;
 };
