@@ -58,11 +58,9 @@ import { ${isFilter ? 'ListFilter, ' : ''}${popupForms.length > 0 ? 'GenerateMod
 import { Global_Pagination } from '@/lib/enum';
 
 class ${pageClassName} extends React.Component {
-
-    ${isFilter ? `searchHandel = (searchFormData) => {
+    ${isFilter ? `\nsearchHandel = (searchFormData) => {
         this.queryList({ pageNum: 1, searchFormData });
-    };` : ''}
-    
+    };\n` : ''}
     /**
      * 查询列表
      * @param {Object} params - 查询参数对象
