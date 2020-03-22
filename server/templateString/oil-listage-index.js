@@ -12,6 +12,20 @@ module.exports = function oilListpageIndex(name, title, namespace, buttons, isFi
         headerJSX = `<SubHeader title="${title}" />`;
     }
 
+    // 弹窗form对象
+    let popupObject = '';
+    if (popupForms.length > 0) {
+        popupObject = popupForms.map(item => `const ${item.name}ModalProps = {
+            modalForm: ${item.name}(this),
+            modalKey: ${item.name}ModalKey,
+            visible: ${item.name}Visible,
+            title: '标题',
+            width: ${item.width},
+            onCancel: this.${item.name}ModalCancel,
+            onOk: this.${item.name}ModalSubmit,
+        };\n`).join('');
+    }
+
     return `
 import React from 'react';
 import { connect } from 'dva';
@@ -79,7 +93,7 @@ class ${pageClassName} extends React.Component {
             onChange: this.onPageChange,
             onShowSizeChange: this.onShowSizeChange
         };
-
+        ${popupObject}
         return (
             <div className="bg-w">
                 ${headerJSX}
