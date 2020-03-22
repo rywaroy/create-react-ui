@@ -1,13 +1,17 @@
-module.exports = function oilListpageIndex() {
+module.exports = function oilListpageIndex(name) {
+    // 组件名
+    const pageClassName = name.charAt(0).toUpperCase() + name.slice(1);
+
+
     return `
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Table } from 'antd';
+import { Table } from 'antd';
 import { listFilter, listColumn } from './map';
 import { ListFilter, SubHeader } from '@/components';
 import { Global_Pagination } from '@/lib/enum';
 
-class Dirver extends React.Component {
+class ${pageClassName} extends React.Component {
 
     searchHandel = (searchFormData) => {
         this.queryList({ pageNum: 1, searchFormData });
@@ -69,9 +73,6 @@ class Dirver extends React.Component {
 
         return (
             <div className="bg-w">
-                <SubHeader title="司机账户">
-                    <Button type="primary" onClick={this.exportDriver}>导出</Button>
-                </SubHeader>
                 <div className="padding20">
                     <ListFilter filters={listFilter(this)} onSearch={this.searchHandel} ref={el => this.listFilter = el}/>
                     <Table className="mt10" columns={listColumn(this)} dataSource={accountDriver.listData} pagination={pagination} rowKey={r => r.partyId} />
@@ -81,6 +82,6 @@ class Dirver extends React.Component {
     }
 }
 
-export default connect(({ accountDriver }) => ({ accountDriver }))(Dirver);    
+export default connect(({ accountDriver }) => ({ accountDriver }))(${pageClassName});    
 `;
 };
