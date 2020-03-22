@@ -1,4 +1,4 @@
-module.exports = function oilListpageIndex(name, title, namespace, buttons, isFilter) {
+module.exports = function oilListpageIndex(name, title, namespace, buttons, isFilter, popupForms = []) {
     // 组件名
     const pageClassName = name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -17,7 +17,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { ${buttons.length > 0 ? 'Button, ' : ''}Table } from 'antd';
 import { ${isFilter ? 'listFilter, ' : ''}listColumn } from './map';
-import { ${isFilter ? 'ListFilter, ' : ''}SubHeader } from '@/components';
+import { ${isFilter ? 'ListFilter, ' : ''}${popupForms.length > 0 ? 'GenerateModal, ' : ''}SubHeader } from '@/components';
 import { Global_Pagination } from '@/lib/enum';
 
 class ${pageClassName} extends React.Component {
@@ -85,7 +85,7 @@ class ${pageClassName} extends React.Component {
                 ${headerJSX}
                 <div className="padding20">
                     ${isFilter ? '<ListFilter filters={listFilter(this)} onSearch={this.searchHandel} ref={el => this.listFilter = el} />' : ''}
-                    <Table className="mt10" columns={listColumn(this)} dataSource={${namespace}.listData} pagination={pagination} rowKey={r => r.partyId} />
+                    <Table className="mt10" columns={listColumn(this)} dataSource={${namespace}.listData} pagination={pagination} rowKey={r => r.id} />
                 </div>
             </div>
         );
