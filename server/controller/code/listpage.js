@@ -19,7 +19,7 @@ module.exports = async function listpage(ctx) {
 
     // index.js
     const indexBase = path.join(process.cwd(), url, name, 'index.js');
-    const indexString = oilListpageIndex(name, title, buttons);
+    const indexString = oilListpageIndex(name, title, buttons, !!formCode);
 
     try {
         fs.outputFileSync(mapBase, mapString);

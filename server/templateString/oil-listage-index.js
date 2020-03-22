@@ -1,4 +1,4 @@
-module.exports = function oilListpageIndex(name, title, buttons) {
+module.exports = function oilListpageIndex(name, title, buttons, isFilter) {
     // 组件名
     const pageClassName = name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -16,16 +16,16 @@ module.exports = function oilListpageIndex(name, title, buttons) {
 import React from 'react';
 import { connect } from 'dva';
 import { ${buttons.length > 0 ? 'Button, ' : ''}Table } from 'antd';
-import { listFilter, listColumn } from './map';
-import { ListFilter, SubHeader } from '@/components';
+import { ${isFilter ? 'listFilter, ' : ''}listColumn } from './map';
+import { ${isFilter ? 'ListFilter, ' : ''}SubHeader } from '@/components';
 import { Global_Pagination } from '@/lib/enum';
 
 class ${pageClassName} extends React.Component {
 
-    searchHandel = (searchFormData) => {
+    ${isFilter ? `searchHandel = (searchFormData) => {
         this.queryList({ pageNum: 1, searchFormData });
-    };
-
+    };` : ''}
+    
     /**
      * 查询列表
      * @param {Object} params - 查询参数对象
@@ -84,7 +84,7 @@ class ${pageClassName} extends React.Component {
             <div className="bg-w">
                 ${headerJSX}
                 <div className="padding20">
-                    <ListFilter filters={listFilter(this)} onSearch={this.searchHandel} ref={el => this.listFilter = el}/>
+                    ${isFilter ? '<ListFilter filters={listFilter(this)} onSearch={this.searchHandel} ref={el => this.listFilter = el} />' : ''}
                     <Table className="mt10" columns={listColumn(this)} dataSource={accountDriver.listData} pagination={pagination} rowKey={r => r.partyId} />
                 </div>
             </div>
