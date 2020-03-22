@@ -6,8 +6,8 @@ module.exports = function oilListpageIndex(name, title, namespace, buttons, isFi
     let headerJSX = '';
     if (buttons.length > 0) {
         headerJSX = `<SubHeader title="${title}">
-    ${buttons.map(item => `<Button type="primary">${item}</Button>`).join('')}
-</SubHeader>`;
+    ${buttons.map(item => `                <Button type="primary">${item}</Button>\n    `).join('')}
+                </SubHeader>`;
     } else {
         headerJSX = `<SubHeader title="${title}" />`;
     }
@@ -23,7 +23,30 @@ module.exports = function oilListpageIndex(name, title, namespace, buttons, isFi
             width: ${item.width},
             onCancel: this.${item.name}ModalCancel,
             onOk: this.${item.name}ModalSubmit,
-        };\n`).join('');
+        };\n        `).join('');
+    }
+
+    // 弹窗form methods
+    let popupMethods = '';
+    if (popupForms.length > 0) {
+        popupMethods = popupForms.map(item => `/**
+    * 确认${item.name}弹窗
+    */
+    ${item.name}ModalSubmit = values => {
+        this.${item.name}ModalCancel();
+    }
+
+    /**
+    * 关闭${item.name}弹窗
+    */
+    ${item.name}ModalCancel = () => {
+        this.props.dispatch({
+            type: '${namespace}/updateState',
+            payload: {
+                ${item.name}Visible: false,
+            }
+        });
+    }\n\n   ${''}`).join('');
     }
 
     return `
@@ -70,6 +93,8 @@ class ${pageClassName} extends React.Component {
         this.queryList({ pageNum: current, pageSize: size });
     }
 
+    ${popupMethods}
+
     componentWillUnmount() {
         this.props.dispatch({ type: '${namespace}/resetState' });
     }
@@ -93,6 +118,7 @@ class ${pageClassName} extends React.Component {
             onChange: this.onPageChange,
             onShowSizeChange: this.onShowSizeChange
         };
+
         ${popupObject}
         return (
             <div className="bg-w">
