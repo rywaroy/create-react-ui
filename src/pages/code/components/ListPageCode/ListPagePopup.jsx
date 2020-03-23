@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Input } from 'antd';
 import CreateForm from '@/components/CreateForm';
 import GenerateForm from '@/components/GenerateForm';
 import styles from './index.less';
@@ -98,6 +98,11 @@ class ListPagePopup extends Component {
                         forms.map((item, index) => (
                             <div className={styles.popupItem} style={{ width: `${item.width}px` }} key={item.name}>
                                 <Button type="primary" icon="delete" size="small" className={styles.popupDelete} onClick={() => this.deletePopup(index)} />
+                                <div className={styles.popupTitle}>
+                                    弹窗标题：
+                                    <Input className={styles.popupTitleInput} allowClear />
+                                </div>
+
                                 <GenerateForm
                                     isEdit={false}
                                     formSet={item.options} />
