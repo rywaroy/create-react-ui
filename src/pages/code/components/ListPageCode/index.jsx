@@ -4,6 +4,8 @@ import TemplateItem from '@/components/TemplateItem';
 import axios from '@/utils/axios';
 import ListPageModal from './ListPageModal';
 
+const { confirm } = Modal;
+
 class ListPageCode extends Component {
     constructor(props) {
         super(props);
@@ -33,9 +35,26 @@ class ListPageCode extends Component {
      * 关闭ListPage文件配置
      */
     closeListPageCode = () => {
-        this.setState({
-            configVisible: false,
-        });
+        const { pageOption } = this.state;
+        if (pageOption) {
+            confirm({
+                title: '确认',
+                content: '你已经配置了页面，关闭弹窗则会清空数据，是否确认关闭？',
+                onOk: () => {
+                    this.setState({
+                        pageOption: null,
+                        lpKey: Math.random(),
+                        configVisible: false,
+                    });
+                },
+            });
+        } else {
+            this.setState({
+                pageOption: null,
+                lpKey: Math.random(),
+                configVisible: false,
+            });
+        }
     }
 
     /**
