@@ -20,6 +20,8 @@ class ListPageModal extends Component {
 
     tableColumns = [] // 表格配置
 
+    tableData = [] // 表格数据
+
     formCode = '' // filter表单代码
 
     popupForms = [] // 弹窗列表
@@ -46,6 +48,7 @@ class ListPageModal extends Component {
             buttons,
             tableCode: this.tableCode,
             tableColumns: this.tableColumns,
+            tableData: this.tableData,
             formCode: this.formCode,
             popupForms: this.popupForms,
         });
@@ -86,7 +89,8 @@ class ListPageModal extends Component {
                             ref={el => { this.table = el; }}
                             isEditVariable={false}
                             getCode={code => { this.tableCode = code; }}
-                            getColumns={columns => { this.tableColumns = columns; }} />
+                            getColumns={columns => { this.tableColumns = columns; }}
+                            getDataSource={data => { this.tableData = data; }} />
                     </div>
                     <div className={styles.listPageBox}>
                         <span className={styles.listPageTag}>弹窗</span>
