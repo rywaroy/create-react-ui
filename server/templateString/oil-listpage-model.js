@@ -1,10 +1,10 @@
-module.exports = function oilListpageModel(namespace, popupFormsName) {
+module.exports = function oilListpageModel(namespace, popupFormsName, tableData) {
     const popupFormsNames = popupFormsName.map(item => `    ${item}Visible,
     ${item}ModalKey,`).join('\n');
 
     return `
 const initState = () => ({
-    listData: [],
+    listData: ${JSON.stringify(tableData)},
     total: 0,
     pageNum: 1,
     pageSize: 10,
