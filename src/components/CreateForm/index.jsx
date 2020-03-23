@@ -215,6 +215,7 @@ class CreateForm extends Component {
             labelCol,
             wrapperCol,
             width,
+            title: '标题',
         });
     }
 

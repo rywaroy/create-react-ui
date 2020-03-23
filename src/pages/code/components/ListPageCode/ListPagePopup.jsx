@@ -87,6 +87,17 @@ class ListPagePopup extends Component {
         getForms && getForms(forms);
     }
 
+    /**
+     * 修改弹窗标题
+     */
+    changePopupTitle = (e, index) => {
+        const forms = [...this.state.forms];
+        forms[index].title = e.target.value;
+        this.setState({
+            forms,
+        });
+    }
+
     render() {
         const { visible, modalKey, forms } = this.state;
 
@@ -100,7 +111,7 @@ class ListPagePopup extends Component {
                                 <Button type="primary" icon="delete" size="small" className={styles.popupDelete} onClick={() => this.deletePopup(index)} />
                                 <div className={styles.popupTitle}>
                                     弹窗标题：
-                                    <Input className={styles.popupTitleInput} allowClear />
+                                    <Input className={styles.popupTitleInput} value={item.title} allowClear onChange={(e) => this.changePopupTitle(e, index)} />
                                 </div>
 
                                 <GenerateForm

@@ -19,7 +19,7 @@ module.exports = function oilListpageIndex(name, title, namespace, buttons, isFi
             modalForm: ${item.name}(this),
             modalKey: ${item.name}ModalKey,
             visible: ${item.name}Visible,
-            title: '标题',
+            title: '${item.title}',
             width: ${item.width},
             onCancel: this.${item.name}ModalCancel,
             onOk: this.${item.name}ModalSubmit,
