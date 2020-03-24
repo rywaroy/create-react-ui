@@ -50,7 +50,7 @@ class MenuBox extends Component {
                 mode="inline"
                 theme="dark"
                 selectedKeys={this.state.defaultSelectedKey}
-                style={{ height: '100%', borderRight: 0, background: '#30303d' }}
+                style={{ borderRight: 0 }}
             >
                 {
                     this.state.map.map(item => (
