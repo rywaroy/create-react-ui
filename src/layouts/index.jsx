@@ -27,7 +27,8 @@ class BasicLayout extends Component {
         return (
             <Layout style={{ height: '100%', minWidth: 1200 }}>
                 <Layout>
-                    <Sider width={200} style={{ background: '#fff' }}>
+                    <Sider width={200} style={{ background: '#30303d' }}>
+                        <div className="logo" />
                         <MenuBox />
                     </Sider>
                     <Layout style={{ padding: '0 24px 24px', background: '#23232e' }}>

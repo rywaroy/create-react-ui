@@ -281,7 +281,10 @@ class CreateTable extends Component {
             .replace(/"(\(\).*\))"/g, (a, b) => b)
             .replace(/\\"(opt-link|mr10|_blank|\/)\\"/g, (a, b) => `"${b}"`);
         s = `export function ${this.state.variable}(_self) { return ${s}; }`;
-        this.props.getCode(s);
+        const { getCode, getColumns, getDataSource } = this.props;
+        getCode && getCode(s);
+        getColumns && getColumns(columns);
+        getDataSource && getDataSource(this.state.dataSource);
     }
 
     /**
@@ -311,6 +314,8 @@ class CreateTable extends Component {
             variable,
         } = this.state;
 
+        const { isEditVariable } = this.props;
+
         return (
             <div className="indexWrap">
                 <Button
@@ -327,15 +332,24 @@ class CreateTable extends Component {
                 >
                     添加操作
                 </Button>
-                变量名：
-                <Input placeholder="变量名" style={{ margin: '20px 0', width: '200px' }} value={variable} onChange={this.changeVariable} />
+                {
+                    isEditVariable
+                    && (
+                        <div style={{ display: 'inline-block' }}>
+                            变量名：
+                            <Input placeholder="变量名" style={{ margin: '20px 0', width: '200px' }} value={variable} onChange={this.changeVariable} />
+                        </div>
+                    )
+
+                }
+
                 <Table columns={columns} dataSource={dataSource} rowKey={r => r.id} />
                 <Modal
                     title="批量添加"
                     visible={visibleAdd}
                     onOk={this.add}
                     onCancel={this.closeAdd}
-                    zIndex="1003"
+                    zIndex={1003}
                 >
                     <InputNumber
                         style={{ width: '400px' }}
@@ -350,7 +364,7 @@ class CreateTable extends Component {
                     {...setColumnObj}
                     onOk={this.setColumn}
                     onCancel={this.closeSetColumn}
-                    zIndex="1003"
+                    zIndex={1003}
                 />
                 <SetOpt
                     key={optKey}
@@ -358,11 +372,15 @@ class CreateTable extends Component {
                     {...setOptObj}
                     onOk={this.opt}
                     onCancel={this.closeOpt}
-                    zIndex="1003"
+                    zIndex={1003}
                 />
             </div>
         );
     }
 }
+
+CreateTable.defaultProps = {
+    isEditVariable: true,
+};
 
 export default CreateTable;

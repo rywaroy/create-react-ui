@@ -187,7 +187,7 @@ class SetForm extends Component {
 
 
     render() {
-        const { visibleSetForm } = this.props;
+        const { visibleSetForm, isFilterForm } = this.props;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 8 },
@@ -201,7 +201,7 @@ class SetForm extends Component {
                 visible={visibleSetForm}
                 onOk={this.setForm}
                 onCancel={this.closeSetForm}
-                zIndex="1003"
+                zIndex={1003}
             >
                 <Form {...formItemLayout}>
                     <Form.Item label="类型 type">
@@ -252,18 +252,30 @@ class SetForm extends Component {
                             <Radio.Group options={addonAfterOptions} />,
                         )}
                     </Form.Item>
-                    <Form.Item label="长度 span">
-                        {getFieldDecorator('span')(
-                            <InputNumber />,
-                        )}
-                    </Form.Item>
-                    <Form.Item label="布局 formItemLayout">
-                        {getFieldDecorator('formItemLayout', {
-                            initialValue: false,
-                        })(
-                            <Radio.Group options={formItemLayoutOptions} onChange={this.layoutChange} />,
-                        )}
-                    </Form.Item>
+                    {
+                        !isFilterForm
+                        && (
+                            <Form.Item label="长度 span">
+                                {getFieldDecorator('span')(
+                                    <InputNumber />,
+                                )}
+                            </Form.Item>
+                        )
+                    }
+
+                    {
+                        !isFilterForm
+                        && (
+                            <Form.Item label="布局 formItemLayout">
+                                {getFieldDecorator('formItemLayout', {
+                                    initialValue: false,
+                                })(
+                                    <Radio.Group options={formItemLayoutOptions} onChange={this.layoutChange} />,
+                                )}
+                            </Form.Item>
+                        )
+                    }
+
                     {
                         showCol
                         && (
@@ -292,33 +304,39 @@ class SetForm extends Component {
                             </Form.Item>
                         )
                     }
-                    <Form.Item label={(
-                        <span>
-                            规则 rules
-                            {' '}
-                            <Button type="primary" icon="plus" size="small" onClick={this.addRule} />
-                        </span>
-                    )}>
-                        {
-                            rules.map((item, index) => (
-                                <div key={item.id} style={{ border: '1px solid #ccc', padding: '5px 10px', borderRadius: 8, marginBottom: 5 }}>
-                                    <Select style={{ width: 100, marginRight: 10 }} value={item.rule} onChange={value => this.rulesChange(value, index)}>
-                                        {ruleTypes.map((rule, r) => (
-                                            <Option value={rule} key={r}>
-                                                {rule}
-                                            </Option>
-                                        ))}
-                                    </Select>
-                                    {
-                                        (item.rule === 'len' || item.rule === 'max' || item.rule === 'min')
-                                            && <InputNumber style={{ marginRight: 10 }} onChange={value => this.contentChange(value, index)} />
-                                    }
-                                    <Button type="primary" icon="close" size="small" onClick={() => this.deleteRule(index)} />
-                                    <Input placeholder="message" onChange={e => this.messageChange(e, index)} />
-                                </div>
-                            ))
-                        }
-                    </Form.Item>
+                    {
+                        !isFilterForm
+                        && (
+                            <Form.Item label={(
+                                <span>
+                                    规则 rules
+                                    {' '}
+                                    <Button type="primary" icon="plus" size="small" onClick={this.addRule} />
+                                </span>
+                            )}>
+                                {
+                                    rules.map((item, index) => (
+                                        <div key={item.id} style={{ border: '1px solid #ccc', padding: '5px 10px', borderRadius: 8, marginBottom: 5 }}>
+                                            <Select style={{ width: 100, marginRight: 10 }} value={item.rule} onChange={value => this.rulesChange(value, index)}>
+                                                {ruleTypes.map((rule, r) => (
+                                                    <Option value={rule} key={r}>
+                                                        {rule}
+                                                    </Option>
+                                                ))}
+                                            </Select>
+                                            {
+                                                (item.rule === 'len' || item.rule === 'max' || item.rule === 'min')
+                                                && <InputNumber style={{ marginRight: 10 }} onChange={value => this.contentChange(value, index)} />
+                                            }
+                                            <Button type="primary" icon="close" size="small" onClick={() => this.deleteRule(index)} />
+                                            <Input placeholder="message" onChange={e => this.messageChange(e, index)} />
+                                        </div>
+                                    ))
+                                }
+                            </Form.Item>
+                        )
+
+                    }
                 </Form>
             </Modal>
         );

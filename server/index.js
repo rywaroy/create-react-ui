@@ -9,6 +9,8 @@ const cors = require('koa-cors');
 const bodyparser = require('koa-bodyparser');
 const staticServer = require('koa-static');
 const cp = require('child_process');
+const fs = require('fs-extra');
+const path = require('path');
 const router = require('./router');
 const createSocket = require('./socket');
 
@@ -49,3 +51,6 @@ server.listen(PORT, () => {
         }
     }
 });
+
+// 创建.crui 文件夹
+fs.ensureDir(path.join(process.cwd(), '.crui'));

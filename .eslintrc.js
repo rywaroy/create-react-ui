@@ -51,6 +51,9 @@ module.exports = {
     "no-unused-expressions": 0,
     "import/no-extraneous-dependencies": 0,
     "global-require": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "no-shadow": 0
   },
   settings: {
     "import/resolver": {

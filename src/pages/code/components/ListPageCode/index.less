@@ -1,0 +1,94 @@
+.listPage {
+    .title {
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .titleInput {
+        width: 300px;
+    }
+
+    .buttonInput {
+        width: 140px;
+    }
+
+    .button {
+        margin-right: 10px;
+    }
+
+}
+
+.deleteButton {
+    cursor: pointer;
+}
+
+.formBox {
+    background: #000;
+    border-radius: 8px;
+    padding-top: 20px;
+    min-height: 150px;
+    margin-bottom: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.testButton {
+    margin-left: 20px;
+}
+
+.listPageBox {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px dashed #aaa;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+    .listPageTag {
+        position: absolute;
+        font-size: 14px;
+        line-height: 18px;
+        padding: 0 5px;
+        right: 0;
+        top: 0;
+        background: #1890ff;
+        color: #fff;
+        border-radius: 2px;
+        opacity: 0;
+        transition: opacity .3s;
+    }
+    &:hover .listPageTag{
+        opacity: 1;
+    }
+}
+
+.popupBox {
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.popupItem {
+    background: #000;
+    border-radius: 8px;
+    padding: 30px 20px 20px 20px;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    .popupDelete {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 5;
+    }
+}
+
+.popupTitle {
+    padding-left: 8px;
+    margin-bottom: 10px;
+}
+
+.popupTitleInput {
+    width: 200px;
+}

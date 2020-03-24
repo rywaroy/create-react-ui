@@ -4,6 +4,7 @@ import { message } from 'antd';
 import Clipboard from 'clipboard';
 import TableCode from './components/TableCode';
 import FormCode from './components/FormCode';
+import ListPageCode from './components/ListPageCode';
 
 class Code extends Component {
     componentDidMount() {
@@ -27,12 +28,13 @@ class Code extends Component {
     };
 
     render() {
-        const { files } = this.props.global;
+        const { files, folders } = this.props.global;
         return (
             <div>
                 <div className="template-list">
                     <TableCode files={files} updateFiles={this.updateFiles} />
                     <FormCode files={files} updateFiles={this.updateFiles} />
+                    <ListPageCode folders={folders} />
                 </div>
             </div>
         );

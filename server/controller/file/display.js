@@ -1,5 +1,15 @@
-const fs = require('fs');
 const path = require('path');
+const fs = require('fs');
+
+module.exports = async function display(ctx) {
+    const files = displayFiles(process.cwd());
+    try {
+        ctx.success(200, '获取成功', files);
+    } catch (err) {
+        ctx.error(0, err.message, null);
+    }
+};
+
 
 const ignoreFile = {
     node_modules: true,
@@ -7,7 +17,7 @@ const ignoreFile = {
     '.crui': false,
 };
 
-module.exports = function displayFiles(filePaths) {
+function displayFiles(filePaths) {
     const filesArray = [];
     const foldersArray = [
         {
@@ -62,4 +72,4 @@ module.exports = function displayFiles(filePaths) {
         filesArray,
         foldersArray,
     };
-};
+}

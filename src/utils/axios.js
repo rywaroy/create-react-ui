@@ -4,7 +4,7 @@ import { message } from 'antd';
 const Axios = axios.create({
     baseURL: 'http://localhost:2019/api/',
     headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        'Content-Type': 'application/json',
     },
     responseType: 'json',
     timeout: 100000,

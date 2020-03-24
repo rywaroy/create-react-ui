@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import { Modal, Form, Input, Icon, Button, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
-import CreateTable from '@/components/CreateTable';
+import CreateForm from '@/components/CreateForm';
 import { isJs } from '@/services/file';
-import { createTableCode } from '@/services/code';
+import { createFormCode } from '@/services/code';
 
-class TableCode extends Component {
+class FormCode extends Component {
     constructor(props) {
         super(props);
         this.state = {
             configVisible: false,
             configKey: Math.random(),
-            codeVisible: false,
-            code: '', // 代码片段
+            code: '',
             codeKey: Math.random(),
+            codeVisible: false,
         };
     }
 
     /**
-     * 打开table文件配置
+     * 打开form文件配置
      */
-    openTableCode = () => {
+    openFormCode = () => {
         this.setState(
             {
                 configKey: Math.random(),
@@ -34,16 +34,16 @@ class TableCode extends Component {
     };
 
     /**
-     * 关闭table文件配置
+     * 关闭form文件配置
      */
-    closeTableCode = () => {
+    closeFormCode = () => {
         this.setState({
             configVisible: false,
         });
     };
 
     /**
-     * 打开代码生成弹窗
+     * 代开代码生成弹窗
      */
     openCreateCode = () => {
         this.setState(
@@ -71,7 +71,7 @@ class TableCode extends Component {
      * 生成的代码
      */
     createCode = () => {
-        this.createTable.create();
+        this.createForm.create();
         this.closeCreateCode();
     };
 
@@ -106,8 +106,8 @@ class TableCode extends Component {
     create = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                createTableCode(values).then(() => {
-                    this.closeTableCode();
+                createFormCode(values).then(() => {
+                    this.closeFormCode();
                     this.props.updateFiles();
                 });
             }
@@ -115,29 +115,23 @@ class TableCode extends Component {
     };
 
     render() {
-        const {
-            configVisible,
-            codeVisible,
-            configKey,
-            code,
-            codeKey,
-        } = this.state;
+        const { configVisible, configKey, code, codeKey, codeVisible } = this.state;
         const { files } = this.props;
         const { getFieldDecorator } = this.props.form;
-
         return (
             <div>
                 <TemplateItem
-                    title="table组件配置对象"
-                    intro=""
-                    imgClassName="tableImg"
-                    add={this.openTableCode}
+                    title="form组件配置对象"
+                    intro="配合油涟组件GenerateForm使用"
+                    imgClassName="formImg"
+                    add={this.openFormCode}
                 />
                 <Modal
-                    title="table组件配置"
+                    title="form组件配置"
                     key={configKey}
                     visible={configVisible}
-                    onCancel={this.closeTableCode}
+                    maskClosable={false}
+                    onCancel={this.closeFormCode}
                     onOk={this.create}>
                     <Form>
                         <Form.Item label="导出文件">
@@ -194,16 +188,17 @@ class TableCode extends Component {
                     </Form>
                 </Modal>
                 <Modal
-                    title="table组件配置"
-                    width="1200px"
+                    title="form组件配置"
+                    width="1400px"
                     key={codeKey}
                     visible={codeVisible}
+                    maskClosable={false}
                     onOk={this.createCode}
                     onCancel={this.closeCreateCode}
                     okText="生成代码"
-                    zIndex="1002">
-                    <CreateTable
-                        ref={ref => { this.createTable = ref; }}
+                    zIndex={1002}>
+                    <CreateForm
+                        wrappedComponentRef={ref => { this.createForm = ref; }}
                         getCode={this.getCode}
                     />
                 </Modal>
@@ -212,4 +207,4 @@ class TableCode extends Component {
     }
 }
 
-export default Form.create()(TableCode);
+export default Form.create()(FormCode);
