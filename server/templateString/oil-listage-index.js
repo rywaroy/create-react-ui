@@ -37,6 +37,19 @@ module.exports = function oilListpageIndex(name, title, namespace, buttons, isFi
     }
 
     /**
+    * 打开${item.name}弹窗
+    */
+    ${item.name}ModalOpen = () => {
+        this.props.dispatch({
+            type: '${namespace}/updateState',
+            payload: {
+                ${item.name}ModalKey: Math.random(),
+                ${item.name}Visible: true,
+            }
+        });
+    }
+
+    /**
     * 关闭${item.name}弹窗
     */
     ${item.name}ModalCancel = () => {
@@ -49,6 +62,13 @@ module.exports = function oilListpageIndex(name, title, namespace, buttons, isFi
     }`).join('\n\n   ');
     }
 
+    // 弹窗form 变量
+    let popupVariables = '';
+    if (popupForms.length > 0) {
+        popupVariables = popupForms.map(item => `${item.name}Visible,
+            ${item.name}ModalKey,`).join('\n            ');
+    }
+
     return `
 import React from 'react';
 import { connect } from 'dva';
@@ -58,7 +78,7 @@ import { ${isFilter ? 'ListFilter, ' : ''}${popupForms.length > 0 ? 'GenerateMod
 import { Global_Pagination } from '@/lib/enum';
 
 class ${pageClassName} extends React.Component {
-    ${isFilter ? `\nsearchHandel = (searchFormData) => {
+    ${isFilter ? `\n    searchHandel = (searchFormData) => {
         this.queryList({ pageNum: 1, searchFormData });
     };\n` : ''}
     /**
@@ -107,6 +127,7 @@ class ${pageClassName} extends React.Component {
             total,
             pageNum,
             pageSize,
+            ${popupVariables}
         } = ${namespace};
         const pagination = {
             ...Global_Pagination,
