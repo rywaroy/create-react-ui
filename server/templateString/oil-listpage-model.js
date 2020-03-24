@@ -1,6 +1,6 @@
 module.exports = function oilListpageModel(namespace, popupFormsName, tableData) {
-    const popupFormsNames = popupFormsName.map(item => `    ${item}Visible,
-    ${item}ModalKey,`).join('\n');
+    const popupFormsNames = popupFormsName.map(item => `    ${item}Visible: false,
+    ${item}ModalKey: Math.random(),`).join('\n');
 
     return `
 const initState = () => ({
@@ -40,7 +40,7 @@ export default {
             //            total: data.count
             //        }
             //    });
-            }
+            // }
         },
     },
     reducers: {
