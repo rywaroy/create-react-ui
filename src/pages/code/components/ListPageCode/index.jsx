@@ -34,9 +34,9 @@ class ListPageCode extends Component {
     /**
      * 关闭ListPage文件配置
      */
-    closeListPageCode = () => {
+    closeListPageCode = (isTip = true) => {
         const { pageOption } = this.state;
-        if (pageOption) {
+        if (pageOption && isTip) {
             confirm({
                 title: '确认',
                 content: '你已经配置了页面，关闭弹窗则会清空数据，是否确认关闭？',
@@ -73,7 +73,7 @@ class ListPageCode extends Component {
                     pageOption,
                 }).then(() => {
                     message.success('创建成功');
-                    this.closeListPageCode();
+                    this.closeListPageCode(false);
                 });
             }
         });
