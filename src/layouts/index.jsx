@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout, ConfigProvider, notification, Icon } from 'antd';
 import { connect } from 'dva';
 import 'antd/dist/antd.css';
+import 'xterm/css/xterm.css';
 import zhCN from 'antd/es/locale/zh_CN';
 import MenuBox from '@/components/MenuBox';
 
