@@ -25,6 +25,24 @@ class Publish extends Component {
         });
     }
 
+    /**
+     * 异步加载数据
+     */
+    onLoadData = treeNode => new Promise(resolve => {
+        const { id } = treeNode.props;
+        getFolder({
+            base: id,
+        }).then(res => {
+            this.setState({
+                treeData: this.state.treeData.concat(res.data.data),
+            }, () => resolve());
+        });
+    })
+
+    onChange = value => {
+        this.setState({ value });
+    };
+
     componentDidMount() {
         this.term = new Terminal();
         this.term.open(document.getElementById('terminal'));
@@ -44,7 +62,9 @@ class Publish extends Component {
                     style={{ width: '100%' }}
                     value={value}
                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                    placeholder="Please select"
+                    placeholder="请选择svn文件夹"
+                    onChange={this.onChange}
+                    loadData={this.onLoadData}
                     treeData={treeData}
                 />
                 <div id="terminal" className="terminal" />
