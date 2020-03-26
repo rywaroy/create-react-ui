@@ -33,6 +33,7 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "loadsh": "^0.0.4",
+    "prettier": "^2.0.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "socket.io": "^2.3.0",
