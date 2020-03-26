@@ -21,6 +21,10 @@ export default {
           path: 'code',
           component: '../pages/code',
         },
+        {
+          path: 'publish',
+          component: '../pages/publish',
+        },
       ],
     },
   ],
