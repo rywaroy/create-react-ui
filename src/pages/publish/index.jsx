@@ -55,7 +55,7 @@ class Publish extends Component {
         this.term = new Terminal();
         this.term.open(document.getElementById('terminal'));
         window.socket.on('term', msg => {
-            this.term.write(msg);
+            this.term.writeln(msg);
         });
         this.getFolder();
     }
