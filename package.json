@@ -10,7 +10,8 @@
     "lint": "eslint --ext .js src mock tests",
     "precommit": "lint-staged",
     "commit": "git-cz",
-    "dev": "NODE_ENV=development npx nodemon server/index.js"
+    "dev:watch": "NODE_ENV=development npx nodemon server/index.js",
+    "dev": "node server/index.js"
   },
   "bin": {
     "crui": "server/index.js"
