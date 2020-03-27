@@ -1,4 +1,7 @@
 const execa = require('execa');
+const glob = require('glob');
+const path = require('path');
+const fs = require('fs-extra');
 
 module.exports = function publish(socket) {
     socket.on('build', async ({ svnBase }) => {
@@ -14,6 +17,16 @@ module.exports = function publish(socket) {
         socket.emit('term', 'svn update');
         await execa.command('svn update', {
             cwd: svnBase,
+        });
+
+        // 删除svn目录
+        socket.emit('term', '删除svn目录');
+        const data = glob.sync('*', {
+            cwd: svnBase,
+        });
+        data.forEach(item => {
+            socket.emit('term', `删除${path.join(svnBase, item)}`);
+            fs.remove(path.join(svnBase, item));
         });
     });
 };
