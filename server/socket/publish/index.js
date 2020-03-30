@@ -45,6 +45,9 @@ module.exports = function publish(socket) {
             });
             socket.emit('term', '提交完成');
             socket.emit('building', false);
+
+            // 设置缓存
+            writeCacheJson(svnBase);
         } catch {
             socket.emit('msg', {
                 msg: '构建失败',
@@ -70,4 +73,11 @@ function deleteFiles(data, svnBase) {
             });
         }
     }
+}
+
+function writeCacheJson(svnBase) {
+    const cachePath = path.join(process.cwd(), 'node_modules/.cache/crui/cache.json');
+    fs.outputJSONSync(cachePath, {
+        svnBase,
+    });
 }
