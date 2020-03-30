@@ -1,6 +1,6 @@
 const glob = require('glob');
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs-extra');
 
 module.exports = async function folder(ctx) {
     const base = ctx.query.base ? ctx.query.base : '/';
@@ -18,5 +18,10 @@ module.exports = async function folder(ctx) {
             isLeaf: stats.isFile(),
         };
     });
-    ctx.success(200, '获取成功', data);
+    const cachePath = path.join(process.cwd(), 'node_modules/.cache/crui/cache.json');
+    const cacheExists = fs.existsSync(cachePath);
+    ctx.success(200, '获取成功', {
+        list: data,
+        svnBase: cacheExists ? fs.readJsonSync(cachePath).svnBase : null,
+    });
 };
