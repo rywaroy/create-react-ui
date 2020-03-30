@@ -10,6 +10,7 @@ class Publish extends Component {
         this.state = {
             value: undefined,
             treeData: [],
+            isBuilding: false, // 是否正在构建
         };
     }
 
@@ -57,11 +58,12 @@ class Publish extends Component {
         window.socket.on('term', msg => {
             this.term.writeln(msg);
         });
+        window.socket.on('building', isBuilding => this.setState({ isBuilding }));
         this.getFolder();
     }
 
     render() {
-        const { treeData, value } = this.state;
+        const { treeData, value, isBuilding } = this.state;
 
         return (
             <div>
@@ -77,7 +79,7 @@ class Publish extends Component {
                         loadData={this.onLoadData}
                         treeData={treeData} />
                 </div>
-                <Button type="primary" onClick={this.build}>构建</Button>
+                <Button type="primary" onClick={this.build} loading={isBuilding}>构建</Button>
                 <div id="terminal" className={styles.terminal} />
             </div>
         );
