@@ -21,8 +21,10 @@ class Publish extends Component {
         getFolder({
             base,
         }).then(res => {
+            const { list, svnBase } = res.data.data;
             this.setState({
-                treeData: this.state.treeData.concat(res.data.data),
+                treeData: this.state.treeData.concat(list),
+                value: svnBase,
             });
         });
     }
@@ -36,7 +38,7 @@ class Publish extends Component {
             base: id,
         }).then(res => {
             this.setState({
-                treeData: this.state.treeData.concat(res.data.data),
+                treeData: this.state.treeData.concat(res.data.data.list),
             }, () => resolve());
         });
     })
