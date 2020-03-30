@@ -8,7 +8,7 @@ module.exports = function publish(socket) {
         // npm run build 构建流程
         socket.emit('term', '开始构建');
         socket.emit('term', 'npm run build');
-        socket.emit('build-start');
+        socket.emit('building', true);
         await execa.command('npm run build');
         socket.emit('term', '构建完成\n');
 
@@ -43,6 +43,7 @@ module.exports = function publish(socket) {
             cwd: svnBase,
         });
         socket.emit('term', '提交完成');
+        socket.emit('building', false);
     });
 };
 
