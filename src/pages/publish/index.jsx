@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Terminal } from 'xterm';
-import { TreeSelect, Button } from 'antd';
+import { TreeSelect, Button, message } from 'antd';
 import { getFolder } from '@/services/file';
 import styles from './index.less';
 
@@ -49,6 +49,10 @@ class Publish extends Component {
      * 发送构建请求
      */
     build = () => {
+        if (!this.state.value) {
+            message.error('请选择svn目录');
+            return;
+        }
         window.socket.emit('build', { svnBase: this.state.value });
     }
 
