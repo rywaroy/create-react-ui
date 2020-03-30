@@ -24,9 +24,26 @@ module.exports = function publish(socket) {
         const data = glob.sync('*', {
             cwd: svnBase,
         });
-        data.forEach(item => {
-            socket.emit('term', `删除${path.join(svnBase, item)}`);
-            fs.remove(path.join(svnBase, item));
+        deleteFiles(data, svnBase);
+        await execa.command('svn commit -m "delete"', {
+            cwd: svnBase,
         });
     });
 };
+
+function deleteFiles(data, svnBase) {
+    for (let i = 0; i < data.length; i++) {
+        const stats = fs.statSync(path.join(svnBase, data[i]));
+        if (stats.isDirectory()) {
+            const list = glob.sync(`${data[i]}/*`, {
+                cwd: svnBase,
+            });
+            deleteFiles(list, svnBase);
+            fs.remove(path.join(svnBase, data[i]));
+        } else {
+            execa.commandSync(`svn rm ${data[i]}`, {
+                cwd: svnBase,
+            });
+        }
+    }
+}
