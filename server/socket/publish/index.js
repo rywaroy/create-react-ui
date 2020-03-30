@@ -28,6 +28,21 @@ module.exports = function publish(socket) {
         await execa.command('svn commit -m "delete"', {
             cwd: svnBase,
         });
+
+        // 复制dist文件到svn
+        socket.emit('term', '将dist文件复制到svn');
+        fs.copySync(path.join(process.cwd(), 'dist'), svnBase);
+
+        // svn add
+        socket.emit('term', 'svn add . --force');
+        await execa.command('svn add . --force', {
+            cwd: svnBase,
+        });
+        socket.emit('term', '提交svn');
+        await execa.command('svn commit -m "add"', {
+            cwd: svnBase,
+        });
+        socket.emit('term', '提交完成');
     });
 };
 
