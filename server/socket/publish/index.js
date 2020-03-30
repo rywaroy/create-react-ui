@@ -5,45 +5,53 @@ const fs = require('fs-extra');
 
 module.exports = function publish(socket) {
     socket.on('build', async ({ svnBase }) => {
-        // npm run build 构建流程
-        socket.emit('term', '开始构建');
-        socket.emit('term', 'npm run build');
-        socket.emit('building', true);
-        await execa.command('npm run build');
-        socket.emit('term', '构建完成\n');
+        try {
+            // npm run build 构建流程
+            socket.emit('term', '开始构建');
+            socket.emit('term', 'npm run build');
+            socket.emit('building', true);
+            await execa.command('npm run build');
+            socket.emit('term', '构建完成\n');
 
-        // 更新svn目录
-        socket.emit('term', '更新svn目录');
-        socket.emit('term', 'svn update');
-        await execa.command('svn update', {
-            cwd: svnBase,
-        });
+            // 更新svn目录
+            socket.emit('term', '更新svn目录');
+            socket.emit('term', 'svn update');
+            await execa.command('svn update', {
+                cwd: svnBase,
+            });
 
-        // 删除svn目录
-        socket.emit('term', '删除svn目录');
-        const data = glob.sync('*', {
-            cwd: svnBase,
-        });
-        deleteFiles(data, svnBase);
-        await execa.command('svn commit -m "delete"', {
-            cwd: svnBase,
-        });
+            // 删除svn目录
+            socket.emit('term', '删除svn目录');
+            const data = glob.sync('*', {
+                cwd: svnBase,
+            });
+            deleteFiles(data, svnBase);
+            await execa.command('svn commit -m "delete"', {
+                cwd: svnBase,
+            });
 
-        // 复制dist文件到svn
-        socket.emit('term', '将dist文件复制到svn');
-        fs.copySync(path.join(process.cwd(), 'dist'), svnBase);
+            // 复制dist文件到svn
+            socket.emit('term', '将dist文件复制到svn');
+            fs.copySync(path.join(process.cwd(), 'dist'), svnBase);
 
-        // svn add
-        socket.emit('term', 'svn add . --force');
-        await execa.command('svn add . --force', {
-            cwd: svnBase,
-        });
-        socket.emit('term', '提交svn');
-        await execa.command('svn commit -m "add"', {
-            cwd: svnBase,
-        });
-        socket.emit('term', '提交完成');
-        socket.emit('building', false);
+            // svn add
+            socket.emit('term', 'svn add . --force');
+            await execa.command('svn add . --force', {
+                cwd: svnBase,
+            });
+            socket.emit('term', '提交svn');
+            await execa.command('svn commit -m "add"', {
+                cwd: svnBase,
+            });
+            socket.emit('term', '提交完成');
+            socket.emit('building', false);
+        } catch {
+            socket.emit('msg', {
+                msg: '构建失败',
+                status: 0,
+            });
+            socket.emit('building', false);
+        }
     });
 };
 
