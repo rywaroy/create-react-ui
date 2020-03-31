@@ -75,6 +75,10 @@ class Publish extends Component {
         this.getFolder();
     }
 
+    componentWillUnmount() {
+        this.term.dispose();
+    }
+
     render() {
         const { treeData, value, isBuilding } = this.state;
 
