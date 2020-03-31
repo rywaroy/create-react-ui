@@ -58,6 +58,13 @@ class Publish extends Component {
         window.socket.emit('build', { svnBase: this.state.value });
     }
 
+    /**
+     * 清空终端
+     */
+    clear = () => {
+        this.term.clear();
+    }
+
     componentDidMount() {
         this.term = new Terminal();
         this.term.open(document.getElementById('terminal'));
@@ -87,7 +94,7 @@ class Publish extends Component {
                 </div>
                 <Button type="primary" onClick={this.build} loading={isBuilding}>构建</Button>
                 <div className={styles.terminalTop}>
-                    <Icon type="delete" className={styles.terminalDel} />
+                    <Icon type="delete" className={styles.terminalDel} onClick={this.clear} />
                 </div>
                 <div id="terminal" />
             </div>
