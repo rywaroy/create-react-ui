@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Terminal } from 'xterm';
-import { TreeSelect, Button, message } from 'antd';
+import { TreeSelect, Button, message, Icon } from 'antd';
 import { getFolder } from '@/services/file';
 import styles from './index.less';
 
@@ -86,7 +86,10 @@ class Publish extends Component {
                         treeData={treeData} />
                 </div>
                 <Button type="primary" onClick={this.build} loading={isBuilding}>构建</Button>
-                <div id="terminal" className={styles.terminal} />
+                <div className={styles.terminalTop}>
+                    <Icon type="delete" className={styles.terminalDel} />
+                </div>
+                <div id="terminal" />
             </div>
         );
     }
