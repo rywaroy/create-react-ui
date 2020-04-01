@@ -22,3 +22,12 @@ export function isJs(params) {
 export function getTemplate() {
     return axios.get('file/template');
 }
+
+/**
+ * 获取文件夹目录
+ */
+export function getFolder(params) {
+    return axios.get('file/folder', {
+        params,
+    });
+}

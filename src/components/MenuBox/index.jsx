@@ -20,6 +20,12 @@ class MenuBox extends Component {
                     icon: 'gold',
                     url: '/code',
                 },
+                {
+                    title: '构建发布',
+                    key: 'publish',
+                    icon: 'build',
+                    url: '/publish',
+                },
             ],
         };
     }

@@ -18,4 +18,9 @@ router.get('/isjs', fileController.isjs);
  */
 router.get('/display', fileController.display);
 
+/**
+ * 获取夹目录结构
+ */
+router.get('/folder', fileController.folder);
+
 module.exports = router;
