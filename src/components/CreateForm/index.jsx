@@ -335,9 +335,10 @@ class CreateForm extends Component {
                         )}
                     </div>
                 </div>
-                <div className={styles.dragBox}>
-                    <div className={styles.dragItem}>
-                        label文字
+                <div className={styles.fastBox}>
+                    <div className={styles.fastItem}>
+                        <Input placeholder="label" className={styles.fastInput} />
+                        <Button type="primary" icon="plus" />
                     </div>
                 </div>
                 <SetForm
