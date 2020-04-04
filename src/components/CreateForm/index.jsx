@@ -335,6 +335,11 @@ class CreateForm extends Component {
                         )}
                     </div>
                 </div>
+                <div className={styles.dragBox}>
+                    <div className={styles.dragItem}>
+                        label文字
+                    </div>
+                </div>
                 <SetForm
                     visibleSetForm={visibleSetForm}
                     key={setFormKey}
