@@ -30,6 +30,9 @@ class CreateForm extends Component {
             wrapperCol: 16,
             span: 24,
             defaultLayout: false,
+            fastList: [
+                { label: '', type: 'label' },
+            ],
         };
 
         // 配置默认的type
@@ -232,6 +235,7 @@ class CreateForm extends Component {
             labelCol,
             wrapperCol,
             defaultLayout,
+            fastList,
         } = this.state;
         const { isEditVariable, height } = this.props;
         const formItemLayout = {
@@ -328,18 +332,21 @@ class CreateForm extends Component {
                             <Button
                                 type="primary"
                                 onClick={this.handleSubmit}
-                                className={styles.testButton}
-                            >
+                                className={styles.testButton}>
                                 测试rules
                             </Button>
                         )}
                     </div>
                 </div>
                 <div className={styles.fastBox}>
-                    <div className={styles.fastItem}>
-                        <Input placeholder="label" className={styles.fastInput} />
-                        <Button type="primary" icon="plus" />
-                    </div>
+                    {
+                        fastList.map((item, index) => (
+                            <div className={styles.fastItem} key={item.type}>
+                                <Input placeholder={item.type} className={styles.fastInput} value={item.label} onChange={(e) => this.onChangeFast(e, index)} />
+                                <Button type="primary" icon="plus" onClick={() => this.fastAdd(index)} />
+                            </div>
+                        ))
+                    }
                 </div>
                 <SetForm
                     visibleSetForm={visibleSetForm}
