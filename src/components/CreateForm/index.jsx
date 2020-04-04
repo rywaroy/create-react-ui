@@ -222,6 +222,28 @@ class CreateForm extends Component {
         });
     }
 
+    /**
+     * 便捷添加
+     */
+    fastAdd = index => {
+        const { formOption, fastList } = this.state;
+        const options = [...formOption];
+        const fastLists = [...fastList];
+        const { type } = fastLists[index];
+        let { label } = fastLists[index];
+        label = label || type;
+        const option = {
+            label,
+            name: label,
+            type,
+        };
+        options.push(option);
+        fastLists[index].label = '';
+        this.setState({
+            formOption: options,
+            fastList: fastLists,
+        });
+    }
 
     /**
      * 修改label
