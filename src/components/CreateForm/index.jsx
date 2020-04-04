@@ -266,7 +266,7 @@ class CreateForm extends Component {
                                     <Form.Item label="容器宽度">
                                         <InputNumber
                                             step={100}
-                                            max={1300}
+                                            max={1000}
                                             min={500}
                                             onChange={value => this.setState({ width: value })}
                                             value={width}
