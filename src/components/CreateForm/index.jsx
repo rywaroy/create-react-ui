@@ -32,6 +32,16 @@ class CreateForm extends Component {
             defaultLayout: false,
             fastList: [
                 { label: '', type: 'label' },
+                { label: '', type: 'input' },
+                { label: '', type: 'select' },
+                { label: '', type: 'inputnumber' },
+                { label: '', type: 'password' },
+                { label: '', type: 'datepicker' },
+                { label: '', type: 'monthpicker' },
+                { label: '', type: 'rangepicker' },
+                { label: '', type: 'checkboxgroup' },
+                { label: '', type: 'textarea' },
+                { label: '', type: 'radiogroup' },
             ],
         };
 
