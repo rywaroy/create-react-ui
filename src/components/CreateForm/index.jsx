@@ -222,6 +222,18 @@ class CreateForm extends Component {
         });
     }
 
+
+    /**
+     * 修改label
+     */
+    onChangeFast = (e, index) => {
+        const fastList = [...this.state.fastList];
+        fastList[index].label = e.target.value;
+        this.setState({
+            fastList,
+        });
+    }
+
     render() {
         const {
             formOption,
