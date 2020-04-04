@@ -240,17 +240,16 @@ class CreateForm extends Component {
         };
 
         return (
-            <div>
+            <div className="clearfix">
                 <div>
                     <Button
                         type="primary"
                         onClick={this.openAdd}
-                        style={{ marginRight: '10px' }}
-                    >
+                        style={{ marginRight: '10px' }}>
                         添加
                     </Button>
                 </div>
-                <div className={`${styles.formWrap} clearfix`}>
+                <div className={styles.formWrap}>
                     {
                         isEditVariable
                         && (
