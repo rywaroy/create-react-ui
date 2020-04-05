@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, InputNumber, Input, Form, Radio } from 'antd';
 import cloneDeep from 'loadsh/cloneDeep';
-import { typeOptions, variableTypeOptions } from '@/utils/enum';
+import { typeOptions, variableTypeOptions, mockData } from '@/utils/enum';
 import GenerateForm from '../GenerateForm';
 import SetForm from './SetForm';
 import styles from './index.less';
@@ -238,6 +238,15 @@ class CreateForm extends Component {
             name: label,
             type,
         };
+        if (type === 'select') {
+            option.selectOptions = mockData;
+        }
+        if (type === 'checkboxgroup') {
+            option.checkboxOptions = mockData;
+        }
+        if (type === 'radiogroup') {
+            option.radioOptions = mockData;
+        }
         options.push(option);
         fastLists[index].label = '';
         this.setState({
