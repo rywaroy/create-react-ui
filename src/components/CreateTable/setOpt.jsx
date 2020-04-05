@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, InputNumber, Input, Form, Radio, Button } from 'antd';
-
-const fixedOptions = [
-    { label: 'false', value: false },
-    { label: 'right', value: 'right' },
-    { label: 'left', value: 'left' },
-];
-
-const linkOptions = [
-    { label: 'false', value: false },
-    { label: 'true', value: true },
-];
+import { fixedOptions, linkOptions } from '@/utils/enum';
 
 class SetOpt extends Component {
     state = {

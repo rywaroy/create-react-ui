@@ -62,3 +62,14 @@ export const ellipsisOptions = [
     { label: 'false', value: false },
     { label: 'true', value: true },
 ];
+
+export const fixedOptions = [
+    { label: 'false', value: false },
+    { label: 'right', value: 'right' },
+    { label: 'left', value: 'left' },
+];
+
+export const linkOptions = [
+    { label: 'false', value: false },
+    { label: 'true', value: true },
+];
