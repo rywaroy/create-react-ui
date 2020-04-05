@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
 import { Button, InputNumber, Input, Form, Radio } from 'antd';
 import cloneDeep from 'loadsh/cloneDeep';
+import { typeOptions, variableTypeOptions } from '@/utils/enum';
 import GenerateForm from '../GenerateForm';
 import SetForm from './SetForm';
 import styles from './index.less';
-
-const typeOptions = [
-    { value: 'filter', label: '筛选表单 filter' },
-    { value: 'modal', label: '弹窗表单 modal' },
-];
-
-const variableTypeOptions = [
-    { value: 'Function', label: 'Function' },
-    { value: 'Array', label: 'Array' },
-];
 
 class CreateForm extends Component {
     constructor(props) {
