@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, InputNumber, Input, Form, Radio } from 'antd';
-
-const alignOptions = [
-    { label: 'left', value: 'left' },
-    { label: 'right', value: 'right' },
-    { label: 'center', value: 'center' },
-];
-
-const ellipsisOptions = [
-    { label: 'false', value: false },
-    { label: 'true', value: true },
-];
+import { alignOptions, ellipsisOptions } from '@/utils/enum';
 
 class SetColumn extends Component {
     /**

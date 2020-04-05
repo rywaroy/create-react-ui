@@ -51,3 +51,14 @@ export const mockData = [
     { value: '测试数据2', label: '测试数据2' },
     { value: '测试数据3', label: '测试数据3' },
 ];
+
+export const alignOptions = [
+    { label: 'left', value: 'left' },
+    { label: 'right', value: 'right' },
+    { label: 'center', value: 'center' },
+];
+
+export const ellipsisOptions = [
+    { label: 'false', value: false },
+    { label: 'true', value: true },
+];
