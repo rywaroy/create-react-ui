@@ -13,7 +13,7 @@ class CreateForm extends Component {
             formOption: [],
             visibleSetForm: false,
             setFormKey: Math.random(),
-            width: 1000, // 容器宽度
+            width: this.props.width ? this.props.width : 1000, // 容器宽度
             type: 'filter', // 表单类型
             name: 'listFilter', // 变量名
             variableType: 'Function', // 变量类型
