@@ -288,7 +288,7 @@ class CreateForm extends Component {
         };
 
         return (
-            <div className="clearfix">
+            <div>
                 <div>
                     <Button
                         type="primary"
@@ -364,33 +364,35 @@ class CreateForm extends Component {
                             </div>
                         )
                     }
-
-                    <div className={styles.formBox} style={{ width: `${width}px`, minHeight: `${height}px` }}>
-                        <GenerateForm
-                            formSet={formOption}
-                            formType={type}
-                            wrappedComponentRef={el => { this.generateForm = el; }}
-                            deleteItem={this.deleteItem}
-                        />
-                        {formOption.length > 0 && isEditVariable && (
-                            <Button
-                                type="primary"
-                                onClick={this.handleSubmit}
-                                className={styles.testButton}>
+                    <div className="clearfix">
+                        <div className={styles.formContent} style={{ width: `${width}px`, minHeight: `${height}px` }}>
+                            <GenerateForm
+                                formSet={formOption}
+                                formType={type}
+                                wrappedComponentRef={el => { this.generateForm = el; }}
+                                deleteItem={this.deleteItem}
+                            />
+                            {formOption.length > 0 && isEditVariable && (
+                                <Button
+                                    type="primary"
+                                    onClick={this.handleSubmit}
+                                    className={styles.testButton}>
                                 测试rules
-                            </Button>
-                        )}
+                                </Button>
+                            )}
+                        </div>
+                        <div className={styles.fastBox}>
+                            {
+                                fastList.map((item, index) => (
+                                    <div className={styles.fastItem} key={item.type}>
+                                        <Input placeholder={item.type} className={styles.fastInput} value={item.label} onChange={(e) => this.onChangeFast(e, index)} />
+                                        <Button type="primary" icon="plus" onClick={() => this.fastAdd(index)} />
+                                    </div>
+                                ))
+                            }
+                        </div>
                     </div>
-                </div>
-                <div className={styles.fastBox}>
-                    {
-                        fastList.map((item, index) => (
-                            <div className={styles.fastItem} key={item.type}>
-                                <Input placeholder={item.type} className={styles.fastInput} value={item.label} onChange={(e) => this.onChangeFast(e, index)} />
-                                <Button type="primary" icon="plus" onClick={() => this.fastAdd(index)} />
-                            </div>
-                        ))
-                    }
+
                 </div>
                 <SetForm
                     visibleSetForm={visibleSetForm}
