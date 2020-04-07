@@ -80,7 +80,8 @@ class ListPageModal extends Component {
                         <CreateForm
                             wrappedComponentRef={el => { this.filterForm = el; }}
                             isEditVariable={false}
-                            height={150}
+                            height={300}
+                            width={900}
                             getCode={code => { this.formCode = code; }} />
                     </div>
                     <div className={styles.listPageBox}>

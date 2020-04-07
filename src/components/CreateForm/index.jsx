@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
 import { Button, InputNumber, Input, Form, Radio } from 'antd';
 import cloneDeep from 'loadsh/cloneDeep';
+import { typeOptions, variableTypeOptions, mockData } from '@/utils/enum';
 import GenerateForm from '../GenerateForm';
 import SetForm from './SetForm';
 import styles from './index.less';
-
-const typeOptions = [
-    { value: 'filter', label: '筛选表单 filter' },
-    { value: 'modal', label: '弹窗表单 modal' },
-];
-
-const variableTypeOptions = [
-    { value: 'Function', label: 'Function' },
-    { value: 'Array', label: 'Array' },
-];
 
 class CreateForm extends Component {
     constructor(props) {
@@ -22,7 +13,7 @@ class CreateForm extends Component {
             formOption: [],
             visibleSetForm: false,
             setFormKey: Math.random(),
-            width: 1000, // 容器宽度
+            width: this.props.width ? this.props.width : 1000, // 容器宽度
             type: 'filter', // 表单类型
             name: 'listFilter', // 变量名
             variableType: 'Function', // 变量类型
@@ -30,6 +21,19 @@ class CreateForm extends Component {
             wrapperCol: 16,
             span: 24,
             defaultLayout: false,
+            fastList: [
+                { label: '', type: 'label' },
+                { label: '', type: 'input' },
+                { label: '', type: 'select' },
+                { label: '', type: 'inputnumber' },
+                { label: '', type: 'password' },
+                { label: '', type: 'datepicker' },
+                { label: '', type: 'monthpicker' },
+                { label: '', type: 'rangepicker' },
+                { label: '', type: 'checkboxgroup' },
+                { label: '', type: 'textarea' },
+                { label: '', type: 'radiogroup' },
+            ],
         };
 
         // 配置默认的type
@@ -219,6 +223,49 @@ class CreateForm extends Component {
         });
     }
 
+    /**
+     * 便捷添加
+     */
+    fastAdd = index => {
+        const { formOption, fastList } = this.state;
+        const options = [...formOption];
+        const fastLists = [...fastList];
+        const { type } = fastLists[index];
+        let { label } = fastLists[index];
+        label = label || type;
+        const option = {
+            label,
+            name: label,
+            type,
+        };
+        if (type === 'select') {
+            option.selectOptions = mockData;
+        }
+        if (type === 'checkboxgroup') {
+            option.checkboxOptions = mockData;
+        }
+        if (type === 'radiogroup') {
+            option.radioOptions = mockData;
+        }
+        options.push(option);
+        fastLists[index].label = '';
+        this.setState({
+            formOption: options,
+            fastList: fastLists,
+        });
+    }
+
+    /**
+     * 修改label
+     */
+    onChangeFast = (e, index) => {
+        const fastList = [...this.state.fastList];
+        fastList[index].label = e.target.value;
+        this.setState({
+            fastList,
+        });
+    }
+
     render() {
         const {
             formOption,
@@ -232,6 +279,7 @@ class CreateForm extends Component {
             labelCol,
             wrapperCol,
             defaultLayout,
+            fastList,
         } = this.state;
         const { isEditVariable, height } = this.props;
         const formItemLayout = {
@@ -245,12 +293,11 @@ class CreateForm extends Component {
                     <Button
                         type="primary"
                         onClick={this.openAdd}
-                        style={{ marginRight: '10px' }}
-                    >
+                        style={{ marginRight: '10px' }}>
                         添加
                     </Button>
                 </div>
-                <div className={`${styles.formWrap} clearfix`}>
+                <div className={styles.formWrap}>
                     {
                         isEditVariable
                         && (
@@ -266,7 +313,7 @@ class CreateForm extends Component {
                                     <Form.Item label="容器宽度">
                                         <InputNumber
                                             step={100}
-                                            max={1300}
+                                            max={1000}
                                             min={500}
                                             onChange={value => this.setState({ width: value })}
                                             value={width}
@@ -317,24 +364,35 @@ class CreateForm extends Component {
                             </div>
                         )
                     }
-
-                    <div className={styles.formBox} style={{ width: `${width}px`, minHeight: `${height}px` }}>
-                        <GenerateForm
-                            formSet={formOption}
-                            formType={type}
-                            wrappedComponentRef={el => { this.generateForm = el; }}
-                            deleteItem={this.deleteItem}
-                        />
-                        {formOption.length > 0 && isEditVariable && (
-                            <Button
-                                type="primary"
-                                onClick={this.handleSubmit}
-                                className={styles.testButton}
-                            >
+                    <div className="clearfix">
+                        <div className={styles.formContent} style={{ width: `${width}px`, minHeight: `${height}px` }}>
+                            <GenerateForm
+                                formSet={formOption}
+                                formType={type}
+                                wrappedComponentRef={el => { this.generateForm = el; }}
+                                deleteItem={this.deleteItem}
+                            />
+                            {formOption.length > 0 && isEditVariable && (
+                                <Button
+                                    type="primary"
+                                    onClick={this.handleSubmit}
+                                    className={styles.testButton}>
                                 测试rules
-                            </Button>
-                        )}
+                                </Button>
+                            )}
+                        </div>
+                        <div className={styles.fastBox}>
+                            {
+                                fastList.map((item, index) => (
+                                    <div className={styles.fastItem} key={item.type}>
+                                        <Input placeholder={item.type} className={styles.fastInput} value={item.label} onChange={(e) => this.onChangeFast(e, index)} />
+                                        <Button type="primary" icon="plus" onClick={() => this.fastAdd(index)} />
+                                    </div>
+                                ))
+                            }
+                        </div>
                     </div>
+
                 </div>
                 <SetForm
                     visibleSetForm={visibleSetForm}
