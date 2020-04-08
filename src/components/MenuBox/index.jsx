@@ -26,6 +26,12 @@ class MenuBox extends Component {
                     icon: 'build',
                     url: '/publish',
                 },
+                {
+                    title: '文档生成',
+                    key: 'document',
+                    icon: 'file',
+                    url: '/document',
+                },
             ],
         };
     }
