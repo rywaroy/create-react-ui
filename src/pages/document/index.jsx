@@ -21,7 +21,20 @@ class Doucument extends Component {
                 <Form {...formItemLayout}>
                     <Form.Item label="文件构建目录">
                         {
-                            getFieldDecorator('url')(
+                            getFieldDecorator('entry')(
+                                <TreeSelect
+                                    showSearch
+                                    style={{ width: '400px' }}
+                                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                    placeholder="请选择路径"
+                                    allowClear
+                                    treeData={files} />,
+                            )
+                        }
+                    </Form.Item>
+                    <Form.Item label="文档输出目录">
+                        {
+                            getFieldDecorator('output')(
                                 <TreeSelect
                                     showSearch
                                     style={{ width: '400px' }}
