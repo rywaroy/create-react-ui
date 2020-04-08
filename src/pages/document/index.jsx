@@ -1,18 +1,41 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
+import { TreeSelect, Form } from 'antd';
 
 class Doucument extends Component {
     constructor(props) {
         super(props);
-        this.state = { };
+        this.state = {};
     }
 
     render() {
+        const { files } = this.props.global;
+        const { getFieldDecorator } = this.props.form;
+        const formItemLayout = {
+            labelCol: { span: 3 },
+            wrapperCol: { span: 14 },
+        };
+
         return (
             <div>
-                文档
+                <Form {...formItemLayout}>
+                    <Form.Item label="文件构建目录">
+                        {
+                            getFieldDecorator('url')(
+                                <TreeSelect
+                                    showSearch
+                                    style={{ width: '400px' }}
+                                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                    placeholder="请选择路径"
+                                    allowClear
+                                    treeData={files} />,
+                            )
+                        }
+                    </Form.Item>
+                </Form>
             </div>
         );
     }
 }
 
-export default Doucument;
+export default connect(({ global }) => ({ global }))(Form.create()(Doucument));
