@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-module.exports = async function isjs(ctx) {
+module.exports = async function isfolder(ctx) {
     const base = path.join(process.cwd(), ctx.query.url ? ctx.query.url : '');
     if (fs.existsSync(base)) {
         const stat = fs.statSync(base);
