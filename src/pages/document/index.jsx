@@ -21,7 +21,14 @@ class Doucument extends Component {
                 <Form {...formItemLayout}>
                     <Form.Item label="文件构建目录">
                         {
-                            getFieldDecorator('entry')(
+                            getFieldDecorator('entry', {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: '请选择文件构建目录',
+                                    },
+                                ],
+                            })(
                                 <TreeSelect
                                     showSearch
                                     style={{ width: '400px' }}
@@ -34,7 +41,14 @@ class Doucument extends Component {
                     </Form.Item>
                     <Form.Item label="文档输出目录">
                         {
-                            getFieldDecorator('output')(
+                            getFieldDecorator('output', {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: '请选择文档输出目录',
+                                    },
+                                ],
+                            })(
                                 <TreeSelect
                                     showSearch
                                     style={{ width: '400px' }}
