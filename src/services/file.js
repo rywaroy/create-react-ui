@@ -40,3 +40,12 @@ export function isFolder(params) {
         params,
     });
 }
+
+/**
+ * 验证是否是js文件或者文件夹
+ */
+export function isJsOrFolder(params) {
+    return axios.get('file/isJsOrFolder', {
+        params,
+    });
+}
