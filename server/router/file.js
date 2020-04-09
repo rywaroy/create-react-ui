@@ -28,4 +28,9 @@ router.get('/folder', fileController.folder);
  */
 router.get('/isfolder', fileController.isfolder);
 
+/**
+ * 判断是否是文件夹或者js文件
+ */
+router.get('/isJsOrFolder', fileController.isJsOrFolder);
+
 module.exports = router;
