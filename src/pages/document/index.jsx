@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { TreeSelect, Form } from 'antd';
+import { isFolder } from '@/services/file';
 
 class Doucument extends Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
+
+    /**
+     * 验证是否是文件夹
+     */
+    isFolder = (rule, value, callback) => {
+        isFolder({
+            url: value,
+        }).then(() => {
+            callback();
+        }).catch(err => {
+            callback(err);
+        });
+    };
 
     render() {
         const { files } = this.props.global;
@@ -46,6 +60,9 @@ class Doucument extends Component {
                                     {
                                         required: true,
                                         message: '请选择文档输出目录',
+                                    },
+                                    {
+                                        validator: this.isFolder,
                                     },
                                 ],
                             })(
