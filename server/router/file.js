@@ -23,4 +23,9 @@ router.get('/display', fileController.display);
  */
 router.get('/folder', fileController.folder);
 
+/**
+ * 判断是否是文件夹
+ */
+router.get('/isfolder', fileController.isfolder);
+
 module.exports = router;
