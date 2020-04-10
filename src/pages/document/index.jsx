@@ -35,6 +35,21 @@ class Doucument extends Component {
         });
     };
 
+    /**
+     * 发起创建文档
+     */
+    create = () => {
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                const { entry, output } = values;
+                window.socket.emit('create-document', {
+                    entry,
+                    output,
+                });
+            }
+        });
+    }
+
     render() {
         const { files } = this.props.global;
         const { getFieldDecorator } = this.props.form;
@@ -93,7 +108,7 @@ class Doucument extends Component {
                         }
                     </Form.Item>
                     <Form.Item label=" " colon={false}>
-                        <Button type="primary">生成</Button>
+                        <Button type="primary" onClick={this.create}>生成</Button>
                     </Form.Item>
                 </Form>
             </div>
