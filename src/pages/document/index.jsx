@@ -6,7 +6,9 @@ import { isFolder, isJsOrFolder } from '@/services/file';
 class Doucument extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            isCreateing: false, // 是否正在构建
+        };
     }
 
     /**
@@ -50,9 +52,14 @@ class Doucument extends Component {
         });
     }
 
+    componentDidMount() {
+        window.socket.on('createing', isCreateing => this.setState({ isCreateing }));
+    }
+
     render() {
         const { files } = this.props.global;
         const { getFieldDecorator } = this.props.form;
+        const { isCreateing } = this.state;
         const formItemLayout = {
             labelCol: { span: 3 },
             wrapperCol: { span: 14 },
@@ -108,7 +115,7 @@ class Doucument extends Component {
                         }
                     </Form.Item>
                     <Form.Item label=" " colon={false}>
-                        <Button type="primary" onClick={this.create}>生成</Button>
+                        <Button type="primary" onClick={this.create} loading={isCreateing}>生成</Button>
                     </Form.Item>
                 </Form>
             </div>
