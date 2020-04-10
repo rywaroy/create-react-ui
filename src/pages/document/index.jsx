@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { TreeSelect, Form } from 'antd';
-import { isFolder } from '@/services/file';
+import { TreeSelect, Form, Button } from 'antd';
+import { isFolder, isJsOrFolder } from '@/services/file';
 
 class Doucument extends Component {
     constructor(props) {
@@ -14,6 +14,19 @@ class Doucument extends Component {
      */
     isFolder = (rule, value, callback) => {
         isFolder({
+            url: value,
+        }).then(() => {
+            callback();
+        }).catch(err => {
+            callback(err);
+        });
+    };
+
+    /**
+     * 验证是否是js文件或者文件夹
+     */
+    isJsOrFolder = (rule, value, callback) => {
+        isJsOrFolder({
             url: value,
         }).then(() => {
             callback();
@@ -40,6 +53,9 @@ class Doucument extends Component {
                                     {
                                         required: true,
                                         message: '请选择文件构建目录',
+                                    },
+                                    {
+                                        validator: this.isJsOrFolder,
                                     },
                                 ],
                             })(
@@ -75,6 +91,9 @@ class Doucument extends Component {
                                     treeData={files} />,
                             )
                         }
+                    </Form.Item>
+                    <Form.Item label=" " colon={false}>
+                        <Button type="primary">生成</Button>
                     </Form.Item>
                 </Form>
             </div>
