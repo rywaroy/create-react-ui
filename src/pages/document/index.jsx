@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
+import { Terminal } from 'xterm';
 import { TreeSelect, Form, Button } from 'antd';
 import { isFolder, isJsOrFolder } from '@/services/file';
 
@@ -53,7 +54,13 @@ class Doucument extends Component {
     }
 
     componentDidMount() {
+        this.term = new Terminal();
+        this.term.open(document.getElementById('terminal'));
         window.socket.on('createing', isCreateing => this.setState({ isCreateing }));
+    }
+
+    componentWillUnmount() {
+        this.term.dispose();
     }
 
     render() {
@@ -118,6 +125,7 @@ class Doucument extends Component {
                         <Button type="primary" onClick={this.create} loading={isCreateing}>生成</Button>
                     </Form.Item>
                 </Form>
+                <div id="terminal" />
             </div>
         );
     }
