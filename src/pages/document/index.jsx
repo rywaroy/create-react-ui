@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Terminal } from 'xterm';
-import { TreeSelect, Form, Button } from 'antd';
+import { TreeSelect, Form, Button, Icon } from 'antd';
 import { isFolder, isJsOrFolder } from '@/services/file';
+import styles from './index.less';
 
 class Doucument extends Component {
     constructor(props) {
@@ -51,6 +52,13 @@ class Doucument extends Component {
                 });
             }
         });
+    }
+
+    /**
+     * 清空终端
+     */
+    clear = () => {
+        this.term.clear();
     }
 
     componentDidMount() {
@@ -128,6 +136,9 @@ class Doucument extends Component {
                         <Button type="primary" onClick={this.create} loading={isCreateing}>生成</Button>
                     </Form.Item>
                 </Form>
+                <div className={styles.terminalTop}>
+                    <Icon type="delete" className={styles.terminalDel} onClick={this.clear} />
+                </div>
                 <div id="terminal" />
             </div>
         );
