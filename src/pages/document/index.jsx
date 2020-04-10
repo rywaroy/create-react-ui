@@ -56,6 +56,9 @@ class Doucument extends Component {
     componentDidMount() {
         this.term = new Terminal();
         this.term.open(document.getElementById('terminal'));
+        window.socket.on('term', msg => {
+            this.term.writeln(msg);
+        });
         window.socket.on('createing', isCreateing => this.setState({ isCreateing }));
     }
 
