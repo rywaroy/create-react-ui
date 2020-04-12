@@ -1,5 +1,6 @@
 const SocketIo = require('socket.io');
 const publish = require('./publish');
+const document = require('./document');
 
 module.exports = function createSocket(server) {
     const io = SocketIo(server);
@@ -10,5 +11,8 @@ module.exports = function createSocket(server) {
 
         // 构建发布
         publish(socket);
+
+        // 文档生成
+        document(socket);
     });
 };
