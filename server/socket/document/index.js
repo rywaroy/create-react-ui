@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const getTargetFile = require('./getTargetFile');
+const astParse = require('./astParse');
 
 module.exports = function document(socket) {
     socket.on('create-document', ({ entry }) => {
@@ -10,6 +11,8 @@ module.exports = function document(socket) {
         if (stat.isDirectory()) {
             files = getTargetFile(entryBase);
         }
-        return files;
+        files.forEach(item => {
+            astParse(item);
+        });
     });
 };
