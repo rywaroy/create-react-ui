@@ -12,7 +12,7 @@ module.exports = function document(socket) {
             files = getTargetFile(entryBase);
         }
         files.forEach(item => {
-            astParse(item);
+            astParse(path.join(entryBase, item));
         });
     });
 };
