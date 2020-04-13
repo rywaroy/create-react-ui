@@ -128,6 +128,41 @@ function filterCommentLine(line) {
     };
 }
 
-function filterRules() {
+/**
+ * 规则验证
+ * @param {String} rules
+ * @returns {Object}
+ */
+function filterRules(rule, line) {
+    const type = line.match(/{(.*)}/);
+    const obj = {
+        name: rule,
+        type: type ? type[1] : '', // // 正则配置，获取{}中的参数类型
+        value: '',
+        ...rules[rule],
+    };
+    if (rule === '@param') {
+    // 例子： @params {String | Object} type - 类型
+        if (line.indexOf('-') > -1) {
+            // 截取'类型'
+            obj.value = trimStr(line.split('-')[1]);
+        }
+        // 截取type
+        const param = line.split('-')[0].replace(/{(.*)}/, '').match(/\s+([a-zA-Z0-9]+)\s*/);
+        obj.param = param ? param[1] : '';
+    }
+    if (rule === '@returns') {
+        const value = line.match(/}(.+)$/);
+        obj.value = value ? trimStr(value[1]) : '';
+    }
+    return obj;
+}
 
+/**
+ * 除去首尾空格
+ * @param {String} str
+ * @returns {String}
+ */
+function trimStr(str) {
+    return str.replace(/(^\s*)|(\s*$)/g, '');
 }
