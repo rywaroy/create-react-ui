@@ -9,16 +9,6 @@ const rules = {
         cn: '作者',
         simple: true,
     },
-    '@param': {
-        name: 'param',
-        cn: '参数',
-        simple: false,
-    },
-    '@returns': {
-        name: 'returns',
-        cn: '返回',
-        simple: false,
-    },
     '@intro': {
         name: 'intro',
         cn: '介绍',
