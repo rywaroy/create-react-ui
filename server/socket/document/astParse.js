@@ -1,8 +1,10 @@
 const fs = require('fs');
 const babelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
+const commentParse = require('./commentParse');
 
 module.exports = function astParse(base) {
+    const obj = {};
     const ast = babelParser.parse(fs.readFileSync(base, 'utf-8'), {
         sourceType: 'module',
         plugins: [
@@ -20,7 +22,11 @@ module.exports = function astParse(base) {
                 *
                 * }
                 */
-                console.log(path.node.declaration);
+                obj.name = path.node.declaration.id.name;
+                if (path.node.leadingComments) {
+                    obj.main = commentParse(path.node.leadingComments);
+                }
+                console.log(obj);
             }
         },
     });
