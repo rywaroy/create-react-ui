@@ -25,7 +25,17 @@ module.exports = function commentParse(comments) {
  * @returns {Array}
  */
 function filterCommentBlock(comment) {
-    return comment;
+    const commentArray = [];
+    comment.value.split('\n').forEach(item => {
+    // 去除星号、首尾空格 ' * abcd   ' -> 'abcd'
+        const str = item.replace(/(^\s*\*\s*)|(\s*$)/, '');
+
+        // 过滤空字符串
+        if (str) {
+            commentArray.push(str);
+        }
+    });
+    return commentArray;
 }
 
 /**
