@@ -32,6 +32,16 @@ module.exports = function astParse(base) {
             }
         },
     });
+
+    // 合并defaultProps
+    if (obj.defaultProps && obj.props) {
+        obj.props.forEach(item => {
+            if (obj.defaultProps[item.name]) {
+                item.defaultProps = obj.defaultProps[item.name];
+            }
+        });
+        delete obj.defaultProps;
+    }
 };
 
 /**
