@@ -44,13 +44,7 @@ module.exports = function astParse(base) {
                     path.node.declaration.body.body.forEach(item => {
                         if (item.type === 'ClassProperty' && item.static) {
                             if (item.key.name === 'defaultProps') {
-                                const df = {};
-                                item.value.properties.forEach(prop => {
-                                    if (prop.value.type === 'StringLiteral' || prop.value.type === 'NumericLiteral' || item.value.type === 'BooleanLiteral') { // 存储字符串、数字、布尔类型的默认值
-                                        df[prop.key.name] = prop.value.value;
-                                    }
-                                });
-                                obj.defaultProps = df;
+                                obj.defaultProps = parseDefaultProps(item.value.properties);
                             }
                         }
                     });
@@ -93,13 +87,7 @@ function createPropsVisitor(object, identifier) {
             const { right } = path.node.expression;
             if (left && left.type === 'MemberExpression' && left.object.name === identifier) {
                 if (left.property.name === 'defaultProps') {
-                    const df = {};
-                    right.properties.forEach(item => {
-                        if (item.value.type === 'StringLiteral' || item.value.type === 'NumericLiteral' || item.value.type === 'BooleanLiteral') { // 存储字符串、数字、布尔类型的默认值
-                            df[item.key.name] = item.value.value;
-                        }
-                    });
-                    object.defaultProps = df;
+                    object.defaultProps = parseDefaultProps(right.properties);
                 }
 
                 if (left.property.name === 'propTypes') {
@@ -131,4 +119,17 @@ function createPropsVisitor(object, identifier) {
             }
         },
     };
+}
+
+/**
+ * 解析DefaultProps中的属性
+ */
+function parseDefaultProps(props) {
+    const df = {};
+    props.forEach(prop => {
+        if (prop.value.type === 'StringLiteral' || prop.value.type === 'NumericLiteral' || prop.value.type === 'BooleanLiteral') { // 存储字符串、数字、布尔类型的默认值
+            df[prop.key.name] = prop.value.value;
+        }
+    });
+    return df;
 }
