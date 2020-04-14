@@ -40,6 +40,21 @@ module.exports = function astParse(base) {
                 if (path.node.leadingComments) {
                     obj.main = commentParse(path.node.leadingComments);
                 }
+                if (path.node.declaration.body.body.length > 0) {
+                    path.node.declaration.body.body.forEach(item => {
+                        if (item.type === 'ClassProperty' && item.static) {
+                            if (item.key.name === 'defaultProps') {
+                                const df = {};
+                                item.value.properties.forEach(prop => {
+                                    if (prop.value.type === 'StringLiteral' || prop.value.type === 'NumericLiteral' || item.value.type === 'BooleanLiteral') { // 存储字符串、数字、布尔类型的默认值
+                                        df[prop.key.name] = prop.value.value;
+                                    }
+                                });
+                                obj.defaultProps = df;
+                            }
+                        }
+                    });
+                }
                 const identifier = path.node.declaration.id.name;
                 traverse(ast, createPropsVisitor(obj, identifier));
             }
