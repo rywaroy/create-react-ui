@@ -67,8 +67,15 @@ function createPropsVisitor(object, identifier) {
                     for (let i = 0; i < right.properties.length; i++) {
                         const obj = {
                             name: right.properties[i].key.name,
-                            type: right.properties[i].value.property.name,
                         };
+                        if (right.properties[i].value.object.type === 'Identifier') {
+                            obj.type = right.properties[i].value.property.name;
+                            obj.isRequired = false;
+                        }
+                        if (right.properties[i].value.object.type === 'MemberExpression') {
+                            obj.type = right.properties[i].value.object.property.name;
+                            obj.isRequired = right.properties[i].value.property.name === 'isRequired';
+                        }
                         // 最后一项取trailingComments内容
                         if (i === right.properties.length - 1) {
                             if (right.properties[i].trailingComments) {
