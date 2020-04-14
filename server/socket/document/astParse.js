@@ -91,30 +91,7 @@ function createPropsVisitor(object, identifier) {
                 }
 
                 if (left.property.name === 'propTypes') {
-                    const types = [];
-                    for (let i = 0; i < right.properties.length; i++) {
-                        const obj = {
-                            name: right.properties[i].key.name,
-                        };
-                        if (right.properties[i].value.object.type === 'Identifier') {
-                            obj.type = right.properties[i].value.property.name;
-                            obj.isRequired = false;
-                        }
-                        if (right.properties[i].value.object.type === 'MemberExpression') {
-                            obj.type = right.properties[i].value.object.property.name;
-                            obj.isRequired = right.properties[i].value.property.name === 'isRequired';
-                        }
-                        // 最后一项取trailingComments内容
-                        if (i === right.properties.length - 1) {
-                            if (right.properties[i].trailingComments) {
-                                obj.value = commentParse(right.properties[i].trailingComments);
-                            }
-                        } else if (right.properties[i + 1].leadingComments) { // 不是最后一项取下一项的leadingComments内容
-                            obj.value = commentParse(right.properties[i + 1].leadingComments);
-                        }
-                        types.push(obj);
-                    }
-                    object.props = types;
+                    object.props = parsePropTypes(right.properties);
                 }
             }
         },
@@ -132,4 +109,34 @@ function parseDefaultProps(props) {
         }
     });
     return df;
+}
+
+/**
+ * 解析propTypes中的属性
+ */
+function parsePropTypes(props) {
+    const types = [];
+    for (let i = 0; i < props.length; i++) {
+        const obj = {
+            name: props[i].key.name,
+        };
+        if (props[i].value.object.type === 'Identifier') {
+            obj.type = props[i].value.property.name;
+            obj.isRequired = false;
+        }
+        if (props[i].value.object.type === 'MemberExpression') {
+            obj.type = props[i].value.object.property.name;
+            obj.isRequired = props[i].value.property.name === 'isRequired';
+        }
+        // 最后一项取trailingComments内容
+        if (i === props.length - 1) {
+            if (props[i].trailingComments) {
+                obj.value = commentParse(props[i].trailingComments);
+            }
+        } else if (props[i + 1].leadingComments) { // 不是最后一项取下一项的leadingComments内容
+            obj.value = commentParse(props[i + 1].leadingComments);
+        }
+        types.push(obj);
+    }
+    return types;
 }
