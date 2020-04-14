@@ -46,6 +46,9 @@ module.exports = function astParse(base) {
                             if (item.key.name === 'defaultProps') {
                                 obj.defaultProps = parseDefaultProps(item.value.properties);
                             }
+                            if (item.key.name === 'propTypes') {
+                                obj.props = parsePropTypes(item.value.properties);
+                            }
                         }
                     });
                 }
