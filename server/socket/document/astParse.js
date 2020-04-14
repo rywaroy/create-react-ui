@@ -22,12 +22,46 @@ module.exports = function astParse(base) {
                 *
                 * }
                 */
-                obj.name = path.node.declaration.id.name;
+                const identifier = path.node.declaration.id.name;
+                obj.name = identifier;
                 if (path.node.leadingComments) {
                     obj.main = commentParse(path.node.leadingComments);
                 }
+                traverse(ast, createPropsVisitor(obj, identifier));
                 console.log(obj);
             }
         },
     });
 };
+
+/**
+ * 创建props遍历器
+ * @param {Object} object - 页面obj对象
+ * @param {String} identifier - 遍历名称
+ * @returns {Object} - visitor对象
+ */
+function createPropsVisitor(object, identifier) {
+    return {
+        ExpressionStatement(path) {
+            /**
+             * 解析props，遍历陈述语句
+             * @example
+             * Component.defaultProps = {}
+             * Component.propTypes = {};
+             */
+            const { left } = path.node.expression;
+            const { right } = path.node.expression;
+            if (left && left.type === 'MemberExpression' && left.object.name === identifier) {
+                if (left.property.name === 'defaultProps') {
+                    const df = {};
+                    right.properties.forEach(item => {
+                        if (item.value.type === 'StringLiteral' || item.value.type === 'NumericLiteral' || item.value.type === 'BooleanLiteral') { // 存储字符串、数字、布尔类型的默认值
+                            df[item.key.name] = item.value.value;
+                        }
+                    });
+                    object.defaultProps = df;
+                }
+            }
+        },
+    };
+}
