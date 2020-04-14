@@ -61,6 +61,26 @@ function createPropsVisitor(object, identifier) {
                     });
                     object.defaultProps = df;
                 }
+
+                if (left.property.name === 'propTypes') {
+                    const types = [];
+                    for (let i = 0; i < right.properties.length; i++) {
+                        const obj = {
+                            name: right.properties[i].key.name,
+                            type: right.properties[i].value.property.name,
+                        };
+                        // 最后一项取trailingComments内容
+                        if (i === right.properties.length - 1) {
+                            if (right.properties[i].trailingComments) {
+                                obj.value = commentParse(right.properties[i].trailingComments);
+                            }
+                        } else if (right.properties[i + 1].leadingComments) { // 不是最后一项取下一项的leadingComments内容
+                            obj.value = commentParse(right.properties[i + 1].leadingComments);
+                        }
+                        types.push(obj);
+                    }
+                    object.props = types;
+                }
             }
         },
     };
