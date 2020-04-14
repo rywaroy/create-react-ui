@@ -28,7 +28,20 @@ module.exports = function astParse(base) {
                     obj.main = commentParse(path.node.leadingComments);
                 }
                 traverse(ast, createPropsVisitor(obj, identifier));
-                console.log(obj);
+            }
+            if (path.node.declaration.type === 'ClassDeclaration') {
+                /**
+                * 导出类组件
+                * @example
+                * export default class Component extends React.Component {
+                *
+                * }
+                */
+                if (path.node.leadingComments) {
+                    obj.main = commentParse(path.node.leadingComments);
+                }
+                const identifier = path.node.declaration.id.name;
+                traverse(ast, createPropsVisitor(obj, identifier));
             }
         },
     });
@@ -42,6 +55,8 @@ module.exports = function astParse(base) {
         });
         delete obj.defaultProps;
     }
+
+    console.log(obj);
 };
 
 /**
