@@ -65,6 +65,30 @@ module.exports = function astParse(base) {
                 const identifier = path.node.declaration.name;
                 traverse(ast, createVisitor(obj, identifier, ast));
             }
+            if (path.node.declaration.type === 'CallExpression') {
+                /**
+                 * 导出表达式
+                 * @example
+                 * class Component extends react.Component {}
+                 * export default connect(({ global }) => ({ global }))(Component);
+                 * // or
+                 * export default Form.create()(Component);
+                 * // or
+                 * export default connect(({ global }) => ({ global }))(Form.create()(Component));
+                 */
+
+                if (path.node.declaration.arguments.length > 0) {
+                    const argument = path.node.declaration.arguments[0];
+                    let identifier;
+                    if (argument.type === 'Identifier') {
+                        identifier = argument.name;
+                    }
+                    if (argument.type === 'CallExpression') {
+                        identifier = argument.arguments[0].name;
+                    }
+                    traverse(ast, createVisitor(obj, identifier, ast));
+                }
+            }
         },
     });
 
