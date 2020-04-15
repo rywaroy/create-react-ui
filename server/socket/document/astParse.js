@@ -98,6 +98,14 @@ function createVisitor(object, identifier, ast) {
                 traverse(ast, createPropsVisitor(object, identifier));
             }
         },
+        ClassDeclaration(path) {
+            if (path.node.id.name === identifier) {
+                if (path.node.leadingComments) {
+                    object.main = commentParse(path.node.leadingComments);
+                }
+                traverse(ast, createPropsVisitor(object, identifier));
+            }
+        },
     };
 }
 
