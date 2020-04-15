@@ -102,7 +102,7 @@ module.exports = function astParse(base) {
         delete obj.defaultProps;
     }
 
-    console.log(obj);
+    return obj;
 };
 
 /**
