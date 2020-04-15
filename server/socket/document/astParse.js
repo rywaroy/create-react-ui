@@ -118,6 +118,20 @@ function createVisitor(object, identifier, ast) {
                 traverse(ast, createPropsVisitor(object, identifier));
             }
         },
+        VariableDeclaration(path) {
+            /**
+             * 使用Form组件的情况
+             * @example
+             * const ComponentForm = Form.create()(Component);
+             * export default ComponentForm
+             */
+            path.node.declarations.forEach(item => {
+                if (item.id.name === identifier) {
+                    const id = item.init.arguments[0].name;
+                    traverse(ast, createVisitor(object, id, ast));
+                }
+            });
+        },
     };
 }
 
