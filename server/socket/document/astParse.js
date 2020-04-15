@@ -55,6 +55,16 @@ module.exports = function astParse(base) {
                 const identifier = path.node.declaration.id.name;
                 traverse(ast, createPropsVisitor(obj, identifier));
             }
+            if (path.node.declaration.type === 'Identifier') {
+                /**
+                 * 导出变量
+                 * @example
+                 * class Component extends react.Component {}
+                 * export default Component;
+                 */
+                const identifier = path.node.declaration.name;
+                traverse(ast, createVisitor(obj, identifier, ast));
+            }
         },
     });
 
@@ -70,6 +80,26 @@ module.exports = function astParse(base) {
 
     console.log(obj);
 };
+
+/**
+ * 创建遍历器
+ * @param {Object} object - 页面object对象
+ * @param {String} identifier - 遍历名称
+ * @param {Object} ast - ast对象
+ * @returns {Object} - visitor对象
+ */
+function createVisitor(object, identifier, ast) {
+    return {
+        FunctionDeclaration(path) {
+            if (path.node.id.name === identifier) {
+                if (path.node.leadingComments) {
+                    object.main = commentParse(path.node.leadingComments);
+                }
+                traverse(ast, createPropsVisitor(object, identifier));
+            }
+        },
+    };
+}
 
 /**
  * 创建props遍历器
