@@ -103,6 +103,18 @@ function createVisitor(object, identifier, ast) {
                 if (path.node.leadingComments) {
                     object.main = commentParse(path.node.leadingComments);
                 }
+                if (path.node.body.body.length > 0) {
+                    path.node.body.body.forEach(item => {
+                        if (item.type === 'ClassProperty' && item.static) {
+                            if (item.key.name === 'defaultProps') {
+                                object.defaultProps = parseDefaultProps(item.value.properties);
+                            }
+                            if (item.key.name === 'propTypes') {
+                                object.props = parsePropTypes(item.value.properties);
+                            }
+                        }
+                    });
+                }
                 traverse(ast, createPropsVisitor(object, identifier));
             }
         },
