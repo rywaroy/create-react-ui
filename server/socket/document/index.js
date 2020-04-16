@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const getTargetFile = require('./getTargetFile');
 const astParse = require('./astParse');
+const createMd = require('./createMd');
 
 module.exports = function document(socket) {
     socket.on('create-document', ({ entry }) => {
@@ -12,7 +13,8 @@ module.exports = function document(socket) {
             files = getTargetFile(entryBase);
         }
         files.forEach(item => {
-            astParse(path.join(entryBase, item));
+            const fileObj = astParse(path.join(entryBase, item));
+            createMd(fileObj);
         });
     });
 };
