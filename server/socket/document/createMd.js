@@ -3,6 +3,10 @@ const path = require('path');
 
 module.exports = function createMd(fileObj, output) {
     let { name } = fileObj;
+    const { props, main } = fileObj;
+    if (!main && !props) {
+        return false;
+    }
     if (fileObj.main) {
         const notes = getNote(fileObj.main);
         if (notes.title) {
@@ -12,6 +16,7 @@ module.exports = function createMd(fileObj, output) {
     const md = createMdString(fileObj, name);
 
     fs.writeFileSync(`${path.join(process.cwd(), output, `${name}.md`)}`, md);
+    return true;
 };
 
 /**
