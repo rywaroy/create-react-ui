@@ -53,6 +53,7 @@ module.exports = function astParse(base) {
                     });
                 }
                 const identifier = path.node.declaration.id.name;
+                obj.name = identifier;
                 traverse(ast, createPropsVisitor(obj, identifier));
             }
             if (path.node.declaration.type === 'Identifier') {
@@ -63,6 +64,7 @@ module.exports = function astParse(base) {
                  * export default Component;
                  */
                 const identifier = path.node.declaration.name;
+                obj.name = identifier;
                 traverse(ast, createVisitor(obj, identifier, ast));
             }
             if (path.node.declaration.type === 'CallExpression') {
@@ -86,6 +88,7 @@ module.exports = function astParse(base) {
                     if (argument.type === 'CallExpression') {
                         identifier = argument.arguments[0].name;
                     }
+                    obj.name = identifier;
                     traverse(ast, createVisitor(obj, identifier, ast));
                 }
             }
