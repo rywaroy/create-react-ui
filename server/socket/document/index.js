@@ -5,7 +5,7 @@ const astParse = require('./astParse');
 const createMd = require('./createMd');
 
 module.exports = function document(socket) {
-    socket.on('create-document', ({ entry }) => {
+    socket.on('create-document', ({ entry, output }) => {
         const entryBase = path.join(process.cwd(), entry);
         const stat = fs.statSync(entryBase);
         let files = [];
@@ -14,7 +14,7 @@ module.exports = function document(socket) {
         }
         files.forEach(item => {
             const fileObj = astParse(path.join(entryBase, item));
-            createMd(fileObj);
+            createMd(fileObj, output);
         });
     });
 };
