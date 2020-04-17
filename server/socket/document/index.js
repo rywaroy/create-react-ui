@@ -12,9 +12,11 @@ module.exports = function document(socket) {
         if (stat.isDirectory()) {
             files = getTargetFile(entryBase);
         }
+        socket.emit('createing', true);
         files.forEach(item => {
             const fileObj = astParse(path.join(entryBase, item));
             createMd(fileObj, output);
         });
+        socket.emit('createing', false);
     });
 };
