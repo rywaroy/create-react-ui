@@ -12,6 +12,9 @@ module.exports = function document(socket) {
         if (stat.isDirectory()) {
             files = getTargetFile(entryBase);
         }
+        if (stat.isFile()) {
+            files = [entry];
+        }
         socket.emit('createing', true);
         files.forEach(item => {
             const fileObj = astParse(path.join(entryBase, item));
