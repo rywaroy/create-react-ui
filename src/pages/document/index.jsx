@@ -61,17 +61,31 @@ class Doucument extends Component {
         this.term.clear();
     }
 
+    /**
+     * 写入终端
+     */
+    writeln = msg => {
+        this.term.writeln(msg);
+    }
+
+    /**
+     * 修改创建状态
+     */
+    changeCreate = isCreateing => {
+        this.setState({ isCreateing });
+    }
+
     componentDidMount() {
         this.term = new Terminal();
         this.term.open(document.getElementById('terminal'));
-        window.socket.on('term', msg => {
-            this.term.writeln(msg);
-        });
-        window.socket.on('createing', isCreateing => this.setState({ isCreateing }));
+        window.socket.on('term-document', this.writeln);
+        window.socket.on('createing', this.changeCreate);
     }
 
     componentWillUnmount() {
         this.term.dispose();
+        window.socket.removeEventListener('term-document', this.writeln);
+        window.socket.removeEventListener('createing', this.changeCreate);
     }
 
     render() {

@@ -65,18 +65,32 @@ class Publish extends Component {
         this.term.clear();
     }
 
+    /**
+     * 写入终端
+     */
+    writeln = msg => {
+        this.term.writeln(msg);
+    }
+
+    /**
+     * 修改创建状态
+     */
+    changeBuild = isBuilding => {
+        this.setState({ isBuilding });
+    }
+
     componentDidMount() {
         this.term = new Terminal();
         this.term.open(document.getElementById('terminal'));
-        window.socket.on('term', msg => {
-            this.term.writeln(msg);
-        });
-        window.socket.on('building', isBuilding => this.setState({ isBuilding }));
+        window.socket.on('term-publish', this.writeln);
+        window.socket.on('building', this.changeBuild);
         this.getFolder();
     }
 
     componentWillUnmount() {
         this.term.dispose();
+        window.socket.removeEventListener('term-publish', this.writeln);
+        window.socket.removeEventListener('building', this.changeBuild);
     }
 
     render() {
