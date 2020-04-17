@@ -3,6 +3,7 @@ const fs = require('fs');
 const getTargetFile = require('./getTargetFile');
 const astParse = require('./astParse');
 const createMd = require('./createMd');
+const creatProgress = require('./createProgress');
 
 module.exports = function document(socket) {
     socket.on('create-document', ({ entry, output }) => {
@@ -17,10 +18,15 @@ module.exports = function document(socket) {
             files = [entryBase];
         }
         socket.emit('createing', true);
+        const total = files.length;
+        let num = 0;
         files.forEach(item => {
+            socket.emit('term', creatProgress(num, total, `正在解析${item}`));
             const fileObj = astParse(item);
             createMd(fileObj, output);
+            num++;
         });
+        socket.emit('term', creatProgress(num, total, '解析完成!'));
         socket.emit('createing', false);
     });
 };
