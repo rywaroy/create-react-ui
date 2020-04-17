@@ -21,12 +21,12 @@ module.exports = function document(socket) {
         const total = files.length;
         let num = 0;
         files.forEach(item => {
-            socket.emit('term', creatProgress(num, total, `正在解析${item}`));
+            socket.emit('term-document', creatProgress(num, total, `正在解析${item}`));
             const fileObj = astParse(item);
             createMd(fileObj, output);
             num++;
         });
-        socket.emit('term', creatProgress(num, total, '解析完成!'));
+        socket.emit('term-document', creatProgress(num, total, '解析完成!'));
         socket.emit('createing', false);
     });
 };
