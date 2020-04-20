@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const chalk = require('chalk');
 const getTargetFile = require('./getTargetFile');
 const astParse = require('./astParse');
 const createMd = require('./createMd');
@@ -26,7 +27,7 @@ module.exports = function document(socket) {
             const fileObj = astParse(item);
             const res = createMd(fileObj, output);
             if (!res) {
-                failTip.push(`${item} 暂无解析数据`);
+                failTip.push(chalk.yellowBright(`${item} 暂无解析数据`));
             }
             num++;
         });
