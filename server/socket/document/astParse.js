@@ -24,6 +24,7 @@ module.exports = function astParse(base) {
                 */
                 const identifier = path.node.declaration.id.name;
                 obj.name = identifier;
+                obj.isFunction = true;
                 if (path.node.leadingComments) {
                     obj.main = commentParse(path.node.leadingComments);
                 }
@@ -54,6 +55,7 @@ module.exports = function astParse(base) {
                 }
                 const identifier = path.node.declaration.id.name;
                 obj.name = identifier;
+                obj.isClass = true;
                 traverse(ast, createPropsVisitor(obj, identifier));
             }
             if (path.node.declaration.type === 'Identifier') {
@@ -118,6 +120,7 @@ module.exports = function astParse(base) {
 function createVisitor(object, identifier, ast) {
     return {
         FunctionDeclaration(path) {
+            object.isFunction = true;
             if (path.node.id.name === identifier) {
                 if (path.node.leadingComments) {
                     object.main = commentParse(path.node.leadingComments);
@@ -126,6 +129,7 @@ function createVisitor(object, identifier, ast) {
             }
         },
         ClassDeclaration(path) {
+            object.isClass = true;
             if (path.node.id.name === identifier) {
                 if (path.node.leadingComments) {
                     object.main = commentParse(path.node.leadingComments);
