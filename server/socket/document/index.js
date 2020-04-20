@@ -33,6 +33,7 @@ module.exports = function document(socket) {
         });
         socket.emit('term-document', creatProgress(num, total, '解析完成!'));
         if (failTip.length > 0) {
+            socket.emit('term-document', chalk.yellowBright('提示: \n'));
             failTip.forEach(item => {
                 socket.emit('term-document', item);
             });
