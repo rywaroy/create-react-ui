@@ -19,14 +19,23 @@ module.exports = function document(socket) {
         }
         socket.emit('createing', true);
         const total = files.length;
+        const failTip = [];
         let num = 0;
         files.forEach(item => {
             socket.emit('term-document', creatProgress(num, total, `正在解析${item}`));
             const fileObj = astParse(item);
-            createMd(fileObj, output);
+            const res = createMd(fileObj, output);
+            if (!res) {
+                failTip.push(`${item} 暂无解析数据`);
+            }
             num++;
         });
         socket.emit('term-document', creatProgress(num, total, '解析完成!'));
+        if (failTip.length > 0) {
+            failTip.forEach(item => {
+                socket.emit('term-document', item);
+            });
+        }
         socket.emit('createing', false);
     });
 };
