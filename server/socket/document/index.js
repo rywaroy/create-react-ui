@@ -25,9 +25,18 @@ module.exports = function document(socket) {
         files.forEach(item => {
             socket.emit('term-document', creatProgress(num, total, `正在解析${item}`));
             const fileObj = astParse(item);
-            const res = createMd(fileObj, output);
-            if (!res) {
+            const { isFunction, isClass, props, main } = fileObj;
+            if (isFunction && !props) {
+                // 如果是函数，如果没有props，代表不是函数组件，不生成md
+                failTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
+            } else if (isClass && !main && !props) {
+                // 如果是类，如果没有props且也没有注释，不生成md
                 failTip.push(chalk.yellowBright(`${item} 暂无解析数据`));
+            } else if (!main && !props) {
+                // 不是函数也不是类，可能是工具库文件
+                failTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
+            } else {
+                createMd(fileObj, output);
             }
             num++;
         });
