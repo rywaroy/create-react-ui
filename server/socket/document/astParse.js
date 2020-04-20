@@ -153,9 +153,11 @@ function createVisitor(object, identifier, ast) {
              * export default ComponentForm
              */
             path.node.declarations.forEach(item => {
-                if (item.id.name === identifier) {
-                    const id = item.init.arguments[0].name;
-                    traverse(ast, createVisitor(object, id, ast));
+                if (item.id.name === identifier && item.init.type === 'CallExpression') {
+                    if (item.init.arguments.length > 0) {
+                        const id = item.init.arguments[0].name;
+                        traverse(ast, createVisitor(object, id, ast));
+                    }
                 }
             });
         },
