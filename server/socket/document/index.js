@@ -40,6 +40,8 @@ module.exports = function document(socket) {
                 failTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
             } else {
                 const { name, newName, reset } = resetName(nameMap, getComponentName(fileObj));
+
+                // 判断是否修改过文件名，有则发起提示
                 if (reset) {
                     failTip.push(chalk.yellowBright(`${item} 文件重名，由 ${name}.md 修改为 ${newName}.d`));
                 }
@@ -64,7 +66,7 @@ module.exports = function document(socket) {
 function resetName(nameMap, name) {
     let num = 1;
     let newName = name;
-    let reset = false;
+    let reset = false; // 是否修改过
     while (nameMap[newName]) {
         newName = `${newName.replace(/\(\d+\)/g, '')}(${num})`;
         num++;
