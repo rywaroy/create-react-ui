@@ -5,6 +5,7 @@ const getTargetFile = require('./getTargetFile');
 const astParse = require('./astParse');
 const createMd = require('./createMd');
 const creatProgress = require('./createProgress');
+const getComponentName = require('./getComponentName');
 
 module.exports = function document(socket) {
     socket.on('create-document', ({ entry, output }) => {
@@ -22,6 +23,8 @@ module.exports = function document(socket) {
         const total = files.length;
         const failTip = [];
         let num = 0;
+        const nameMap = {};
+
         files.forEach(item => {
             socket.emit('term-document', creatProgress(num, total, `正在解析${item}`));
             const fileObj = astParse(item);
@@ -36,7 +39,11 @@ module.exports = function document(socket) {
                 // 不是函数也不是类，可能是工具库文件
                 failTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
             } else {
-                createMd(fileObj, output);
+                const name = getComponentName(fileObj);
+                if (!nameMap[name]) {
+                    nameMap[name] = true;
+                }
+                createMd(fileObj, name, output);
             }
             num++;
         });
