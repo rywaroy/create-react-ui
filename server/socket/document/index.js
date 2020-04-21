@@ -21,7 +21,7 @@ module.exports = function document(socket) {
         }
         socket.emit('createing', true);
         const total = files.length;
-        const failTip = [];
+        const warningTip = [];
         let num = 0;
         const nameMap = {};
 
@@ -31,28 +31,28 @@ module.exports = function document(socket) {
             const { isFunction, isClass, props, main } = fileObj;
             if (isFunction && !props) {
                 // 如果是函数，如果没有props，代表不是函数组件，不生成md
-                failTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
+                warningTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
             } else if (isClass && !main && !props) {
                 // 如果是类，如果没有props且也没有注释，不生成md
-                failTip.push(chalk.yellowBright(`${item} 暂无解析数据`));
+                warningTip.push(chalk.yellowBright(`${item} 暂无解析数据`));
             } else if (!main && !props) {
                 // 不是函数也不是类，可能是工具库文件
-                failTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
+                warningTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
             } else {
                 const { name, newName, reset } = resetName(nameMap, getComponentName(fileObj));
 
                 // 判断是否修改过文件名，有则发起提示
                 if (reset) {
-                    failTip.push(chalk.yellowBright(`${item} 文件重名，由 ${name}.md 修改为 ${newName}.d`));
+                    warningTip.push(chalk.yellowBright(`${item} 文件重名，由 ${name}.md 修改为 ${newName}.d`));
                 }
                 createMd(fileObj, newName, output);
             }
             num++;
         });
         socket.emit('term-document', creatProgress(num, total, '解析完成!'));
-        if (failTip.length > 0) {
+        if (warningTip.length > 0) {
             socket.emit('term-document', chalk.yellowBright('提示: \n'));
-            failTip.forEach(item => {
+            warningTip.forEach(item => {
                 socket.emit('term-document', item);
             });
         }
