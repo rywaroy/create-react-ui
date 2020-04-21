@@ -39,10 +39,8 @@ module.exports = function document(socket) {
                 // 不是函数也不是类，可能是工具库文件
                 failTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
             } else {
-                const name = getComponentName(fileObj);
-                if (!nameMap[name]) {
-                    nameMap[name] = true;
-                }
+                let name = getComponentName(fileObj);
+                name = resetName(nameMap, name);
                 createMd(fileObj, name, output);
             }
             num++;
@@ -57,3 +55,16 @@ module.exports = function document(socket) {
         socket.emit('createing', false);
     });
 };
+
+/**
+ * 重置姓名
+ */
+function resetName(nameMap, name) {
+    let num = 1;
+    while (nameMap[name]) {
+        name = `${name.replace(/\(\d+\)/g, '')}(${num})`;
+        num++;
+    }
+    nameMap[name] = true;
+    return name;
+}
