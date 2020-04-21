@@ -39,9 +39,11 @@ module.exports = function document(socket) {
                 // 不是函数也不是类，可能是工具库文件
                 failTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
             } else {
-                let name = getComponentName(fileObj);
-                name = resetName(nameMap, name);
-                createMd(fileObj, name, output);
+                const { name, newName, reset } = resetName(nameMap, getComponentName(fileObj));
+                if (reset) {
+                    failTip.push(chalk.yellowBright(`${item} 文件重名，由 ${name}.md 修改为 ${newName}.d`));
+                }
+                createMd(fileObj, newName, output);
             }
             num++;
         });
@@ -57,14 +59,21 @@ module.exports = function document(socket) {
 };
 
 /**
- * 重置姓名
+ * 重置文件名
  */
 function resetName(nameMap, name) {
     let num = 1;
-    while (nameMap[name]) {
-        name = `${name.replace(/\(\d+\)/g, '')}(${num})`;
+    let newName = name;
+    let reset = false;
+    while (nameMap[newName]) {
+        newName = `${newName.replace(/\(\d+\)/g, '')}(${num})`;
         num++;
+        reset = true;
     }
-    nameMap[name] = true;
-    return name;
+    nameMap[newName] = true;
+    return {
+        name,
+        newName,
+        reset,
+    };
 }
