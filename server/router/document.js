@@ -3,4 +3,6 @@ const documentController = require('../controller/document');
 
 const router = new Router();
 
-router.get('/template', documentController.create);
+router.post('/create', documentController.create);
+
+module.exports = router;
