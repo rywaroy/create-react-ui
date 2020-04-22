@@ -6,8 +6,8 @@ const Koa = require('koa');
 const app = new Koa();
 const server = require('http').createServer(app.callback());
 const cors = require('koa-cors');
-const bodyparser = require('koa-bodyparser');
 const staticServer = require('koa-static');
+const koaBody = require('koa-body');
 const cp = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
@@ -22,8 +22,11 @@ program
 app.use(cors({
     methods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
 }));
-app.use(bodyparser({
-    formLimit: '5mb',
+app.use(koaBody({
+    multipart: true,
+    formidable: {
+        maxFileSize: 2000 * 1024 * 1024,
+    },
 }));
 app.use(staticServer(`${__dirname}/static`));
 app.use(require('./middlewares/returnData'));
