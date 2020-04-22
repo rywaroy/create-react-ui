@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Terminal } from 'xterm';
-import { TreeSelect, Form, Button, Icon } from 'antd';
+import { TreeSelect, Form, Button, Icon, Upload } from 'antd';
 import { isFolder, isJsOrFolder } from '@/services/file';
 import styles from './index.less';
+
+const { Dragger } = Upload;
 
 class Doucument extends Component {
     constructor(props) {
@@ -97,63 +99,83 @@ class Doucument extends Component {
             wrapperCol: { span: 14 },
         };
 
+        const props = {
+            name: 'file',
+            action: 'http://localhost:2019/api/document/create',
+        };
+
         return (
             <div>
-                <Form {...formItemLayout}>
-                    <Form.Item label="文件构建目录">
-                        {
-                            getFieldDecorator('entry', {
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: '请选择文件构建目录',
-                                    },
-                                    {
-                                        validator: this.isJsOrFolder,
-                                    },
-                                ],
-                            })(
-                                <TreeSelect
-                                    showSearch
-                                    style={{ width: '400px' }}
-                                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                                    placeholder="请选择路径"
-                                    allowClear
-                                    treeData={files} />,
-                            )
-                        }
-                    </Form.Item>
-                    <Form.Item label="文档输出目录">
-                        {
-                            getFieldDecorator('output', {
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: '请选择文档输出目录',
-                                    },
-                                    {
-                                        validator: this.isFolder,
-                                    },
-                                ],
-                            })(
-                                <TreeSelect
-                                    showSearch
-                                    style={{ width: '400px' }}
-                                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                                    placeholder="请选择路径"
-                                    allowClear
-                                    treeData={files} />,
-                            )
-                        }
-                    </Form.Item>
-                    <Form.Item label=" " colon={false}>
-                        <Button type="primary" onClick={this.create} loading={isCreateing}>生成</Button>
-                    </Form.Item>
-                </Form>
+                <div className={styles.top}>
+                    <div className={styles.form}>
+                        <Form {...formItemLayout}>
+                            <Form.Item label="文件构建目录">
+                                {
+                                    getFieldDecorator('entry', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请选择文件构建目录',
+                                            },
+                                            {
+                                                validator: this.isJsOrFolder,
+                                            },
+                                        ],
+                                    })(
+                                        <TreeSelect
+                                            showSearch
+                                            style={{ width: '400px' }}
+                                            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                            placeholder="请选择路径"
+                                            allowClear
+                                            treeData={files} />,
+                                    )
+                                }
+                            </Form.Item>
+                            <Form.Item label="文档输出目录">
+                                {
+                                    getFieldDecorator('output', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请选择文档输出目录',
+                                            },
+                                            {
+                                                validator: this.isFolder,
+                                            },
+                                        ],
+                                    })(
+                                        <TreeSelect
+                                            showSearch
+                                            style={{ width: '400px' }}
+                                            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                            placeholder="请选择路径"
+                                            allowClear
+                                            treeData={files} />,
+                                    )
+                                }
+                            </Form.Item>
+                            <Form.Item label=" " colon={false}>
+                                <Button type="primary" onClick={this.create} loading={isCreateing}>生成</Button>
+                            </Form.Item>
+                        </Form>
+                    </div>
+                    <div className={styles.upload}>
+                        <Dragger {...props}>
+                            <p className="ant-upload-drag-icon">
+                                <Icon type="inbox" />
+                            </p>
+                            <p className="ant-upload-text">拖拽上传</p>
+                            <p className="ant-upload-hint">只支持单文件，上传前先选择好输出目录</p>
+                        </Dragger>
+                    </div>
+                </div>
+
                 <div className={styles.terminalTop}>
                     <Icon type="delete" className={styles.terminalDel} onClick={this.clear} />
                 </div>
                 <div id="terminal" />
+
             </div>
         );
     }
