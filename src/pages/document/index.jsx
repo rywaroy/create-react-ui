@@ -117,6 +117,7 @@ class Doucument extends Component {
             data: {
                 output,
             },
+            accept: '.jsx,.js',
             beforeUpload: this.beforeUpload,
         };
 
