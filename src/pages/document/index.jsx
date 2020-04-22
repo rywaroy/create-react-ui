@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Terminal } from 'xterm';
-import { TreeSelect, Form, Button, Icon, Upload } from 'antd';
+import { TreeSelect, Form, Button, Icon, Upload, message } from 'antd';
 import { isFolder, isJsOrFolder } from '@/services/file';
 import styles from './index.less';
 
@@ -12,6 +12,7 @@ class Doucument extends Component {
         super(props);
         this.state = {
             isCreateing: false, // 是否正在构建
+            output: '',
         };
     }
 
@@ -23,6 +24,9 @@ class Doucument extends Component {
             url: value,
         }).then(() => {
             callback();
+            this.setState({
+                output: value,
+            });
         }).catch(err => {
             callback(err);
         });
@@ -77,6 +81,14 @@ class Doucument extends Component {
         this.setState({ isCreateing });
     }
 
+    beforeUpload = () => {
+        if (!this.state.output) {
+            message.error('请选择文档输出路径');
+            return false;
+        }
+        return true;
+    }
+
     componentDidMount() {
         this.term = new Terminal();
         this.term.open(document.getElementById('terminal'));
@@ -93,7 +105,7 @@ class Doucument extends Component {
     render() {
         const { files } = this.props.global;
         const { getFieldDecorator } = this.props.form;
-        const { isCreateing } = this.state;
+        const { isCreateing, output } = this.state;
         const formItemLayout = {
             labelCol: { span: 3 },
             wrapperCol: { span: 14 },
@@ -102,6 +114,10 @@ class Doucument extends Component {
         const props = {
             name: 'file',
             action: 'http://localhost:2019/api/document/create',
+            data: {
+                output,
+            },
+            beforeUpload: this.beforeUpload,
         };
 
         return (
