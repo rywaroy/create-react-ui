@@ -3,9 +3,12 @@ const babelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const commentParse = require('./commentParse');
 
-module.exports = function astParse(base) {
+module.exports = function astParse(base, code) {
     const obj = {};
-    const ast = babelParser.parse(fs.readFileSync(base, 'utf-8'), {
+    if (!code) {
+        code = fs.readFileSync(base, 'utf-8');
+    }
+    const ast = babelParser.parse(code, {
         sourceType: 'module',
         plugins: [
             'classProperties',
