@@ -90,7 +90,9 @@ class Doucument extends Component {
     }
 
     componentDidMount() {
-        this.term = new Terminal();
+        this.term = new Terminal({
+            cols: 100,
+        });
         this.term.open(document.getElementById('terminal'));
         window.socket.on('term-document', this.writeln);
         window.socket.on('createing', this.changeCreate);
@@ -107,8 +109,8 @@ class Doucument extends Component {
         const { getFieldDecorator } = this.props.form;
         const { isCreateing, output } = this.state;
         const formItemLayout = {
-            labelCol: { span: 3 },
-            wrapperCol: { span: 14 },
+            labelCol: { span: 6 },
+            wrapperCol: { span: 10 },
         };
 
         const props = {
@@ -187,12 +189,12 @@ class Doucument extends Component {
                         </Dragger>
                     </div>
                 </div>
-
-                <div className={styles.terminalTop}>
-                    <Icon type="delete" className={styles.terminalDel} onClick={this.clear} />
+                <div className={styles.terminalBox}>
+                    <div className={styles.terminalTop}>
+                        <Icon type="delete" className={styles.terminalDel} onClick={this.clear} />
+                    </div>
+                    <div id="terminal" />
                 </div>
-                <div id="terminal" />
-
             </div>
         );
     }
