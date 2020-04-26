@@ -65,18 +65,34 @@ class Publish extends Component {
         this.term.clear();
     }
 
+    /**
+     * 写入终端
+     */
+    writeln = msg => {
+        this.term.writeln(msg);
+    }
+
+    /**
+     * 修改创建状态
+     */
+    changeBuild = isBuilding => {
+        this.setState({ isBuilding });
+    }
+
     componentDidMount() {
-        this.term = new Terminal();
-        this.term.open(document.getElementById('terminal'));
-        window.socket.on('term', msg => {
-            this.term.writeln(msg);
+        this.term = new Terminal({
+            cols: 100,
         });
-        window.socket.on('building', isBuilding => this.setState({ isBuilding }));
+        this.term.open(document.getElementById('terminal'));
+        window.socket.on('term-publish', this.writeln);
+        window.socket.on('building', this.changeBuild);
         this.getFolder();
     }
 
     componentWillUnmount() {
         this.term.dispose();
+        window.socket.removeEventListener('term-publish', this.writeln);
+        window.socket.removeEventListener('building', this.changeBuild);
     }
 
     render() {
@@ -97,10 +113,13 @@ class Publish extends Component {
                         treeData={treeData} />
                 </div>
                 <Button type="primary" onClick={this.build} loading={isBuilding}>构建</Button>
-                <div className={styles.terminalTop}>
-                    <Icon type="delete" className={styles.terminalDel} onClick={this.clear} />
+                <div className={styles.terminalBox}>
+                    <div className={styles.terminalTop}>
+                        <Icon type="delete" className={styles.terminalDel} onClick={this.clear} />
+                    </div>
+                    <div id="terminal" />
                 </div>
-                <div id="terminal" />
+
             </div>
         );
     }

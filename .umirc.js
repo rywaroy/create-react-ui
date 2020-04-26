@@ -25,6 +25,10 @@ export default {
           path: 'publish',
           component: '../pages/publish',
         },
+        {
+          path: 'document',
+          component: '../pages/document',
+        },
       ],
     },
   ],
