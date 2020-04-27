@@ -85,7 +85,7 @@ class ListPageHeader extends Component {
         const { buttons } = this.props;
         const { popIndex, popName } = this.state;
         const newButtons = [...buttons];
-        newButtons[popIndex].link = popName;
+        newButtons[popIndex].linkName = popName;
         this.props.getButtons(newButtons);
         this.closePop();
     }
