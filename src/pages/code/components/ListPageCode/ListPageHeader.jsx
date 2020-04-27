@@ -8,6 +8,7 @@ class ListPageHeader extends Component {
         this.state = {
             buttonTitle: '',
             visible: false,
+            popName: '',
         };
     }
 
@@ -48,13 +49,45 @@ class ListPageHeader extends Component {
     /**
      * 链接弹窗
      */
-    linkPop = () => {
+    linkPop = index => {
         if (this.props.popupForms.length === 0) {
             message.error('暂无弹窗');
+            return;
         }
         this.setState({
             visible: true,
+            popIndex: index,
         });
+    }
+
+    /**
+     * 关闭弹窗列表
+     */
+    closePop = () => {
+        this.setState({
+            visible: false,
+        });
+    }
+
+    /**
+     * 选择弹窗
+     */
+    popChange = value => {
+        this.setState({
+            popName: value,
+        });
+    }
+
+    /**
+     * 确认弹窗
+     */
+    selectPop = () => {
+        const { buttons } = this.props;
+        const { popIndex, popName } = this.state;
+        const newButtons = [...buttons];
+        newButtons[popIndex].link = popName;
+        this.props.getButtons(newButtons);
+        this.closePop();
     }
 
     render() {
@@ -85,8 +118,10 @@ class ListPageHeader extends Component {
                 </div>
                 <Modal
                     title="弹窗列表"
-                    visible={visible}>
-                    <Select>
+                    visible={visible}
+                    onCancel={this.closePop}
+                    onOk={this.selectPop}>
+                    <Select style={{ width: '100%' }} onChange={this.popChange}>
                         {
                             popupForms.map((item, index) => (
                                 <Select.Option value={item.name} key={index}>
