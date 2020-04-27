@@ -25,7 +25,9 @@ class ListPageHeader extends Component {
             const { buttons } = this.props;
             const { buttonTitle } = this.state;
             const newButtons = [...buttons];
-            newButtons.push(buttonTitle);
+            newButtons.push({
+                title: buttonTitle,
+            });
             this.setState({
                 buttonTitle: '',
             });
@@ -52,8 +54,17 @@ class ListPageHeader extends Component {
                 <div>
                     {
                         buttons.map((item, index) => (
-                            <Popover trigger="hover" content={<span className={styles.deleteButton} onClick={() => this.deleteButton(index)}>删除</span>} key={index}>
-                                <Button type="primary" className={styles.button}>{item}</Button>
+                            <Popover
+                                trigger="hover"
+                                content={(
+                                    <>
+                                        <span className={styles.deleteButton} onClick={() => this.deleteButton(index)}>删除</span>
+                                        <span className={styles.deleteButtonLine}>|</span>
+                                        <span className={styles.deleteButton}>链接弹窗</span>
+                                    </>
+                                )}
+                                key={index}>
+                                <Button type="primary" className={styles.button}>{item.title}</Button>
                             </Popover>
                         ))
                     }
