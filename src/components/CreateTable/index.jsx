@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Modal, InputNumber, Icon, Input } from 'antd';
+import { Table, Button, Modal, InputNumber, Icon, Input, Switch } from 'antd';
 import cloneDeep from 'loadsh/cloneDeep';
 import SetColumn from './setColumn';
 import SetOpt from './setOpt';
@@ -22,6 +22,7 @@ class CreateTable extends Component {
             optKey: Math.random(),
             setOptObj: {},
             variable: DEFAULT_VARIABLE,
+            tableScorll: false,
         };
     }
 
@@ -300,6 +301,15 @@ class CreateTable extends Component {
         });
     }
 
+    /**
+     * 设置table滚动
+     */
+    scorllChange = value => {
+        this.setState({
+            tableScorll: value,
+        });
+    }
+
     render() {
         const {
             columns,
@@ -312,6 +322,7 @@ class CreateTable extends Component {
             optKey,
             setOptObj,
             variable,
+            tableScorll,
         } = this.state;
 
         const { isEditVariable } = this.props;
@@ -342,8 +353,11 @@ class CreateTable extends Component {
                     )
 
                 }
-
-                <Table columns={columns} dataSource={dataSource} rowKey={r => r.id} />
+                <div style={{ display: 'inline-block', marginLeft: '8px' }}>
+                    滚动：
+                    <Switch onChange={this.scorllChange} />
+                </div>
+                <Table columns={columns} dataSource={dataSource} rowKey={r => r.id} scroll={{ x: tableScorll }} />
                 <Modal
                     title="批量添加"
                     visible={visibleAdd}
