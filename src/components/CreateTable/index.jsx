@@ -215,11 +215,11 @@ class CreateTable extends Component {
                         )))}
                     </>
             ),
-            renderText: `() => (<>${values.opts
-                .map(item => (item.link
-                    ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
-                    : `<span className="opt-link" onClick={() => {}}>${item.text}</span>`))
-                .join('')}</>)`,
+            // renderText: `() => (<>${values.opts
+            //     .map(item => (item.link
+            //         ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
+            //         : `<span className="opt-link" onClick={() => {}}>${item.text}</span>`))
+            //     .join('')}</>)`,
             opts: values.opts,
         };
         const { width, fixed } = values;
@@ -272,10 +272,12 @@ class CreateTable extends Component {
         for (const item of columns) {
             item.title = item.titleText;
             delete item.titleText;
-            if (item.renderText) {
-                item.render = item.renderText;
-                delete item.renderText;
-                delete item.opts;
+            if (item.opts && item.opts.length > 0) {
+                item.render = `() => (<>${item.opts
+                    .map(item => (item.link
+                        ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
+                        : `<span className="opt-link" ${item.linkName ? `onClick={this.${item.linkName}ModalOpen}` : ''}>${item.text}</span>`))
+                    .join('')}</>)`;
             }
         }
         const str = `${JSON.stringify(columns)}`;
@@ -353,7 +355,6 @@ class CreateTable extends Component {
         const { popIndex, popName, columns } = this.state;
         const c = [...columns];
         c[c.length - 1].opts[popIndex].linkName = popName;
-        c[c.length - 1].renderText = c[c.length - 1].renderText.replace('() => {}', `() => this.${popName}ModalOpen()`);
         this.setState({
             columns: c,
         });
