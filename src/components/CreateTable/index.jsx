@@ -199,21 +199,19 @@ class CreateTable extends Component {
             ),
             titleText: '操作',
             dataIndex: 'action',
-            render() {
-                return (
+            render: () => (
                     <>
                         {values.opts.map((item, i) => (item.link ? (
                             <a href="/" target="_blank" className="mr10" key={i}>
                                 {item.text}
                             </a>
                         ) : (
-                            <span className="opt-link" key={i}>
+                            <span className="opt-link" key={i} onClick={() => this.linkPop(i)}>
                                 {item.text}
                             </span>
                         )))}
                     </>
-                );
-            },
+            ),
             renderText: `() => (<>${values.opts
                 .map(item => (item.link
                     ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
@@ -308,6 +306,13 @@ class CreateTable extends Component {
         this.setState({
             tableScorll: value,
         });
+    }
+
+    /**
+     * 链接弹窗
+     */
+    linkPop = index => {
+        console.log(index);
     }
 
     render() {
