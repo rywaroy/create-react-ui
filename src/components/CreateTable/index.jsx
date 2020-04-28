@@ -24,6 +24,8 @@ class CreateTable extends Component {
             variable: DEFAULT_VARIABLE,
             tableScorll: false,
             visiblePop: false,
+            popIndex: 0,
+            popName: '',
         };
     }
 
@@ -312,7 +314,7 @@ class CreateTable extends Component {
     /**
      * 链接弹窗
      */
-    linkPop = () => {
+    linkPop = index => {
         if (!this.props.popupForms) {
             return;
         }
@@ -322,6 +324,7 @@ class CreateTable extends Component {
         }
         this.setState({
             visiblePop: true,
+            popIndex: index,
         });
     }
 
@@ -332,6 +335,29 @@ class CreateTable extends Component {
         this.setState({
             visiblePop: false,
         });
+    }
+
+    /**
+     * 选择弹窗
+     */
+    popChange = value => {
+        this.setState({
+            popName: value,
+        });
+    }
+
+    /**
+     * 确认弹窗
+     */
+    selectPop = () => {
+        const { popIndex, popName, columns } = this.state;
+        const c = [...columns];
+        c[c.length - 1].opts[popIndex].linkName = popName;
+        c[c.length - 1].renderText = c[c.length - 1].renderText.replace('() => {}', `() => this.${popName}ModalOpen()`);
+        this.setState({
+            columns: c,
+        });
+        this.closePop();
     }
 
     render() {
