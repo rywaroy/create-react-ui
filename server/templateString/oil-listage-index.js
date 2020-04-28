@@ -127,6 +127,7 @@ class ${pageClassName} extends React.Component {
             total,
             pageNum,
             pageSize,
+            listData,
             ${popupVariables}
         } = ${namespace};
         const pagination = {
@@ -144,7 +145,7 @@ class ${pageClassName} extends React.Component {
                 ${headerJSX}
                 <div className="padding20">
                     ${isFilter ? '<ListFilter filters={listFilter(this)} onSearch={this.searchHandel} ref={el => this.listFilter = el} />' : ''}
-                    <Table className="mt10" columns={listColumn(this)} dataSource={${namespace}.listData} pagination={pagination} rowKey={r => r.id} />
+                    <Table className="mt10" columns={listColumn(this)} dataSource={listData} pagination={pagination} rowKey={r => r.id} />
                 </div>
                 ${popupForms.map(item => `<GenerateModal {...${item.name}ModalProps} />`).join('\n                ')}
             </div>
