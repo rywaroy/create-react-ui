@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Modal, InputNumber, Icon, Input, Switch } from 'antd';
+import { Table, Button, Modal, InputNumber, Icon, Input, Switch, message, Select } from 'antd';
 import cloneDeep from 'loadsh/cloneDeep';
 import SetColumn from './setColumn';
 import SetOpt from './setOpt';
@@ -23,6 +23,7 @@ class CreateTable extends Component {
             setOptObj: {},
             variable: DEFAULT_VARIABLE,
             tableScorll: false,
+            visiblePop: false,
         };
     }
 
@@ -311,8 +312,26 @@ class CreateTable extends Component {
     /**
      * 链接弹窗
      */
-    linkPop = index => {
-        console.log(index);
+    linkPop = () => {
+        if (!this.props.popupForms) {
+            return;
+        }
+        if (this.props.popupForms.length === 0) {
+            message.error('暂无弹窗');
+            return;
+        }
+        this.setState({
+            visiblePop: true,
+        });
+    }
+
+    /**
+     * 关闭弹窗列表
+     */
+    closePop = () => {
+        this.setState({
+            visiblePop: false,
+        });
     }
 
     render() {
@@ -328,9 +347,10 @@ class CreateTable extends Component {
             setOptObj,
             variable,
             tableScorll,
+            visiblePop,
         } = this.state;
 
-        const { isEditVariable } = this.props;
+        const { isEditVariable, popupForms } = this.props;
 
         return (
             <div className="indexWrap">
@@ -393,6 +413,28 @@ class CreateTable extends Component {
                     onCancel={this.closeOpt}
                     zIndex={1003}
                 />
+                {
+                    popupForms
+                    && (
+                        <Modal
+                            title="弹窗列表"
+                            visible={visiblePop}
+                            onCancel={this.closePop}
+                            onOk={this.selectPop}>
+                            <Select style={{ width: '100%' }} onChange={this.popChange}>
+                                {
+                                    popupForms.map((item, index) => (
+                                        <Select.Option value={item.name} key={index}>
+                                            {item.title}
+                                            -
+                                            {item.name}
+                                        </Select.Option>
+                                    ))
+                                }
+                            </Select>
+                        </Modal>
+                    )
+                }
             </div>
         );
     }
