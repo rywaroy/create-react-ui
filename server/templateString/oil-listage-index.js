@@ -6,7 +6,7 @@ module.exports = function oilListpageIndex(name, title, namespace, buttons, isFi
     let headerJSX = '';
     if (buttons.length > 0) {
         headerJSX = `<SubHeader title="${title}">
-    ${buttons.map(item => `                <Button type="primary">${item}</Button>`).join('\n    ')}
+    ${buttons.map(item => `                <Button type="primary"${item.linkName ? ` onClick={this.${item.linkName}ModalOpen}` : ''}>${item.title}</Button>`).join('\n    ')}
                 </SubHeader>`;
     } else {
         headerJSX = `<SubHeader title="${title}" />`;
