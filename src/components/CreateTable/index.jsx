@@ -26,6 +26,7 @@ class CreateTable extends Component {
             visiblePop: false,
             popIndex: 0,
             popName: '',
+            popKey: Math.random(),
         };
     }
 
@@ -328,6 +329,7 @@ class CreateTable extends Component {
         this.setState({
             visiblePop: true,
             popIndex: index,
+            popKey: Math.random(),
         });
     }
 
@@ -376,6 +378,7 @@ class CreateTable extends Component {
             variable,
             tableScorll,
             visiblePop,
+            popKey,
         } = this.state;
 
         const { isEditVariable, popupForms } = this.props;
@@ -447,6 +450,7 @@ class CreateTable extends Component {
                         <Modal
                             title="弹窗列表"
                             visible={visiblePop}
+                            key={popKey}
                             onCancel={this.closePop}
                             onOk={this.selectPop}>
                             <Select style={{ width: '100%' }} onChange={this.popChange}>
