@@ -276,7 +276,7 @@ class CreateTable extends Component {
                 item.render = `() => (<>${item.opts
                     .map(item => (item.link
                         ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
-                        : `<span className="opt-link"${item.linkName ? ` onClick={this.${item.linkName}ModalOpen}` : ''}>${item.text}</span>`))
+                        : `<span className="opt-link"${item.linkName ? ` onClick={_self.${item.linkName}ModalOpen}` : ''}>${item.text}</span>`))
                     .join('')}</>)`;
                 delete item.opts;
             }
