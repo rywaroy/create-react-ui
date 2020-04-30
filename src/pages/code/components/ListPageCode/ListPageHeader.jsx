@@ -8,6 +8,7 @@ class ListPageHeader extends Component {
         this.state = {
             buttonTitle: '',
             visible: false,
+            popKey: Math.random(),
             popName: '',
         };
     }
@@ -57,6 +58,7 @@ class ListPageHeader extends Component {
         this.setState({
             visible: true,
             popIndex: index,
+            popKey: Math.random(),
         });
     }
 
@@ -92,7 +94,7 @@ class ListPageHeader extends Component {
 
     render() {
         const { title, buttons, popupForms } = this.props;
-        const { buttonTitle, visible } = this.state;
+        const { buttonTitle, visible, popKey } = this.state;
 
         return (
             <div className={styles.title}>
@@ -119,6 +121,7 @@ class ListPageHeader extends Component {
                 <Modal
                     title="弹窗列表"
                     visible={visible}
+                    key={popKey}
                     onCancel={this.closePop}
                     onOk={this.selectPop}>
                     <Select style={{ width: '100%' }} onChange={this.popChange}>
