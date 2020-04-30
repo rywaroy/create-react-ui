@@ -8,5 +8,10 @@ const router = new Router();
  */
 router.get('/label', configlistController.label);
 
+/**
+ * 添加label配置项
+ */
+router.post('/label', configlistController.addLabel);
+
 
 module.exports = router;
