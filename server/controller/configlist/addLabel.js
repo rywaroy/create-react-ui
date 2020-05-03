@@ -15,6 +15,6 @@ module.exports = async function addLabel(ctx) {
         fs.writeJsonSync(labelPath, label);
         ctx.success(0, '添加成功');
     } else {
-        ctx.success(0, '添加失败');
+        ctx.error(0, '添加失败');
     }
 };
