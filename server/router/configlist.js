@@ -13,5 +13,19 @@ router.get('/label', configlistController.label);
  */
 router.post('/label', configlistController.addLabel);
 
+/**
+ * 删除label配置项
+ */
+router.del('/label', configlistController.delLabel);
+
+/**
+ * 修改label配置项
+ */
+router.patch('/label', configlistController.patchLabel);
+
+/**
+ * 展示/隐藏label
+ */
+router.post('/label/display', configlistController.displayLabel);
 
 module.exports = router;
