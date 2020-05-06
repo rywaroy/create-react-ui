@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Table, Card } from 'antd';
+import { connect } from 'dva';
 
 const columns = [
     {
@@ -13,34 +14,20 @@ const columns = [
 ];
 
 class ConfigList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: [
-                {
-                    name: '测试1',
-                    id: 1,
-                },
-                {
-                    name: '测试2',
-                    id: 2,
-                },
-                {
-                    name: '测试3',
-                    id: 3,
-                },
-            ],
-        };
+    componentDidMount() {
+        this.props.dispatch({
+            type: 'global/getLabelConfig',
+        });
     }
 
     render() {
-        const { data } = this.state;
+        const { labelList } = this.props.global;
         return (
             <div>
                 <Row>
                     <Col span={10}>
                         <Card title="label配置" bordered={false}>
-                            <Table columns={columns} dataSource={data} />
+                            <Table columns={columns} dataSource={labelList} rowKey="id" />
                         </Card>
                     </Col>
                 </Row>
@@ -49,4 +36,4 @@ class ConfigList extends Component {
     }
 }
 
-export default ConfigList;
+export default connect(({ global }) => ({ global }))(ConfigList);
