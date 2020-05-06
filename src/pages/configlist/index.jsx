@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Row, Col, Table, Card, Modal, Input, message } from 'antd';
 import { connect } from 'dva';
-import { patchLabelConfig } from '@/services/configlist';
+import { patchLabelConfig, delLabelConfig } from '@/services/configlist';
 import styles from './index.less';
+
+const { confirm } = Modal;
 
 class ConfigList extends Component {
     constructor(props) {
@@ -25,7 +27,7 @@ class ConfigList extends Component {
             render: record => (
                     <>
                         <span className={styles.optBtn} onClick={() => this.openLabel(record)}>修改</span>
-                        <span className={styles.optBtn}>删除</span>
+                        <span className={styles.optBtn} onClick={() => this.delLabel(record)}>删除</span>
                     </>
             ),
         },
@@ -81,6 +83,24 @@ class ConfigList extends Component {
             message.success('修改成功');
             this.closeLabel();
             this.getLabelConfig();
+        });
+    }
+
+    /**
+     * 删除label
+     */
+    delLabel({ id, name }) {
+        confirm({
+            title: '确认',
+            content: `确定要删除 "${name}"`,
+            onOk() {
+                delLabelConfig({
+                    id,
+                }).then(() => {
+                    message.success('删除成功');
+                    this.getLabelConfig();
+                });
+            },
         });
     }
 

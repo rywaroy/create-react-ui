@@ -19,7 +19,7 @@ module.exports = async function addLabel(ctx) {
         } else {
             label.list.splice(index, 1);
             fs.writeJsonSync(labelPath, label);
-            ctx.success(0, '删除成功');
+            ctx.success(200, '删除成功');
         }
     } else {
         ctx.error(0, '删除失败');

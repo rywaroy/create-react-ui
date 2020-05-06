@@ -9,7 +9,7 @@ module.exports = async function label(ctx) {
         const label = fs.readJsonSync(labelPath);
         label.display = display !== 'false';
         fs.writeJsonSync(labelPath, label);
-        ctx.success(0, '修改成功');
+        ctx.success(200, '修改成功');
     } else {
         ctx.error(0, '修改失败');
     }

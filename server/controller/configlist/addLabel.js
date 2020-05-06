@@ -13,7 +13,7 @@ module.exports = async function addLabel(ctx) {
             id: uuidv4(),
         });
         fs.writeJsonSync(labelPath, label);
-        ctx.success(0, '添加成功');
+        ctx.success(200, '添加成功');
     } else {
         ctx.error(0, '添加失败');
     }
