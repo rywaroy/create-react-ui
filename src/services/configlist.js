@@ -15,3 +15,12 @@ export function getLabelConfig(params) {
 export function patchLabelConfig(params) {
     return axios.patch('/configlist/label', params);
 }
+
+/**
+ * 删除label配置
+ */
+export function delLabelConfig(params) {
+    return axios.delete('/configlist/label', {
+        params,
+    });
+}

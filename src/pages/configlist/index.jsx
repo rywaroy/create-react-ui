@@ -93,7 +93,7 @@ class ConfigList extends Component {
         confirm({
             title: '确认',
             content: `确定要删除 "${name}"`,
-            onOk() {
+            onOk: () => {
                 delLabelConfig({
                     id,
                 }).then(() => {

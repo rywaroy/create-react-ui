@@ -55,6 +55,7 @@ module.exports = {
     "jsx-a11y/no-static-element-interactions": 0,
     "no-shadow": 0,
     "no-await-in-loop": 0,
+    "class-methods-use-this": 0,
   },
   settings: {
     "import/resolver": {
