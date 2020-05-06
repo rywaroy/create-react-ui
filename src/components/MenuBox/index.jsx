@@ -32,6 +32,12 @@ class MenuBox extends Component {
                     icon: 'file',
                     url: '/document',
                 },
+                {
+                    title: '配置',
+                    key: 'configlist',
+                    icon: 'key',
+                    url: '/configlist',
+                },
             ],
         };
     }
