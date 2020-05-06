@@ -8,3 +8,10 @@ export function getLabelConfig(params) {
         params,
     });
 }
+
+/**
+ * 修改label配置
+ */
+export function patchLabelConfig(params) {
+    return axios.patch('/configlist/label', params);
+}
