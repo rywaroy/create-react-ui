@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Table, Card, Modal, Input, message, Button, Switch } from 'antd';
 import { connect } from 'dva';
-import { patchLabelConfig, delLabelConfig, addLabelConfig } from '@/services/configlist';
+import { patchLabelConfig, delLabelConfig, addLabelConfig, changeLabelDisplay } from '@/services/configlist';
 import styles from './index.less';
 
 const { confirm } = Modal;
@@ -114,6 +114,19 @@ class ConfigList extends Component {
         });
     }
 
+    changeDisplay = value => {
+        changeLabelDisplay({
+            display: value,
+        }).then(() => {
+            this.props.dispatch({
+                type: 'global/updateState',
+                payload: {
+                    labelDisplay: value,
+                },
+            });
+        });
+    }
+
     /**
      * 打开添加弹窗
      */
@@ -123,7 +136,7 @@ class ConfigList extends Component {
     }
 
     render() {
-        const { labelList } = this.props.global;
+        const { labelList, labelDisplay } = this.props.global;
         const { labelName, labelVisible } = this.state;
 
         return (
@@ -135,7 +148,7 @@ class ConfigList extends Component {
                             bordered={false}
                             extra={(
                                 <>
-                                    <Switch checkedChildren="展示" unCheckedChildren="隐藏" style={{ marginRight: '10px' }} />
+                                    <Switch checkedChildren="展示" unCheckedChildren="隐藏" style={{ marginRight: '10px' }} onChange={this.changeDisplay} checked={labelDisplay} />
                                     <Button type="primary" icon="plus" size="small" onClick={() => { this.openLabel({ id: '', name: '' }); }} />
                                 </>
                             )}>

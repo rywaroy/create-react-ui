@@ -31,3 +31,10 @@ export function delLabelConfig(params) {
 export function addLabelConfig(params) {
     return axios.post('/configlist/label', params);
 }
+
+/**
+ * 展示/隐藏label
+ */
+export function changeLabelDisplay(params) {
+    return axios.post('/configlist/label/display', params);
+}
