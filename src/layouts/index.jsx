@@ -5,10 +5,23 @@ import 'antd/dist/antd.css';
 import 'xterm/css/xterm.css';
 import zhCN from 'antd/es/locale/zh_CN';
 import MenuBox from '@/components/MenuBox';
+import styles from './index.less';
 
 const { Content, Sider } = Layout;
 
 class BasicLayout extends Component {
+    /**
+     * 打开关闭label盒子
+     */
+    openBox(dispaly) {
+        this.props.dispatch({
+            type: 'global/updateState',
+            payload: {
+                labelDisplay: dispaly,
+            },
+        });
+    }
+
     componentDidMount() {
         this.props.dispatch({
             type: 'global/updateFiles',
@@ -25,6 +38,8 @@ class BasicLayout extends Component {
     }
 
     render() {
+        const { labelDisplay } = this.props.global;
+
         return (
             <Layout style={{ height: '100%', minWidth: 1200 }}>
                 <Layout>
@@ -46,6 +61,13 @@ class BasicLayout extends Component {
                         </Content>
                     </Layout>
                 </Layout>
+                <div className={styles.labelBox}>
+                    {
+                        labelDisplay
+                            ? <div className={styles.labelIconActive} onClick={() => this.openBox(false)} />
+                            : <div className={styles.labelIcon} onClick={() => this.openBox(true)} />
+                    }
+                </div>
             </Layout>
         );
     }
