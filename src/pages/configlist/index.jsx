@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Table, Card, Modal, Input, message } from 'antd';
+import { Row, Col, Table, Card, Modal, Input, message, Button, Switch } from 'antd';
 import { connect } from 'dva';
 import { patchLabelConfig, delLabelConfig } from '@/services/configlist';
 import styles from './index.less';
@@ -116,7 +116,15 @@ class ConfigList extends Component {
             <div>
                 <Row>
                     <Col span={10}>
-                        <Card title="label配置" bordered={false}>
+                        <Card
+                            title="label配置"
+                            bordered={false}
+                            extra={(
+                                <>
+                                    <Switch checkedChildren="展示" unCheckedChildren="隐藏" style={{ marginRight: '10px' }} />
+                                    <Button type="primary" icon="plus" size="small" />
+                                </>
+                            )}>
                             <Table columns={this.columns} dataSource={labelList} rowKey="id" />
                         </Card>
                     </Col>
