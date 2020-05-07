@@ -26,6 +26,9 @@ class BasicLayout extends Component {
         this.props.dispatch({
             type: 'global/updateFiles',
         });
+        this.props.dispatch({
+            type: 'global/getLabelConfig',
+        });
         window.socket.on('msg', data => {
             notification.open({
                 message: data.msg,

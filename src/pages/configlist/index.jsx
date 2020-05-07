@@ -127,14 +127,6 @@ class ConfigList extends Component {
         });
     }
 
-    /**
-     * 打开添加弹窗
-     */
-
-    componentDidMount() {
-        this.getLabelConfig();
-    }
-
     render() {
         const { labelList, labelDisplay } = this.props.global;
         const { labelName, labelVisible } = this.state;
