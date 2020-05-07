@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Table, Card, Modal, Input, message, Button, Switch } from 'antd';
 import { connect } from 'dva';
-import { patchLabelConfig, delLabelConfig } from '@/services/configlist';
+import { patchLabelConfig, delLabelConfig, addLabelConfig } from '@/services/configlist';
 import styles from './index.less';
 
 const { confirm } = Modal;
@@ -54,7 +54,7 @@ class ConfigList extends Component {
     }
 
     /**
-     * 打开label编辑弹窗
+     * 关闭label编辑弹窗
      */
     closeLabel = () => {
         this.setState({
@@ -72,18 +72,28 @@ class ConfigList extends Component {
     }
 
     /**
-     * 确认修改babel
+     * 确认修改/添加babel
      */
     confirmChangeLabel = () => {
         const { labelId, labelName } = this.state;
-        patchLabelConfig({
-            id: labelId,
-            name: labelName,
-        }).then(() => {
-            message.success('修改成功');
-            this.closeLabel();
-            this.getLabelConfig();
-        });
+        if (labelId) {
+            patchLabelConfig({
+                id: labelId,
+                name: labelName,
+            }).then(() => {
+                message.success('修改成功');
+                this.closeLabel();
+                this.getLabelConfig();
+            });
+        } else {
+            addLabelConfig({
+                name: labelName,
+            }).then(() => {
+                message.success('添加成功');
+                this.closeLabel();
+                this.getLabelConfig();
+            });
+        }
     }
 
     /**
@@ -104,6 +114,10 @@ class ConfigList extends Component {
         });
     }
 
+    /**
+     * 打开添加弹窗
+     */
+
     componentDidMount() {
         this.getLabelConfig();
     }
@@ -122,7 +136,7 @@ class ConfigList extends Component {
                             extra={(
                                 <>
                                     <Switch checkedChildren="展示" unCheckedChildren="隐藏" style={{ marginRight: '10px' }} />
-                                    <Button type="primary" icon="plus" size="small" />
+                                    <Button type="primary" icon="plus" size="small" onClick={() => { this.openLabel({ id: '', name: '' }); }} />
                                 </>
                             )}>
                             <Table columns={this.columns} dataSource={labelList} rowKey="id" />

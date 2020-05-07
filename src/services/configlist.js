@@ -24,3 +24,10 @@ export function delLabelConfig(params) {
         params,
     });
 }
+
+/**
+ * 新增label配置
+ */
+export function addLabelConfig(params) {
+    return axios.post('/configlist/label', params);
+}
