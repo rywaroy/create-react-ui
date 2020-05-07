@@ -7,7 +7,7 @@ module.exports = async function label(ctx) {
     const labelExists = fs.existsSync(labelPath);
     if (labelExists) {
         const label = fs.readJsonSync(labelPath);
-        label.display = display !== 'false';
+        label.display = display;
         fs.writeJsonSync(labelPath, label);
         ctx.success(200, '修改成功');
     } else {
