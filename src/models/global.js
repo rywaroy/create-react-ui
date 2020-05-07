@@ -8,6 +8,7 @@ export default {
         folders: [], // 文件夹列表
         labelList: [], // label配置列表
         labelDisplay: false, // label是否显示
+        labelShow: false, // label是否打开
     },
     effects: {
         * updateFiles(action, { call, put }) {
