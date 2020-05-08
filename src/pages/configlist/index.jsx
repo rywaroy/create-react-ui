@@ -144,7 +144,7 @@ class ConfigList extends Component {
                                     <Button type="primary" icon="plus" size="small" onClick={() => { this.openLabel({ id: '', name: '' }); }} />
                                 </>
                             )}>
-                            <Table columns={this.columns} dataSource={labelList} rowKey="id" scroll={{ y: 400 }} pagination={{ defaultPageSize: 5 }} />
+                            <Table columns={this.columns} dataSource={labelList} rowKey="id" pagination={{ defaultPageSize: 5 }} />
                         </Card>
                     </Col>
                 </Row>
