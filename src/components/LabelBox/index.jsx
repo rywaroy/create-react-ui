@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { Popover } from 'antd';
+import Clipboard from 'clipboard';
 import styles from './index.less';
 
 class LabelBox extends Component {
     openBox() {
         this.props.openBox();
+    }
+
+    componentDidMount() {
+        this.clipboard = new Clipboard('.label-text-copy');
+    }
+
+    componentWillUnmount() {
+        this.clipboard.destroy();
     }
 
     render() {
@@ -19,7 +28,7 @@ class LabelBox extends Component {
             <div className={styles.labelList}>
                 {
                     labelList.map(item => (
-                        <div className={styles.labelItem}>{item.name}</div>
+                        <div className={`${styles.labelItem} label-text-copy`} data-clipboard-text={item.name}>{item.name}</div>
                     ))
                 }
             </div>
