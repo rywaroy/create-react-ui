@@ -144,7 +144,7 @@ class ConfigList extends Component {
                                     <Button type="primary" icon="plus" size="small" onClick={() => { this.openLabel({ id: '', name: '' }); }} />
                                 </>
                             )}>
-                            <Table columns={this.columns} dataSource={labelList} rowKey="id" />
+                            <Table columns={this.columns} dataSource={labelList} rowKey="id" scroll={{ y: 400 }} />
                         </Card>
                     </Col>
                 </Row>
@@ -153,7 +153,7 @@ class ConfigList extends Component {
                     onCancel={this.closeLabel}
                     onOk={this.confirmChangeLabel}>
                     <div style={{ paddingTop: '20px' }}>
-                        <Input placeholder="请输入label" maxLength={10} value={labelName} onChange={this.onChangeLabel} />
+                        <Input autoFocus placeholder="请输入label" maxLength={10} value={labelName} onChange={this.onChangeLabel} />
                     </div>
                 </Modal>
             </div>
