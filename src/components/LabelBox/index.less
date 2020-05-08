@@ -4,6 +4,7 @@
     right: 60px;
     width: 60px;
     height: 60px;
+    z-index: 9999;
 }
 
 .labelIcon {
@@ -26,17 +27,17 @@
 }
 
 .labelList {
-    display: flex;
-    width: 400px;
-    min-width: 200px;
-    flex-wrap: wrap;
+    overflow: hidden;
+    width: 300px;
+    min-height: 120px;
 }
 
 .labelItem {
     font-size: 16px;
-    line-height: 24px;
-    margin-right: 8px;
+    line-height: 28px;
+    margin-right: 12px;
     cursor: pointer;
+    float: left;
 }
 
 .labelItem:hover {
