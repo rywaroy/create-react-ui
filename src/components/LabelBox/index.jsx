@@ -8,9 +8,24 @@ class LabelBox extends Component {
     }
 
     render() {
-        const { labelShow } = this.props;
+        const { labelShow, labelList } = this.props;
+        const labelTitle = (
+            <div className={styles.labelTitle}>
+                label列表
+                <span>(点击复制)</span>
+            </div>
+        );
+        const LabelList = (
+            <div className={styles.labelList}>
+                {
+                    labelList.map(item => (
+                        <div className={styles.labelItem}>{item.name}</div>
+                    ))
+                }
+            </div>
+        );
         return (
-            <Popover placement="topRight" content={111} trigger="click" visible={labelShow}>
+            <Popover placement="topRight" title={labelTitle} content={LabelList} trigger="click" visible={labelShow}>
                 <div className={styles.labelBox}>
                     <div className={labelShow ? styles.labelIconActive : styles.labelIcon} onClick={() => this.openBox()} />
                 </div>

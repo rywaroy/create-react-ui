@@ -42,7 +42,7 @@ class BasicLayout extends Component {
     }
 
     render() {
-        const { labelDisplay, labelShow } = this.props.global;
+        const { labelDisplay, labelShow, labelList } = this.props.global;
 
         return (
             <Layout style={{ height: '100%', minWidth: 1200 }}>
@@ -68,7 +68,7 @@ class BasicLayout extends Component {
                 {
                     labelDisplay
                     && (
-                        <LabelBox labelShow={labelShow} openBox={this.openBox} />
+                        <LabelBox labelShow={labelShow} labelList={labelList} openBox={this.openBox} />
                     )
                 }
             </Layout>
