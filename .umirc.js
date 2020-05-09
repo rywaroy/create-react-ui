@@ -29,6 +29,10 @@ export default {
           path: 'document',
           component: '../pages/document',
         },
+        {
+          path: 'configlist',
+          component: '../pages/configlist',
+        },
       ],
     },
   ],

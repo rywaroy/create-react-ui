@@ -51,7 +51,7 @@ class ListPagePopup extends Component {
         forms.push(values);
         this.setState({
             forms,
-        });
+        }, () => this.props.getForms(forms));
     }
 
     /**
@@ -75,16 +75,7 @@ class ListPagePopup extends Component {
         forms.splice(index, 1);
         this.setState({
             forms,
-        });
-    }
-
-    /**
-     * 传出弹窗对象
-     */
-    create = () => {
-        const { getForms } = this.props;
-        const { forms } = this.state;
-        getForms && getForms(forms);
+        }, () => this.props.getForms(forms));
     }
 
     /**
@@ -95,7 +86,7 @@ class ListPagePopup extends Component {
         forms[index].title = e.target.value;
         this.setState({
             forms,
-        });
+        }, () => this.props.getForms(forms));
     }
 
     render() {

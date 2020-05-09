@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Modal, InputNumber, Icon, Input } from 'antd';
+import { Table, Button, Modal, InputNumber, Icon, Input, Switch, message, Select } from 'antd';
 import cloneDeep from 'loadsh/cloneDeep';
 import SetColumn from './setColumn';
 import SetOpt from './setOpt';
@@ -22,6 +22,11 @@ class CreateTable extends Component {
             optKey: Math.random(),
             setOptObj: {},
             variable: DEFAULT_VARIABLE,
+            tableScorll: false,
+            visiblePop: false,
+            popIndex: 0,
+            popName: '',
+            popKey: Math.random(),
         };
     }
 
@@ -198,26 +203,24 @@ class CreateTable extends Component {
             ),
             titleText: '操作',
             dataIndex: 'action',
-            render() {
-                return (
+            render: () => (
                     <>
                         {values.opts.map((item, i) => (item.link ? (
                             <a href="/" target="_blank" className="mr10" key={i}>
                                 {item.text}
                             </a>
                         ) : (
-                            <span className="opt-link" key={i}>
+                            <span className="opt-link" key={i} onClick={() => this.linkPop(i)}>
                                 {item.text}
                             </span>
                         )))}
                     </>
-                );
-            },
-            renderText: `() => (<>${values.opts
-                .map(item => (item.link
-                    ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
-                    : `<span className="opt-link" onClick={() => {}}>${item.text}</span>`))
-                .join('')}</>)`,
+            ),
+            // renderText: `() => (<>${values.opts
+            //     .map(item => (item.link
+            //         ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
+            //         : `<span className="opt-link" onClick={() => {}}>${item.text}</span>`))
+            //     .join('')}</>)`,
             opts: values.opts,
         };
         const { width, fixed } = values;
@@ -270,9 +273,12 @@ class CreateTable extends Component {
         for (const item of columns) {
             item.title = item.titleText;
             delete item.titleText;
-            if (item.renderText) {
-                item.render = item.renderText;
-                delete item.renderText;
+            if (item.opts && item.opts.length > 0) {
+                item.render = `() => (<>${item.opts
+                    .map(item => (item.link
+                        ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
+                        : `<span className="opt-link"${item.linkName ? ` onClick={_self.${item.linkName}ModalOpen}` : ''}>${item.text}</span>`))
+                    .join('')}</>)`;
                 delete item.opts;
             }
         }
@@ -300,6 +306,64 @@ class CreateTable extends Component {
         });
     }
 
+    /**
+     * 设置table滚动
+     */
+    scorllChange = value => {
+        this.setState({
+            tableScorll: value,
+        });
+    }
+
+    /**
+     * 链接弹窗
+     */
+    linkPop = index => {
+        if (!this.props.popupForms) {
+            return;
+        }
+        if (this.props.popupForms.length === 0) {
+            message.error('暂无弹窗');
+            return;
+        }
+        this.setState({
+            visiblePop: true,
+            popIndex: index,
+            popKey: Math.random(),
+        });
+    }
+
+    /**
+     * 关闭弹窗列表
+     */
+    closePop = () => {
+        this.setState({
+            visiblePop: false,
+        });
+    }
+
+    /**
+     * 选择弹窗
+     */
+    popChange = value => {
+        this.setState({
+            popName: value,
+        });
+    }
+
+    /**
+     * 确认弹窗
+     */
+    selectPop = () => {
+        const { popIndex, popName, columns } = this.state;
+        const c = [...columns];
+        c[c.length - 1].opts[popIndex].linkName = popName;
+        this.setState({
+            columns: c,
+        });
+        this.closePop();
+    }
+
     render() {
         const {
             columns,
@@ -312,9 +376,12 @@ class CreateTable extends Component {
             optKey,
             setOptObj,
             variable,
+            tableScorll,
+            visiblePop,
+            popKey,
         } = this.state;
 
-        const { isEditVariable } = this.props;
+        const { isEditVariable, popupForms } = this.props;
 
         return (
             <div className="indexWrap">
@@ -342,8 +409,11 @@ class CreateTable extends Component {
                     )
 
                 }
-
-                <Table columns={columns} dataSource={dataSource} rowKey={r => r.id} />
+                <div style={{ display: 'inline-block', marginLeft: '8px' }}>
+                    滚动：
+                    <Switch onChange={this.scorllChange} />
+                </div>
+                <Table columns={columns} dataSource={dataSource} rowKey={r => r.id} scroll={{ x: tableScorll }} />
                 <Modal
                     title="批量添加"
                     visible={visibleAdd}
@@ -374,6 +444,29 @@ class CreateTable extends Component {
                     onCancel={this.closeOpt}
                     zIndex={1003}
                 />
+                {
+                    popupForms
+                    && (
+                        <Modal
+                            title="弹窗列表"
+                            visible={visiblePop}
+                            key={popKey}
+                            onCancel={this.closePop}
+                            onOk={this.selectPop}>
+                            <Select style={{ width: '100%' }} onChange={this.popChange}>
+                                {
+                                    popupForms.map((item, index) => (
+                                        <Select.Option value={item.name} key={index}>
+                                            {item.title}
+                                            -
+                                            {item.name}
+                                        </Select.Option>
+                                    ))
+                                }
+                            </Select>
+                        </Modal>
+                    )
+                }
             </div>
         );
     }

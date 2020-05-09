@@ -1,0 +1,55 @@
+.labelBox {
+    position: fixed;
+    bottom: 60px;
+    right: 60px;
+    width: 60px;
+    height: 60px;
+    z-index: 9999;
+}
+
+.labelIcon {
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    background-image: url('./images/box.png');
+    background-size: 40px 40px;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 10px;
+}
+
+.labelIconActive {
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    background-image: url('./images/box_open.png');
+    background-size: contain;
+}
+
+.labelList {
+    overflow: hidden;
+    width: 300px;
+    min-height: 120px;
+}
+
+.labelItem {
+    font-size: 16px;
+    line-height: 28px;
+    margin-right: 12px;
+    cursor: pointer;
+    float: left;
+}
+
+.labelItem:hover {
+    color: #fff;
+}
+
+.labelTitle {
+    font-size: 16px;
+    line-height: 28px;
+    span {
+        font-size: 12px;
+        opacity: .5;
+        margin-left: 2px;
+    }
+}

@@ -13,6 +13,7 @@ class ListPageModal extends Component {
         this.state = {
             title: '', // 页面标题
             buttons: [], // 页面操作按钮
+            popupForms: [], // 弹窗列表
         };
     }
 
@@ -24,15 +25,12 @@ class ListPageModal extends Component {
 
     formCode = '' // filter表单代码
 
-    popupForms = [] // 弹窗列表
-
     /**
      * 生成代码
      */
     create = () => {
         this.filterForm.create();
         this.table.create();
-        this.popup.create();
         const { title, buttons } = this.state;
         if (!title) {
             message.error('请输入页面标题');
@@ -43,6 +41,7 @@ class ListPageModal extends Component {
             return;
         }
         const { getPageOtion } = this.props;
+        const { popupForms } = this.state;
         getPageOtion && getPageOtion({
             title,
             buttons,
@@ -50,14 +49,14 @@ class ListPageModal extends Component {
             tableColumns: this.tableColumns,
             tableData: this.tableData,
             formCode: this.formCode,
-            popupForms: this.popupForms,
+            popupForms,
         });
     }
 
 
     render() {
         const { visible, onCancel } = this.props;
-        const { title, buttons } = this.state;
+        const { title, buttons, popupForms } = this.state;
         return (
             <Modal
                 visible={visible}
@@ -72,6 +71,7 @@ class ListPageModal extends Component {
                         <ListPageHeader
                             title={title}
                             buttons={buttons}
+                            popupForms={popupForms}
                             getTitle={text => this.setState({ title: text })}
                             getButtons={list => this.setState({ buttons: list })} />
                     </div>
@@ -89,6 +89,7 @@ class ListPageModal extends Component {
                         <CreateTable
                             ref={el => { this.table = el; }}
                             isEditVariable={false}
+                            popupForms={popupForms}
                             getCode={code => { this.tableCode = code; }}
                             getColumns={columns => { this.tableColumns = columns; }}
                             getDataSource={data => { this.tableData = data; }} />
@@ -96,8 +97,7 @@ class ListPageModal extends Component {
                     <div className={styles.listPageBox}>
                         <span className={styles.listPageTag}>弹窗</span>
                         <ListPagePopup
-                            ref={el => { this.popup = el; }}
-                            getForms={forms => { this.popupForms = forms; }} />
+                            getForms={forms => { this.setState({ popupForms: forms }); }} />
                     </div>
                 </div>
             </Modal>

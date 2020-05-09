@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, ConfigProvider, notification, Icon } from 'antd';
+import LabelBox from '@/components/LabelBox';
 import { connect } from 'dva';
 import 'antd/dist/antd.css';
 import 'xterm/css/xterm.css';
@@ -9,9 +10,25 @@ import MenuBox from '@/components/MenuBox';
 const { Content, Sider } = Layout;
 
 class BasicLayout extends Component {
+    /**
+     * 打开关闭label盒子
+     */
+    openBox = () => {
+        const { labelShow } = this.props.global;
+        this.props.dispatch({
+            type: 'global/updateState',
+            payload: {
+                labelShow: !labelShow,
+            },
+        });
+    }
+
     componentDidMount() {
         this.props.dispatch({
             type: 'global/updateFiles',
+        });
+        this.props.dispatch({
+            type: 'global/getLabelConfig',
         });
         window.socket.on('msg', data => {
             notification.open({
@@ -25,6 +42,8 @@ class BasicLayout extends Component {
     }
 
     render() {
+        const { labelDisplay, labelShow, labelList } = this.props.global;
+
         return (
             <Layout style={{ height: '100%', minWidth: 1200 }}>
                 <Layout>
@@ -46,6 +65,12 @@ class BasicLayout extends Component {
                         </Content>
                     </Layout>
                 </Layout>
+                {
+                    labelDisplay
+                    && (
+                        <LabelBox labelShow={labelShow} labelList={labelList} openBox={this.openBox} />
+                    )
+                }
             </Layout>
         );
     }
