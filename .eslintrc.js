@@ -68,5 +68,7 @@ module.exports = {
     describe: true,
     it: true,
     expect: true,
+    beforeAll: true,
+    afterAll: true
   }
 };
