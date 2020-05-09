@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
 const program = require('commander');
+const app = require('./app'); // eslint-disable-line
 const server = require('http').createServer(app.callback());
 const cp = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
-const app = require('./app');
+
 const createSocket = require('./socket');
 
 const { version } = require('../package.json');
