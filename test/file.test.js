@@ -34,4 +34,9 @@ describe('测试file接口', () => {
         const res = await server.get(`/api/file/folder?base=${path.join(process.cwd(), 'test', 'case')}`);
         expect(res.body.data.list.length).toBe(1);
     });
+
+    it('/file/isfolder 接口测试', async () => {
+        const res = await server.get('/api/file/isfolder?url=test/case');
+        expect(res.body.status).toBe(200);
+    });
 });
