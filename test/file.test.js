@@ -1,10 +1,16 @@
 const request = require('supertest');
+const fs = require('fs-extra');
 const app = require('../server/app');
 
 let server;
 
 beforeAll(() => {
     server = request(app.listen());
+    fs.ensureFileSync('test/case/example.js');
+});
+
+afterAll(() => {
+    fs.removeSync('test/case');
 });
 
 describe('测试file接口', () => {
