@@ -6,7 +6,7 @@ module.exports = async function isjs(ctx) {
     if (fs.existsSync(base)) {
         const stat = fs.statSync(base);
         if (stat.isFile()) {
-            if (path.extname(base) === '.js') {
+            if (path.extname(base) === '.js' || path.extname(base) === '.jsx') {
                 ctx.success(200, '验证成功', null);
             } else {
                 ctx.error(-1, '不是js文件', null);
