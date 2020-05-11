@@ -39,4 +39,11 @@ describe('测试file接口', () => {
         const res = await server.get('/api/file/isfolder?url=test/case');
         expect(res.body.status).toBe(200);
     });
+
+    it('/file/isJsOrFolder 接口测试', async () => {
+        const res = await server.get('/api/file/isJsOrFolder?url=test/case/example.js');
+        expect(res.body.status).toBe(200);
+        const res2 = await server.get('/api/file/isJsOrFolder?url=test/case');
+        expect(res2.body.status).toBe(200);
+    });
 });
