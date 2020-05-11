@@ -12,4 +12,9 @@ describe('测试file接口', () => {
         const res = await server.get('/api/file/template');
         expect(res.status).toBe(200);
     });
+
+    it('/file/isjs 接口测试', async () => {
+        const res = await server.get('/api/file/isjs?url=test/case/example.js');
+        expect(res.body.status).toBe(200);
+    });
 });
