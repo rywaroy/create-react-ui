@@ -7,11 +7,11 @@ let server;
 
 beforeAll(() => {
     server = request(app.listen());
-    fs.ensureFileSync('test/case/example.js');
+    fs.ensureFileSync('test/fileCase/example.js');
 });
 
 afterAll(() => {
-    fs.removeSync('test/case');
+    fs.removeSync('test/fileCase');
 });
 
 describe('测试file接口', () => {
@@ -21,7 +21,7 @@ describe('测试file接口', () => {
     });
 
     it('/file/isjs 接口测试', async () => {
-        const res = await server.get('/api/file/isjs?url=test/case/example.js');
+        const res = await server.get('/api/file/isjs?url=test/fileCase/example.js');
         expect(res.body.status).toBe(200);
     });
 
@@ -31,19 +31,19 @@ describe('测试file接口', () => {
     });
 
     it('/file/folder 接口测试', async () => {
-        const res = await server.get(`/api/file/folder?base=${path.join(process.cwd(), 'test', 'case')}`);
+        const res = await server.get(`/api/file/folder?base=${path.join(process.cwd(), 'test', 'fileCase')}`);
         expect(res.body.data.list.length).toBe(1);
     });
 
     it('/file/isfolder 接口测试', async () => {
-        const res = await server.get('/api/file/isfolder?url=test/case');
+        const res = await server.get('/api/file/isfolder?url=test/fileCase');
         expect(res.body.status).toBe(200);
     });
 
     it('/file/isJsOrFolder 接口测试', async () => {
-        const res = await server.get('/api/file/isJsOrFolder?url=test/case/example.js');
+        const res = await server.get('/api/file/isJsOrFolder?url=test/fileCase/example.js');
         expect(res.body.status).toBe(200);
-        const res2 = await server.get('/api/file/isJsOrFolder?url=test/case');
+        const res2 = await server.get('/api/file/isJsOrFolder?url=test/fileCase');
         expect(res2.body.status).toBe(200);
     });
 });
