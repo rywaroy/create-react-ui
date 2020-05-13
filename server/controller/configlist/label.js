@@ -8,6 +8,7 @@ module.exports = async function label(ctx) {
         const label = fs.readJsonSync(labelPath);
         ctx.success(200, '获取成功', label);
     } else {
+        fs.ensureFileSync(labelPath);
         fs.writeJsonSync(labelPath, {
             display: false,
             list: [],
