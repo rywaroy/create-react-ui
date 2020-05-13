@@ -14,9 +14,19 @@ afterAll(() => {
 });
 
 describe('测试table接口', () => {
-    it.only('/code/table 接口测试', async () => {
+    it('/code/table 接口测试', async () => {
         const res = await server
             .post('/api/code/table')
+            .send({
+                url: 'test/codeCase/example.js',
+                code: 'test',
+            });
+        expect(res.status).toBe(200);
+    });
+
+    it('/code/form 接口测试', async () => {
+        const res = await server
+            .post('/api/code/form')
             .send({
                 url: 'test/codeCase/example.js',
                 code: 'test',
