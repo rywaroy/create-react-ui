@@ -38,4 +38,13 @@ describe('测试configlist接口', () => {
         const res3 = await server.get('/api/configlist/label');
         expect(res3.body.data.list[0].name).toBe('test2');
     });
+
+    it('/configlist/label DELETE 接口测试', async () => {
+        const res = await server.get('/api/configlist/label');
+        const { id } = res.body.data.list[0];
+        const res2 = await server.delete(`/api/configlist/label?id=${id}`);
+        expect(res2.status).toBe(200);
+        const res3 = await server.get('/api/configlist/label');
+        expect(res3.body.data.list.length).toBe(0);
+    });
 });
