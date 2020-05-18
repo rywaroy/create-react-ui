@@ -27,4 +27,15 @@ describe('测试configlist接口', () => {
         const res2 = await server.get('/api/configlist/label');
         expect(res2.body.data.list.length).toBe(1);
     });
+
+    it('/configlist/label PATCH 接口测试', async () => {
+        const res = await server.get('/api/configlist/label');
+        const { id } = res.body.data.list[0];
+        const res2 = await server
+            .patch('/api/configlist/label')
+            .send({ name: 'test2', id });
+        expect(res2.status).toBe(200);
+        const res3 = await server.get('/api/configlist/label');
+        expect(res3.body.data.list[0].name).toBe('test2');
+    });
 });
