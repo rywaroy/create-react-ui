@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 const umiModel = require('../../templateString/umi-model');
 const umiTemplate = require('../../templateString/umi-template');
 
-module.exports = async function defaultController(ctx) {
+module.exports = async function umiController(ctx) {
     let { variable, namespace } = ctx.query;
     const { url, folderName, fileName, oilConfig } = ctx.query;
     let base = path.join(process.cwd(), url || '');

@@ -4,7 +4,7 @@ const babelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const generate = require('@babel/generator').default;
 
-module.exports = async function defaultController(ctx) {
+module.exports = async function customController(ctx) {
     const { url, folderName, fileName, variable } = ctx.query;
     let targetPath = path.join(process.cwd(), url || '');
     // 创建文件夹

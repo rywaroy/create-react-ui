@@ -63,5 +63,12 @@ module.exports = {
         "config": "webpack.config.js",
       },
     }
+  },
+  globals: {
+    describe: true,
+    it: true,
+    expect: true,
+    beforeAll: true,
+    afterAll: true
   }
 };
