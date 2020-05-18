@@ -5,17 +5,18 @@ const app = require('../server/app');
 let server;
 
 beforeAll(() => {
-    server = request(app.listen());
+    server = app.listen();
     fs.ensureFileSync('test/codeCase/example.js');
 });
 
 afterAll(() => {
     fs.removeSync('test/codeCase');
+    server.close();
 });
 
 describe('测试table接口', () => {
     it('/code/table 接口测试', async () => {
-        const res = await server
+        const res = await request(server)
             .post('/api/code/table')
             .send({
                 url: 'test/codeCase/example.js',
@@ -25,7 +26,7 @@ describe('测试table接口', () => {
     });
 
     it('/code/form 接口测试', async () => {
-        const res = await server
+        const res = await request(server)
             .post('/api/code/form')
             .send({
                 url: 'test/codeCase/example.js',
@@ -35,7 +36,7 @@ describe('测试table接口', () => {
     });
 
     it('/code/listpage 接口测试', async () => {
-        const res = await server
+        const res = await request(server)
             .post('/api/code/listpage')
             .send({
                 url: 'test/codeCase',
