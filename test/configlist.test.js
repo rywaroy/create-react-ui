@@ -47,4 +47,13 @@ describe('测试configlist接口', () => {
         const res3 = await server.get('/api/configlist/label');
         expect(res3.body.data.list.length).toBe(0);
     });
+
+    it('/configlist/label/display 接口测试', async () => {
+        const res = await server
+            .post('/api/configlist/label/display')
+            .send({ display: true });
+        expect(res.status).toBe(200);
+        const res2 = await server.get('/api/configlist/label');
+        expect(res2.body.data.display).toBeTruthy();
+    });
 });
