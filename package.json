@@ -6,7 +6,7 @@
   "scripts": {
     "start": "umi dev",
     "build": "umi build",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "lint": "eslint --ext .js src mock tests",
     "precommit": "lint-staged",
     "commit": "git-cz",
