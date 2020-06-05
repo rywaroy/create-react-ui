@@ -202,7 +202,7 @@ class CreateTable extends Component {
                     </>
             ),
             titleText: '操作',
-            dataIndex: 'action',
+            key: 'action',
             render: () => (
                     <>
                         {values.opts.map((item, i) => (item.link ? (

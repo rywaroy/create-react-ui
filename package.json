@@ -1,6 +1,6 @@
 {
   "name": "crui",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "react代码快速生成工具",
   "main": "server/index.js",
   "scripts": {
