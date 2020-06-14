@@ -56,6 +56,7 @@ module.exports = {
     "no-shadow": 0,
     "no-await-in-loop": 0,
     "class-methods-use-this": 0,
+    "jsx-a11y/control-has-associated-label": 0
   },
   settings: {
     "import/resolver": {

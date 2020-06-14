@@ -45,9 +45,11 @@
     "xterm": "^4.4.0"
   },
   "devDependencies": {
+    "@umijs/preset-react": "^1.5.6",
     "babel-eslint": "^9.0.0",
     "crui": "^1.1.4",
     "eslint": "^5.4.0",
+    "eslint-config-airbnb": "^18.1.0",
     "eslint-config-umi": "^1.4.0",
     "eslint-import-resolver-webpack": "^0.12.1",
     "eslint-plugin-flowtype": "^2.50.0",
@@ -62,8 +64,7 @@
     "nodemon": "^2.0.2",
     "react-test-renderer": "^16.7.0",
     "supertest": "^4.0.2",
-    "umi": "^2.7.7",
-    "umi-plugin-react": "^1.8.4",
+    "umi": "3.2.3",
     "umi-ui-theme": "^1.2.1"
   },
   "lint-staged": {

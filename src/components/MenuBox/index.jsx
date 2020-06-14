@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
-import router from 'umi/router';
+import { history } from 'umi';
 
 class MenuBox extends Component {
     constructor(props) {
@@ -49,7 +49,7 @@ class MenuBox extends Component {
         if (item.key === this.state.defaultSelectedKey[0]) {
             return;
         }
-        router.push(item.url);
+        history.push(item.url);
         this.setState({
             defaultSelectedKey: [item.key],
         });

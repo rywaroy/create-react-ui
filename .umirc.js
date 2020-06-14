@@ -3,7 +3,13 @@ const path = require('path');
 import { dark } from 'umi-ui-theme';
 
 export default {
-  treeShaking: true,
+  // title: '',
+  antd: {},
+  hash: true,
+  // dynamicImport: {},
+  nodeModulesTransform: {
+    type: 'none',
+  },
   routes: [
     {
       path: '/',
@@ -36,32 +42,9 @@ export default {
       ],
     },
   ],
-  plugins: [
-    // ref: https://umijs.org/plugin/umi-plugin-react.html
-    [
-      'umi-plugin-react',
-      {
-        antd: true,
-        dva: true,
-        dynamicImport: {
-          webpackChunkName: true,
-        },
-        title: 'crui',
-        dll: false,
-        routes: {
-          exclude: [
-            /models\//,
-            /services\//,
-            /model\.(t|j)sx?$/,
-            /service\.(t|j)sx?$/,
-            /components\//,
-            /images\//,
-          ],
-        },
-      },
-    ],
-  ],
-  history: 'browser',
+  history: {
+    type: 'browser'
+  },
   alias: {
     '@': path.resolve(__dirname, 'src'),
   },
