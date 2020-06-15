@@ -56,7 +56,12 @@ module.exports = {
     "no-shadow": 0,
     "no-await-in-loop": 0,
     "class-methods-use-this": 0,
-    "jsx-a11y/control-has-associated-label": 0
+    "jsx-a11y/control-has-associated-label": 0,
+    "import/extensions": 0,
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "semi": "off",
+  "@typescript-eslint/semi": ["error"]
   },
   settings: {
     "import/resolver": {
