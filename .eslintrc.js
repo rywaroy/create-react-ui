@@ -2,17 +2,17 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    node: true,
   },
   extends: [
+    'plugin:react/recommended',
     'airbnb',
-    // 'prettier',
-    // 'prettier-react'
   ],
-  parser: '@typescript-eslint/parser',
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -22,8 +22,7 @@ module.exports = {
   },
   plugins: [
     'react',
-    // 'prettier'
-    '@typescript-eslint'
+    '@typescript-eslint',
   ],
   rules: {
     // "prettier/prettier": "error",

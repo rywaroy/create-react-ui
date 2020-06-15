@@ -7,8 +7,8 @@
     "jsx": "react",
     "esModuleInterop": true,
     "sourceMap": true,
+    "allowJs": true,
     "baseUrl": "./",
-    "strict": true,
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"]
