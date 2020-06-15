@@ -1,4 +1,5 @@
-const Router = require('koa-router');
+import Router from 'koa-router';
+
 const fileController = require('../controller/file');
 
 const router = new Router();
@@ -33,4 +34,4 @@ router.get('/isfolder', fileController.isfolder);
  */
 router.get('/isJsOrFolder', fileController.isJsOrFolder);
 
-module.exports = router;
+export default router;

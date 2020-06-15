@@ -2,8 +2,7 @@ import Koa from 'koa';
 import cors from 'koa-cors';
 import staticServer from 'koa-static';
 import koaBody from 'koa-body';
-
-const router = require('./router');
+import router from './router';
 
 const app = new Koa();
 

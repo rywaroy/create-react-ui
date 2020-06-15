@@ -1,4 +1,5 @@
-const Router = require('koa-router');
+import Router from 'koa-router';
+
 const file = require('./file');
 const template = require('./template');
 const code = require('./code');
@@ -21,4 +22,4 @@ router.use('/api/code', code.routes());
 router.use('/api/document', document.routes());
 router.use('/api/configlist', configlist.routes());
 
-module.exports = router;
+export default router;

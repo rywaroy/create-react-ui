@@ -5,7 +5,7 @@ const folder = require('./folder');
 const isfolder = require('./isfolder');
 const isJsOrFolder = require('./isJsOrFolder');
 
-module.exports = {
+export default {
     template,
     isjs,
     display,
