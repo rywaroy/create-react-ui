@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es5",
+    "module": "commonjs",
     "moduleResolution": "node",
     "importHelpers": true,
     "jsx": "react",
@@ -13,11 +13,12 @@
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"]
     },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
   },
   "include": [
     "mock/**/*",
-    "src/**/*",
+    "server/**/*",
     "config/**/*",
     ".umirc.ts",
     "typings.d.ts"

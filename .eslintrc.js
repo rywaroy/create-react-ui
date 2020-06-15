@@ -8,7 +8,7 @@ module.exports = {
     // 'prettier',
     // 'prettier-react'
   ],
-  parser: "babel-eslint",
+  parser: '@typescript-eslint/parser',
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -23,6 +23,7 @@ module.exports = {
   plugins: [
     'react',
     // 'prettier'
+    '@typescript-eslint'
   ],
   rules: {
     // "prettier/prettier": "error",
