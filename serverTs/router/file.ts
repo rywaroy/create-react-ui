@@ -1,6 +1,5 @@
 import Router from 'koa-router';
-
-const fileController = require('../controller/file');
+import fileController from '../controller/file';
 
 const router = new Router();
 

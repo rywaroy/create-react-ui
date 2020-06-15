@@ -1,4 +1,5 @@
-const template = require('./template');
+import template from './template';
+
 const isjs = require('./isjs');
 const display = require('./display');
 const folder = require('./folder');
