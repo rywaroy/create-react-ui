@@ -18,4 +18,4 @@ router.get('/umi', templateController.umi);
  */
 router.get('/custom', templateController.custom);
 
-module.exports = router;
+export default router;

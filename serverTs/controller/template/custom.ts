@@ -1,11 +1,23 @@
-const path = require('path');
-const fs = require('fs-extra');
-const babelParser = require('@babel/parser');
-const traverse = require('@babel/traverse').default;
-const generate = require('@babel/generator').default;
+import path from 'path';
+import fs from 'fs-extra';
+import babelParser from '@babel/parser';
+import traverse, { Visitor } from '@babel/traverse';
+import generate from '@babel/generator';
+import IContext from '../../types/context';
 
-module.exports = async function customController(ctx) {
-    const { url, folderName, fileName, variable } = ctx.query;
+// const babelParser = require('@babel/parser');
+// const traverse = require('@babel/traverse').default;
+// const generate = require('@babel/generator').default;
+
+interface IQuery {
+    url: string;
+    folderName?: string;
+    fileName: string;
+    variable?: string;
+}
+
+export default async function customController(ctx: IContext) {
+    const { url, folderName, fileName, variable }: IQuery = ctx.query;
     let targetPath = path.join(process.cwd(), url || '');
     // 创建文件夹
     if (folderName) {
@@ -34,14 +46,14 @@ module.exports = async function customController(ctx) {
         fs.writeFileSync(targetUrl, output.code);
     }
     ctx.success(200, '创建成功', null);
-};
+}
 
 /**
  *
  * @param {String} variable - 变量名
  * @returns {Object} visitor
  */
-function createExportVisitor(ast, variable) {
+function createExportVisitor(ast, variable: string): Visitor {
     const visitor = {
         ExportDefaultDeclaration(path) {
             if (path.node.declaration.type === 'FunctionDeclaration') {
@@ -110,7 +122,7 @@ function createExportVisitor(ast, variable) {
     return visitor;
 }
 
-function createVisitor(ast, variable, identifier) {
+function createVisitor(ast, variable: string, identifier: string): Visitor {
     const visitor = {
         FunctionDeclaration(path) {
             if (path.node.id.name === identifier) {
