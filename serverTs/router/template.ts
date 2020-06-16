@@ -1,5 +1,5 @@
-const Router = require('koa-router');
-const templateController = require('../controller/template');
+import Router from 'koa-router';
+import templateController from '../controller/template';
 
 const router = new Router();
 
