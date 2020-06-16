@@ -1,10 +1,9 @@
 import template from './template';
-
-const isjs = require('./isjs');
-const display = require('./display');
-const folder = require('./folder');
-const isfolder = require('./isfolder');
-const isJsOrFolder = require('./isJsOrFolder');
+import isjs from './isjs';
+import display from './display';
+import folder from './folder';
+import isfolder from './isfolder';
+import isJsOrFolder from './isJsOrFolder';
 
 export default {
     template,
