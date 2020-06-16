@@ -1,4 +1,4 @@
-module.exports = function umiTemplate(variable, namespace) {
+export default function umiTemplate(variable: string, namespace: string) {
     return `import React, { Component } from 'react';
 import { connect } from 'dva';
 
@@ -12,4 +12,4 @@ class ${variable} extends Component {
 }
 
 export default connect(({ ${namespace} }) => ({ ${namespace} }))(${variable});`;
-};
+}

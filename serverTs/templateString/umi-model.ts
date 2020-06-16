@@ -1,4 +1,4 @@
-module.exports = function umiModel(namespace, isOilConfig) {
+export default function umiModel(namespace: string, isOilConfig: boolean) {
     if (isOilConfig) {
         return `const initState = () => ({});
 
@@ -32,4 +32,4 @@ export default {
     effects: {},
     reducers: {},
 };`;
-};
+}

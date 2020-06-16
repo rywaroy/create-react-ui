@@ -1,9 +1,19 @@
-const path = require('path');
-const fs = require('fs-extra');
-const umiModel = require('../../templateString/umi-model');
-const umiTemplate = require('../../templateString/umi-template');
+import path from 'path';
+import fs from 'fs-extra';
+import umiModel from '../../templateString/umi-model';
+import umiTemplate from '../../templateString/umi-template';
+import IContext from '../../types/context';
 
-module.exports = async function umiController(ctx) {
+interface IQuery {
+    variable: string;
+    url: string;
+    folderName?: string;
+    fileName: string;
+    namespace: string;
+    oilConfig: boolean;
+}
+
+export default async function umiController(ctx: IContext) {
     let { variable, namespace } = ctx.query;
     const { url, folderName, fileName, oilConfig } = ctx.query;
     let base = path.join(process.cwd(), url || '');
@@ -24,4 +34,4 @@ module.exports = async function umiController(ctx) {
     fs.outputFileSync(path.join(base, fileName), script);
     fs.outputFileSync(path.join(base, 'model.js'), modelscript);
     ctx.success(200, '创建成功', null);
-};
+}
