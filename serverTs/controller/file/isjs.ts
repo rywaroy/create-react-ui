@@ -1,7 +1,8 @@
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
+import IContext from '../../types/context';
 
-module.exports = async function isjs(ctx) {
+export default async function isjs(ctx: IContext) {
     const base = path.join(process.cwd(), ctx.query.url ? ctx.query.url : '');
     if (fs.existsSync(base)) {
         const stat = fs.statSync(base);
@@ -17,4 +18,4 @@ module.exports = async function isjs(ctx) {
     } else {
         ctx.error(-1, '找不到该文件', null);
     }
-};
+}
