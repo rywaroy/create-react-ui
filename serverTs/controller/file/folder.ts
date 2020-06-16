@@ -1,9 +1,10 @@
-const glob = require('glob');
-const path = require('path');
-const fs = require('fs-extra');
+import path from 'path';
+import fs from 'fs-extra';
+import glob from 'glob';
+import IContext from '../../types/context';
 
-module.exports = async function folder(ctx) {
-    const base = ctx.query.base ? ctx.query.base : '/';
+export default async function folder(ctx: IContext) {
+    const base: string = ctx.query.base ? ctx.query.base : '/';
     const list = glob.sync('*', {
         cwd: base,
     });
@@ -24,4 +25,4 @@ module.exports = async function folder(ctx) {
         list: data,
         svnBase: cacheExists ? fs.readJsonSync(cachePath).svnBase : null,
     });
-};
+}
