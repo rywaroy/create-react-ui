@@ -1,10 +1,18 @@
-const path = require('path');
-const fs = require('fs-extra');
-const defaultTemplate = require('../../templateString/default-template');
+import path from 'path';
+import fs from 'fs-extra';
+import defaultTemplate from '../../templateString/default-template';
+import IContext from '../../types/context';
 
-module.exports = async function defaultController(ctx) {
-    let { variable } = ctx.query;
-    const { url, folderName, fileName } = ctx.query;
+interface IQuery {
+    variable: string;
+    url: string;
+    folderName?: string;
+    fileName: string;
+}
+
+export default async function defaultController(ctx: IContext) {
+    let { variable }: IQuery = ctx.query;
+    const { url, folderName, fileName }: IQuery = ctx.query;
     let base = path.join(process.cwd(), url || '');
     variable = variable || 'Template';
 
@@ -19,4 +27,4 @@ module.exports = async function defaultController(ctx) {
     const script = defaultTemplate(variable);
     fs.outputFileSync(path.join(base, fileName), script);
     ctx.success(200, '创建成功', null);
-};
+}

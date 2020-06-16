@@ -1,4 +1,4 @@
-module.exports = function defaultTemplate(variable) {
+export default function defaultTemplate(variable: string): string {
     return `import React, { Component } from 'react';
 
 class ${variable} extends Component {
@@ -16,4 +16,4 @@ class ${variable} extends Component {
 
 export default ${variable};
 `;
-};
+}
