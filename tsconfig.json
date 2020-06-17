@@ -18,7 +18,7 @@
   },
   "include": [
     "mock/**/*",
-    "server/**/*",
+    "serverTs/**/*",
     "config/**/*",
     ".umirc.ts",
     "typings.d.ts"

@@ -61,7 +61,8 @@ module.exports = {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "semi": "off",
-  "@typescript-eslint/semi": ["error"]
+    "@typescript-eslint/semi": ["error"],
+    "import/no-unresolved": 0
   },
   settings: {
     "import/resolver": {
