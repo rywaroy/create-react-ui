@@ -1,5 +1,5 @@
-const Router = require('koa-router');
-const codeController = require('../controller/code');
+import Router from 'koa-router';
+import codeController from '../controller/code';
 
 const router = new Router();
 
@@ -18,4 +18,4 @@ router.post('/form', codeController.form);
  */
 router.post('/listpage', codeController.listpage);
 
-module.exports = router;
+export default router;

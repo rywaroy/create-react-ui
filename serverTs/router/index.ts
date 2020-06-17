@@ -1,8 +1,8 @@
 import Router from 'koa-router';
 import file from './file';
 import template from './template';
+import code from './code';
 
-const code = require('./code');
 const document = require('./document');
 const configlist = require('./configlist');
 
