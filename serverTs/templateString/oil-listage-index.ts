@@ -1,4 +1,4 @@
-module.exports = function oilListpageIndex(name, title, namespace, buttons, isFilter, popupForms = []) {
+export default function oilListpageIndex(name: string, title: string, namespace: string, buttons, isFilter, popupForms = []) {
     // 组件名
     const pageClassName = name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -155,4 +155,4 @@ class ${pageClassName} extends React.Component {
 
 export default connect(({ ${namespace} }) => ({ ${namespace} }))(${pageClassName});    
 `;
-};
+}

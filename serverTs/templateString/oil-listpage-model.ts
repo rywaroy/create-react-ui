@@ -1,4 +1,4 @@
-module.exports = function oilListpageModel(namespace, popupFormsName, tableData) {
+export default function oilListpageModel(namespace: string, popupFormsName, tableData) {
     const popupFormsNames = popupFormsName.map(item => `    ${item}Visible: false,
     ${item}ModalKey: Math.random(),`).join('\n');
 
@@ -53,4 +53,4 @@ export default {
     },
 };
 `;
-};
+}

@@ -1,11 +1,12 @@
-const path = require('path');
-const fs = require('fs-extra');
-const codeFormat = require('../../utils/codeFormat');
-const oilListpageMap = require('../../templateString/oil-listpage-map');
-const oilListpageModel = require('../../templateString/oil-listpage-model');
-const oilListpageIndex = require('../../templateString/oil-listage-index');
+import path from 'path';
+import fs from 'fs-extra';
+import IContext from '../../types/context';
+import codeFormat from '../../utils/codeFormat';
+import oilListpageMap from '../../templateString/oil-listpage-map';
+import oilListpageModel from '../../templateString/oil-listpage-model';
+import oilListpageIndex from '../../templateString/oil-listage-index';
 
-module.exports = async function listpage(ctx) {
+export default async function listpage(ctx: IContext) {
     const { url, name, pageOption, namespace } = ctx.request.body;
     const { formCode, tableCode, popupForms, title, buttons, tableData } = pageOption;
     // map.js
