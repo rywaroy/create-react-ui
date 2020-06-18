@@ -1,10 +1,19 @@
-const fs = require('fs');
-const babelParser = require('@babel/parser');
-const traverse = require('@babel/traverse').default;
-const commentParse = require('./commentParse');
+import fs from 'fs';
+import babelParser from '@babel/parser';
+import traverse, { Visitor } from '@babel/traverse';
+import commentParse from './commentParse';
 
-module.exports = function astParse(base, code) {
-    const obj = {};
+interface IPageObject {
+    name?: string;
+    isFunction?: boolean;
+    main?: any;
+    isClass?: boolean;
+    defaultProps?: any;
+    props?: any;
+}
+
+export default function astParse(base: string, code: string) {
+    const obj: IPageObject = {};
     if (!code) {
         code = fs.readFileSync(base, 'utf-8');
     }
@@ -16,7 +25,7 @@ module.exports = function astParse(base, code) {
         ],
     });
     traverse(ast, {
-        ExportDefaultDeclaration(path) {
+        ExportDefaultDeclaration(path: any) {
             if (path.node.declaration.type === 'FunctionDeclaration') {
                 /**
                 * 导出函数式组件
@@ -111,7 +120,7 @@ module.exports = function astParse(base, code) {
     }
 
     return obj;
-};
+}
 
 /**
  * 创建遍历器
@@ -120,7 +129,7 @@ module.exports = function astParse(base, code) {
  * @param {Object} ast - ast对象
  * @returns {Object} - visitor对象
  */
-function createVisitor(object, identifier, ast) {
+function createVisitor(object: IPageObject, identifier: string, ast): Visitor {
     return {
         FunctionDeclaration(path) {
             object.isFunction = true;
@@ -159,7 +168,7 @@ function createVisitor(object, identifier, ast) {
              * const ComponentForm = Form.create()(Component);
              * export default ComponentForm
              */
-            path.node.declarations.forEach(item => {
+            path.node.declarations.forEach((item: any) => {
                 if (item.id.name === identifier && item.init.type === 'CallExpression') {
                     if (item.init.arguments.length > 0) {
                         const id = item.init.arguments[0].name;
@@ -214,13 +223,20 @@ function parseDefaultProps(props) {
     return df;
 }
 
+interface IPropsObject {
+    type?: string;
+    isRequired?: boolean;
+    value?: any;
+    name: string;
+}
+
 /**
  * 解析propTypes中的属性
  */
 function parsePropTypes(props) {
     const types = [];
     for (let i = 0; i < props.length; i++) {
-        const obj = {
+        const obj: IPropsObject = {
             name: props[i].key.name,
         };
         if (props[i].value.object.type === 'Identifier') {
