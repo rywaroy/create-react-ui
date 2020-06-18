@@ -1,9 +1,10 @@
-const fs = require('fs');
-const astParse = require('../../socket/document/astParse');
-const getComponentName = require('../../socket/document/getComponentName');
-const createMd = require('../../socket/document/createMd');
+import fs from 'fs';
+import IContext from '../../types/context';
+import astParse from '../../socket/document/astParse';
+import getComponentName from '../../socket/document/getComponentName';
+import createMd from '../../socket/document/createMd';
 
-module.exports = async function create(ctx) {
+export default async function create(ctx: IContext) {
     const { file } = ctx.request.files;
     const { output } = ctx.request.body;
     const code = fs.readFileSync(file.path, 'utf-8');
@@ -26,4 +27,4 @@ module.exports = async function create(ctx) {
         createMd(fileObj, name, output);
         ctx.success(200, '成功', null);
     }
-};
+}
