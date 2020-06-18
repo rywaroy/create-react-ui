@@ -2,15 +2,7 @@ import fs from 'fs';
 import babelParser from '@babel/parser';
 import traverse, { Visitor } from '@babel/traverse';
 import commentParse from './commentParse';
-
-interface IPageObject {
-    name?: string;
-    isFunction?: boolean;
-    main?: any;
-    isClass?: boolean;
-    defaultProps?: any;
-    props?: any;
-}
+import { IPageObject, IPageDefaultProps, IPageProps } from '../../types/document';
 
 export default function astParse(base: string, code: string) {
     const obj: IPageObject = {};
@@ -131,7 +123,7 @@ export default function astParse(base: string, code: string) {
  */
 function createVisitor(object: IPageObject, identifier: string, ast): Visitor {
     return {
-        FunctionDeclaration(path) {
+        FunctionDeclaration(path: any) {
             object.isFunction = true;
             if (path.node.id.name === identifier) {
                 if (path.node.leadingComments) {
@@ -140,7 +132,7 @@ function createVisitor(object: IPageObject, identifier: string, ast): Visitor {
                 traverse(ast, createPropsVisitor(object, identifier));
             }
         },
-        ClassDeclaration(path) {
+        ClassDeclaration(path: any) {
             object.isClass = true;
             if (path.node.id.name === identifier) {
                 if (path.node.leadingComments) {
@@ -186,9 +178,9 @@ function createVisitor(object: IPageObject, identifier: string, ast): Visitor {
  * @param {String} identifier - 遍历名称
  * @returns {Object} - visitor对象
  */
-function createPropsVisitor(object, identifier) {
+function createPropsVisitor(object, identifier: string): Visitor {
     return {
-        ExpressionStatement(path) {
+        ExpressionStatement(path: any) {
             /**
              * 解析props，遍历陈述语句
              * @example
@@ -213,7 +205,7 @@ function createPropsVisitor(object, identifier) {
 /**
  * 解析DefaultProps中的属性
  */
-function parseDefaultProps(props) {
+function parseDefaultProps(props): IPageDefaultProps {
     const df = {};
     props.forEach(prop => {
         if (prop.value.type === 'StringLiteral' || prop.value.type === 'NumericLiteral' || prop.value.type === 'BooleanLiteral') { // 存储字符串、数字、布尔类型的默认值
@@ -233,7 +225,7 @@ interface IPropsObject {
 /**
  * 解析propTypes中的属性
  */
-function parsePropTypes(props) {
+function parsePropTypes(props): IPageProps[] {
     const types = [];
     for (let i = 0; i < props.length; i++) {
         const obj: IPropsObject = {

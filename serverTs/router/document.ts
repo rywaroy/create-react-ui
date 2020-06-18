@@ -5,4 +5,4 @@ const router = new Router();
 
 router.post('/create', documentController.create);
 
-module.exports = router;
+export default router;
