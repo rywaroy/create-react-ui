@@ -36,12 +36,17 @@ const rules = {
     },
 };
 
+interface IComment {
+    type: string;
+    value: string;
+}
+
 /**
  * 过滤注释，返回注释解析对象
  * @param {Array} comments - 注释数组
  * @returns {Object}
  */
-module.exports = function commentParse(comments) {
+export default function commentParse(comments: IComment[]) {
     const commentArray = [];
     comments.forEach(comment => {
         if (comment.type === 'CommentBlock') {
@@ -55,14 +60,14 @@ module.exports = function commentParse(comments) {
         }
     });
     return commentArray;
-};
+}
 
 /**
  * 过滤块级注释，返回单行内容
  * @param {String} str - 注释字符串
  * @returns {Array}
  */
-function filterCommentBlock(comment) {
+function filterCommentBlock(comment: IComment): string[] {
     const commentArray = [];
     comment.value.split('\n').forEach(item => {
     // 去除星号、首尾空格 ' * abcd   ' -> 'abcd'
@@ -76,16 +81,24 @@ function filterCommentBlock(comment) {
     return commentArray;
 }
 
+interface ICommentLine {
+    name: string;
+    value: string;
+    cn: string;
+    simple?: boolean;
+    param?: string;
+}
+
 /**
  * 过滤行级注释
  * @param {String} line - 单行注释字符串
  * @returns {Object | String}
  */
-function filterCommentLine(line) {
+function filterCommentLine(line: string): ICommentLine {
     // 验证是否包含文档规则@，否则直接返回字符串
     if (/@[a-z]+/.test(line)) {
         let flag = false;
-        let obj;
+        let obj: ICommentLine;
         Object.keys(rules).forEach(key => {
             // 遍历规则，查找
             if (line.indexOf(key) > -1) {
@@ -123,9 +136,9 @@ function filterCommentLine(line) {
  * @param {String} rules
  * @returns {Object}
  */
-function filterRules(rule, line) {
+function filterRules(rule: string, line: string) {
     const type = line.match(/{(.*)}/);
-    const obj = {
+    const obj: ICommentLine = {
         name: rule,
         type: type ? type[1] : '', // // 正则配置，获取{}中的参数类型
         value: '',
@@ -153,6 +166,6 @@ function filterRules(rule, line) {
  * @param {String} str
  * @returns {String}
  */
-function trimStr(str) {
+function trimStr(str: string) {
     return str.replace(/(^\s*)|(\s*$)/g, '');
 }
