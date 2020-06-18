@@ -1,17 +1,18 @@
-const fs = require('fs');
-const path = require('path');
+import path from 'path';
+import fs from 'fs';
+import { IPageObject, ICommentLine, INote, IPageProps } from '../../types/document';
 
-module.exports = function createMd(fileObj, name, output) {
+export default function createMd(fileObj: IPageObject, name: string, output: string) {
     const md = createMdString(fileObj, name);
     fs.writeFileSync(`${path.join(process.cwd(), output, `${name}.md`)}`, md);
-};
+}
 
 /**
  * 创建md字符串
  * @param {Object} notes - 文档对象
  * @param {String} name - 文件名
  */
-function createMdString(notes, name) {
+function createMdString(notes: IPageObject, name: string) {
     let md = `# ${name} \n\n`;
 
     if (notes.main && notes.main.length > 0) {
@@ -29,7 +30,7 @@ function createMdString(notes, name) {
  * 获取注释对象
  * @param {Array} note
  */
-function getNote(note) {
+function getNote(note: ICommentLine[]): INote {
     const noteObj = {};
     note.forEach(item => {
         noteObj[item.name] = item;
@@ -42,7 +43,7 @@ function getNote(note) {
  * @param {Object} note
  * @returns {String}
  */
-function createNote(note) {
+function createNote(note: INote) {
     let md = '';
     if (note.intro) {
         md += `> ${note.intro.value}\n\n`;
@@ -65,7 +66,7 @@ function createNote(note) {
     return md;
 }
 
-function createProps(props) {
+function createProps(props: IPageProps[]) {
     let md = '';
     md += '## props \n\n';
     md += `| 属性 | 类型 | 默认值 | 是否必填 | 说明
