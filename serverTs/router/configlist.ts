@@ -1,5 +1,5 @@
-const Router = require('koa-router');
-const configlistController = require('../controller/configlist');
+import Router from 'koa-router';
+import configlistController from '../controller/configlist';
 
 const router = new Router();
 
@@ -28,4 +28,4 @@ router.patch('/label', configlistController.patchLabel);
  */
 router.post('/label/display', configlistController.displayLabel);
 
-module.exports = router;
+export default router;

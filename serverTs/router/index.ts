@@ -3,8 +3,7 @@ import file from './file';
 import template from './template';
 import code from './code';
 import document from './document';
-
-const configlist = require('./configlist');
+import configlist from './configlist';
 
 const router = new Router();
 
