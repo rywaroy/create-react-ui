@@ -1,13 +1,19 @@
-const path = require('path');
-const fs = require('fs-extra');
+import path from 'path';
+import fs from 'fs-extra';
+import IContext from '../../types/context';
+import { ILabelJson } from '../../types/label';
 
-module.exports = async function addLabel(ctx) {
-    const { id } = ctx.query;
+interface IQuery {
+    id: string;
+}
+
+export default async function addLabel(ctx: IContext) {
+    const { id }: IQuery = ctx.query;
     const labelPath = path.join(process.cwd(), 'node_modules/.cache/crui/label.json');
     const labelExists = fs.existsSync(labelPath);
     if (labelExists) {
-        const label = fs.readJsonSync(labelPath);
-        let index;
+        const label: ILabelJson = fs.readJsonSync(labelPath);
+        let index: number;
         for (let i = 0; i < label.list.length; i++) {
             if (label.list[i].id === id) {
                 index = i;
@@ -24,4 +30,4 @@ module.exports = async function addLabel(ctx) {
     } else {
         ctx.error(0, '删除失败');
     }
-};
+}
