@@ -1,7 +1,8 @@
-const path = require('path');
-const fs = require('fs-extra');
+import path from 'path';
+import fs from 'fs-extra';
+import IContext from '../../types/context';
 
-module.exports = async function label(ctx) {
+export default async function label(ctx: IContext) {
     const labelPath = path.join(process.cwd(), 'node_modules/.cache/crui/label.json');
     const labelExists = fs.existsSync(labelPath);
     if (labelExists) {
@@ -15,4 +16,4 @@ module.exports = async function label(ctx) {
         });
         ctx.success(200, '获取成功', { display: false, list: [] });
     }
-};
+}
