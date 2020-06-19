@@ -1,13 +1,19 @@
-const path = require('path');
-const fs = require('fs-extra');
-const { v4: uuidv4 } = require('uuid');
+import path from 'path';
+import fs from 'fs-extra';
+import { v4 as uuidv4 } from 'uuid';
+import IContext from '../../types/context';
+import { ILabelJson } from '../../types/label';
 
-module.exports = async function addLabel(ctx) {
-    const { name } = ctx.request.body;
+interface IBody {
+    name: string;
+}
+
+export default function addLabel(ctx: IContext) {
+    const { name }: IBody = ctx.request.body;
     const labelPath = path.join(process.cwd(), 'node_modules/.cache/crui/label.json');
     const labelExists = fs.existsSync(labelPath);
     if (labelExists) {
-        const label = fs.readJsonSync(labelPath);
+        const label: ILabelJson = fs.readJsonSync(labelPath);
         label.list.push({
             name,
             id: uuidv4(),
@@ -17,4 +23,4 @@ module.exports = async function addLabel(ctx) {
     } else {
         ctx.error(0, '添加失败');
     }
-};
+}
