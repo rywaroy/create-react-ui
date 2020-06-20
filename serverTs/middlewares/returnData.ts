@@ -1,5 +1,7 @@
-function getData(ctx) {
-    return async (status, msg, obj) => {
+import { Context, Next } from 'koa';
+
+function getData(ctx: Context) {
+    return async (status: number, msg: string, obj: object) => {
         const data = {
             status: 200,
             msg: '',
@@ -9,11 +11,10 @@ function getData(ctx) {
         data.msg = msg;
         data.data = obj || {};
         ctx.body = data;
-        // return ctx.body;
     };
 }
 
-module.exports = async function returnData(ctx, next) {
+export default async function returnData(ctx: Context, next: Next) {
     if (!ctx.success) {
         // 成功
         ctx.success = getData(ctx);
@@ -23,4 +24,4 @@ module.exports = async function returnData(ctx, next) {
         ctx.error = getData(ctx);
     }
     await next();
-};
+}
