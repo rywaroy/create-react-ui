@@ -4,7 +4,7 @@ import traverse, { Visitor } from '@babel/traverse';
 import commentParse from './commentParse';
 import { IPageObject, IPageDefaultProps, IPageProps } from '../../types/document';
 
-export default function astParse(base: string, code: string) {
+export default function astParse(base: string, code?: string) {
     const obj: IPageObject = {};
     if (!code) {
         code = fs.readFileSync(base, 'utf-8');
