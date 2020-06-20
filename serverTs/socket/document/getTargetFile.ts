@@ -1,8 +1,8 @@
-const glob = require('glob');
+import glob from 'glob';
 
-module.exports = function getTargetFile(path) {
+export default function getTargetFile(path: string) {
     const files = glob.sync('**/*.js*(x)', {
         cwd: path,
     });
     return files;
-};
+}

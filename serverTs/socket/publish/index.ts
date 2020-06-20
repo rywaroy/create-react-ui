@@ -1,9 +1,10 @@
-const execa = require('execa');
-const glob = require('glob');
-const path = require('path');
-const fs = require('fs-extra');
+import execa from 'execa';
+import glob from 'glob';
+import path from 'path';
+import fs from 'fs-extra';
+import { Socket } from 'socket.io';
 
-module.exports = function publish(socket) {
+export default function publish(socket: Socket) {
     socket.on('build', async ({ svnBase }) => {
         try {
             // npm run build 构建流程
@@ -56,9 +57,9 @@ module.exports = function publish(socket) {
             socket.emit('building', false);
         }
     });
-};
+}
 
-function deleteFiles(data, svnBase) {
+function deleteFiles(data: string[], svnBase: string) {
     for (let i = 0; i < data.length; i++) {
         const stats = fs.statSync(path.join(svnBase, data[i]));
         if (stats.isDirectory()) {
@@ -75,7 +76,7 @@ function deleteFiles(data, svnBase) {
     }
 }
 
-function writeCacheJson(svnBase) {
+function writeCacheJson(svnBase: string) {
     const cachePath = path.join(process.cwd(), 'node_modules/.cache/crui/cache.json');
     fs.outputJSONSync(cachePath, {
         svnBase,
