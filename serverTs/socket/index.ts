@@ -1,8 +1,8 @@
-const SocketIo = require('socket.io');
-const publish = require('./publish');
-const document = require('./document');
+import SocketIo from 'socket.io';
+import publish from './publish';
+import document from './document';
 
-module.exports = function createSocket(server) {
+export default function createSocket(server) {
     const io = SocketIo(server);
 
     io.on('connection', socket => {
@@ -15,4 +15,4 @@ module.exports = function createSocket(server) {
         // 文档生成
         document(socket);
     });
-};
+}

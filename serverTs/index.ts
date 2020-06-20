@@ -7,10 +7,9 @@ import fs from 'fs-extra';
 import path from 'path';
 import app from './app';
 import packageJson from '../package.json';
+import createSocket from './socket';
 
 const server = http.createServer(app.callback());
-
-const createSocket = require('./socket');
 
 const { version } = packageJson;
 
