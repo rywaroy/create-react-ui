@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+import chalk from 'chalk';
 
 /**
  * 创建进度条
@@ -6,7 +6,7 @@ const chalk = require('chalk');
  * @param {Number} total - 总进度
  * @param {String} text - 文字展示
  */
-module.exports = function creatProgress(num, total, text) {
+export default function creatProgress(num: number, total: number, text: string) {
     const percent = num / total;
     const done = Math.floor(20 * percent);
     const none = 20 - done;
@@ -18,4 +18,4 @@ module.exports = function creatProgress(num, total, text) {
         p += chalk.gray('▇');
     }
     return `${text}  ${p}  ${num}/${total} \n`;
-};
+}

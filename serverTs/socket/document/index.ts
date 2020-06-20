@@ -1,17 +1,22 @@
-const path = require('path');
-const fs = require('fs');
-const chalk = require('chalk');
-const getTargetFile = require('./getTargetFile');
-const astParse = require('./astParse');
-const createMd = require('./createMd');
-const creatProgress = require('./createProgress');
-const getComponentName = require('./getComponentName');
+import path from 'path';
+import fs from 'fs';
+import chalk from 'chalk';
+import { Socket } from 'socket.io';
+import getTargetFile from './getTargetFile';
+import astParse from './astParse';
+import createMd from './createMd';
+import creatProgress from './createProgress';
+import getComponentName from './getComponentName';
 
-module.exports = function document(socket) {
-    socket.on('create-document', ({ entry, output }) => {
+interface INameMap {
+    [prop: string]: boolean
+}
+
+export default function document(socket: Socket) {
+    socket.on('create-document', ({ entry, output }: { entry: string, output: string}) => {
         const entryBase = path.join(process.cwd(), entry);
         const stat = fs.statSync(entryBase);
-        let files = [];
+        let files: string[] = [];
         if (stat.isDirectory()) {
             files = getTargetFile(entryBase);
             files = files.map(item => path.join(entryBase, item));
@@ -21,9 +26,9 @@ module.exports = function document(socket) {
         }
         socket.emit('createing', true);
         const total = files.length;
-        const warningTip = [];
+        const warningTip: string[] = [];
         let num = 0;
-        const nameMap = {};
+        const nameMap: INameMap = {};
 
         files.forEach(item => {
             socket.emit('term-document', creatProgress(num, total, `正在解析${item}`));
@@ -58,12 +63,12 @@ module.exports = function document(socket) {
         }
         socket.emit('createing', false);
     });
-};
+}
 
 /**
  * 重置文件名
  */
-function resetName(nameMap, name) {
+function resetName(nameMap: INameMap, name: string) {
     let num = 1;
     let newName = name;
     let reset = false; // 是否修改过
