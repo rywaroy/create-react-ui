@@ -6,15 +6,12 @@ import cp from 'child_process';
 import fs from 'fs-extra';
 import path from 'path';
 import app from './app';
-import packageJson from '../package.json';
 import createSocket from './socket';
 
 const server = http.createServer(app.callback());
 
-const { version } = packageJson;
-
 program
-    .version(version);
+    .version('2.0.0');
 
 // socket
 createSocket(server);
