@@ -1,6 +1,6 @@
-const request = require('supertest');
-const fs = require('fs-extra');
-const app = require('../server/app');
+import request from 'supertest';
+import fs from 'fs-extra';
+import app from '../server/app';
 
 let server;
 
