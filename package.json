@@ -6,12 +6,12 @@
   "scripts": {
     "start": "umi dev",
     "build": "umi build",
-    "test": "jest --detectOpenHandles",
+    "test": "jest",
     "lint": "eslint --ext .js src mock tests",
     "precommit": "lint-staged",
     "commit": "git-cz",
     "dev:watch": "NODE_ENV=development npx nodemon server/index.js",
-    "dev": "ts-node serverTs/index.ts"
+    "dev": "ts-node server/index.ts"
   },
   "bin": {
     "crui": "server/index.js"
@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.1",
+    "@types/jest": "^26.0.0",
     "@types/koa": "^2.0.47",
     "@types/koa-cors": "^0.0.0",
     "@types/koa-router": "^7.0.35",

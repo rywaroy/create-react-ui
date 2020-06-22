@@ -49,6 +49,6 @@ export default {
     '@': path.resolve(__dirname, 'src'),
   },
   theme: dark,
-  outputPath: './server/static'
+  outputPath: './lib/static'
 };
 
