@@ -13,7 +13,10 @@
       "@@/*": ["src/.umi/*"]
     },
     "allowSyntheticDefaultImports": true,
-    "outDir": "./lib"
+    "outDir": "./lib",
+    "types": [
+      "koa-body",
+    ]
   },
   "include": [
     "server/**/*",
