@@ -1,5 +1,5 @@
 import fs from 'fs';
-import babelParser from '@babel/parser';
+import { parse } from '@babel/parser';
 import traverse, { Visitor } from '@babel/traverse';
 import commentParse from './commentParse';
 import { IPageObject, IPageDefaultProps, IPageProps } from '../../types/document';
@@ -9,7 +9,7 @@ export default function astParse(base: string, code?: string) {
     if (!code) {
         code = fs.readFileSync(base, 'utf-8');
     }
-    const ast = babelParser.parse(code, {
+    const ast = parse(code, {
         sourceType: 'module',
         plugins: [
             'classProperties',

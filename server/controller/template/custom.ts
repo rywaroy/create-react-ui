@@ -1,13 +1,9 @@
 import path from 'path';
 import fs from 'fs-extra';
-import babelParser from '@babel/parser';
+import { parse } from '@babel/parser';
 import traverse, { Visitor } from '@babel/traverse';
 import generate from '@babel/generator';
 import IContext from '../../types/context';
-
-// const babelParser = require('@babel/parser');
-// const traverse = require('@babel/traverse').default;
-// const generate = require('@babel/generator').default;
 
 interface IQuery {
     url: string;
@@ -34,7 +30,7 @@ export default async function customController(ctx: IContext) {
 
     if (fileName && variable) {
         const targetUrl = path.join(targetPath, fileName);
-        const ast = babelParser.parse(fs.readFileSync(targetUrl, 'utf-8'), {
+        const ast = parse(fs.readFileSync(targetUrl, 'utf-8'), {
             sourceType: 'module',
             plugins: [
                 'classProperties',
