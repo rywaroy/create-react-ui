@@ -3,6 +3,7 @@ import cors from 'koa-cors';
 import staticServer from 'koa-static';
 import koaBody from 'koa-body';
 import router from './router';
+import returnData from './middlewares/returnData';
 
 const app = new Koa();
 
@@ -16,7 +17,7 @@ app.use(koaBody({
     },
 }));
 app.use(staticServer(`${__dirname}/static`));
-app.use(require('./middlewares/returnData'));
+app.use(returnData);
 
 app.use(router.routes());
 app.use(router.allowedMethods());
