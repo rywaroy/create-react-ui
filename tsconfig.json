@@ -6,7 +6,6 @@
     "importHelpers": true,
     "jsx": "react",
     "esModuleInterop": true,
-    "sourceMap": true,
     "allowJs": true,
     "baseUrl": "./",
     "paths": {
@@ -14,12 +13,10 @@
       "@@/*": ["src/.umi/*"]
     },
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
+    "outDir": "./lib"
   },
   "include": [
-    "mock/**/*",
-    "serverTs/**/*",
-    "config/**/*",
+    "server/**/*",
     ".umirc.ts",
     "typings.d.ts"
   ]
