@@ -9,6 +9,7 @@ interface IBody {
 }
 
 export default async function table(ctx: IContext) {
+    // @ts-ignore for travis
     const { url, code }: IBody = ctx.request.body;
     const base = path.join(process.cwd(), url || '');
     if (fs.existsSync(base)) {

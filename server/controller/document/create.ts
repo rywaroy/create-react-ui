@@ -7,6 +7,7 @@ import createMd from '../../socket/document/createMd';
 export default async function create(ctx: IContext) {
     // @ts-ignore for travis
     const { file } = ctx.request.files;
+    // @ts-ignore for travis
     const { output } = ctx.request.body;
     const code = fs.readFileSync(file.path, 'utf-8');
     const fileObj = astParse(null, code);

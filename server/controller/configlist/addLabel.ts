@@ -9,6 +9,7 @@ interface IBody {
 }
 
 export default function addLabel(ctx: IContext) {
+    // @ts-ignore for travis
     const { name }: IBody = ctx.request.body;
     const labelPath = path.join(process.cwd(), 'node_modules/.cache/crui/label.json');
     const labelExists = fs.existsSync(labelPath);
