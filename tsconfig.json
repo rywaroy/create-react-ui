@@ -14,8 +14,9 @@
     },
     "allowSyntheticDefaultImports": true,
     "outDir": "./lib",
-    "types": [
-      "koa-body",
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/koa-body"
     ]
   },
   "include": [
