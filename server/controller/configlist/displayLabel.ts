@@ -8,7 +8,6 @@ interface IBody {
 }
 
 export default async function label(ctx: IContext) {
-    // @ts-ignore
     const { display }: IBody = ctx.request.body;
     const labelPath = path.join(process.cwd(), 'node_modules/.cache/crui/label.json');
     const labelExists = fs.existsSync(labelPath);
