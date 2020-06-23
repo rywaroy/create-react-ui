@@ -7,6 +7,7 @@ import oilListpageModel from '../../templateString/oil-listpage-model';
 import oilListpageIndex from '../../templateString/oil-listage-index';
 
 export default async function listpage(ctx: IContext) {
+    // @ts-ignore
     const { url, name, pageOption, namespace } = ctx.request.body;
     const { formCode, tableCode, popupForms, title, buttons, tableData } = pageOption;
     // map.js
@@ -34,4 +35,4 @@ export default async function listpage(ctx: IContext) {
     } catch {
         ctx.success(0, '创建失败', null);
     }
-};
+}
