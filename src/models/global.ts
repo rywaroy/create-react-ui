@@ -1,7 +1,30 @@
-import { getFiles } from '@/services/file';
-import { getLabelConfig } from '@/services/configlist';
+import { Effect } from 'dva';
+import { Reducer } from 'redux';
+import { TreeNode } from 'antd/es/tree-select';
+import { getFiles } from '../services/file';
+import { getLabelConfig } from '../services/configlist';
 
-export default {
+export interface GlobalModelState {
+    files: TreeNode[];
+    folders: TreeNode[];
+    labelList: any[];
+    labelDisplay: boolean;
+    labelShow: boolean;
+}
+
+export interface GlobalModelType {
+    namespace: 'global',
+    state: GlobalModelState,
+    effects: {
+        updateFiles: Effect,
+        getLabelConfig: Effect,
+    },
+    reducers: {
+        updateState: Reducer<GlobalModelState>
+    };
+}
+
+const GlobalModel: GlobalModelType = {
     namespace: 'global',
     state: {
         files: [], // 文件列表
@@ -40,3 +63,5 @@ export default {
         },
     },
 };
+
+export default GlobalModel;
