@@ -1,26 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
     "jsx": "react",
     "esModuleInterop": true,
-    "allowJs": true,
+    "sourceMap": true,
     "baseUrl": "./",
+    "strict": true,
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"]
     },
-    "allowSyntheticDefaultImports": true,
-    "outDir": "./lib",
-    "typeRoots": [
-      "node_modules/@types",
-      "node_modules/koa-body"
-    ]
+    "allowSyntheticDefaultImports": true
   },
   "include": [
-    "server/**/*",
+    "mock/**/*",
+    "src/**/*",
+    "config/**/*",
     ".umirc.ts",
     "typings.d.ts"
   ]

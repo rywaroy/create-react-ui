@@ -62,7 +62,10 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "warn",
     "semi": "off",
     "@typescript-eslint/semi": ["error"],
-    "import/no-unresolved": 0
+    "import/no-unresolved": 0,
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "import/no-absolute-path": 0,
+    '@typescript-eslint/semi': 0
   },
   settings: {
     "import/resolver": {
