@@ -1,8 +1,9 @@
 import request from 'supertest';
 import fs from 'fs-extra';
+import { Server } from 'http';
 import app from '../server/app';
 
-let server;
+let server: Server;
 
 beforeAll(() => {
     server = app.listen();
