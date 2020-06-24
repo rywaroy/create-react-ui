@@ -1,11 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
+import { GlobalModelState } from '@/models/global';
 import DefaultTemplate from './components/DefaultTemplate';
 import UmiTemplate from './components/UmiTemplate';
 import CustomTemplate from './components/CustomTemplate';
 
+interface IProps {
+    global: GlobalModelState;
+    dispatch: Function;
+}
 
-function Template(props) {
+const Template: React.FC<IProps> = (props) => {
     const { folders } = props.global;
 
     const updateFiles = () => {
@@ -23,6 +28,6 @@ function Template(props) {
             </div>
         </div>
     );
-}
+};
 
-export default connect(({ global }) => ({ global }))(Template);
+export default connect(({ global }: { global: GlobalModelState }) => ({ global }))(Template);
