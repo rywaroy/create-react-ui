@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, TreeSelect } from 'antd';
+import { TreeNode } from 'antd/es/tree-select';
+import { FormComponentProps } from 'antd/es/form';
 import TemplateItem from '@/components/TemplateItem';
 import { createDefaultTemplate } from '@/services/template';
 
-function DefaultTemplate(props) {
+interface IProps extends FormComponentProps {
+    folders: TreeNode[];
+    updateFiles: () => void;
+}
+
+const DefaultTemplate: React.FC<IProps> = (props) => {
     const [visible, setVisible] = useState(false);
     const { folders } = props;
     const { getFieldDecorator } = props.form;
@@ -110,6 +117,6 @@ function DefaultTemplate(props) {
             </Modal>
         </div>
     );
-}
+};
 
-export default Form.create()(DefaultTemplate);
+export default Form.create<IProps>()(DefaultTemplate);
