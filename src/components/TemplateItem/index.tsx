@@ -2,7 +2,14 @@ import React from 'react';
 import { Button } from 'antd';
 import styles from './index.less';
 
-function TemplateItem(props) {
+interface IProps {
+    title: string;
+    intro: string;
+    imgClassName: string;
+    add: () => void;
+}
+
+const TemplateItem:React.FC<IProps> = props => {
     const { title, intro, imgClassName } = props;
     return (
         <div className={styles.item}>
@@ -15,6 +22,6 @@ function TemplateItem(props) {
             <p className={styles.intro}>{intro}</p>
         </div>
     );
-}
+};
 
 export default TemplateItem;
