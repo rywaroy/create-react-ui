@@ -4,6 +4,7 @@ import { TreeNode } from 'antd/es/tree-select';
 import { FormComponentProps } from 'antd/es/form';
 import TemplateItem from '@/components/TemplateItem';
 import { createDefaultTemplate } from '@/services/template';
+import { IDefaultFormValues } from '@/types/template';
 
 interface IProps extends FormComponentProps {
     folders: TreeNode[];
@@ -31,7 +32,7 @@ const DefaultTemplate: React.FC<IProps> = (props) => {
     };
 
     const handleOk = () => {
-        props.form.validateFields((err, values) => {
+        props.form.validateFields((err, values: IDefaultFormValues) => {
             if (!err) {
                 createDefaultTemplate(values)
                     .then(() => {
