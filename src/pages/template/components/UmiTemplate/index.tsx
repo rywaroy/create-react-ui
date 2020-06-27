@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import { Modal, Form, Input, Radio, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import { createUmiTemplate } from '@/services/template';
+import { TreeNode } from 'antd/es/tree-select';
+import { FormComponentProps } from 'antd/es/form';
+import { IUmiFormValues } from '@/types/template';
 
-function UmiTemplate(props) {
+interface IProps extends FormComponentProps {
+    folders: TreeNode[];
+    updateFiles: () => void;
+}
+
+const UmiTemplate: React.FC<IProps> = props => {
     const [visible, setVisible] = useState(false);
     const { folders } = props;
     const { getFieldDecorator } = props.form;
@@ -27,7 +35,7 @@ function UmiTemplate(props) {
     };
 
     const handleOk = () => {
-        props.form.validateFields((err, values) => {
+        props.form.validateFields((err, values: IUmiFormValues) => {
             if (!err) {
                 createUmiTemplate(values)
                     .then(() => {
@@ -41,7 +49,6 @@ function UmiTemplate(props) {
     const handleCancel = () => {
         setVisible(false);
     };
-
 
     return (
         <div>
@@ -140,4 +147,4 @@ function UmiTemplate(props) {
     );
 }
 
-export default Form.create()(UmiTemplate);
+export default Form.create<IProps>()(UmiTemplate);
