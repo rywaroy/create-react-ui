@@ -3,8 +3,16 @@ import { Modal, Form, Input, Icon, Tooltip, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import { getTemplate } from '@/services/file';
 import { createCustomTemplate } from '@/services/template';
+import { TreeNode } from 'antd/es/tree-select';
+import { FormComponentProps } from 'antd/es/form';
+import { ICustomFormValues } from '@/types/template';
 
-function CustomTemplate(props) {
+interface IProps extends FormComponentProps {
+    folders: TreeNode[];
+    updateFiles: () => void;
+}
+
+const CustomTemplate: React.FC<IProps> = (props) => {
     const [visible, setVisible] = useState(false);
     const [files, setFiles] = useState([]);
     const { folders } = props;
@@ -27,7 +35,7 @@ function CustomTemplate(props) {
     };
 
     const handleOk = () => {
-        props.form.validateFields((err, values) => {
+        props.form.validateFields((err, values: ICustomFormValues) => {
             if (!err) {
                 createCustomTemplate(values)
                     .then(() => {
@@ -41,7 +49,6 @@ function CustomTemplate(props) {
     const handleCancel = () => {
         setVisible(false);
     };
-
 
     return (
         <div>
