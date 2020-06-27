@@ -14,8 +14,8 @@ interface IQuery {
 }
 
 export default async function umiController(ctx: IContext) {
-    let { variable, namespace } = ctx.query;
-    const { url, folderName, fileName, oilConfig } = ctx.query;
+    let { variable, namespace }: IQuery = ctx.query;
+    const { url, folderName, fileName, oilConfig }: IQuery = ctx.query;
     let base = path.join(process.cwd(), url || '');
     variable = variable || 'Template';
     namespace = namespace || 'global';
