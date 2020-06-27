@@ -46,6 +46,7 @@
     "xterm": "^4.4.0"
   },
   "devDependencies": {
+    "@types/clipboard": "^2.0.1",
     "@types/fs-extra": "^9.0.1",
     "@types/jest": "^26.0.0",
     "@types/koa": "^2.0.47",
