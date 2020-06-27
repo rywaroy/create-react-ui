@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import { Layout, ConfigProvider, notification, Icon } from 'antd';
-import LabelBox from '@/components/LabelBox';
 import { connect } from 'dva';
 import 'antd/dist/antd.css';
 import 'xterm/css/xterm.css';
 import zhCN from 'antd/es/locale/zh_CN';
 import MenuBox from '@/components/MenuBox';
+import { GlobalModelState } from '@/models/global';
+import LabelBox from '@/components/LabelBox';
+import socket from '@/utils/socket';
 
 const { Content, Sider } = Layout;
 
-class BasicLayout extends Component {
+interface IProps {
+    global: GlobalModelState;
+    dispatch: Function;
+}
+
+class BasicLayout extends Component<IProps, null> {
     /**
      * 打开关闭label盒子
      */
@@ -30,14 +37,14 @@ class BasicLayout extends Component {
         this.props.dispatch({
             type: 'global/getLabelConfig',
         });
-        window.socket.on('msg', data => {
+        socket.on('msg', data => {
             notification.open({
                 message: data.msg,
                 icon: data.status === 200 ? <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /> : <Icon type="close-circle" style={{ color: 'red' }} />,
             });
         });
         setInterval(() => {
-            window.socket.emit('heart-link');
+            socket.emit('heart-link');
         }, 10000);
     }
 
@@ -76,4 +83,4 @@ class BasicLayout extends Component {
     }
 }
 
-export default connect(({ global }) => ({ global }))(BasicLayout);
+export default connect(({ global }: { global: GlobalModelState }) => ({ global }))(BasicLayout);
