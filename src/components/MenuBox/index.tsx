@@ -2,7 +2,19 @@ import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
 import { history } from 'umi';
 
-class MenuBox extends Component {
+interface IState {
+    defaultSelectedKey: string[];
+    map: IRoute[];
+}
+
+interface IRoute {
+    title: string;
+    key: string;
+    icon: string;
+    url: string;
+}
+
+class MenuBox extends Component<any, IState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -45,7 +57,7 @@ class MenuBox extends Component {
     /**
      * 点击跳转
      */
-    onClickItem = item => {
+    onClickItem = (item: IRoute) => {
         if (item.key === this.state.defaultSelectedKey[0]) {
             return;
         }
@@ -58,7 +70,7 @@ class MenuBox extends Component {
     componentDidMount() {
         const { pathname } = window.location;
         this.setState({
-            defaultSelectedKey: pathname.split('/')[1],
+            defaultSelectedKey: [pathname.split('/')[1]],
         });
     }
 
