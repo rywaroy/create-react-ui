@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { Popover } from 'antd';
 import Clipboard from 'clipboard';
+import { ILabelItem } from '@/types/file';
 import styles from './index.less';
 
-class LabelBox extends Component {
+interface IProps {
+    openBox: () => void;
+    labelShow: boolean;
+    labelList: ILabelItem[];
+}
+
+class LabelBox extends Component<IProps, null> {
+    clipboard: Clipboard
+
     openBox() {
         this.props.openBox();
     }
