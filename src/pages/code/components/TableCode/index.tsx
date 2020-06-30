@@ -4,8 +4,26 @@ import TemplateItem from '@/components/TemplateItem';
 import CreateTable from '@/components/CreateTable';
 import { isJs } from '@/services/file';
 import { createTableCode } from '@/services/code';
+import { FormComponentProps } from 'antd/es/form';
+import { TreeNode } from 'antd/es/tree-select';
+import { ITableCode } from '@/types/code';
 
-class TableCode extends Component {
+interface IState {
+    configVisible: boolean;
+    configKey: number;
+    code: string;
+    codeKey: number;
+    codeVisible: boolean;
+}
+
+interface IProps extends FormComponentProps {
+    files: TreeNode[];
+    updateFiles: () => void;
+}
+
+class TableCode extends Component<IProps, IState> {
+    createTable: any;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -21,16 +39,13 @@ class TableCode extends Component {
      * 打开table文件配置
      */
     openTableCode = () => {
-        this.setState(
-            {
-                configKey: Math.random(),
-            },
-            () => {
-                this.setState({
-                    configVisible: true,
-                });
-            },
-        );
+        this.setState({
+            configKey: Math.random(),
+        }, () => {
+            this.setState({
+                configVisible: true,
+            });
+        });
     };
 
     /**
@@ -46,16 +61,13 @@ class TableCode extends Component {
      * 打开代码生成弹窗
      */
     openCreateCode = () => {
-        this.setState(
-            {
-                codeKey: Math.random(),
-            },
-            () => {
-                this.setState({
-                    codeVisible: true,
-                });
-            },
-        );
+        this.setState({
+            codeKey: Math.random(),
+        }, () => {
+            this.setState({
+                codeVisible: true,
+            });
+        });
     };
 
     /**
@@ -78,7 +90,7 @@ class TableCode extends Component {
     /**
      * 获取生成的代码
      */
-    getCode = code => {
+    getCode = (code: string) => {
         this.props.form.setFieldsValue({
             code,
         });
@@ -90,7 +102,7 @@ class TableCode extends Component {
     /**
      * 验证是否是js文件
      */
-    isJs = (rule, value, callback) => {
+    isJs = (rule, value: string, callback: (err?: Error) => void) => {
         isJs({
             url: value,
         }).then(() => {
@@ -104,7 +116,7 @@ class TableCode extends Component {
      * 创建文件
      */
     create = () => {
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields((err, values: ITableCode) => {
             if (!err) {
                 createTableCode(values).then(() => {
                     this.closeTableCode();
@@ -214,4 +226,4 @@ class TableCode extends Component {
     }
 }
 
-export default Form.create()(TableCode);
+export default Form.create<IProps>()(TableCode);
