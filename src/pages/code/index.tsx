@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { message } from 'antd';
 import Clipboard from 'clipboard';
+import { GlobalModelState } from '@/models/global';
 import TableCode from './components/TableCode';
 import FormCode from './components/FormCode';
 import ListPageCode from './components/ListPageCode';
 
-class Code extends Component {
+interface IProps {
+    global: GlobalModelState;
+    dispatch: Function;
+}
+
+class Code extends Component<IProps, null> {
+    clipboard: Clipboard;
+
     componentDidMount() {
         this.clipboard = new Clipboard('#code');
         this.clipboard.on('success', () => {
@@ -41,6 +49,6 @@ class Code extends Component {
     }
 }
 
-export default connect(({ global }) => ({
+export default connect(({ global }: { global: GlobalModelState }) => ({
     global,
 }))(Code);
