@@ -4,8 +4,26 @@ import TemplateItem from '@/components/TemplateItem';
 import CreateForm from '@/components/CreateForm';
 import { isJs } from '@/services/file';
 import { createFormCode } from '@/services/code';
+import { FormComponentProps } from 'antd/es/form';
+import { TreeNode } from 'antd/es/tree-select';
+import { IFormCode } from '@/types/code';
 
-class FormCode extends Component {
+interface IState {
+    configVisible: boolean;
+    configKey: number;
+    code: string;
+    codeKey: number;
+    codeVisible: boolean;
+}
+
+interface IProps extends FormComponentProps {
+    files: TreeNode[];
+    updateFiles: () => void;
+}
+
+class FormCode extends Component<IProps, IState> {
+    createForm: any;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -21,16 +39,13 @@ class FormCode extends Component {
      * 打开form文件配置
      */
     openFormCode = () => {
-        this.setState(
-            {
-                configKey: Math.random(),
-            },
-            () => {
-                this.setState({
-                    configVisible: true,
-                });
-            },
-        );
+        this.setState({
+            configKey: Math.random(),
+        }, () => {
+            this.setState({
+                configVisible: true,
+            });
+        });
     };
 
     /**
@@ -46,16 +61,13 @@ class FormCode extends Component {
      * 代开代码生成弹窗
      */
     openCreateCode = () => {
-        this.setState(
-            {
-                codeKey: Math.random(),
-            },
-            () => {
-                this.setState({
-                    codeVisible: true,
-                });
-            },
-        );
+        this.setState({
+            codeKey: Math.random(),
+        }, () => {
+            this.setState({
+                codeVisible: true,
+            });
+        });
     };
 
     /**
@@ -90,7 +102,7 @@ class FormCode extends Component {
     /**
      * 验证是否是js文件
      */
-    isJs = (rule, value, callback) => {
+    isJs = (rule, value: string, callback: (err?: Error) => void) => {
         isJs({
             url: value,
         }).then(() => {
@@ -104,7 +116,7 @@ class FormCode extends Component {
      * 创建文件
      */
     create = () => {
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields((err, values: IFormCode) => {
             if (!err) {
                 createFormCode(values).then(() => {
                     this.closeFormCode();
@@ -207,4 +219,4 @@ class FormCode extends Component {
     }
 }
 
-export default Form.create()(FormCode);
+export default Form.create<IProps>()(FormCode);
