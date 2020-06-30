@@ -28,16 +28,6 @@ export const initialValueOptions = [
     { label: 'true', value: true },
 ];
 
-export const colonOptions = [
-    { label: 'true', value: true },
-    { label: 'false', value: false },
-];
-
-export const addonAfterOptions = [
-    { label: 'false', value: false },
-    { label: 'true', value: true },
-];
-
 export const formItemLayoutOptions = [
     { label: 'false', value: false },
     { label: '变量', value: '变量' },
