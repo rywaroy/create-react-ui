@@ -1,10 +1,32 @@
 import React, { Component } from 'react';
 import { Modal, Select, Input, Form, Radio, InputNumber, Button } from 'antd';
-import { TYPES, initialValueOptions, colonOptions, addonAfterOptions, formItemLayoutOptions, ruleTypes, mockData } from '@/utils/enum';
+import { TYPES, initialValueOptions, formItemLayoutOptions, ruleTypes, mockData } from '@/utils/enum';
+import { FormComponentProps } from 'antd/es/form';
+import { RadioChangeEvent } from 'antd/es/radio';
+import { IFormItem } from '@/types/code';
 
 const { Option } = Select;
 
-class SetForm extends Component {
+interface IRule {
+    rule: string;
+    content: string | boolean | number;
+    message: string;
+    id: number;
+  }
+
+interface IState {
+    showCol: boolean;
+    rules: IRule[];
+}
+
+interface IProps extends FormComponentProps {
+    onOk: (obj: IFormItem) => void;
+    onCancel: () => void;
+    isFilterForm: boolean;
+    visibleSetForm: boolean;
+}
+
+class SetForm extends Component<IProps, IState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,16 +38,13 @@ class SetForm extends Component {
     setForm = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const { type, label, initialValue, colClass, colon, addonAfter, span, formItemLayout, labelCol, wrapperCol } = values;
-                const obj = {
+                const { type, label, initialValue, span, formItemLayout, labelCol, wrapperCol } = values;
+                const obj: IFormItem = {
                     type,
                     label,
                     name: label,
                 };
                 if (initialValue) obj.initialValue = '';
-                if (colClass) obj.colClass = colClass;
-                if (!colon) obj.colon = false;
-                if (addonAfter) obj.addonAfter = '';
                 if (span) obj.span = span;
                 if (formItemLayout === '数值') {
                     obj.formItemLayout = {
@@ -64,9 +83,9 @@ class SetForm extends Component {
     }
 
     /**
-     *
+     * 切换layout
      */
-    layoutChange = e => {
+    layoutChange = (e: RadioChangeEvent) => {
         let showCol = false;
         if (e.target.value === '数值') {
             showCol = true;
@@ -95,7 +114,7 @@ class SetForm extends Component {
     /**
      * 选择规则
      */
-    rulesChange = (value, index) => {
+    rulesChange = (value: string, index: number) => {
         const rules = [...this.state.rules];
         rules[index].rule = value;
         if (value === 'required') {
@@ -112,7 +131,7 @@ class SetForm extends Component {
     /**
      * 删除规则
      */
-    deleteRule = index => {
+    deleteRule = (index: number) => {
         const rules = [...this.state.rules];
         rules.splice(index, 1);
         this.setState({
@@ -123,7 +142,7 @@ class SetForm extends Component {
     /**
      * 修改规则内容
      */
-    contentChange = (value, index) => {
+    contentChange = (value: number, index: number) => {
         const rules = [...this.state.rules];
         rules[index].content = value;
         this.setState({
@@ -134,14 +153,13 @@ class SetForm extends Component {
     /**
      * 修改规则提示
      */
-    messageChange = (e, index) => {
+    messageChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const rules = [...this.state.rules];
         rules[index].message = e.target.value;
         this.setState({
             rules,
         });
     }
-
 
     render() {
         const { visibleSetForm, isFilterForm } = this.props;
@@ -188,25 +206,6 @@ class SetForm extends Component {
                             initialValue: false,
                         })(
                             <Radio.Group options={initialValueOptions} />,
-                        )}
-                    </Form.Item>
-                    <Form.Item label="自定义类 colClass">
-                        {getFieldDecorator('colClass')(
-                            <Input />,
-                        )}
-                    </Form.Item>
-                    <Form.Item label="冒号 colon">
-                        {getFieldDecorator('colon', {
-                            initialValue: true,
-                        })(
-                            <Radio.Group options={colonOptions} />,
-                        )}
-                    </Form.Item>
-                    <Form.Item label="后缀 addonAfter">
-                        {getFieldDecorator('addonAfter', {
-                            initialValue: false,
-                        })(
-                            <Radio.Group options={addonAfterOptions} />,
                         )}
                     </Form.Item>
                     {
@@ -274,7 +273,7 @@ class SetForm extends Component {
                                 {
                                     rules.map((item, index) => (
                                         <div key={item.id} style={{ border: '1px solid #ccc', padding: '5px 10px', borderRadius: 8, marginBottom: 5 }}>
-                                            <Select style={{ width: 100, marginRight: 10 }} value={item.rule} onChange={value => this.rulesChange(value, index)}>
+                                            <Select style={{ width: 100, marginRight: 10 }} value={item.rule} onChange={(value: string) => this.rulesChange(value, index)}>
                                                 {ruleTypes.map((rule, r) => (
                                                     <Option value={rule} key={r}>
                                                         {rule}
@@ -300,6 +299,6 @@ class SetForm extends Component {
     }
 }
 
-const SetFormForm = Form.create({ name: 'set_form' })(SetForm);
+const SetFormForm = Form.create<IProps>({ name: 'set_form' })(SetForm);
 
 export default SetFormForm;
