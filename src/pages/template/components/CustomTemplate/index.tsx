@@ -138,4 +138,4 @@ const CustomTemplate: React.FC<IProps> = (props) => {
     );
 }
 
-export default Form.create()(CustomTemplate);
+export default Form.create<IProps>()(CustomTemplate);
