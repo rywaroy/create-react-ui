@@ -1,4 +1,5 @@
 import axios from '@/utils/axios';
+import { IIsJsParams } from '@/types/file';
 
 /**
  * 获取文件目录
@@ -10,7 +11,7 @@ export function getFiles() {
 /**
  * 验证是否是js文件
  */
-export function isJs(params) {
+export function isJs(params: IIsJsParams) {
     return axios.get('file/isjs', {
         params,
     });
