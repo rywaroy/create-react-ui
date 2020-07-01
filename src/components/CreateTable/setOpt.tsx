@@ -1,14 +1,34 @@
 import React, { Component } from 'react';
 import { Modal, InputNumber, Input, Form, Radio, Button } from 'antd';
 import { fixedOptions, linkOptions } from '@/utils/enum';
+import { FormComponentProps } from 'antd/es/form';
+import { RadioChangeEvent } from 'antd/es/radio';
+import { ITableOpt, ITableOperation } from '@/types/code';
 
-class SetOpt extends Component {
-    state = {
-        opts: [],
+interface IProps extends FormComponentProps {
+    opts: ITableOpt[];
+    fixed: boolean | 'left' | 'right';
+    width: number;
+    zIndex: number;
+    visibleOpt: boolean;
+    onOk: (values: ITableOperation) => void;
+    onCancel: () => void;
+}
+
+interface IState {
+    opts: ITableOpt[];
+}
+
+class SetOpt extends Component<IProps, IState> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            opts: [],
+        }
     }
 
     setOpt = () => {
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields((err, values: ITableOperation) => {
             if (!err) {
                 const res = this.state.opts.every(item => item.text);
                 if (!res) {
@@ -35,7 +55,7 @@ class SetOpt extends Component {
         });
     }
 
-    optInputChange(e, index) {
+    optInputChange(e: React.ChangeEvent<HTMLInputElement>, index: number) {
         const opts = [...this.state.opts];
         opts[index].text = e.target.value;
         this.setState({
@@ -43,7 +63,7 @@ class SetOpt extends Component {
         });
     }
 
-    optRadioChange(e, index) {
+    optRadioChange(e: RadioChangeEvent, index: number) {
         const opts = [...this.state.opts];
         opts[index].link = e.target.value;
         this.setState({
@@ -112,6 +132,6 @@ class SetOpt extends Component {
     }
 }
 
-const SetOptForm = Form.create({ name: 'set_opt' })(SetOpt);
+const SetOptForm = Form.create<IProps>()(SetOpt);
 
 export default SetOptForm;
