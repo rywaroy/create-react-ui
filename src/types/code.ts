@@ -1,3 +1,6 @@
+import React from 'react';
+import { ColumnProps } from 'antd/es/table';
+
 export interface IFormCode {
   url: string;
   code: string;
@@ -70,4 +73,36 @@ export interface IFormObject {
   wrapperCol: number,
   width: number;
   title: string;
+}
+
+export interface IColumn extends ColumnProps<IDataSource> {
+  titleText: string;
+  opts?: ITableOpt[];
+  width?: number;
+}
+
+export interface IDataSource {
+  id: number;
+  [props: string]: any;
+}
+
+export interface ITableOpt {
+  link?: boolean;
+  text?: string;
+  linkName?: string;
+}
+
+export interface IPopupForm {
+  title: string;
+  name: string;
+}
+
+export interface ISetColumnValue {
+  width: number;
+}
+
+export interface ITableOperation {
+  opts: ITableOpt[];
+  width: number;
+  fixed: boolean | 'left' | 'right';
 }
