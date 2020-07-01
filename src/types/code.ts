@@ -41,3 +41,33 @@ export interface IMockData {
   value: string;
   label: string;
 }
+
+export interface ISetFormValues {
+  type: string;
+  label: string;
+  name: string;
+  initialValue?: string;
+  span?: number;
+  formItemLayout?: 'formItemLayout' | '数值' | '变量' | boolean | IFormItemLayout;
+  labelCol?: number;
+  wrapperCol?: number;
+  formItemLayoutText?: string;
+  selectOptions?: IMockData[];
+  checkboxOptions?: IMockData[];
+  radioOptions?: IMockData[];
+}
+
+export interface IFastItem {
+  label: string;
+  type: string;
+}
+
+export interface IFormObject {
+  code: string;
+  options: ISetFormValues[];
+  name: string;
+  labelCol: number;
+  wrapperCol: number,
+  width: number;
+  title: string;
+}
