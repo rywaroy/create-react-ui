@@ -3,7 +3,7 @@ import { Modal, Select, Input, Form, Radio, InputNumber, Button } from 'antd';
 import { TYPES, initialValueOptions, formItemLayoutOptions, ruleTypes, mockData } from '@/utils/enum';
 import { FormComponentProps } from 'antd/es/form';
 import { RadioChangeEvent } from 'antd/es/radio';
-import { IFormItem } from '@/types/code';
+import { IFormItem, ISetFormValues } from '@/types/code';
 
 const { Option } = Select;
 
@@ -36,7 +36,7 @@ class SetForm extends Component<IProps, IState> {
     }
 
     setForm = () => {
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields((err, values: ISetFormValues) => {
             if (!err) {
                 const { type, label, initialValue, span, formItemLayout, labelCol, wrapperCol } = values;
                 const obj: IFormItem = {
