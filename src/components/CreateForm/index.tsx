@@ -1,12 +1,47 @@
 import React, { Component } from 'react';
 import { Button, InputNumber, Input, Form, Radio } from 'antd';
-import cloneDeep from 'loadsh/cloneDeep';
-import { typeOptions, variableTypeOptions, mockData } from '@/utils/enum';
+import cloneDeep from 'lodash/cloneDeep';
+import { typeOptions, mockData } from '@/utils/enum';
+import { IFastItem, ISetFormValues, IFormItemLayout, IFormObject } from '@/types/code';
+import { FormComponentProps } from 'antd/es/form';
+import { RadioChangeEvent } from 'antd/es/radio';
 import GenerateForm from '../GenerateForm';
 import SetForm from './SetForm';
 import styles from './index.less';
 
-class CreateForm extends Component {
+interface IState {
+    formOption: ISetFormValues[];
+    visibleSetForm: boolean;
+    setFormKey: number;
+    width: number;
+    type: string;
+    name: string;
+    labelCol: number;
+    wrapperCol: number;
+    span: number;
+    defaultLayout: boolean;
+    fastList: IFastItem[];
+}
+
+interface IProps extends FormComponentProps {
+    width?: number;
+    type?: string;
+    height: number;
+    isEditVariable: boolean;
+    getCode?: (s: string) => void;
+    getFormObject?: (obj: IFormObject) => void;
+}
+
+interface IDefaultProps {
+    height: number;
+    isEditVariable: boolean;
+}
+
+class CreateForm extends Component<IProps, IState> {
+    generateForm: any;
+
+    static defaultProps: IDefaultProps;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -14,9 +49,8 @@ class CreateForm extends Component {
             visibleSetForm: false,
             setFormKey: Math.random(),
             width: this.props.width ? this.props.width : 1000, // 容器宽度
-            type: 'filter', // 表单类型
+            type: this.props.type ? this.props.type : 'filter', // 表单类型
             name: 'listFilter', // 变量名
-            variableType: 'Function', // 变量类型
             labelCol: 8,
             wrapperCol: 16,
             span: 24,
@@ -35,14 +69,6 @@ class CreateForm extends Component {
                 { label: '', type: 'radiogroup' },
             ],
         };
-
-        // 配置默认的type
-        if (this.props.type) {
-            this.state.type = this.props.type;
-            if (this.props.type === 'modal') {
-                this.state.width = 520;
-            }
-        }
     }
 
     openAdd = () => {
@@ -58,7 +84,7 @@ class CreateForm extends Component {
         });
     }
 
-    add = values => {
+    add = (values: ISetFormValues) => {
         const formOption = [...this.state.formOption];
         let { defaultLayout } = this.state;
         if (values.formItemLayoutText) {
@@ -80,18 +106,9 @@ class CreateForm extends Component {
     };
 
     /**
-     * 设置容器宽度
-     */
-    boxWidthChange = e => {
-        this.setState({
-            width: e.target.value,
-        });
-    };
-
-    /**
      * 表单类型切换
      */
-    typeChange = e => {
+    typeChange = (e: RadioChangeEvent) => {
         const type = e.target.value;
         this.setState({
             type,
@@ -103,7 +120,7 @@ class CreateForm extends Component {
     /**
      * span变化
      */
-    spanChange = value => {
+    spanChange = (value: number) => {
         const formOption = [...this.state.formOption];
         for (const item of formOption) {
             if (item.formItemLayoutText) {
@@ -116,11 +133,11 @@ class CreateForm extends Component {
         });
     };
 
-    labelColChange = value => {
+    labelColChange = (value: number) => {
         const formOption = [...this.state.formOption];
         for (const item of formOption) {
             if (item.formItemLayoutText) {
-                item.formItemLayout.labelCol.span = value;
+                (item.formItemLayout as IFormItemLayout).labelCol.span = value;
             }
         }
         this.setState({
@@ -129,11 +146,11 @@ class CreateForm extends Component {
         });
     };
 
-    wrapperColChange = value => {
+    wrapperColChange = (value: number) => {
         const formOption = [...this.state.formOption];
         for (const item of formOption) {
             if (item.formItemLayoutText) {
-                item.formItemLayout.wrapperCol.span = value;
+                (item.formItemLayout as IFormItemLayout).wrapperCol.span = value;
             }
         }
         this.setState({
@@ -145,15 +162,14 @@ class CreateForm extends Component {
     /**
      * 模拟提交
      */
-    handleSubmit = e => {
-        e.preventDefault();
+    handleSubmit = () => {
         this.generateForm.verify();
     };
 
     /**
      * 删除item
      */
-    deleteItem = index => {
+    deleteItem = (index: number) => {
         const formOption = [...this.state.formOption];
         formOption.splice(index, 1);
         let defaultLayout = false;
@@ -172,12 +188,12 @@ class CreateForm extends Component {
      * 生成代码
      */
     create() {
-        const { formOption, name, variableType, labelCol, wrapperCol, width } = this.state;
+        const { formOption, name, labelCol, wrapperCol, width } = this.state;
         if (formOption.length === 0) {
             return;
         }
         let isVar = false;
-        const options = cloneDeep(formOption);
+        const options = cloneDeep<ISetFormValues[]>(formOption);
         const array = options.map(item => {
             if (item.formItemLayoutText) {
                 item.formItemLayout = 'formItemLayout';
@@ -202,12 +218,7 @@ class CreateForm extends Component {
         if (isVar) {
             formItemLayoutCode = `const formItemLayout = {labelCol:{span:${labelCol}}, wrapperCol:{span:${wrapperCol}}};`;
         }
-        if (variableType === 'Array') {
-            s = `${formItemLayoutCode} export const ${name} = ${s};`;
-        }
-        if (variableType === 'Function') {
-            s = `export function ${name}(_self) {${formItemLayoutCode} return ${s}; }`;
-        }
+        s = `export function ${name}(_self) {${formItemLayoutCode} return ${s}; }`;
         s = s.replace(/"(formItemLayout)"/g, (a, b) => b);
         const { getCode, getFormObject } = this.props;
         getCode && getCode(s);
@@ -215,7 +226,6 @@ class CreateForm extends Component {
             code: s,
             options: displayOption,
             name,
-            variableType,
             labelCol,
             wrapperCol,
             width,
@@ -226,14 +236,14 @@ class CreateForm extends Component {
     /**
      * 便捷添加
      */
-    fastAdd = index => {
+    fastAdd = (index: number) => {
         const { formOption, fastList } = this.state;
         const options = [...formOption];
         const fastLists = [...fastList];
         const { type } = fastLists[index];
         let { label } = fastLists[index];
         label = label || type;
-        const option = {
+        const option: ISetFormValues = {
             label,
             name: label,
             type,
@@ -258,12 +268,20 @@ class CreateForm extends Component {
     /**
      * 修改label
      */
-    onChangeFast = (e, index) => {
+    onChangeFast = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const fastList = [...this.state.fastList];
         fastList[index].label = e.target.value;
         this.setState({
             fastList,
         });
+    }
+
+    componentDidMount() {
+        if (this.props.type === 'modal') {
+            this.setState({
+                width: 520,
+            })
+        }
     }
 
     render() {
@@ -274,7 +292,6 @@ class CreateForm extends Component {
             width,
             type,
             name,
-            variableType,
             span,
             labelCol,
             wrapperCol,
@@ -326,13 +343,6 @@ class CreateForm extends Component {
                                             value={name}
                                         />
                                     </Form.Item>
-                                    <Form.Item label="变量类型">
-                                        <Radio.Group
-                                            options={variableTypeOptions}
-                                            onChange={e => this.setState({ variableType: e.target.value })}
-                                            value={variableType}
-                                        />
-                                    </Form.Item>
                                     {defaultLayout && (
                                         <Form.Item label="默认span">
                                             <InputNumber
@@ -377,7 +387,7 @@ class CreateForm extends Component {
                                     type="primary"
                                     onClick={this.handleSubmit}
                                     className={styles.testButton}>
-                                测试rules
+                                    测试rules
                                 </Button>
                             )}
                         </div>
@@ -400,7 +410,6 @@ class CreateForm extends Component {
                     onCancel={this.closeAdd}
                     onOk={this.add}
                     isFilterForm={!isEditVariable}
-                    zIndex={1002}
                 />
             </div>
         );
@@ -412,5 +421,6 @@ CreateForm.defaultProps = {
     height: 300,
 };
 
-const CreateFormForm = Form.create()(CreateForm);
+const CreateFormForm = Form.create<IProps>()(CreateForm);
+
 export default CreateFormForm;
