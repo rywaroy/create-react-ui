@@ -90,7 +90,7 @@ class FormCode extends Component<IProps, IState> {
     /**
      * 获取生成的代码
      */
-    getCode = code => {
+    getCode = (code: string) => {
         this.props.form.setFieldsValue({
             code,
         });
