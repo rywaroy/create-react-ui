@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
-import { Modal, InputNumber, Input, Form, Radio } from 'antd';
-import { alignOptions, ellipsisOptions } from '@/utils/enum';
+import { Modal, InputNumber, Form } from 'antd';
+import { FormComponentProps } from 'antd/es/form';
+import { ISetColumnValue } from '@/types/code';
 
-class SetColumn extends Component {
+interface IProps extends FormComponentProps {
+    visibleSetColumn: boolean;
+    zIndex: number;
+    width: number;
+    onOk: (values: ISetColumnValue) => void;
+    onCancel: () => void;
+}
+
+class SetColumn extends Component<IProps, null> {
     /**
      * 配置列
      */
     setLine = () => {
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields((err, values: ISetColumnValue) => {
             if (!err) {
                 this.props.onOk(values);
             }
@@ -22,12 +31,9 @@ class SetColumn extends Component {
     }
 
     componentDidMount() {
-        const { width, align, ellipsis, className } = this.props;
+        const { width } = this.props;
         this.props.form.setFieldsValue({
             width: width || undefined,
-            align: align || undefined,
-            ellipsis: ellipsis || undefined,
-            className: className || undefined,
         });
     }
 
@@ -53,30 +59,12 @@ class SetColumn extends Component {
                             <InputNumber />,
                         )}
                     </Form.Item>
-                    <Form.Item
-                        label="align">
-                        {getFieldDecorator('align')(
-                            <Radio.Group options={alignOptions} />,
-                        )}
-                    </Form.Item>
-                    <Form.Item
-                        label="ellipsis">
-                        {getFieldDecorator('ellipsis')(
-                            <Radio.Group options={ellipsisOptions} />,
-                        )}
-                    </Form.Item>
-                    <Form.Item
-                        label="className">
-                        {getFieldDecorator('className')(
-                            <Input />,
-                        )}
-                    </Form.Item>
                 </Form>
             </Modal>
         );
     }
 }
 
-const SetColumnForm = Form.create({ name: 'set_column' })(SetColumn);
+const SetColumnForm = Form.create<IProps>()(SetColumn);
 
 export default SetColumnForm;
