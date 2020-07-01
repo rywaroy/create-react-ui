@@ -1,12 +1,47 @@
 import React, { Component } from 'react';
 import { Table, Button, Modal, InputNumber, Icon, Input, Switch, message, Select } from 'antd';
-import cloneDeep from 'loadsh/cloneDeep';
+import cloneDeep from 'lodash/cloneDeep';
+import { IColumn, IDataSource, IPopupForm, ISetColumnValue } from '@/types/code';
 import SetColumn from './setColumn';
 import SetOpt from './setOpt';
 
 const DEFAULT_VARIABLE = 'listColumn';
 
-class CreateTable extends Component {
+interface IState {
+    columns: IColumn[];
+    dataSource: IDataSource[];
+    visibleAdd: boolean;
+    addNumber: number;
+    visibleSetColumn: boolean;
+    setColumnKey: number;
+    setIndex: number | null;
+    setColumnObj: IColumn;
+    visibleOpt: boolean;
+    setOptObj: IColumn;
+    optKey: number;
+    variable: string;
+    tableScorll: boolean;
+    visiblePop: boolean;
+    popIndex: number;
+    popName: string;
+    popKey: number;
+}
+
+interface IProps {
+    popupForms?: IPopupForm[];
+    isEditVariable: boolean;
+    getCode?: (s: string) => void;
+    getColumns?: (colums: IColumn[]) => void;
+    getDataSource?: (data: IDataSource[]) => void;
+}
+
+interface IDefaultProps {
+    isEditVariable: boolean;
+}
+
+class CreateTable extends Component<IProps, IState> {
+    static defaultProps: IDefaultProps;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -17,10 +52,10 @@ class CreateTable extends Component {
             visibleSetColumn: false, // 设置列
             setColumnKey: Math.random(),
             setIndex: null,
-            setColumnObj: {},
+            setColumnObj: null,
             visibleOpt: false, // 是否显示添加操作弹窗
             optKey: Math.random(),
-            setOptObj: {},
+            setOptObj: null,
             variable: DEFAULT_VARIABLE,
             tableScorll: false,
             visiblePop: false,
@@ -51,7 +86,7 @@ class CreateTable extends Component {
     /**
      * 编辑表列
      */
-    editTitle(index) {
+    editTitle(index: number) {
         this.setState({
             setColumnKey: Math.random(),
         }, () => {
@@ -66,7 +101,7 @@ class CreateTable extends Component {
     /**
      * 编辑表头名称
      */
-    titleInputBlur(e, index) {
+    titleInputBlur(e: React.FocusEvent<HTMLInputElement>, index: number) {
         const c = [...this.state.columns];
         c[index].titleText = e.target.value;
         c[index].titleText = e.target.value;
@@ -78,27 +113,16 @@ class CreateTable extends Component {
     /**
      * 设置表列
      */
-    setColumn = values => {
+    setColumn = (values: ISetColumnValue) => {
         this.closeSetColumn();
         const { setIndex, columns } = this.state;
         const c = [...columns];
         // 解析对象
-        const { width, align, ellipsis, className } = values;
+        const { width } = values;
         if (width) {
             c[setIndex].width = width;
         } else if (c[setIndex].width) {
             delete c[setIndex].width;
-        }
-        if (align) c[setIndex].align = align;
-        if (ellipsis === undefined) {
-            delete c[setIndex].ellipsis;
-        } else {
-            c[setIndex].ellipsis = ellipsis;
-        }
-        if (className) {
-            c[setIndex].className = className;
-        } else if (c[setIndex].className) {
-            delete c[setIndex].className;
         }
         this.setState({
             columns: c,
@@ -160,7 +184,7 @@ class CreateTable extends Component {
     /**
      * 监听批量数字
      */
-    addNumberChange = (number) => {
+    addNumberChange = (number: number) => {
         this.setState({
             addNumber: number,
         });
@@ -188,33 +212,33 @@ class CreateTable extends Component {
     opt = (values) => {
         const columns = [...this.state.columns];
         const index = columns.length;
-        const opt = {
+        const opt: IColumn = {
             title: () => (
-                    <>
+                <>
                         操作
-                        <Icon
-                            type="edit"
-                            onClick={() => {
-                                this.editOpt(index);
-                            }}
-                            style={{ marginLeft: '5px' }}
-                        />
-                    </>
+                    <Icon
+                        type="edit"
+                        onClick={() => {
+                            this.editOpt(index);
+                        }}
+                        style={{ marginLeft: '5px' }}
+                    />
+                </>
             ),
             titleText: '操作',
             key: 'action',
             render: () => (
-                    <>
-                        {values.opts.map((item, i) => (item.link ? (
-                            <a href="/" target="_blank" className="mr10" key={i}>
-                                {item.text}
-                            </a>
-                        ) : (
-                            <span className="opt-link" key={i} onClick={() => this.linkPop(i)}>
-                                {item.text}
-                            </span>
-                        )))}
-                    </>
+                <>
+                    {values.opts.map((item, i) => (item.link ? (
+                        <a href="/" target="_blank" className="mr10" key={i}>
+                            {item.text}
+                        </a>
+                    ) : (
+                        <span className="opt-link" key={i} onClick={() => this.linkPop(i)}>
+                            {item.text}
+                        </span>
+                    )))}
+                </>
             ),
             // renderText: `() => (<>${values.opts
             //     .map(item => (item.link
@@ -274,6 +298,7 @@ class CreateTable extends Component {
             item.title = item.titleText;
             delete item.titleText;
             if (item.opts && item.opts.length > 0) {
+                // @ts-ignore
                 item.render = `() => (<>${item.opts
                     .map(item => (item.link
                         ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
@@ -296,7 +321,7 @@ class CreateTable extends Component {
     /**
      * 修改变量名
      */
-    changeVariable = e => {
+    changeVariable = (e: React.ChangeEvent<HTMLInputElement>) => {
         let variable = e.target.value;
         if (!variable) {
             variable = DEFAULT_VARIABLE;
@@ -309,7 +334,7 @@ class CreateTable extends Component {
     /**
      * 设置table滚动
      */
-    scorllChange = value => {
+    scorllChange = (value: boolean) => {
         this.setState({
             tableScorll: value,
         });
@@ -318,7 +343,7 @@ class CreateTable extends Component {
     /**
      * 链接弹窗
      */
-    linkPop = index => {
+    linkPop = (index: number) => {
         if (!this.props.popupForms) {
             return;
         }
@@ -345,7 +370,7 @@ class CreateTable extends Component {
     /**
      * 选择弹窗
      */
-    popChange = value => {
+    popChange = (value: string) => {
         this.setState({
             popName: value,
         });
@@ -381,6 +406,9 @@ class CreateTable extends Component {
             popKey,
         } = this.state;
 
+        const { width: columnWidth } = setColumnObj;
+        const { width: optWidth, fixed, opts } = setOptObj;
+
         const { isEditVariable, popupForms } = this.props;
 
         return (
@@ -413,7 +441,7 @@ class CreateTable extends Component {
                     滚动：
                     <Switch onChange={this.scorllChange} />
                 </div>
-                <Table columns={columns} dataSource={dataSource} rowKey={r => r.id} scroll={{ x: tableScorll }} />
+                <Table columns={columns} dataSource={dataSource} rowKey="id" scroll={{ x: tableScorll }} />
                 <Modal
                     title="批量添加"
                     visible={visibleAdd}
@@ -431,7 +459,7 @@ class CreateTable extends Component {
                 <SetColumn
                     visibleSetColumn={visibleSetColumn}
                     key={setColumnKey}
-                    {...setColumnObj}
+                    width={columnWidth}
                     onOk={this.setColumn}
                     onCancel={this.closeSetColumn}
                     zIndex={1003}
@@ -439,7 +467,9 @@ class CreateTable extends Component {
                 <SetOpt
                     key={optKey}
                     visibleOpt={visibleOpt}
-                    {...setOptObj}
+                    fixed={fixed}
+                    opts={opts}
+                    width={optWidth}
                     onOk={this.opt}
                     onCancel={this.closeOpt}
                     zIndex={1003}
