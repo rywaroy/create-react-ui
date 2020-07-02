@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
 import { Modal, Form, TreeSelect, Input, Button, Icon, message } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
-import axios from '@/utils/axios';
+import { FormComponentProps } from 'antd/es/form';
+import { createListPage } from '@/services/code';
+import { TreeNode } from 'antd/es/tree-select';
+import { IListPage, IListPageOption } from '@/types/code';
 import ListPageModal from './ListPageModal';
 
 const { confirm } = Modal;
 
-class ListPageCode extends Component {
+interface IProps extends FormComponentProps {
+    folders: TreeNode[];
+}
+
+interface IState {
+    configVisible: boolean;
+    configKey: number;
+    lpVisible: boolean;
+    lpKey: number;
+    pageOption: any;
+}
+
+class ListPageCode extends Component<IProps, IState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -61,14 +76,14 @@ class ListPageCode extends Component {
      * 生成页面
      */
     sendListPageCode = () => {
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields((err, values: IListPage) => {
             if (!err) {
                 const { pageOption } = this.state;
                 if (!pageOption) {
                     message.error('请选配置页面');
                     return;
                 }
-                axios.post('code/listpage', {
+                createListPage({
                     ...values,
                     pageOption,
                 }).then(() => {
@@ -100,7 +115,7 @@ class ListPageCode extends Component {
     /**
      * 获取页面总配置对象
      */
-    getPageOtion = option => {
+    getPageOtion = (option: IListPageOption) => {
         this.setState({
             pageOption: option,
         });
@@ -116,6 +131,7 @@ class ListPageCode extends Component {
             <div>
                 <TemplateItem
                     title="列表页面配置对象"
+                    intro=""
                     imgClassName="listPageImg"
                     add={this.openListPageCode} />
                 <Modal
@@ -123,7 +139,7 @@ class ListPageCode extends Component {
                     key={configKey}
                     maskClosable={false}
                     visible={configVisible}
-                    onCancel={this.closeListPageCode}
+                    onCancel={() => this.closeListPageCode()}
                     onOk={this.sendListPageCode}>
                     <Form>
                         <Form.Item label="导出文件夹">
@@ -199,4 +215,4 @@ class ListPageCode extends Component {
     }
 }
 
-export default Form.create()(ListPageCode);
+export default Form.create<IProps>()(ListPageCode);
