@@ -2,9 +2,22 @@ import React, { Component } from 'react';
 import { Button, Modal, Input } from 'antd';
 import CreateForm from '@/components/CreateForm';
 import GenerateForm from '@/components/GenerateForm';
+import { IFormObject } from '@/types/code';
 import styles from './index.less';
 
-class ListPagePopup extends Component {
+interface IProps {
+    getForms: (forms: IFormObject[]) => void;
+}
+
+interface IState {
+    visible: boolean;
+    modalKey: number;
+    forms: IFormObject[];
+}
+
+class ListPagePopup extends Component<IProps, IState> {
+    createForm: any;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -44,7 +57,7 @@ class ListPagePopup extends Component {
     /**
      * 接收form
      */
-    getFormObject = values => {
+    getFormObject = (values: IFormObject) => {
         const forms = [...this.state.forms];
         const { name } = values;
         values.name = this.checkName(name, forms);
@@ -57,7 +70,7 @@ class ListPagePopup extends Component {
     /**
      * 检查同名
      */
-    checkName(name, forms) {
+    checkName(name: string, forms: IFormObject[]) {
         for (let i = 0; i < forms.length; i++) {
             if (forms[i].name === name) {
                 name = `${name}1`;
@@ -70,7 +83,7 @@ class ListPagePopup extends Component {
     /**
      * 删除弹窗
      */
-    deletePopup(index) {
+    deletePopup(index: number) {
         const forms = [...this.state.forms];
         forms.splice(index, 1);
         this.setState({
@@ -81,7 +94,7 @@ class ListPagePopup extends Component {
     /**
      * 修改弹窗标题
      */
-    changePopupTitle = (e, index) => {
+    changePopupTitle = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const forms = [...this.state.forms];
         forms[index].title = e.target.value;
         this.setState({
