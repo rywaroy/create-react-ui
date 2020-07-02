@@ -1,8 +1,25 @@
 import React, { Component } from 'react';
 import { Input, Button, Popover, message, Modal, Select } from 'antd';
+import { IListPageButton, IFormObject } from '@/types/code';
 import styles from './index.less';
 
-class ListPageHeader extends Component {
+interface IProps {
+    title: string;
+    buttons: IListPageButton[];
+    popupForms: IFormObject[];
+    getTitle: (value: string) => void;
+    getButtons: (bottons: IListPageButton[]) => void;
+}
+
+interface IState {
+    buttonTitle: string;
+    visible: boolean;
+    popKey: number;
+    popName: string;
+    popIndex: number;
+}
+
+class ListPageHeader extends Component<IProps, IState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -10,20 +27,21 @@ class ListPageHeader extends Component {
             visible: false,
             popKey: Math.random(),
             popName: '',
+            popIndex: 0,
         };
     }
 
     /**
      * 传出标题内容
      */
-    sendTitle = e => {
+    sendTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.getTitle(e.target.value);
     }
 
     /**
      * 添加按钮
      */
-    addButton = e => {
+    addButton = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.keyCode === 13) {
             const { buttons } = this.props;
             const { buttonTitle } = this.state;
@@ -41,7 +59,7 @@ class ListPageHeader extends Component {
     /**
      * 删除按钮
      */
-    deleteButton = index => {
+    deleteButton = (index: number) => {
         const buttons = [...this.props.buttons];
         buttons.splice(index, 1);
         this.props.getButtons(buttons);
@@ -50,7 +68,7 @@ class ListPageHeader extends Component {
     /**
      * 链接弹窗
      */
-    linkPop = index => {
+    linkPop = (index: number) => {
         if (this.props.popupForms.length === 0) {
             message.error('暂无弹窗');
             return;
@@ -74,7 +92,7 @@ class ListPageHeader extends Component {
     /**
      * 选择弹窗
      */
-    popChange = value => {
+    popChange = (value: string) => {
         this.setState({
             popName: value,
         });
