@@ -6,3 +6,11 @@ export interface ILabelItem {
 export interface IIsJsParams {
   url: string;
 }
+
+export interface IIsFolderParams {
+  url: string;
+}
+
+export interface IIsJsOrFolderParams {
+  url: string;
+}
