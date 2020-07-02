@@ -3,11 +3,26 @@ import { connect } from 'dva';
 import { Terminal } from 'xterm';
 import { TreeSelect, Form, Button, Icon, Upload, message } from 'antd';
 import { isFolder, isJsOrFolder } from '@/services/file';
+import socket from '@/utils/socket';
+import { FormComponentProps } from 'antd/es/form';
+import { GlobalModelState } from '@/models/global';
 import styles from './index.less';
 
 const { Dragger } = Upload;
 
-class Doucument extends Component {
+interface IProps extends FormComponentProps {
+    global: GlobalModelState;
+    dispatch: Function;
+}
+
+interface IState {
+    isCreateing: boolean;
+    output: string;
+}
+
+class Doucument extends Component<IProps, IState> {
+    term: Terminal
+
     constructor(props) {
         super(props);
         this.state = {
@@ -19,7 +34,7 @@ class Doucument extends Component {
     /**
      * 验证是否是文件夹
      */
-    isFolder = (rule, value, callback) => {
+    isFolder = (rule, value: string, callback: (err?: Error) => void) => {
         isFolder({
             url: value,
         }).then(() => {
@@ -35,7 +50,7 @@ class Doucument extends Component {
     /**
      * 验证是否是js文件或者文件夹
      */
-    isJsOrFolder = (rule, value, callback) => {
+    isJsOrFolder = (rule, value: string, callback: (err?: Error) => void) => {
         isJsOrFolder({
             url: value,
         }).then(() => {
@@ -52,7 +67,7 @@ class Doucument extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const { entry, output } = values;
-                window.socket.emit('create-document', {
+                socket.emit('create-document', {
                     entry,
                     output,
                 });
@@ -70,14 +85,14 @@ class Doucument extends Component {
     /**
      * 写入终端
      */
-    writeln = msg => {
+    writeln = (msg: string) => {
         this.term.writeln(msg);
     }
 
     /**
      * 修改创建状态
      */
-    changeCreate = isCreateing => {
+    changeCreate = (isCreateing: boolean) => {
         this.setState({ isCreateing });
     }
 
@@ -94,14 +109,14 @@ class Doucument extends Component {
             cols: 100,
         });
         this.term.open(document.getElementById('terminal'));
-        window.socket.on('term-document', this.writeln);
-        window.socket.on('createing', this.changeCreate);
+        socket.on('term-document', this.writeln);
+        socket.on('createing', this.changeCreate);
     }
 
     componentWillUnmount() {
         this.term.dispose();
-        window.socket.removeEventListener('term-document', this.writeln);
-        window.socket.removeEventListener('createing', this.changeCreate);
+        socket.removeEventListener('term-document', this.writeln);
+        socket.removeEventListener('createing', this.changeCreate);
     }
 
     render() {
@@ -200,4 +215,4 @@ class Doucument extends Component {
     }
 }
 
-export default connect(({ global }) => ({ global }))(Form.create()(Doucument));
+export default connect(({ global }: { global: GlobalModelState }) => ({ global }))(Form.create<IProps>()(Doucument));
