@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Button, Modal, InputNumber, Icon, Input, Switch, message, Select } from 'antd';
 import cloneDeep from 'lodash/cloneDeep';
-import { IColumn, IDataSource, IPopupForm, ISetColumnValue } from '@/types/code';
+import { IColumn, IDataSource, IFormObject, ISetColumnValue } from '@/types/code';
 import SetColumn from './setColumn';
 import SetOpt from './setOpt';
 
@@ -28,7 +28,7 @@ interface IState {
 }
 
 interface IProps {
-    popupForms?: IPopupForm[];
+    popupForms?: IFormObject[];
     isEditVariable: boolean;
     getCode?: (s: string) => void;
     getColumns?: (colums: IColumn[]) => void;
