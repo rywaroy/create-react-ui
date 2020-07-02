@@ -92,11 +92,6 @@ export interface ITableOpt {
   linkName?: string;
 }
 
-export interface IPopupForm {
-  title: string;
-  name: string;
-}
-
 export interface ISetColumnValue {
   width: number;
 }
@@ -105,4 +100,26 @@ export interface ITableOperation {
   opts: ITableOpt[];
   width: number;
   fixed: boolean | 'left' | 'right';
+}
+
+export interface IListPage {
+  url: string;
+  name: string;
+  namespace: string;
+  pageOption?: any;
+}
+
+export interface IListPageOption {
+  title: string;
+  buttons: IListPageButton[];
+  tableCode: string;
+  tableColumns: IColumn[];
+  tableData: IDataSource[];
+  formCode: string;
+  popupForms: IFormObject[];
+}
+
+export interface IListPageButton {
+  title: string;
+  linkName?: string;
 }
