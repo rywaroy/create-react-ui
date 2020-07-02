@@ -2,12 +2,28 @@ import React, { Component } from 'react';
 import { Modal, message } from 'antd';
 import CreateTable from '@/components/CreateTable';
 import CreateForm from '@/components/CreateForm';
+import { IListPageOption, IListPageButton, IFormObject, IColumn, IDataSource } from '@/types/code';
 import ListPageHeader from './ListPageHeader';
 import ListPagePopup from './ListPagePopup';
 import styles from './index.less';
 
+interface IProps {
+    visible: boolean;
+    onCancel: () => void;
+    getPageOtion: (pageOption: IListPageOption) => void;
+}
 
-class ListPageModal extends Component {
+interface IState {
+    title: string;
+    buttons: IListPageButton[];
+    popupForms: IFormObject[];
+}
+
+class ListPageModal extends Component<IProps, IState> {
+    filterForm: any;
+
+    table: any;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -19,9 +35,9 @@ class ListPageModal extends Component {
 
     tableCode = '' // 表格代码
 
-    tableColumns = [] // 表格配置
+    tableColumns: IColumn[] = [] // 表格配置
 
-    tableData = [] // 表格数据
+    tableData: IDataSource[] = [] // 表格数据
 
     formCode = '' // filter表单代码
 
@@ -52,7 +68,6 @@ class ListPageModal extends Component {
             popupForms,
         });
     }
-
 
     render() {
         const { visible, onCancel } = this.props;
