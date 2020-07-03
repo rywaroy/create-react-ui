@@ -2,11 +2,25 @@ import React, { Component } from 'react';
 import { Row, Col, Table, Card, Modal, Input, message, Button, Switch } from 'antd';
 import { connect } from 'dva';
 import { patchLabelConfig, delLabelConfig, addLabelConfig, changeLabelDisplay } from '@/services/configlist';
+import { GlobalModelState } from '@/models/global';
+import { ColumnProps } from 'antd/es/table';
+import { ILabelItem } from '@/types/configlist';
 import styles from './index.less';
+
+interface IState {
+    labelName: string;
+    labelId: string;
+    labelVisible: boolean;
+}
+
+interface IProps {
+    global: GlobalModelState;
+    dispatch: Function;
+}
 
 const { confirm } = Modal;
 
-class ConfigList extends Component {
+class ConfigList extends Component<IProps, IState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,7 +30,7 @@ class ConfigList extends Component {
         };
     }
 
-    columns = [
+    columns: ColumnProps<ILabelItem>[] = [
         {
             title: 'label',
             dataIndex: 'name',
@@ -25,10 +39,10 @@ class ConfigList extends Component {
             title: '操作',
             key: 'id',
             render: record => (
-                    <>
-                        <span className={styles.optBtn} onClick={() => this.openLabel(record)}>修改</span>
-                        <span className={styles.optBtn} onClick={() => this.delLabel(record)}>删除</span>
-                    </>
+                <>
+                    <span className={styles.optBtn} onClick={() => this.openLabel(record)}>修改</span>
+                    <span className={styles.optBtn} onClick={() => this.delLabel(record)}>删除</span>
+                </>
             ),
         },
     ];
@@ -45,7 +59,7 @@ class ConfigList extends Component {
     /**
      * 打开label编辑弹窗
      */
-    openLabel({ id, name }) {
+    openLabel({ id, name }: ILabelItem) {
         this.setState({
             labelId: id,
             labelName: name,
@@ -65,7 +79,7 @@ class ConfigList extends Component {
     /**
      * 编辑label
      */
-    onChangeLabel = e => {
+    onChangeLabel = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             labelName: e.target.value,
         });
@@ -99,7 +113,7 @@ class ConfigList extends Component {
     /**
      * 删除label
      */
-    delLabel({ id, name }) {
+    delLabel({ id, name }: ILabelItem) {
         confirm({
             title: '确认',
             content: `确定要删除 "${name}"`,
@@ -114,7 +128,7 @@ class ConfigList extends Component {
         });
     }
 
-    changeDisplay = value => {
+    changeDisplay = (value: boolean) => {
         changeLabelDisplay({
             display: value,
         }).then(() => {
@@ -161,4 +175,4 @@ class ConfigList extends Component {
     }
 }
 
-export default connect(({ global }) => ({ global }))(ConfigList);
+export default connect(({ global }: { global: GlobalModelState }) => ({ global }))(ConfigList);
