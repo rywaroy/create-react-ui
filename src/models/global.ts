@@ -2,8 +2,8 @@ import { Effect } from 'dva';
 import { Reducer } from 'redux';
 import { TreeNode } from 'antd/es/tree-select';
 import { ILabelItem } from '@/types/file';
-import { getFiles } from '../services/file';
-import { getLabelConfig } from '../services/configlist';
+import { getFiles } from '@/services/file';
+import { getLabelConfig } from '@/services/configlist';
 
 export interface GlobalModelState {
     files: TreeNode[];

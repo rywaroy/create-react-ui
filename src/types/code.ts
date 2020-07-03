@@ -1,4 +1,3 @@
-import React from 'react';
 import { ColumnProps } from 'antd/es/table';
 
 export interface IFormCode {
