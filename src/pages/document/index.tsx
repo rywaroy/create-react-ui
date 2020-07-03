@@ -6,6 +6,7 @@ import { isFolder, isJsOrFolder } from '@/services/file';
 import socket from '@/utils/socket';
 import { FormComponentProps } from 'antd/es/form';
 import { GlobalModelState } from '@/models/global';
+import { ICreateDocumentParams } from '@/types/document';
 import styles from './index.less';
 
 const { Dragger } = Upload;
@@ -23,7 +24,7 @@ interface IState {
 class Doucument extends Component<IProps, IState> {
     term: Terminal
 
-    constructor(props) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             isCreateing: false, // 是否正在构建
@@ -64,7 +65,7 @@ class Doucument extends Component<IProps, IState> {
      * 发起创建文档
      */
     create = () => {
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields((err, values: ICreateDocumentParams) => {
             if (!err) {
                 const { entry, output } = values;
                 socket.emit('create-document', {

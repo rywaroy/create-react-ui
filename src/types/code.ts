@@ -57,6 +57,16 @@ export interface ISetFormValues {
   selectOptions?: IMockData[];
   checkboxOptions?: IMockData[];
   radioOptions?: IMockData[];
+  isShow?: boolean;
+  rules?: any[];
+  validate?: any[];
+  colon?: boolean;
+  props?: any;
+  colClass?: string;
+  options?: any;
+  models?: [string, string];
+  subComponent?: any;
+  addonAfter?: any;
 }
 
 export interface IFastItem {
