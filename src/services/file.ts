@@ -1,5 +1,5 @@
 import axios from '@/utils/axios';
-import { IIsJsParams, IIsFolderParams, IIsJsOrFolderParams } from '@/types/file';
+import { IIsJsParams, IIsFolderParams, IIsJsOrFolderParams, IGetFolderParams } from '@/types/file';
 
 /**
  * 获取文件目录
@@ -27,7 +27,7 @@ export function getTemplate() {
 /**
  * 获取文件夹目录
  */
-export function getFolder(params) {
+export function getFolder(params: IGetFolderParams) {
     return axios.get('file/folder', {
         params,
     });

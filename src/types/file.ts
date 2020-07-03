@@ -14,3 +14,7 @@ export interface IIsFolderParams {
 export interface IIsJsOrFolderParams {
   url: string;
 }
+
+export interface IGetFolderParams {
+  base: string;
+}
