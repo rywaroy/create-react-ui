@@ -2,9 +2,19 @@ import React, { Component } from 'react';
 import { Terminal } from 'xterm';
 import { TreeSelect, Button, message, Icon } from 'antd';
 import { getFolder } from '@/services/file';
+import socket from '@/utils/socket';
+import { TreeNode } from 'antd/es/tree-select';
 import styles from './index.less';
 
-class Publish extends Component {
+interface IState {
+    value: string | undefined;
+    treeData: TreeNode[];
+    isBuilding: boolean;
+}
+
+class Publish extends Component<null, IState> {
+    term: Terminal;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -32,7 +42,7 @@ class Publish extends Component {
     /**
      * 异步加载数据
      */
-    onLoadData = treeNode => new Promise(resolve => {
+    onLoadData = (treeNode: any) => new Promise(resolve => {
         const { id } = treeNode.props;
         getFolder({
             base: id,
@@ -43,7 +53,7 @@ class Publish extends Component {
         });
     })
 
-    onChange = value => {
+    onChange = (value: string) => {
         this.setState({ value });
     };
 
@@ -55,7 +65,7 @@ class Publish extends Component {
             message.error('请选择svn目录');
             return;
         }
-        window.socket.emit('build', { svnBase: this.state.value });
+        socket.emit('build', { svnBase: this.state.value });
     }
 
     /**
@@ -68,14 +78,14 @@ class Publish extends Component {
     /**
      * 写入终端
      */
-    writeln = msg => {
+    writeln = (msg: string) => {
         this.term.writeln(msg);
     }
 
     /**
      * 修改创建状态
      */
-    changeBuild = isBuilding => {
+    changeBuild = (isBuilding: boolean) => {
         this.setState({ isBuilding });
     }
 
@@ -84,15 +94,15 @@ class Publish extends Component {
             cols: 100,
         });
         this.term.open(document.getElementById('terminal'));
-        window.socket.on('term-publish', this.writeln);
-        window.socket.on('building', this.changeBuild);
+        socket.on('term-publish', this.writeln);
+        socket.on('building', this.changeBuild);
         this.getFolder();
     }
 
     componentWillUnmount() {
         this.term.dispose();
-        window.socket.removeEventListener('term-publish', this.writeln);
-        window.socket.removeEventListener('building', this.changeBuild);
+        socket.removeEventListener('term-publish', this.writeln);
+        socket.removeEventListener('building', this.changeBuild);
     }
 
     render() {
