@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Select, DatePicker, Row, Col, Input, InputNumber, Checkbox, Radio, Button } from 'antd';
-// import { TfOilAddr, CertificateUpload, ImportExcel, NumRange, TimePickerRange, FileUpload, MonthPickerRange } from '../../../components';
+import { FormComponentProps } from 'antd/es/form';
+import { ISetFormValues } from '@/types/code';
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -13,9 +14,6 @@ const { RangePicker, MonthPicker } = DatePicker;
 
 /* 目前支持的form表单类型 */
 const mapTypeToComponent = {
-    // 'excel': {
-    //     WrappedComponent: ImportExcel,
-    // },
     label: '',
     input: {
         WrappedComponent: Input,
@@ -26,15 +24,6 @@ const mapTypeToComponent = {
     password: {
         WrappedComponent: Password,
     },
-    // 'numrange': {
-    //     WrappedComponent: NumRange,
-    // },
-    // 'addr': {
-    //     WrappedComponent: TfOilAddr,
-    // },
-    // 'upload': {
-    //     WrappedComponent: CertificateUpload,
-    // },
     select: {
         WrappedComponent: Select,
         defaultProps: {
@@ -43,9 +32,6 @@ const mapTypeToComponent = {
         optionsData: 'selectOptions',
         SubComponent: Option,
     },
-    // 'timepickerrange': {
-    //     WrappedComponent: TimePickerRange
-    // },
     datepicker: {
         WrappedComponent: DatePicker,
     },
@@ -84,33 +70,41 @@ const mapTypeToComponent = {
             marginLeft: '10px',
         },
     },
-    // 'fileupload': {
-    //     WrappedComponent: FileUpload,
-    // },
-    // 'monthpickerrange': {
-    //     WrappedComponent: MonthPickerRange,
-    // }
 };
 
-class GenerateForm extends React.Component {
+interface IProps extends FormComponentProps {
+    className?: string;
+    formSet: ISetFormValues[];
+    gutter?: number;
+    formType?: string;
+    isEdit?: boolean;
+    deleteItem?: (key: number) => void;
+}
+
+interface IDefaultProps {
+    isEdit: boolean;
+}
+
+class GenerateForm extends React.Component<IProps, any> {
+    static defaultProps: IDefaultProps;
+
     // 提供给父组件用的校验方法
-    verify = callback => {
+    verify = (callback?: (errors: Error, fieldsValue: any) => void) => {
         this.props.form.validateFields((errors, fieldsValue) => {
             callback && callback(errors, fieldsValue);
         });
     };
-
 
     /* form 实例 */
     getForm = () => this.props.form;
 
     resetFields = () => this.props.form.resetFields();
 
-    getFieldValue = (key) => this.props.form.getFieldValue(key);
+    getFieldValue = (key: string) => this.props.form.getFieldValue(key);
 
-    setFields = (obj) => this.props.form.setFields(obj);
+    setFields = (obj: object) => this.props.form.setFields(obj);
 
-    setFieldsValue = (obj) => this.props.form.setFieldsValue(obj);
+    setFieldsValue = (obj: object) => this.props.form.setFieldsValue(obj);
 
     render() {
         /* formSet代表form表单的配置 */
@@ -239,4 +233,4 @@ GenerateForm.defaultProps = {
     isEdit: true,
 };
 
-export default Form.create()(GenerateForm);
+export default Form.create<IProps>()(GenerateForm);
