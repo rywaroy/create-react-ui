@@ -12,10 +12,10 @@ interface IState {
     isBuilding: boolean;
 }
 
-class Publish extends Component<null, IState> {
+class Publish extends Component<any, IState> {
     term: Terminal;
 
-    constructor(props) {
+    constructor(props: any) {
         super(props);
         this.state = {
             value: undefined,

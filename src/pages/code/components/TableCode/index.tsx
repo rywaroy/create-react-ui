@@ -24,7 +24,7 @@ interface IProps extends FormComponentProps {
 class TableCode extends Component<IProps, IState> {
     createTable: any;
 
-    constructor(props) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             configVisible: false,

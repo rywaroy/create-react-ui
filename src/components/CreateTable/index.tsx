@@ -42,7 +42,7 @@ interface IDefaultProps {
 class CreateTable extends Component<IProps, IState> {
     static defaultProps: IDefaultProps;
 
-    constructor(props) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             columns: [],

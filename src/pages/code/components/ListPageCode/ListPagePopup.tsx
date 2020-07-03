@@ -18,7 +18,7 @@ interface IState {
 class ListPagePopup extends Component<IProps, IState> {
     createForm: any;
 
-    constructor(props) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             visible: false,

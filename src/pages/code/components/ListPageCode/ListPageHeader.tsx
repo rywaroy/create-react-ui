@@ -20,7 +20,7 @@ interface IState {
 }
 
 class ListPageHeader extends Component<IProps, IState> {
-    constructor(props) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             buttonTitle: '',

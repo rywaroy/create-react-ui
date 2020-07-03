@@ -20,7 +20,7 @@ interface IState {
 }
 
 class SetOpt extends Component<IProps, IState> {
-    constructor(props) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             opts: [],

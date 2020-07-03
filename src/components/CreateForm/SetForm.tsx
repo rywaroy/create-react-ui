@@ -27,7 +27,7 @@ interface IProps extends FormComponentProps {
 }
 
 class SetForm extends Component<IProps, IState> {
-    constructor(props) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             showCol: false,

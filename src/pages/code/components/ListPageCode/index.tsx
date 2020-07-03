@@ -22,7 +22,7 @@ interface IState {
 }
 
 class ListPageCode extends Component<IProps, IState> {
-    constructor(props) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             configVisible: false,

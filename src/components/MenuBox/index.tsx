@@ -15,7 +15,7 @@ interface IRoute {
 }
 
 class MenuBox extends Component<any, IState> {
-    constructor(props) {
+    constructor(props: any) {
         super(props);
         this.state = {
             defaultSelectedKey: ['template'],

@@ -24,7 +24,7 @@ class ListPageModal extends Component<IProps, IState> {
 
     table: any;
 
-    constructor(props) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             title: '', // 页面标题
