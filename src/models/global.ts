@@ -1,7 +1,7 @@
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
 import { TreeNode } from 'antd/es/tree-select';
-import { ILabelItem } from '@/types/file';
+import { ILabelItem, IGetFilesReturn } from '@/types/file';
 import { getFiles } from '@/services/file';
 import { getLabelConfig } from '@/services/configlist';
 
@@ -36,7 +36,7 @@ const GlobalModel: GlobalModelType = {
     },
     effects: {
         * updateFiles(action, { call, put }) {
-            const res = yield call(getFiles);
+            const res: IGetFilesReturn = yield call(getFiles);
             const { filesArray, foldersArray } = res.data.data;
             yield put({
                 type: 'updateState',
