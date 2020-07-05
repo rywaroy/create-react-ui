@@ -188,48 +188,49 @@ class CreateForm extends Component<IProps, IState> {
      * 生成代码
      */
     create() {
-        const { formOption, name, labelCol, wrapperCol, width } = this.state;
+        const { formOption, name, labelCol, wrapperCol, width, span } = this.state;
         if (formOption.length === 0) {
             return;
         }
-        let isVar = false;
-        const options = cloneDeep<ISetFormValues[]>(formOption);
-        const array = options.map(item => {
-            if (item.formItemLayoutText) {
-                item.formItemLayout = 'formItemLayout';
-                isVar = true;
-                delete item.formItemLayoutText;
-            }
-            return item;
-        });
-        let s = JSON.stringify(array);
-        let formItemLayoutCode = '';
+        // let isVar = false; // 是否是变量layout
+        // const options = cloneDeep<ISetFormValues[]>(formOption);
+        // const array = options.map(item => {
+        //     if (item.formItemLayoutText) {
+        //         item.formItemLayout = 'formItemLayout';
+        //         isVar = true;
+        //         delete item.formItemLayoutText;
+        //     }
+        //     return item;
+        // });
+        // let s = JSON.stringify(array);
+        // let formItemLayoutCode = '';
 
-        // 用来展示form的对象
-        const displayOption = array.map(item => {
-            if (item.formItemLayout === 'formItemLayout') {
-                item.formItemLayout = {
-                    labelCol: { span: labelCol },
-                    wrapperCol: { span: wrapperCol },
-                };
-            }
-            return item;
-        });
-        if (isVar) {
-            formItemLayoutCode = `const formItemLayout = {labelCol:{span:${labelCol}}, wrapperCol:{span:${wrapperCol}}};`;
-        }
-        s = `export function ${name}(_self) {${formItemLayoutCode} return ${s}; }`;
-        s = s.replace(/"(formItemLayout)"/g, (a, b) => b);
+        // // 用来展示form的对象
+        // const displayOption = array.map(item => {
+        //     if (item.formItemLayout === 'formItemLayout') {
+        //         item.formItemLayout = {
+        //             labelCol: { span: labelCol },
+        //             wrapperCol: { span: wrapperCol },
+        //         };
+        //     }
+        //     return item;
+        // });
+        // if (isVar) {
+        //     formItemLayoutCode = `const formItemLayout = {labelCol:{span:${labelCol}}, wrapperCol:{span:${wrapperCol}}};`;
+        // }
+        // s = `export function ${name}(_self) {${formItemLayoutCode} return ${s}; }`;
+        // s = s.replace(/"(formItemLayout)"/g, (a, b) => b);
+        const s = '';
         const { getCode, getFormObject } = this.props;
         getCode && getCode(s);
         getFormObject && getFormObject({
-            code: s,
-            options: displayOption,
+            options: formOption,
             name,
             labelCol,
             wrapperCol,
             width,
             title: '标题',
+            span,
         });
     }
 

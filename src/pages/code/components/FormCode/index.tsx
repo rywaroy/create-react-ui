@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Icon, Button, TreeSelect } from 'antd';
+import { Modal, Form, Icon, Button, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import CreateForm from '@/components/CreateForm';
 import { isJs } from '@/services/file';
 import { createFormCode } from '@/services/code';
 import { FormComponentProps } from 'antd/es/form';
 import { TreeNode } from 'antd/es/tree-select';
-import { IFormCode } from '@/types/code';
+import { IFormCode, IFormObject } from '@/types/code';
 
 interface IState {
     configVisible: boolean;
     configKey: number;
-    code: string;
     codeKey: number;
     codeVisible: boolean;
+    formObject: IFormObject;
 }
 
 interface IProps extends FormComponentProps {
@@ -29,9 +29,9 @@ class FormCode extends Component<IProps, IState> {
         this.state = {
             configVisible: false,
             configKey: Math.random(),
-            code: '',
             codeKey: Math.random(),
             codeVisible: false,
+            formObject: undefined,
         };
     }
 
@@ -51,22 +51,33 @@ class FormCode extends Component<IProps, IState> {
     /**
      * 关闭form文件配置
      */
-    closeFormCode = () => {
-        this.setState({
-            configVisible: false,
-        });
-    };
+    closeFormCode(tip: boolean) {
+        if (this.state.formObject && tip) {
+            Modal.confirm({
+                title: '已经配置表格，确定取消?',
+                onOk: () => {
+                    this.setState({
+                        configVisible: false,
+                        codeKey: Math.random(),
+                        formObject: undefined,
+                    });
+                },
+            })
+        } else {
+            this.setState({
+                configVisible: false,
+                codeKey: Math.random(),
+                formObject: undefined,
+            });
+        }
+    }
 
     /**
      * 代开代码生成弹窗
      */
     openCreateCode = () => {
         this.setState({
-            codeKey: Math.random(),
-        }, () => {
-            this.setState({
-                codeVisible: true,
-            });
+            codeVisible: true,
         });
     };
 
@@ -90,12 +101,9 @@ class FormCode extends Component<IProps, IState> {
     /**
      * 获取生成的代码
      */
-    getCode = (code: string) => {
-        this.props.form.setFieldsValue({
-            code,
-        });
+    getFormObject = (values: IFormObject) => {
         this.setState({
-            code,
+            formObject: values,
         });
     };
 
@@ -118,8 +126,8 @@ class FormCode extends Component<IProps, IState> {
     create = () => {
         this.props.form.validateFields((err, values: IFormCode) => {
             if (!err) {
-                createFormCode(values).then(() => {
-                    this.closeFormCode();
+                createFormCode({ ...values, ...this.state.formObject }).then(() => {
+                    this.closeFormCode(false);
                     this.props.updateFiles();
                 });
             }
@@ -127,7 +135,7 @@ class FormCode extends Component<IProps, IState> {
     };
 
     render() {
-        const { configVisible, configKey, code, codeKey, codeVisible } = this.state;
+        const { configVisible, configKey, codeKey, codeVisible, formObject } = this.state;
         const { files } = this.props;
         const { getFieldDecorator } = this.props.form;
         return (
@@ -143,7 +151,7 @@ class FormCode extends Component<IProps, IState> {
                     key={configKey}
                     visible={configVisible}
                     maskClosable={false}
-                    onCancel={this.closeFormCode}
+                    onCancel={() => this.closeFormCode(true)}
                     onOk={this.create}>
                     <Form>
                         <Form.Item label="导出文件">
@@ -169,31 +177,16 @@ class FormCode extends Component<IProps, IState> {
                             )}
                         </Form.Item>
                         <Form.Item
+                            colon={false}
                             label={(
                                 <span>
-                                    代码片段
+                                 表单配置
                                     {' '}
-                                    <button
-                                        style={{
-                                            background: 'none',
-                                            border: '0',
-                                            outline: 'none',
-                                        }}
-                                        data-clipboard-text={code}
-                                        id="code">
-                                        <Icon type="copy" />
-                                    </button>
-                                </span>
-                            )}>
-                            {getFieldDecorator('code', {
-                                rules: [
                                     {
-                                        required: true,
-                                        message: '请先生成代码片段',
-                                    },
-                                ],
-                            })(<Input disabled />)}
-                        </Form.Item>
+                                        formObject && <Icon type="check" style={{ color: 'red' }} />
+                                    }
+                                </span>
+                            )} />
                         <Button type="primary" onClick={this.openCreateCode}>
                             代码生成
                         </Button>
@@ -211,7 +204,7 @@ class FormCode extends Component<IProps, IState> {
                     zIndex={1002}>
                     <CreateForm
                         wrappedComponentRef={ref => { this.createForm = ref; }}
-                        getCode={this.getCode}
+                        getFormObject={this.getFormObject}
                     />
                 </Modal>
             </div>
