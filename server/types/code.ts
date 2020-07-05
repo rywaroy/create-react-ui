@@ -28,3 +28,58 @@ export interface ITableOpt {
   text?: string;
   linkName?: string;
 }
+
+export interface IFormCode {
+  url: string;
+}
+
+export interface IFormObject {
+  options: ISetFormValues[];
+  name: string;
+  labelCol: number;
+  wrapperCol: number,
+  width: number;
+  title: string;
+  span: number;
+}
+
+export type IFormCodeParams = IFormCode & IFormObject;
+
+export interface ISetFormValues {
+  type: string;
+  label: string;
+  name: string;
+  initialValue?: string;
+  span?: number;
+  formItemLayout?: 'formItemLayout' | '数值' | '变量' | boolean | IFormItemLayout;
+  labelCol?: number;
+  wrapperCol?: number;
+  formItemLayoutText?: string;
+  selectOptions?: IMockData[];
+  checkboxOptions?: IMockData[];
+  radioOptions?: IMockData[];
+  isShow?: boolean;
+  rules?: any[];
+  validate?: any[];
+  colon?: boolean;
+  props?: any;
+  colClass?: string;
+  options?: any;
+  models?: [string, string];
+  subComponent?: any;
+  addonAfter?: any;
+}
+
+export interface IFormItemLayout {
+  labelCol: {
+    span: number;
+  };
+  wrapperCol: {
+    span: number;
+  }
+}
+
+export interface IMockData {
+  value: string;
+  label: string;
+}

@@ -1,5 +1,5 @@
 import axios from '@/utils/axios';
-import { IFormCode, ITableCodeParams, IListPage } from '@/types/code';
+import { IFormCodeParams, ITableCodeParams, IListPage } from '@/types/code';
 
 /**
  * 创建表格代码块
@@ -11,7 +11,7 @@ export function createTableCode(params: ITableCodeParams) {
 /**
  * 创建表单代码块
  */
-export function createFormCode(params: IFormCode) {
+export function createFormCode(params: IFormCodeParams) {
     return axios.post('code/form', params);
 }
 
