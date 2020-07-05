@@ -6,14 +6,14 @@ import { isJs } from '@/services/file';
 import { createTableCode } from '@/services/code';
 import { FormComponentProps } from 'antd/es/form';
 import { TreeNode } from 'antd/es/tree-select';
-import { ITableCode, ITableValues } from '@/types/code';
+import { ITableCode, ITableObject } from '@/types/code';
 
 interface IState {
     configVisible: boolean;
     configKey: number;
     codeKey: number;
     codeVisible: boolean;
-    tableValues: ITableValues;
+    tableObject: ITableObject;
 }
 
 interface IProps extends FormComponentProps {
@@ -31,7 +31,7 @@ class TableCode extends Component<IProps, IState> {
             configKey: Math.random(),
             codeVisible: false,
             codeKey: Math.random(),
-            tableValues: undefined,
+            tableObject: undefined,
         };
     }
 
@@ -52,14 +52,14 @@ class TableCode extends Component<IProps, IState> {
      * 关闭table文件配置
      */
     closeTableCode(tip: boolean) {
-        if (this.state.tableValues && tip) {
+        if (this.state.tableObject && tip) {
             Modal.confirm({
                 title: '已经配置表格，确定取消?',
                 onOk: () => {
                     this.setState({
                         configVisible: false,
                         codeKey: Math.random(),
-                        tableValues: undefined,
+                        tableObject: undefined,
                     });
                 },
             })
@@ -67,7 +67,7 @@ class TableCode extends Component<IProps, IState> {
             this.setState({
                 configVisible: false,
                 codeKey: Math.random(),
-                tableValues: undefined,
+                tableObject: undefined,
             });
         }
     }
@@ -101,9 +101,9 @@ class TableCode extends Component<IProps, IState> {
     /**
      * 获取生成的表格对象
      */
-    getTableValues = (values: ITableValues) => {
+    getTableObject = (values: ITableObject) => {
         this.setState({
-            tableValues: values,
+            tableObject: values,
         });
     };
 
@@ -126,7 +126,7 @@ class TableCode extends Component<IProps, IState> {
     create = () => {
         this.props.form.validateFields((err, values: ITableCode) => {
             if (!err) {
-                createTableCode({ ...values, ...this.state.tableValues }).then(() => {
+                createTableCode({ ...values, ...this.state.tableObject }).then(() => {
                     this.closeTableCode(false);
                     this.props.updateFiles();
                 });
@@ -139,7 +139,7 @@ class TableCode extends Component<IProps, IState> {
             configVisible,
             codeVisible,
             configKey,
-            tableValues,
+            tableObject,
             codeKey,
         } = this.state;
         const { files } = this.props;
@@ -187,10 +187,10 @@ class TableCode extends Component<IProps, IState> {
                             colon={false}
                             label={(
                                 <span>
-                                表格配置配置
+                                表格配置
                                     {' '}
                                     {
-                                        tableValues && <Icon type="check" style={{ color: 'red' }} />
+                                        tableObject && <Icon type="check" style={{ color: 'red' }} />
                                     }
                                 </span>
                             )} />
@@ -211,7 +211,7 @@ class TableCode extends Component<IProps, IState> {
                     zIndex={1002}>
                     <CreateTable
                         ref={ref => { this.createTable = ref; }}
-                        getTableValues={this.getTableValues}
+                        getTableObject={this.getTableObject}
                     />
                 </Modal>
             </div>

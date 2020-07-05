@@ -5,7 +5,7 @@ export interface IFormCode {
   code: string;
 }
 
-export interface ITableValues {
+export interface ITableObject {
   columns: IColumn[];
   dataSource: IDataSource[];
   variable: string;
@@ -15,7 +15,7 @@ export interface ITableCode {
   url: string;
 }
 
-export type ITableCodeParams = ITableCode & ITableValues;
+export type ITableCodeParams = ITableCode & ITableObject;
 
 export interface IFormItem {
   type: string;
@@ -82,7 +82,6 @@ export interface IFastItem {
 }
 
 export interface IFormObject {
-  code: string;
   options: ISetFormValues[];
   name: string;
   labelCol: number;

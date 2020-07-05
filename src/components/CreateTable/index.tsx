@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button, Modal, InputNumber, Icon, Input, Switch, message, Select } from 'antd';
-import { IColumn, IDataSource, IFormObject, ISetColumnValue, ITableOperation, ITableValues } from '@/types/code';
+import { IColumn, IDataSource, IFormObject, ISetColumnValue, ITableOperation, ITableObject } from '@/types/code';
 import SetColumn from './setColumn';
 import SetOpt from './setOpt';
 
@@ -32,7 +32,7 @@ interface IProps {
     getCode?: (s: string) => void;
     getColumns?: (colums: IColumn[]) => void;
     getDataSource?: (data: IDataSource[]) => void;
-    getTableValues?: (values: ITableValues) => void;
+    getTableObject?: (values: ITableObject) => void;
 }
 
 interface IDefaultProps {
@@ -313,12 +313,12 @@ class CreateTable extends Component<IProps, IState> {
         //     .replace(/\\"(opt-link|mr10|_blank|\/)\\"/g, (a, b) => `"${b}"`);
         // s = `export function ${this.state.variable}(_self) { return ${s}; }`;
         const s = '';
-        const { getCode, getColumns, getDataSource, getTableValues } = this.props;
+        const { getCode, getColumns, getDataSource, getTableObject } = this.props;
         const { variable, dataSource, columns } = this.state;
         getCode && getCode(s);
         getColumns && getColumns(columns);
         getDataSource && getDataSource(this.state.dataSource);
-        getTableValues && getTableValues({
+        getTableObject && getTableObject({
             columns,
             dataSource,
             variable,
