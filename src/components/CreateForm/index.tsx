@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, InputNumber, Input, Form, Radio } from 'antd';
-import cloneDeep from 'lodash/cloneDeep';
+// import cloneDeep from 'lodash/cloneDeep';
 import { typeOptions, mockData } from '@/utils/enum';
 import { IFastItem, ISetFormValues, IFormItemLayout, IFormObject } from '@/types/code';
 import { FormComponentProps } from 'antd/es/form';
@@ -281,7 +281,7 @@ class CreateForm extends Component<IProps, IState> {
         if (this.props.type === 'modal') {
             this.setState({
                 width: 520,
-            })
+            });
         }
     }
 

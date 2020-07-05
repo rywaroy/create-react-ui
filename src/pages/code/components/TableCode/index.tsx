@@ -62,7 +62,7 @@ class TableCode extends Component<IProps, IState> {
                         tableObject: undefined,
                     });
                 },
-            })
+            });
         } else {
             this.setState({
                 configVisible: false,

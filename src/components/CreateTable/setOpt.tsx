@@ -24,7 +24,7 @@ class SetOpt extends Component<IProps, IState> {
         super(props);
         this.state = {
             opts: [],
-        }
+        };
     }
 
     setOpt = () => {

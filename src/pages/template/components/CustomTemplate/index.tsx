@@ -136,6 +136,6 @@ const CustomTemplate: React.FC<IProps> = (props) => {
             </Modal>
         </div>
     );
-}
+};
 
 export default Form.create<IProps>()(CustomTemplate);

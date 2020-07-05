@@ -62,7 +62,7 @@ class FormCode extends Component<IProps, IState> {
                         formObject: undefined,
                     });
                 },
-            })
+            });
         } else {
             this.setState({
                 configVisible: false,
