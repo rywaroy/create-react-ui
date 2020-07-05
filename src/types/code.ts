@@ -2,8 +2,19 @@ import { ColumnProps } from 'antd/es/table';
 
 export interface IFormCode {
   url: string;
-  code: string;
 }
+
+export interface IFormObject {
+  options: ISetFormValues[];
+  name: string;
+  labelCol: number;
+  wrapperCol: number,
+  width: number;
+  title: string;
+  span: number;
+}
+
+export type IFormCodeParams = IFormCode & IFormObject;
 
 export interface ITableObject {
   columns: IColumn[];
@@ -79,15 +90,6 @@ export interface ISetFormValues {
 export interface IFastItem {
   label: string;
   type: string;
-}
-
-export interface IFormObject {
-  options: ISetFormValues[];
-  name: string;
-  labelCol: number;
-  wrapperCol: number,
-  width: number;
-  title: string;
 }
 
 export interface IColumn extends ColumnProps<IDataSource> {
