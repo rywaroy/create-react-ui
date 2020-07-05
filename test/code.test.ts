@@ -5,6 +5,10 @@ import app from '../server/app';
 
 let server: Server;
 
+const tableParams = { columns: [{ titleText: '标题1', dataIndex: '标题1' }, { titleText: '标题2', dataIndex: '标题2' }], dataSource: [{ id: 1, 标题1: '测试数据1', 标题2: '测试数据1', 标题3: '测试数据1', 标题4: '测试数据1', 标题5: '测试数据1' }], variable: 'listColumn' };
+
+const formParams = { options: [{ type: 'input', label: 'input', name: 'input' }], name: 'listFilter', labelCol: 8, wrapperCol: 16, width: 1000, title: '标题', span: 24 };
+
 beforeAll(() => {
     server = app.listen();
     fs.ensureFileSync('test/codeCase/example.js');
@@ -21,7 +25,7 @@ describe('测试table接口', () => {
             .post('/api/code/table')
             .send({
                 url: 'test/codeCase/example.js',
-                code: 'test',
+                ...tableParams,
             });
         expect(res.status).toBe(200);
     });
@@ -31,7 +35,7 @@ describe('测试table接口', () => {
             .post('/api/code/form')
             .send({
                 url: 'test/codeCase/example.js',
-                code: 'test',
+                ...formParams,
             });
         expect(res.status).toBe(200);
     });
