@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Icon, Button, TreeSelect } from 'antd';
+import { Modal, Form, Icon, Button, TreeSelect } from 'antd';
 import TemplateItem from '@/components/TemplateItem';
 import CreateTable from '@/components/CreateTable';
 import { isJs } from '@/services/file';
 import { createTableCode } from '@/services/code';
 import { FormComponentProps } from 'antd/es/form';
 import { TreeNode } from 'antd/es/tree-select';
-import { ITableCode } from '@/types/code';
+import { ITableCode, ITableValues } from '@/types/code';
 
 interface IState {
     configVisible: boolean;
     configKey: number;
-    code: string;
     codeKey: number;
     codeVisible: boolean;
+    tableValues: ITableValues;
 }
 
 interface IProps extends FormComponentProps {
@@ -30,8 +30,8 @@ class TableCode extends Component<IProps, IState> {
             configVisible: false,
             configKey: Math.random(),
             codeVisible: false,
-            code: '', // 代码片段
             codeKey: Math.random(),
+            tableValues: undefined,
         };
     }
 
@@ -51,22 +51,33 @@ class TableCode extends Component<IProps, IState> {
     /**
      * 关闭table文件配置
      */
-    closeTableCode = () => {
-        this.setState({
-            configVisible: false,
-        });
-    };
+    closeTableCode(tip: boolean) {
+        if (this.state.tableValues && tip) {
+            Modal.confirm({
+                title: '已经配置表格，确定取消?',
+                onOk: () => {
+                    this.setState({
+                        configVisible: false,
+                        codeKey: Math.random(),
+                        tableValues: undefined,
+                    });
+                },
+            })
+        } else {
+            this.setState({
+                configVisible: false,
+                codeKey: Math.random(),
+                tableValues: undefined,
+            });
+        }
+    }
 
     /**
      * 打开代码生成弹窗
      */
     openCreateCode = () => {
         this.setState({
-            codeKey: Math.random(),
-        }, () => {
-            this.setState({
-                codeVisible: true,
-            });
+            codeVisible: true,
         });
     };
 
@@ -88,14 +99,11 @@ class TableCode extends Component<IProps, IState> {
     };
 
     /**
-     * 获取生成的代码
+     * 获取生成的表格对象
      */
-    getCode = (code: string) => {
-        this.props.form.setFieldsValue({
-            code,
-        });
+    getTableValues = (values: ITableValues) => {
         this.setState({
-            code,
+            tableValues: values,
         });
     };
 
@@ -118,8 +126,8 @@ class TableCode extends Component<IProps, IState> {
     create = () => {
         this.props.form.validateFields((err, values: ITableCode) => {
             if (!err) {
-                createTableCode(values).then(() => {
-                    this.closeTableCode();
+                createTableCode({ ...values, ...this.state.tableValues }).then(() => {
+                    this.closeTableCode(false);
                     this.props.updateFiles();
                 });
             }
@@ -131,7 +139,7 @@ class TableCode extends Component<IProps, IState> {
             configVisible,
             codeVisible,
             configKey,
-            code,
+            tableValues,
             codeKey,
         } = this.state;
         const { files } = this.props;
@@ -150,7 +158,7 @@ class TableCode extends Component<IProps, IState> {
                     key={configKey}
                     visible={configVisible}
                     maskClosable={false}
-                    onCancel={this.closeTableCode}
+                    onCancel={() => this.closeTableCode(true)}
                     onOk={this.create}>
                     <Form>
                         <Form.Item label="导出文件">
@@ -176,31 +184,16 @@ class TableCode extends Component<IProps, IState> {
                             )}
                         </Form.Item>
                         <Form.Item
+                            colon={false}
                             label={(
                                 <span>
-                                    代码片段
+                                表格配置配置
                                     {' '}
-                                    <button
-                                        style={{
-                                            background: 'none',
-                                            border: '0',
-                                            outline: 'none',
-                                        }}
-                                        data-clipboard-text={code}
-                                        id="code">
-                                        <Icon type="copy" />
-                                    </button>
-                                </span>
-                            )}>
-                            {getFieldDecorator('code', {
-                                rules: [
                                     {
-                                        required: true,
-                                        message: '请先生成代码片段',
-                                    },
-                                ],
-                            })(<Input disabled />)}
-                        </Form.Item>
+                                        tableValues && <Icon type="check" style={{ color: 'red' }} />
+                                    }
+                                </span>
+                            )} />
                         <Button type="primary" onClick={this.openCreateCode}>
                             代码生成
                         </Button>
@@ -218,7 +211,7 @@ class TableCode extends Component<IProps, IState> {
                     zIndex={1002}>
                     <CreateTable
                         ref={ref => { this.createTable = ref; }}
-                        getCode={this.getCode}
+                        getTableValues={this.getTableValues}
                     />
                 </Modal>
             </div>

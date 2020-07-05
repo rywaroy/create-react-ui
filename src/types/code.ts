@@ -5,10 +5,17 @@ export interface IFormCode {
   code: string;
 }
 
+export interface ITableValues {
+  columns: IColumn[];
+  dataSource: IDataSource[];
+  variable: string;
+}
+
 export interface ITableCode {
   url: string;
-  code: string;
 }
+
+export type ITableCodeParams = ITableCode & ITableValues;
 
 export interface IFormItem {
   type: string;
@@ -85,7 +92,7 @@ export interface IFormObject {
 }
 
 export interface IColumn extends ColumnProps<IDataSource> {
-  titleText: string;
+  titleText?: string;
   opts?: ITableOpt[];
   width?: number;
 }

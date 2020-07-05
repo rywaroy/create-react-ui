@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button, Modal, InputNumber, Icon, Input, Switch, message, Select } from 'antd';
-import cloneDeep from 'lodash/cloneDeep';
-import { IColumn, IDataSource, IFormObject, ISetColumnValue } from '@/types/code';
+import { IColumn, IDataSource, IFormObject, ISetColumnValue, ITableOperation, ITableValues } from '@/types/code';
 import SetColumn from './setColumn';
 import SetOpt from './setOpt';
 
@@ -33,6 +32,7 @@ interface IProps {
     getCode?: (s: string) => void;
     getColumns?: (colums: IColumn[]) => void;
     getDataSource?: (data: IDataSource[]) => void;
+    getTableValues?: (values: ITableValues) => void;
 }
 
 interface IDefaultProps {
@@ -52,10 +52,10 @@ class CreateTable extends Component<IProps, IState> {
             visibleSetColumn: false, // 设置列
             setColumnKey: Math.random(),
             setIndex: null,
-            setColumnObj: null,
+            setColumnObj: {},
             visibleOpt: false, // 是否显示添加操作弹窗
             optKey: Math.random(),
-            setOptObj: null,
+            setOptObj: {},
             variable: DEFAULT_VARIABLE,
             tableScorll: false,
             visiblePop: false,
@@ -209,7 +209,7 @@ class CreateTable extends Component<IProps, IState> {
     /**
      * 设置操作
      */
-    opt = (values) => {
+    opt = (values: ITableOperation) => {
         const columns = [...this.state.columns];
         const index = columns.length;
         const opt: IColumn = {
@@ -278,7 +278,7 @@ class CreateTable extends Component<IProps, IState> {
     /**
      * 编辑操作弹窗
      */
-    editOpt(index) {
+    editOpt(index: number) {
         this.setState({
             optKey: Math.random(),
         }, () => {
@@ -293,29 +293,36 @@ class CreateTable extends Component<IProps, IState> {
      * 生成代码
      */
     create() {
-        const columns = cloneDeep(this.state.columns);
-        for (const item of columns) {
-            item.title = item.titleText;
-            delete item.titleText;
-            if (item.opts && item.opts.length > 0) {
-                // @ts-ignore
-                item.render = `() => (<>${item.opts
-                    .map(item => (item.link
-                        ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
-                        : `<span className="opt-link"${item.linkName ? ` onClick={_self.${item.linkName}ModalOpen}` : ''}>${item.text}</span>`))
-                    .join('')}</>)`;
-                delete item.opts;
-            }
-        }
-        const str = `${JSON.stringify(columns)}`;
-        let s = str
-            .replace(/"(\(\).*\))"/g, (a, b) => b)
-            .replace(/\\"(opt-link|mr10|_blank|\/)\\"/g, (a, b) => `"${b}"`);
-        s = `export function ${this.state.variable}(_self) { return ${s}; }`;
-        const { getCode, getColumns, getDataSource } = this.props;
+        // const columns = cloneDeep(this.state.columns);
+        // for (const item of columns) {
+        //     item.title = item.titleText;
+        //     delete item.titleText;
+        //     if (item.opts && item.opts.length > 0) {
+        //         // @ts-ignore
+        //         item.render = `() => (<>${item.opts
+        //             .map(item => (item.link
+        //                 ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
+        //                 : `<span className="opt-link"${item.linkName ? ` onClick={_self.${item.linkName}ModalOpen}` : ''}>${item.text}</span>`))
+        //             .join('')}</>)`;
+        //         delete item.opts;
+        //     }
+        // }
+        // const str = `${JSON.stringify(columns)}`;
+        // let s = str
+        //     .replace(/"(\(\).*\))"/g, (a, b) => b)
+        //     .replace(/\\"(opt-link|mr10|_blank|\/)\\"/g, (a, b) => `"${b}"`);
+        // s = `export function ${this.state.variable}(_self) { return ${s}; }`;
+        const s = '';
+        const { getCode, getColumns, getDataSource, getTableValues } = this.props;
+        const { variable, dataSource, columns } = this.state;
         getCode && getCode(s);
         getColumns && getColumns(columns);
         getDataSource && getDataSource(this.state.dataSource);
+        getTableValues && getTableValues({
+            columns,
+            dataSource,
+            variable,
+        });
     }
 
     /**

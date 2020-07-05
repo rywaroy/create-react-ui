@@ -1,10 +1,10 @@
 import axios from '@/utils/axios';
-import { IFormCode, ITableCode, IListPage } from '@/types/code';
+import { IFormCode, ITableCodeParams, IListPage } from '@/types/code';
 
 /**
  * 创建表格代码块
  */
-export function createTableCode(params: ITableCode) {
+export function createTableCode(params: ITableCodeParams) {
     return axios.post('code/table', params);
 }
 
