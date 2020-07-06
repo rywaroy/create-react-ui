@@ -5,26 +5,27 @@ import codeFormat from '../../utils/codeFormat';
 import oilListpageMap from '../../templateString/oil-listpage-map';
 import oilListpageModel from '../../templateString/oil-listpage-model';
 import oilListpageIndex from '../../templateString/oil-listage-index';
+import { IListPage } from '../../types/code';
 
 export default async function listpage(ctx: IContext) {
     // @ts-ignore for travis
-    const { url, name, pageOption, namespace } = ctx.request.body;
-    const { formCode, tableCode, popupForms, title, buttons, tableData } = pageOption;
+    const { url, name, pageOption, namespace }: IListPage = ctx.request.body;
+    const { formObject, tableObject, popupForms, title, buttons } = pageOption;
     // map.js
-    const popupFormsCode = popupForms.map(item => item.code).join('\n\n');
     const mapBase = path.join(process.cwd(), url, name, 'map.js');
-    let mapString = oilListpageMap(formCode, tableCode, popupFormsCode);
+    let mapString = oilListpageMap(formObject, tableObject, popupForms);
     mapString = codeFormat(mapString);
 
     // model.js
     const popupFormsName = popupForms.map(item => item.name);
     const modelBase = path.join(process.cwd(), url, name, 'model.js');
-    let modelString = oilListpageModel(namespace, popupFormsName, tableData);
+    const { dataSource } = tableObject;
+    let modelString = oilListpageModel(namespace, popupFormsName, dataSource);
     modelString = codeFormat(modelString);
 
     // index.js
     const indexBase = path.join(process.cwd(), url, name, 'index.js');
-    let indexString = oilListpageIndex(name, title, namespace, buttons, !!formCode, popupForms);
+    let indexString = oilListpageIndex(name, title, namespace, buttons, !!formObject, popupForms);
     indexString = codeFormat(indexString);
 
     try {
