@@ -1,10 +1,12 @@
-export default function oilListpageModel(namespace: string, popupFormsName, tableData) {
+import { IDataSource } from '../types/code';
+
+export default function oilListpageModel(namespace: string, popupFormsName: string[], dataSource: IDataSource[]) {
     const popupFormsNames = popupFormsName.map(item => `    ${item}Visible: false,
     ${item}ModalKey: Math.random(),`).join('\n');
 
     return `
 const initState = () => ({
-    listData: ${JSON.stringify(tableData)},
+    listData: ${JSON.stringify(dataSource)},
     total: 0,
     pageNum: 1,
     pageSize: 10,
