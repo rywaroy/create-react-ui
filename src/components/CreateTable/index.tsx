@@ -29,9 +29,6 @@ interface IState {
 interface IProps {
     popupForms?: IFormObject[];
     isEditVariable: boolean;
-    getCode?: (s: string) => void;
-    getColumns?: (colums: IColumn[]) => void;
-    getDataSource?: (data: IDataSource[]) => void;
     getTableObject?: (values: ITableObject) => void;
 }
 
@@ -293,31 +290,8 @@ class CreateTable extends Component<IProps, IState> {
      * 生成代码
      */
     create() {
-        // const columns = cloneDeep(this.state.columns);
-        // for (const item of columns) {
-        //     item.title = item.titleText;
-        //     delete item.titleText;
-        //     if (item.opts && item.opts.length > 0) {
-        //         // @ts-ignore
-        //         item.render = `() => (<>${item.opts
-        //             .map(item => (item.link
-        //                 ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
-        //                 : `<span className="opt-link"${item.linkName ? ` onClick={_self.${item.linkName}ModalOpen}` : ''}>${item.text}</span>`))
-        //             .join('')}</>)`;
-        //         delete item.opts;
-        //     }
-        // }
-        // const str = `${JSON.stringify(columns)}`;
-        // let s = str
-        //     .replace(/"(\(\).*\))"/g, (a, b) => b)
-        //     .replace(/\\"(opt-link|mr10|_blank|\/)\\"/g, (a, b) => `"${b}"`);
-        // s = `export function ${this.state.variable}(_self) { return ${s}; }`;
-        const s = '';
-        const { getCode, getColumns, getDataSource, getTableObject } = this.props;
+        const { getTableObject } = this.props;
         const { variable, dataSource, columns } = this.state;
-        getCode && getCode(s);
-        getColumns && getColumns(columns);
-        getDataSource && getDataSource(this.state.dataSource);
         getTableObject && getTableObject({
             columns,
             dataSource,
