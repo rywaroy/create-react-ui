@@ -18,7 +18,7 @@ interface IState {
     configKey: number;
     lpVisible: boolean;
     lpKey: number;
-    pageOption: any;
+    pageOption: IListPageOption;
 }
 
 class ListPageCode extends Component<IProps, IState> {
