@@ -1,4 +1,6 @@
-export default function oilListpageIndex(name: string, title: string, namespace: string, buttons, isFilter, popupForms = []) {
+import { IFormObject, IListPageButton } from '../types/code';
+
+export default function oilListpageIndex(name: string, title: string, namespace: string, buttons: IListPageButton[], isFilter: boolean, popupForms: IFormObject[] = []) {
     // 组件名
     const pageClassName = name.charAt(0).toUpperCase() + name.slice(1);
 
