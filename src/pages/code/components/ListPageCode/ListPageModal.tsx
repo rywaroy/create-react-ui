@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, message } from 'antd';
 import CreateTable from '@/components/CreateTable';
 import CreateForm from '@/components/CreateForm';
-import { IListPageOption, IListPageButton, IFormObject, IColumn, IDataSource } from '@/types/code';
+import { IListPageOption, IListPageButton, IFormObject, ITableObject } from '@/types/code';
 import ListPageHeader from './ListPageHeader';
 import ListPagePopup from './ListPagePopup';
 import styles from './index.less';
@@ -33,13 +33,9 @@ class ListPageModal extends Component<IProps, IState> {
         };
     }
 
-    tableCode = '' // 表格代码
+    formObject: IFormObject; // 表单对象
 
-    tableColumns: IColumn[] = [] // 表格配置
-
-    tableData: IDataSource[] = [] // 表格数据
-
-    formCode = '' // filter表单代码
+    tableObject: ITableObject; // 表格对象
 
     /**
      * 生成代码
@@ -52,7 +48,7 @@ class ListPageModal extends Component<IProps, IState> {
             message.error('请输入页面标题');
             return;
         }
-        if (this.tableColumns.length === 0) {
+        if (!this.tableObject) {
             message.error('请添加页面表格');
             return;
         }
@@ -61,12 +57,24 @@ class ListPageModal extends Component<IProps, IState> {
         getPageOtion && getPageOtion({
             title,
             buttons,
-            tableCode: this.tableCode,
-            tableColumns: this.tableColumns,
-            tableData: this.tableData,
-            formCode: this.formCode,
+            formObject: this.formObject,
+            tableObject: this.tableObject,
             popupForms,
         });
+    }
+
+    /**
+     * 获取筛选表单对象
+     */
+    getFormObject = (formObject: IFormObject) => {
+        this.formObject = formObject;
+    }
+
+    /**
+     * 获取表格对象
+     */
+    getTableObject = (tableObject: ITableObject) => {
+        this.tableObject = tableObject;
     }
 
     render() {
@@ -97,7 +105,7 @@ class ListPageModal extends Component<IProps, IState> {
                             isEditVariable={false}
                             height={300}
                             width={900}
-                            getCode={code => { this.formCode = code; }} />
+                            getFormObject={this.getFormObject} />
                     </div>
                     <div className={styles.listPageBox}>
                         <span className={styles.listPageTag}>表格</span>
@@ -105,9 +113,7 @@ class ListPageModal extends Component<IProps, IState> {
                             ref={el => { this.table = el; }}
                             isEditVariable={false}
                             popupForms={popupForms}
-                            getCode={code => { this.tableCode = code; }}
-                            getColumns={columns => { this.tableColumns = columns; }}
-                            getDataSource={data => { this.tableData = data; }} />
+                            getTableObject={this.getTableObject} />
                     </div>
                     <div className={styles.listPageBox}>
                         <span className={styles.listPageTag}>弹窗</span>
