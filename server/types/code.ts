@@ -83,3 +83,29 @@ export interface IMockData {
   value: string;
   label: string;
 }
+
+export interface IListPage {
+  url: string;
+  name: string;
+  namespace: string;
+  pageOption?: IListPageOption;
+}
+
+export interface IListPageOption {
+  title: string;
+  buttons: IListPageButton[];
+  formObject: IFormObject,
+  tableObject: ITableObject,
+  popupForms: IFormObject[];
+}
+
+export interface IListPageButton {
+  title: string;
+  linkName?: string;
+}
+
+export interface ITableObject {
+  columns: IColumn[];
+  dataSource: IDataSource[];
+  variable: string;
+}

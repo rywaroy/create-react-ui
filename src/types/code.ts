@@ -123,16 +123,14 @@ export interface IListPage {
   url: string;
   name: string;
   namespace: string;
-  pageOption?: any;
+  pageOption?: IListPageOption;
 }
 
 export interface IListPageOption {
   title: string;
   buttons: IListPageButton[];
-  tableCode: string;
-  tableColumns: IColumn[];
-  tableData: IDataSource[];
-  formCode: string;
+  formObject: IFormObject,
+  tableObject: ITableObject,
   popupForms: IFormObject[];
 }
 
