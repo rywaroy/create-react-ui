@@ -93,7 +93,7 @@ export interface IFastItem {
 }
 
 export interface IColumn extends ColumnProps<IDataSource> {
-  titleText?: string;
+  titleText?: any;
   opts?: ITableOpt[];
   width?: number;
 }
