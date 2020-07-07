@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Button, InputNumber, Input, Form, Radio } from 'antd';
+import { Button, InputNumber, Input, Form, Radio, AutoComplete } from 'antd';
 // import cloneDeep from 'lodash/cloneDeep';
 import { typeOptions, mockData } from '@/utils/enum';
 import { IFastItem, ISetFormValues, IFormItemLayout, IFormObject } from '@/types/code';
+import { ILabelItem } from '@/types/configlist';
 import { FormComponentProps } from 'antd/es/form';
 import { RadioChangeEvent } from 'antd/es/radio';
 import GenerateForm from '../GenerateForm';
@@ -28,6 +29,7 @@ interface IProps extends FormComponentProps {
     type?: string;
     height: number;
     isEditVariable: boolean;
+    labelList: ILabelItem[];
     getFormObject?: (obj: IFormObject) => void;
 }
 
@@ -238,9 +240,9 @@ class CreateForm extends Component<IProps, IState> {
     /**
      * 修改label
      */
-    onChangeFast = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    onChangeFast = (value: string, index: number) => {
         const fastList = [...this.state.fastList];
-        fastList[index].label = e.target.value;
+        fastList[index].label = value;
         this.setState({
             fastList,
         });
@@ -268,7 +270,7 @@ class CreateForm extends Component<IProps, IState> {
             defaultLayout,
             fastList,
         } = this.state;
-        const { isEditVariable, height } = this.props;
+        const { isEditVariable, height, labelList } = this.props;
         const formItemLayout = {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
@@ -365,7 +367,8 @@ class CreateForm extends Component<IProps, IState> {
                             {
                                 fastList.map((item, index) => (
                                     <div className={styles.fastItem} key={item.type}>
-                                        <Input placeholder={item.type} className={styles.fastInput} value={item.label} onChange={(e) => this.onChangeFast(e, index)} />
+                                        {/* <Input placeholder={item.type} className={styles.fastInput} value={item.label} onChange={(e) => this.onChangeFast(e, index)} /> */}
+                                        <AutoComplete dataSource={labelList.map(item => item.name)} placeholder={item.type} className={styles.fastInput} value={item.label} onChange={(value: string) => this.onChangeFast(value, index)} />
                                         <Button type="primary" icon="plus" onClick={() => this.fastAdd(index)} />
                                     </div>
                                 ))
