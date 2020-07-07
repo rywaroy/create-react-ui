@@ -3,9 +3,11 @@ import { Button, Modal, Input } from 'antd';
 import CreateForm from '@/components/CreateForm';
 import GenerateForm from '@/components/GenerateForm';
 import { IFormObject } from '@/types/code';
+import { ILabelItem } from '@/types/configlist';
 import styles from './index.less';
 
 interface IProps {
+    labelList: ILabelItem[];
     getForms: (forms: IFormObject[]) => void;
 }
 
@@ -104,6 +106,7 @@ class ListPagePopup extends Component<IProps, IState> {
 
     render() {
         const { visible, modalKey, forms } = this.state;
+        const { labelList } = this.props;
 
         return (
             <div>
@@ -136,6 +139,7 @@ class ListPagePopup extends Component<IProps, IState> {
                     onOk={this.createPopup}>
                     <CreateForm
                         type="modal"
+                        labelList={labelList}
                         wrappedComponentRef={ref => { this.createForm = ref; }}
                         getFormObject={this.getFormObject} />
                 </Modal>
