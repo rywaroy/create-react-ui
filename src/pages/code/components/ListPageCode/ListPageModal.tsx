@@ -3,12 +3,14 @@ import { Modal, message } from 'antd';
 import CreateTable from '@/components/CreateTable';
 import CreateForm from '@/components/CreateForm';
 import { IListPageOption, IListPageButton, IFormObject, ITableObject } from '@/types/code';
+import { ILabelItem } from '@/types/configlist';
 import ListPageHeader from './ListPageHeader';
 import ListPagePopup from './ListPagePopup';
 import styles from './index.less';
 
 interface IProps {
     visible: boolean;
+    labelList: ILabelItem[];
     onCancel: () => void;
     getPageOtion: (pageOption: IListPageOption) => void;
 }
@@ -78,7 +80,7 @@ class ListPageModal extends Component<IProps, IState> {
     }
 
     render() {
-        const { visible, onCancel } = this.props;
+        const { visible, onCancel, labelList } = this.props;
         const { title, buttons, popupForms } = this.state;
         return (
             <Modal
@@ -101,6 +103,7 @@ class ListPageModal extends Component<IProps, IState> {
                     <div className={styles.listPageBox}>
                         <span className={styles.listPageTag}>筛选</span>
                         <CreateForm
+                            labelList={labelList}
                             wrappedComponentRef={el => { this.filterForm = el; }}
                             isEditVariable={false}
                             height={300}
@@ -111,6 +114,7 @@ class ListPageModal extends Component<IProps, IState> {
                         <span className={styles.listPageTag}>表格</span>
                         <CreateTable
                             ref={el => { this.table = el; }}
+                            labelList={labelList}
                             isEditVariable={false}
                             popupForms={popupForms}
                             getTableObject={this.getTableObject} />
@@ -118,6 +122,7 @@ class ListPageModal extends Component<IProps, IState> {
                     <div className={styles.listPageBox}>
                         <span className={styles.listPageTag}>弹窗</span>
                         <ListPagePopup
+                            labelList={labelList}
                             getForms={forms => { this.setState({ popupForms: forms }); }} />
                     </div>
                 </div>
