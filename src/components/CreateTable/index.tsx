@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Table, Button, Modal, InputNumber, Icon, Input, Switch, message, Select } from 'antd';
+import { Table, Button, Modal, InputNumber, Icon, Input, Switch, message, Select, AutoComplete } from 'antd';
 import { IColumn, IDataSource, IFormObject, ISetColumnValue, ITableOperation, ITableObject } from '@/types/code';
+import { ILabelItem } from '@/types/configlist';
 import SetColumn from './setColumn';
 import SetOpt from './setOpt';
 
@@ -27,6 +28,7 @@ interface IState {
 }
 
 interface IProps {
+    labelList: ILabelItem[];
     popupForms?: IFormObject[];
     isEditVariable: boolean;
     getTableObject?: (values: ITableObject) => void;
@@ -98,10 +100,9 @@ class CreateTable extends Component<IProps, IState> {
     /**
      * 编辑表头名称
      */
-    titleInputBlur(e: React.FocusEvent<HTMLInputElement>, index: number) {
+    titleInputChange(value: string, index: number) {
         const c = [...this.state.columns];
-        c[index].titleText = e.target.value;
-        c[index].titleText = e.target.value;
+        c[index].titleText = value;
         this.setState({
             columns: c,
         });
@@ -140,21 +141,20 @@ class CreateTable extends Component<IProps, IState> {
      */
     add = () => {
         const { addNumber, columns, dataSource } = this.state;
+        const { labelList } = this.props;
         const len = columns.length;
         const c = [...columns];
         const d = [...dataSource];
         for (let i = 0; i < addNumber; i++) {
             const name = `标题${len + i + 1}`;
-            c.push({
+            const column = {
                 title: () => (
                     <>
-                        <Input
-                            style={{ width: '100px' }}
-                            allowClear
-                            onBlur={e => {
-                                this.titleInputBlur(e, len + i);
-                            }}
-                        />
+                        <AutoComplete
+                            dataSource={labelList.map(item => item.name)}
+                            onChange={(value: string) => {
+                                this.titleInputChange(value, len + i);
+                            }} />
                         <Icon
                             type="edit"
                             onClick={() => {
@@ -166,7 +166,8 @@ class CreateTable extends Component<IProps, IState> {
                 ),
                 titleText: name,
                 dataIndex: name,
-            });
+            };
+            c.push(column);
             for (let j = 0; j < d.length; j++) {
                 d[j][name] = `测试数据${j + 1}`;
             }
