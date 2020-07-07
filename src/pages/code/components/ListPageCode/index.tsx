@@ -5,12 +5,14 @@ import { FormComponentProps } from 'antd/es/form';
 import { createListPage } from '@/services/code';
 import { TreeNode } from 'antd/es/tree-select';
 import { IListPage, IListPageOption } from '@/types/code';
+import { ILabelItem } from '@/types/configlist';
 import ListPageModal from './ListPageModal';
 
 const { confirm } = Modal;
 
 interface IProps extends FormComponentProps {
     folders: TreeNode[];
+    labelList: ILabelItem[];
 }
 
 interface IState {
@@ -124,7 +126,7 @@ class ListPageCode extends Component<IProps, IState> {
 
     render() {
         const { configKey, configVisible, lpVisible, lpKey, pageOption } = this.state;
-        const { folders } = this.props;
+        const { folders, labelList } = this.props;
         const { getFieldDecorator } = this.props.form;
 
         return (
@@ -207,6 +209,7 @@ class ListPageCode extends Component<IProps, IState> {
                 <ListPageModal
                     visible={lpVisible}
                     key={lpKey}
+                    labelList={labelList}
                     onCancel={this.closeListPageModal}
                     getPageOtion={this.getPageOtion} />
             </div>
