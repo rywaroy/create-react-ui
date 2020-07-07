@@ -7,6 +7,7 @@ import { createTableCode } from '@/services/code';
 import { FormComponentProps } from 'antd/es/form';
 import { TreeNode } from 'antd/es/tree-select';
 import { ITableCode, ITableObject } from '@/types/code';
+import { ILabelItem } from '@/types/configlist';
 
 interface IState {
     configVisible: boolean;
@@ -18,6 +19,7 @@ interface IState {
 
 interface IProps extends FormComponentProps {
     files: TreeNode[];
+    labelList: ILabelItem[];
     updateFiles: () => void;
 }
 
@@ -142,7 +144,7 @@ class TableCode extends Component<IProps, IState> {
             tableObject,
             codeKey,
         } = this.state;
-        const { files } = this.props;
+        const { files, labelList } = this.props;
         const { getFieldDecorator } = this.props.form;
 
         return (
@@ -210,6 +212,7 @@ class TableCode extends Component<IProps, IState> {
                     okText="生成代码"
                     zIndex={1002}>
                     <CreateTable
+                        labelList={labelList}
                         ref={ref => { this.createTable = ref; }}
                         getTableObject={this.getTableObject}
                     />
