@@ -2,17 +2,17 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    node: true,
   },
   extends: [
+    'plugin:react/recommended',
     'airbnb',
-    // 'prettier',
-    // 'prettier-react'
   ],
-  parser: "babel-eslint",
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -22,7 +22,7 @@ module.exports = {
   },
   plugins: [
     'react',
-    // 'prettier'
+    '@typescript-eslint',
   ],
   rules: {
     // "prettier/prettier": "error",
@@ -56,6 +56,17 @@ module.exports = {
     "no-shadow": 0,
     "no-await-in-loop": 0,
     "class-methods-use-this": 0,
+    "jsx-a11y/control-has-associated-label": 0,
+    "import/extensions": 0,
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/semi": ["error"],
+    "import/no-unresolved": 0,
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "import/no-absolute-path": 0,
+    '@typescript-eslint/semi': 0,
+    'react/jsx-props-no-spreading': 0,
+    'react/static-property-placement': 0
   },
   settings: {
     "import/resolver": {

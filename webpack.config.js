@@ -8,6 +8,6 @@ module.exports = {
         alias: {
             '@': require('path').resolve(__dirname, 'src'),
         },
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
 };

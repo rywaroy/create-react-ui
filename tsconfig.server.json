@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@@/*": ["src/.umi/*"],
+      "@server/*": ["server/*"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./lib"
+  },
+  "include": [
+    "server/**/*",
+  ]
+}
