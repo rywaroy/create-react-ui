@@ -20,6 +20,7 @@ export default async function customController(ctx: IContext) {
         targetPath = path.join(targetPath, folderName);
         if (fs.existsSync(targetPath)) {
             ctx.error(0, '该文件夹已存在', null);
+            return;
         }
         fs.mkdirSync(targetPath);
     }
@@ -30,16 +31,21 @@ export default async function customController(ctx: IContext) {
 
     if (fileName && variable) {
         const targetUrl = path.join(targetPath, fileName);
-        const ast = parse(fs.readFileSync(targetUrl, 'utf-8'), {
-            sourceType: 'module',
-            plugins: [
-                'classProperties',
-                'jsx',
-            ],
-        });
-        traverse(ast, createExportVisitor(ast, variable));
-        const output = generate(ast);
-        fs.writeFileSync(targetUrl, output.code);
+        try {
+            const ast = parse(fs.readFileSync(targetUrl, 'utf-8'), {
+                sourceType: 'module',
+                plugins: [
+                    'classProperties',
+                    'jsx',
+                ],
+            });
+            traverse(ast, createExportVisitor(ast, variable));
+            const output = generate(ast);
+            fs.writeFileSync(targetUrl, output.code);
+        } catch {
+            ctx.error(0, '模板解析报错', null);
+            return;
+        }
     }
     ctx.success(200, '创建成功', null);
 }
