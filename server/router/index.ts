@@ -4,6 +4,7 @@ import template from './template';
 import code from './code';
 import document from './document';
 import configlist from './configlist';
+import create from './create';
 
 const router = new Router();
 
@@ -20,5 +21,6 @@ router.use('/api/template', template.routes());
 router.use('/api/code', code.routes());
 router.use('/api/document', document.routes());
 router.use('/api/configlist', configlist.routes());
+router.use('/api/create', create.routes());
 
 export default router;
