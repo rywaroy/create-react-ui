@@ -5,4 +5,9 @@ export interface IConfigOption {
   value: string;
 }
 
-export type IGetListReturn  = AxiosResponseReturn<IConfigOption[]>
+interface IGetListReturnData {
+  list: IConfigOption[];
+  isEmpty: boolean;
+}
+
+export type IGetListReturn  = AxiosResponseReturn<IGetListReturnData>
