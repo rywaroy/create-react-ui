@@ -33,6 +33,12 @@ class MenuBox extends Component<any, IState> {
                     url: '/code',
                 },
                 {
+                    title: '脚手架',
+                    key: 'create',
+                    icon: 'tool',
+                    url: '/create',
+                },
+                {
                     title: '构建发布',
                     key: 'publish',
                     icon: 'build',
