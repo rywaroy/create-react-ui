@@ -17,8 +17,22 @@ class Create extends React.Component<IProps, IState> {
         super(props);
         this.state = {
             list: [],
-            isEmpty: false,
+            isEmpty: true,
         };
+    }
+
+    /**
+     * 创建
+     */
+    create = () => {
+        const data = this.props.form.getFieldsValue();
+    }
+
+    /**
+     * 重置
+     */
+    reset = () => {
+        this.props.form.resetFields();
     }
 
     componentDidMount() {
@@ -42,19 +56,21 @@ class Create extends React.Component<IProps, IState> {
             <div className={styles.createBox}>
                 <Alert banner closable type="success" message={isEmpty ? '请添加配置' : '已有工程，追加配置'} />
                 <div className={styles.createForm}>
-                    <Form>
+                    <Form style={{ marginBottom: '20px' }}>
                         {
                             list.map((item) => (
                                 <Form.Item key={item.value} label={item.name} labelAlign="left" {...formItemLayout}>
                                     {
-                                        getFieldDecorator(item.value)(<Switch />)
+                                        getFieldDecorator(item.value, {
+                                            valuePropName: 'checked',
+                                        })(<Switch />)
                                     }
                                 </Form.Item>
                             ))
                         }
                     </Form>
-                    <Button type="primary" style={{ marginRight: '10px' }}>生成</Button>
-                    <Button>重置</Button>
+                    <Button type="primary" style={{ marginRight: '10px' }} onClick={this.create}>生成</Button>
+                    <Button onClick={this.reset}>重置</Button>
                 </div>
             </div>
         );
