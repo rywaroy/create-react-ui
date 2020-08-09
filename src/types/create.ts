@@ -11,3 +11,7 @@ interface IGetListReturnData {
 }
 
 export type IGetListReturn  = AxiosResponseReturn<IGetListReturnData>
+
+export interface ICreateProjectParams {
+  list: string[];
+}
