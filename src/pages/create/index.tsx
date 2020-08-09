@@ -1,7 +1,7 @@
 import React from 'react';
-import { Form, Switch, Button, Alert } from 'antd';
+import { Form, Switch, Button, Alert, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
-import { getList } from '@/services/create';
+import { getList, createProject } from '@/services/create';
 import { IConfigOption } from '@/types/create';
 import styles from './index.less';
 
@@ -25,7 +25,19 @@ class Create extends React.Component<IProps, IState> {
      * 创建
      */
     create = () => {
-        const data = this.props.form.getFieldsValue();
+        const formData = this.props.form.getFieldsValue();
+        const data = [];
+        Object.keys(formData).forEach(key => {
+            if (formData[key]) {
+                data.push(key);
+            }
+        });
+        createProject({
+            list: data,
+        }).then(() => {
+            message.success('创建成功');
+            this.reset();
+        });
     }
 
     /**
