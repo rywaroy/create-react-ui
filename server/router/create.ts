@@ -8,4 +8,9 @@ const router = new Router();
  */
 router.get('/list', createController.list);
 
+/**
+ * 创建工程
+ */
+router.post('/create', createController.create);
+
 export default router;
