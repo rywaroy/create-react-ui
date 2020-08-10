@@ -6,7 +6,9 @@ import IContext from '../../types/context';
 export default async function list(ctx: IContext) {
     let generator: any;
     let isEmpty = true;
-    if (fs.existsSync(path.join(process.cwd(), 'package.json'))) {
+    const { project = '.' } = ctx.query;
+    const packagePath = path.join(process.cwd(), project, 'package.json');
+    if (fs.existsSync(packagePath)) {
         generator = add();
         isEmpty = false;
     } else {
