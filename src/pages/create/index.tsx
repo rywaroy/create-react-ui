@@ -8,6 +8,7 @@ import styles from './index.less';
 export interface IState {
     list: IConfigOption[];
     isEmpty: boolean;
+    loading: boolean;
 }
 
 export interface IProps extends FormComponentProps {}
@@ -18,6 +19,7 @@ class Create extends React.Component<IProps, IState> {
         this.state = {
             list: [],
             isEmpty: true,
+            loading: false,
         };
     }
 
@@ -32,11 +34,21 @@ class Create extends React.Component<IProps, IState> {
                 data.push(key);
             }
         });
+        this.setState({
+            loading: true,
+        });
         createProject({
             list: data,
         }).then(() => {
             message.success('创建成功');
+            this.setState({
+                loading: false,
+            });
             this.reset();
+        }).catch(() => {
+            this.setState({
+                loading: false,
+            });
         });
     }
 
@@ -58,7 +70,7 @@ class Create extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { list, isEmpty } = this.state;
+        const { list, isEmpty, loading } = this.state;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 12 },
@@ -81,7 +93,7 @@ class Create extends React.Component<IProps, IState> {
                             ))
                         }
                     </Form>
-                    <Button type="primary" style={{ marginRight: '10px' }} onClick={this.create}>生成</Button>
+                    <Button loading={loading} type="primary" style={{ marginRight: '10px' }} onClick={this.create}>生成</Button>
                     <Button onClick={this.reset}>重置</Button>
                 </div>
             </div>
