@@ -23,4 +23,14 @@ describe('测试create接口', () => {
         expect(res.body.data.isEmpty).toBeTruthy();
         expect(res.status).toBe(200);
     });
+
+    it('/create/create 创建模式 接口测试', async () => {
+        const res = await request(server)
+            .post('/api/create/create')
+            .send({
+                list: ['babel'],
+                project: 'example',
+            });
+        expect(res.status).toBe(200);
+    });
 });
