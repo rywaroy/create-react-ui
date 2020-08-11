@@ -11,7 +11,11 @@ export default async function createProject(ctx: IContext) {
         module: list,
     };
     let generator: any;
-    if (fs.existsSync(path.join(process.cwd(), 'package.json'))) {
+    let packagePath = path.join(process.cwd(), 'package.json');
+    if (project) {
+        packagePath = path.join(process.cwd(), project, 'package.json');
+    }
+    if (fs.existsSync(packagePath)) {
         generator = add(project, promptResult);
     } else {
         generator = create(project, promptResult);
