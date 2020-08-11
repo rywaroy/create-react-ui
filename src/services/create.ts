@@ -1,11 +1,13 @@
 import axios from '@/utils/axios';
-import { IGetListReturn, ICreateProjectParams } from '@/types/create';
+import { IGetListReturn, ICreateProjectParams, IGetListParams } from '@/types/create';
 
 /**
  * 获取
  */
-export function getList() {
-    return axios.get<any, IGetListReturn>('create/list');
+export function getList(params?: IGetListParams) {
+    return axios.get<any, IGetListReturn>('create/list', {
+        params,
+    });
 }
 
 /**
