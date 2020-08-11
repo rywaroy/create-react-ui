@@ -33,4 +33,15 @@ describe('测试create接口', () => {
             });
         expect(res.status).toBe(200);
     });
+
+    it('/create/create 追加配置模式 接口测试', async () => {
+        const res = await request(server)
+            .post('/api/create/create')
+            .send({
+                list: ['jest'],
+                project: 'example',
+            });
+        expect(res.status).toBe(200);
+        expect(fs.statSync('example/jest.config.js').isFile()).toBeTruthy();
+    });
 });
