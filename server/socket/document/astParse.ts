@@ -4,111 +4,115 @@ import traverse, { Visitor } from '@babel/traverse';
 import commentParse from './commentParse';
 import { IPageObject, IPageDefaultProps, IPageProps } from '../../types/document';
 
-export default function astParse(base: string, code?: string) {
+export default function astParse(base: string, code?: string): IPageObject | boolean {
     const obj: IPageObject = {};
     if (!code) {
         code = fs.readFileSync(base, 'utf-8');
     }
-    const ast = parse(code, {
-        sourceType: 'module',
-        plugins: [
-            'classProperties',
-            'jsx',
-        ],
-    });
-    traverse(ast, {
-        ExportDefaultDeclaration(path: any) {
-            if (path.node.declaration.type === 'FunctionDeclaration') {
-                /**
-                * 导出函数式组件
-                * @example
-                * export default function Component(props) {
-                *
-                * }
-                */
-                const identifier = path.node.declaration.id.name;
-                obj.name = identifier;
-                obj.isFunction = true;
-                if (path.node.leadingComments) {
-                    obj.main = commentParse(path.node.leadingComments);
-                }
-                traverse(ast, createPropsVisitor(obj, identifier));
-            }
-            if (path.node.declaration.type === 'ClassDeclaration') {
-                /**
-                * 导出类组件
-                * @example
-                * export default class Component extends React.Component {
-                *
-                * }
-                */
-                if (path.node.leadingComments) {
-                    obj.main = commentParse(path.node.leadingComments);
-                }
-                if (path.node.declaration.body.body.length > 0) {
-                    path.node.declaration.body.body.forEach(item => {
-                        if (item.type === 'ClassProperty' && item.static) {
-                            if (item.key.name === 'defaultProps') {
-                                obj.defaultProps = parseDefaultProps(item.value.properties);
-                            }
-                            if (item.key.name === 'propTypes') {
-                                obj.props = parsePropTypes(item.value.properties);
-                            }
-                        }
-                    });
-                }
-                const identifier = path.node.declaration.id.name;
-                obj.name = identifier;
-                obj.isClass = true;
-                traverse(ast, createPropsVisitor(obj, identifier));
-            }
-            if (path.node.declaration.type === 'Identifier') {
-                /**
-                 * 导出变量
-                 * @example
-                 * class Component extends react.Component {}
-                 * export default Component;
-                 */
-                const identifier = path.node.declaration.name;
-                obj.name = identifier;
-                traverse(ast, createVisitor(obj, identifier, ast));
-            }
-            if (path.node.declaration.type === 'CallExpression') {
-                /**
-                 * 导出表达式
-                 * @example
-                 * class Component extends react.Component {}
-                 * export default connect(({ global }) => ({ global }))(Component);
-                 * // or
-                 * export default Form.create()(Component);
-                 * // or
-                 * export default connect(({ global }) => ({ global }))(Form.create()(Component));
-                 */
-
-                if (path.node.declaration.arguments.length > 0) {
-                    const argument = path.node.declaration.arguments[0];
-                    let identifier;
-                    if (argument.type === 'Identifier') {
-                        identifier = argument.name;
+    try {
+        const ast = parse(code, {
+            sourceType: 'module',
+            plugins: [
+                'classProperties',
+                'jsx',
+            ],
+        });
+        traverse(ast, {
+            ExportDefaultDeclaration(path: any) {
+                if (path.node.declaration.type === 'FunctionDeclaration') {
+                    /**
+                    * 导出函数式组件
+                    * @example
+                    * export default function Component(props) {
+                    *
+                    * }
+                    */
+                    const identifier = path.node.declaration.id.name;
+                    obj.name = identifier;
+                    obj.isFunction = true;
+                    if (path.node.leadingComments) {
+                        obj.main = commentParse(path.node.leadingComments);
                     }
-                    if (argument.type === 'CallExpression') {
-                        identifier = argument.arguments[0].name;
+                    traverse(ast, createPropsVisitor(obj, identifier));
+                }
+                if (path.node.declaration.type === 'ClassDeclaration') {
+                    /**
+                    * 导出类组件
+                    * @example
+                    * export default class Component extends React.Component {
+                    *
+                    * }
+                    */
+                    if (path.node.leadingComments) {
+                        obj.main = commentParse(path.node.leadingComments);
                     }
+                    if (path.node.declaration.body.body.length > 0) {
+                        path.node.declaration.body.body.forEach(item => {
+                            if (item.type === 'ClassProperty' && item.static) {
+                                if (item.key.name === 'defaultProps') {
+                                    obj.defaultProps = parseDefaultProps(item.value.properties);
+                                }
+                                if (item.key.name === 'propTypes') {
+                                    obj.props = parsePropTypes(item.value.properties);
+                                }
+                            }
+                        });
+                    }
+                    const identifier = path.node.declaration.id.name;
+                    obj.name = identifier;
+                    obj.isClass = true;
+                    traverse(ast, createPropsVisitor(obj, identifier));
+                }
+                if (path.node.declaration.type === 'Identifier') {
+                    /**
+                     * 导出变量
+                     * @example
+                     * class Component extends react.Component {}
+                     * export default Component;
+                     */
+                    const identifier = path.node.declaration.name;
                     obj.name = identifier;
                     traverse(ast, createVisitor(obj, identifier, ast));
                 }
-            }
-        },
-    });
+                if (path.node.declaration.type === 'CallExpression') {
+                    /**
+                     * 导出表达式
+                     * @example
+                     * class Component extends react.Component {}
+                     * export default connect(({ global }) => ({ global }))(Component);
+                     * // or
+                     * export default Form.create()(Component);
+                     * // or
+                     * export default connect(({ global }) => ({ global }))(Form.create()(Component));
+                     */
 
-    // 合并defaultProps
-    if (obj.defaultProps && obj.props) {
-        obj.props.forEach(item => {
-            if (obj.defaultProps[item.name]) {
-                item.defaultProps = obj.defaultProps[item.name];
-            }
+                    if (path.node.declaration.arguments.length > 0) {
+                        const argument = path.node.declaration.arguments[0];
+                        let identifier;
+                        if (argument.type === 'Identifier') {
+                            identifier = argument.name;
+                        }
+                        if (argument.type === 'CallExpression') {
+                            identifier = argument.arguments[0].name;
+                        }
+                        obj.name = identifier;
+                        traverse(ast, createVisitor(obj, identifier, ast));
+                    }
+                }
+            },
         });
-        delete obj.defaultProps;
+
+        // 合并defaultProps
+        if (obj.defaultProps && obj.props) {
+            obj.props.forEach(item => {
+                if (obj.defaultProps[item.name]) {
+                    item.defaultProps = obj.defaultProps[item.name];
+                }
+            });
+            delete obj.defaultProps;
+        }
+    } catch {
+        return false;
     }
 
     return obj;

@@ -40,6 +40,10 @@ export default defineConfig({
           path: 'configlist',
           component: '../pages/configlist',
         },
+        {
+          path: 'create',
+          component: '../pages/create',
+        },
       ],
     },
   ],
