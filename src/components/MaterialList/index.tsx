@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import material from '@/components/material';
+import { IMaterial } from '@/types/making';
 import styles from './index.less';
 
-class MaterialList extends Component<any, any> {
+interface IProps {
+    materials: IMaterial[];
+}
+
+class MaterialList extends Component<IProps, any> {
     constructor(props: any) {
         super(props);
         this.state = {};
     }
 
     render() {
+        const { materials } = this.props;
         return (
             <div className={styles.materialList}>
                 {
-                    material.map(item => (
+                    materials.map(item => (
                         <div className={styles.materialItem} draggable>
                             {item.name}
                             <span>&lt;{item.tag} /&gt;</span>

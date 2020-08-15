@@ -33,9 +33,9 @@ const RowMaterial: IMaterial = {
     ],
 };
 
-const material: IMaterial[] = [
+const materials: IMaterial[] = [
     RowMaterial,
     ColMaterial,
 ];
 
-export default material;
+export default materials;
