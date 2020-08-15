@@ -109,7 +109,7 @@ class Publish extends Component<any, IState> {
         const { treeData, value, isBuilding } = this.state;
 
         return (
-            <div>
+            <div className="base-content">
                 <div className={styles.form}>
                     svn目录:
                     <TreeSelect

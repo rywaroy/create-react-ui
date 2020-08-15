@@ -146,7 +146,7 @@ class ConfigList extends Component<IProps, IState> {
         const { labelName, labelVisible } = this.state;
 
         return (
-            <div>
+            <div className="base-content">
                 <Row>
                     <Col span={10}>
                         <Card

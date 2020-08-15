@@ -78,10 +78,9 @@ class BasicLayout extends Component<IProps, null> {
                         }
                         <MenuBox />
                     </Sider>
-                    <Layout style={{ padding: '0 24px 24px', background: '#23232e' }}>
+                    <Layout style={{ background: '#23232e' }}>
                         <Content
                             style={{
-                                padding: 24,
                                 margin: 0,
                                 minHeight: 280,
                             }}

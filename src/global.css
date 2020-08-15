@@ -84,3 +84,7 @@ body .ant-table-thead > tr > th {
   background-repeat: no-repeat;
   background-color: #fff;
 }
+
+.base-content {
+  padding: 30px;
+}
