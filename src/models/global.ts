@@ -34,7 +34,7 @@ const GlobalModel: GlobalModelType = {
         labelList: [], // label配置列表
         labelDisplay: false, // label是否显示
         labelShow: false, // label是否打开
-        collapsed: true, // 菜单是否收缩
+        collapsed: false, // 菜单是否收缩
     },
     effects: {
         * updateFiles(action, { call, put }) {
