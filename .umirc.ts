@@ -11,42 +11,6 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
-  routes: [
-    {
-      path: '/',
-      component: '../layouts/index',
-      routes: [
-        {
-          path: '/',
-          redirect: 'template'
-        },
-        {
-          path: 'template',
-          component: '../pages/template',
-        },
-        {
-          path: 'code',
-          component: '../pages/code',
-        },
-        {
-          path: 'publish',
-          component: '../pages/publish',
-        },
-        {
-          path: 'document',
-          component: '../pages/document',
-        },
-        {
-          path: 'configlist',
-          component: '../pages/configlist',
-        },
-        {
-          path: 'create',
-          component: '../pages/create',
-        },
-      ],
-    },
-  ],
   history: {
     type: 'browser'
   },
