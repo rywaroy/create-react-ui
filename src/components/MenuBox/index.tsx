@@ -21,7 +21,7 @@ class MenuBox extends Component<any, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            defaultSelectedKey: ['template'],
+            defaultSelectedKey: [],
             map: [
                 {
                     title: '模板',
@@ -37,13 +37,13 @@ class MenuBox extends Component<any, IState> {
                 },
                 {
                     title: '可视化搭建',
-                    key: 'marking',
+                    key: 'making',
                     icon: 'layout',
                     children: [
                         {
                             title: '页面',
-                            key: 'marking-page',
-                            url: 'marking/page',
+                            key: 'page',
+                            url: '/making/page',
                         },
                     ],
                 },
@@ -90,17 +90,19 @@ class MenuBox extends Component<any, IState> {
 
     componentDidMount() {
         const { pathname } = window.location;
+        const paths = pathname.split('/');
         this.setState({
-            defaultSelectedKey: [pathname.split('/')[1]],
+            defaultSelectedKey: [paths[paths.length - 1]],
         });
     }
 
     render() {
+        const { defaultSelectedKey } = this.state;
         return (
             <Menu
                 mode="inline"
                 theme="dark"
-                selectedKeys={this.state.defaultSelectedKey}
+                selectedKeys={defaultSelectedKey}
                 style={{ borderRight: 0 }}
             >
                 {
