@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
 import { history } from 'umi';
 
+const { SubMenu } = Menu;
+
 interface IState {
     defaultSelectedKey: string[];
     map: IRoute[];
@@ -10,8 +12,9 @@ interface IState {
 interface IRoute {
     title: string;
     key: string;
-    icon: string;
-    url: string;
+    icon?: string;
+    url?: string;
+    children?: IRoute[];
 }
 
 class MenuBox extends Component<any, IState> {
@@ -31,6 +34,18 @@ class MenuBox extends Component<any, IState> {
                     key: 'code',
                     icon: 'gold',
                     url: '/code',
+                },
+                {
+                    title: '可视化搭建',
+                    key: 'marking',
+                    icon: 'layout',
+                    children: [
+                        {
+                            title: '页面',
+                            key: 'marking-page',
+                            url: 'marking/page',
+                        },
+                    ],
                 },
                 {
                     title: '脚手架',
@@ -89,12 +104,33 @@ class MenuBox extends Component<any, IState> {
                 style={{ borderRight: 0 }}
             >
                 {
-                    this.state.map.map(item => (
-                        <Menu.Item key={item.key} onClick={() => this.onClickItem(item)}>
-                            <Icon type={item.icon} />
-                            <span className="nav-text">{item.title}</span>
-                        </Menu.Item>
-                    ))
+                    this.state.map.map(item => {
+                        if (item.children) {
+                            return (
+                                <SubMenu
+                                    key={item.key}
+                                    title={(
+                                        <span>
+                                            <Icon type={item.icon} />
+                                            <span className="nav-text">{item.title}</span>
+                                        </span>
+                                    )}
+                                >
+                                    {
+                                        item.children.map(child => (
+                                            <Menu.Item key={child.key} onClick={() => this.onClickItem(child)}>{child.title}</Menu.Item>
+                                        ))
+                                    }
+                                </SubMenu>
+                            );
+                        }
+                        return (
+                            <Menu.Item key={item.key} onClick={() => this.onClickItem(item)}>
+                                <Icon type={item.icon} />
+                                <span className="nav-text">{item.title}</span>
+                            </Menu.Item>
+                        );
+                    })
                 }
             </Menu>
         );
