@@ -11,6 +11,7 @@ export interface IMaterial {
   pid?: number;
   active?: boolean;
   children?: IMaterial[];
+  project?: string;
   haveChildren: boolean;
 }
 
