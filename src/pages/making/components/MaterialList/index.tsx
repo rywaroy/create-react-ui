@@ -108,7 +108,7 @@ class MaterialList extends Component<IProps, IState> {
                         onChange={this.fromChange}>
                         {
                             froms.map(item => (
-                                <Select.Option value={item}>{item}</Select.Option>
+                                <Select.Option value={item} key={item}>{item}</Select.Option>
                             ))
                         }
                     </Select>
@@ -119,7 +119,7 @@ class MaterialList extends Component<IProps, IState> {
                         onChange={this.projectChange}>
                         {
                             projects.map(item => (
-                                <Select.Option value={item}>{item}</Select.Option>
+                                <Select.Option value={item} key={item}>{item}</Select.Option>
                             ))
                         }
                     </Select>
