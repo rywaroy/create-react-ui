@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Switch } from 'antd';
 import cloneDeep from 'lodash/cloneDeep';
 import { IMaterial } from '@/types/making';
 import materialComponents from '@/components/materials';
@@ -16,13 +16,15 @@ export interface IProps {
 }
 
 export interface IState {
-
+    visual: boolean;
 }
 
 class MaterialContent extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
-        this.state = {};
+        this.state = {
+            visual: true,
+        };
     }
 
     getMaterilTree(list: IMaterial[]) {
@@ -58,20 +60,23 @@ class MaterialContent extends React.Component<IProps, IState> {
     }
 
     render() {
+        const { visual } = this.state;
         const { materialList } = this.props;
         const materials = this.getMaterilTree(materialList);
 
         return (
             <>
-                <div className={styles.opt}>
+                <div className={`light-theme ${styles.opt}`}>
                     <Button type="primary" onClick={this.create} style={{ marginRight: '20px' }}>生成</Button>
-                    <Button type="primary" onClick={this.props.clear}>清空</Button>
+                    <Button type="primary" onClick={this.props.clear} style={{ marginRight: '20px' }}>清空</Button>
+                    展示 <Switch checked={visual} onChange={value => this.setState({ visual: value })} />
                 </div>
                 <div className={styles.content}>
                     {
                         materials.map((item) => (
                             <MaterialBlock
                                 key={item.id}
+                                visual={visual}
                                 material={item}
                                 selectMaterial={(m) => this.props.selectMaterial(m)}
                                 deleteMaterial={(id) => this.props.deleteMaterial(id)}

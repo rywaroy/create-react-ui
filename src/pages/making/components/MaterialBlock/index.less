@@ -1,22 +1,36 @@
-.pageItem {
+.block {
   padding: 4px;
-  border: 1px dashed #ccc;
-  margin: 4px 0 !important;
   min-height: 50px !important;
   position: relative;
 }
 
-.pageBox {
+.visual {
+  border: 1px dashed #ccc;
+  margin: 4px 0 !important;
+}
+
+.unvisual {
+  margin: 0 0 !important;
+}
+
+.pageBox.visual {
   background-color: #ecf5ff;
 }
 
-.pageBox:hover {
+.pageBox.visual:hover {
   border: 1px solid #409eff;
 }
 
-.active {
-  border: 1px solid #409eff;
+.pageBox.unvisual:hover {
   outline: 2px solid #409eff;
+}
+
+.active {
+  outline: 2px solid #409eff;
+}
+
+.visual.active {
+  border: 1px solid #409eff;
 }
 
 .draging::before {

@@ -5,6 +5,7 @@ import styles from './index.less';
 
 interface IProps {
   material: IMaterial;
+  visual?: boolean;
   selectMaterial: (item: IMaterial) => void;
   deleteMaterial: (id: number) => void;
   dropAdd: (index: number, pid: number, id?: number) => void;
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 const MaterialBlock: React.FC<IProps> = (props) => {
+    const { material, visual } = props;
     const {
         component: MaterialComponent,
         props: materialProp,
@@ -21,7 +23,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
         haveChildren,
         pid,
         defaultProps,
-    } = props.material;
+    } = material;
 
     const [isDraging, setIsDraging] = useState<boolean>(false);
 
@@ -80,7 +82,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
     return (
         <MaterialComponent
             draggable
-            className={`${styles.pageItem} ${id > 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${isDraging ? styles.draging : ''}`}
+            className={`${styles.block} ${id > 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${isDraging ? styles.draging : ''} ${visual ? styles.visual : styles.unvisual}`}
             onDrop={drop}
             onDragOver={dragOver}
             onDragEnter={dragEnter}
@@ -94,6 +96,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
                 children && children.map((child) => (
                     <MaterialBlock
                         material={child}
+                        visual={visual}
                         key={child.id}
                         selectMaterial={(m) => props.selectMaterial(m)}
                         deleteMaterial={(id) => props.deleteMaterial(id)}
