@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DragOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Icon } from 'antd';
 import { IMaterial } from '@/types/making';
 import styles from './index.less';
 
@@ -111,7 +111,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
                 id !== 1 && active
                 && (
                     <div className={styles.dragIcon}>
-                        <DragOutlined style={{ color: '#fff', fontSize: '20px' }} />
+                        <Icon type="drag" style={{ color: '#fff', fontSize: '20px' }} />
                     </div>
                 )
             }
@@ -119,7 +119,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
                 id !== 1 && active
                 && (
                     <div className={styles.deleteIcon}>
-                        <DeleteOutlined style={{ color: '#fff', fontSize: '20px' }} onClick={(e) => deleteMaterial(e)} />
+                        <Icon type="delete" style={{ color: '#fff', fontSize: '20px' }} onClick={(e) => deleteMaterial(e)} />
                     </div>
                 )
             }
