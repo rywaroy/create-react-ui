@@ -95,7 +95,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
     return (
         <MaterialComponent
             draggable={draggable}
-            className={`${styles.block} ${id > 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? styles.ghost : ''}`}
+            className={`${styles.block} ${id < 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? styles.ghost : ''}`}
             onDrop={drop}
             onDragOver={dragOver}
             onDragEnter={dragEnter}
