@@ -15,6 +15,7 @@ export interface IProps {
 
 export interface IState {
     visual: boolean;
+    mid: number;
 }
 
 class MaterialContent extends React.Component<IProps, IState> {
@@ -22,6 +23,7 @@ class MaterialContent extends React.Component<IProps, IState> {
         super(props);
         this.state = {
             visual: true,
+            mid: 0,
         };
     }
 
@@ -92,6 +94,7 @@ class MaterialContent extends React.Component<IProps, IState> {
         material.id = key;
         material.active = true;
         material.pid = pid || 1;
+        material.ghost = false;
         // 没有child id 表示添加物料组件
         if (!cid) {
             materials.push(material);
@@ -159,6 +162,7 @@ class MaterialContent extends React.Component<IProps, IState> {
         const mc = materials.splice(cIndex, 1)[0];
         const tIndex = this.findMaterialIndex(materials, tid);
         const tc = materials[tIndex];
+        mc.ghost = false;
         // 判断目标物料组件是否可以有子物料
         if (tc.haveChildren) {
             mc.pid = tc.id; // 改变pid
@@ -175,12 +179,44 @@ class MaterialContent extends React.Component<IProps, IState> {
      * 开始拖拽
      */
     dragStart = (id: number) => {
-        // const materials = [...this.state.materialList];
-        // const index = this.findMaterialIndex(materials, id);
-        // const material = materials.splice(index, 1)[0];
-        // this.setState({
-        //     materialList: materials,
-        // });
+        this.setState({
+            mid: id,
+        });
+        // 延时200毫秒，ui优化
+        setTimeout(() => {
+            const materials = [...this.props.materialList];
+            const index = this.findMaterialIndex(materials, id);
+            materials[index].ghost = true;
+            this.props.setMaterialList(materials);
+        }, 100);
+    }
+
+    /**
+     * 拖拽进入元素
+     */
+    dragEnter = (id: number) => {
+        const materials = [...this.props.materialList];
+        const cIndex = this.findMaterialIndex(materials, this.state.mid);
+        const mc = materials.splice(cIndex, 1)[0]; // 被拖拽material
+        const tIndex = this.findMaterialIndex(materials, id);
+        const tc = materials[tIndex]; // 目标material
+        // 判断目标物料组件是否可以有子物料
+        if (tc.haveChildren) {
+            mc.pid = tc.id; // 改变pid
+            materials.push(mc); // 插入到最后一个
+        } else {
+            mc.pid = tc.pid; // 改变未目标pid
+            materials.splice(tIndex, 0, mc); // 在目标物料前插入
+        }
+        this.props.setMaterialList(materials);
+    }
+
+    dragEnd = () => {
+        const materials = [...this.props.materialList];
+        materials.forEach(item => {
+            item.ghost = false;
+        });
+        this.props.setMaterialList(materials);
     }
 
     render() {
@@ -207,6 +243,8 @@ class MaterialContent extends React.Component<IProps, IState> {
                                 dropAdd={this.dropAdd}
                                 dorpMove={this.dorpMove}
                                 dragStart={this.dragStart}
+                                dragEnter={this.dragEnter}
+                                dragEnd={this.dragEnd}
                             />
                         ))
                     }

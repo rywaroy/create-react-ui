@@ -11,6 +11,8 @@ interface IProps {
   dropAdd: (index: number, pid: number, id?: number) => void;
   dorpMove: (cid: number, tid: number) => void;
   dragStart: (id: number) => void;
+  dragEnter: (id: number) => void;
+  dragEnd: () => void;
 }
 
 const MaterialBlock: React.FC<IProps> = (props) => {
@@ -24,9 +26,9 @@ const MaterialBlock: React.FC<IProps> = (props) => {
         haveChildren,
         pid,
         defaultProps,
+        ghost,
     } = material;
 
-    const [isDraging, setIsDraging] = useState<boolean>(false);
     const [draggable, setDraggable] = useState<boolean>(false);
 
     const selectMaterial = (e: any) => {
@@ -42,7 +44,6 @@ const MaterialBlock: React.FC<IProps> = (props) => {
     const drop = (event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
         event.preventDefault();
-        setIsDraging(false);
         const index = event.dataTransfer.getData('index');
         const cid = event.dataTransfer.getData('id');
         // 添加
@@ -68,12 +69,11 @@ const MaterialBlock: React.FC<IProps> = (props) => {
 
     const dragEnter = (event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
-        setIsDraging(true);
+        props.dragEnter(id);
     };
 
     const dragLeave = (event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
-        setIsDraging(false);
     };
 
     const drag = (event: React.DragEvent<HTMLDivElement>) => {
@@ -89,12 +89,13 @@ const MaterialBlock: React.FC<IProps> = (props) => {
     const dragEnd = (event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
         setDraggable(false);
+        props.dragEnd();
     };
 
     return (
         <MaterialComponent
             draggable={draggable}
-            className={`${styles.block} ${id > 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${isDraging ? styles.draging : ''} ${visual ? styles.visual : styles.unvisual}`}
+            className={`${styles.block} ${id > 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? styles.ghost : ''}`}
             onDrop={drop}
             onDragOver={dragOver}
             onDragEnter={dragEnter}
@@ -116,6 +117,8 @@ const MaterialBlock: React.FC<IProps> = (props) => {
                         dropAdd={(index, pid, id) => props.dropAdd(index, pid, id)}
                         dorpMove={(cid, tid) => props.dorpMove(cid, tid)}
                         dragStart={(id) => props.dragStart(id)}
+                        dragEnter={(id) => props.dragEnter(id)}
+                        dragEnd={() => props.dragEnd()}
                     />
                 ))
             }
