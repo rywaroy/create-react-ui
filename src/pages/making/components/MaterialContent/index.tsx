@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Switch } from 'antd';
 import cloneDeep from 'lodash/cloneDeep';
+import debounce from 'lodash/debounce';
 import { IMaterial } from '@/types/making';
 import materialComponents from '@/components/materials';
 import MaterialBlock from '../MaterialBlock';
@@ -25,6 +26,7 @@ class MaterialContent extends React.Component<IProps, IState> {
             visual: true,
             mid: 0,
         };
+        this.dragEnter = debounce(this.dragEnter, 300);
     }
 
     getMaterilTree(list: IMaterial[]) {
@@ -148,6 +150,9 @@ class MaterialContent extends React.Component<IProps, IState> {
     }
 
     findMaterialIndex(materials: IMaterial[], id: number): number {
+        if (!id) {
+            return 0;
+        }
         for (let i = 0; i < materials.length; i++) {
             if (materials[i].id === id) {
                 return i;
@@ -171,6 +176,9 @@ class MaterialContent extends React.Component<IProps, IState> {
             mc.pid = tc.pid; // 改变未目标pid
             materials.splice(tIndex, 0, mc); // 在目标物料前插入
         }
+        this.setState({
+            mid: 0,
+        });
         this.props.setMaterialList(materials);
         this.props.setMaterial(mc, mc.id);
     }
@@ -195,26 +203,32 @@ class MaterialContent extends React.Component<IProps, IState> {
      * 拖拽进入元素
      */
     dragEnter = (id: number) => {
+        const { mid } = this.state;
         const materials = [...this.props.materialList];
-        const cIndex = this.findMaterialIndex(materials, this.state.mid);
-        const mc = materials.splice(cIndex, 1)[0]; // 被拖拽material
-        const tIndex = this.findMaterialIndex(materials, id);
-        const tc = materials[tIndex]; // 目标material
-        // 判断目标物料组件是否可以有子物料
-        if (tc.haveChildren) {
-            mc.pid = tc.id; // 改变pid
-            materials.push(mc); // 插入到最后一个
-        } else {
-            mc.pid = tc.pid; // 改变未目标pid
-            materials.splice(tIndex, 0, mc); // 在目标物料前插入
+        if (mid) {
+            const cIndex = this.findMaterialIndex(materials, mid);
+            const mc = materials.splice(cIndex, 1)[0]; // 被拖拽material
+            const tIndex = this.findMaterialIndex(materials, id);
+            const tc = materials[tIndex]; // 目标material
+            // 判断目标物料组件是否可以有子物料
+            if (tc.haveChildren) {
+                mc.pid = tc.id; // 改变pid
+                materials.push(mc); // 插入到最后一个
+            } else {
+                mc.pid = tc.pid; // 改变未目标pid
+                materials.splice(tIndex, 0, mc); // 在目标物料前插入
+            }
+            this.props.setMaterialList(materials);
         }
-        this.props.setMaterialList(materials);
     }
 
     dragEnd = () => {
         const materials = [...this.props.materialList];
         materials.forEach(item => {
             item.ghost = false;
+        });
+        this.setState({
+            mid: 0,
         });
         this.props.setMaterialList(materials);
     }
