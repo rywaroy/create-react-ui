@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, InputNumber, Input, Form, Radio, AutoComplete } from 'antd';
-// import cloneDeep from 'lodash/cloneDeep';
 import { typeOptions, mockData } from '@/utils/enum';
 import { IFastItem, ISetFormValues, IFormItemLayout, IFormObject } from '@/types/code';
 import { ILabelItem } from '@/types/configlist';
