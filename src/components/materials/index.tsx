@@ -1,6 +1,8 @@
 import { Row, Col } from 'antd';
 import { IMaterial } from '@/types/making';
 import BaseContent from './BaseContent';
+import DivTag from './DivTag';
+import SpanTag from './SpanTag';
 
 export const baseContent: IMaterial = {
     name: '根组件',
@@ -30,6 +32,11 @@ const ColMaterial: IMaterial = {
     props: {
         span: 12,
     },
+    defaultProps: {
+        style: {
+            minHeight: '50px',
+        },
+    },
     haveChildren: true,
     editComponents: [],
 };
@@ -52,9 +59,37 @@ const RowMaterial: IMaterial = {
     ],
 };
 
+const DivMaterial: IMaterial = {
+    name: 'div',
+    tag: 'div',
+    from: '',
+    id: 3,
+    component: DivTag,
+    intro: 'div标签',
+    props: {},
+    haveChildren: true,
+    editComponents: [],
+};
+
+const SpanMaterial: IMaterial = {
+    name: 'span',
+    tag: 'span',
+    from: '',
+    id: 4,
+    component: SpanTag,
+    intro: 'span标签',
+    props: {
+        children: ['测试文字测试文字'],
+    },
+    haveChildren: false,
+    editComponents: [],
+};
+
 const materials: IMaterial[] = [
     RowMaterial,
     ColMaterial,
+    DivMaterial,
+    SpanMaterial,
 ];
 
 export default materials;
