@@ -10,6 +10,7 @@ interface IProps {
   deleteMaterial: (id: number) => void;
   dropAdd: (index: number, pid: number, id?: number) => void;
   dorpMove: (cid: number, tid: number) => void;
+  dragStart: (id: number) => void;
 }
 
 const MaterialBlock: React.FC<IProps> = (props) => {
@@ -26,6 +27,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
     } = material;
 
     const [isDraging, setIsDraging] = useState<boolean>(false);
+    const [draggable, setDraggable] = useState<boolean>(false);
 
     const selectMaterial = (e: any) => {
         e.stopPropagation();
@@ -77,17 +79,28 @@ const MaterialBlock: React.FC<IProps> = (props) => {
     const drag = (event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
         event.dataTransfer.setData('id', String(id));
+        props.dragStart(id);
+    };
+
+    const dragDown = () => {
+        setDraggable(true);
+    };
+
+    const dragEnd = (event: React.DragEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+        setDraggable(false);
     };
 
     return (
         <MaterialComponent
-            draggable
+            draggable={draggable}
             className={`${styles.block} ${id > 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${isDraging ? styles.draging : ''} ${visual ? styles.visual : styles.unvisual}`}
             onDrop={drop}
             onDragOver={dragOver}
             onDragEnter={dragEnter}
             onDragLeave={dragLeave}
             onDragStart={drag}
+            onDragEnd={dragEnd}
             onClick={(e: any) => selectMaterial(e)}
             {...materialProp}
             {...defaultProps}
@@ -102,16 +115,18 @@ const MaterialBlock: React.FC<IProps> = (props) => {
                         deleteMaterial={(id) => props.deleteMaterial(id)}
                         dropAdd={(index, pid, id) => props.dropAdd(index, pid, id)}
                         dorpMove={(cid, tid) => props.dorpMove(cid, tid)}
+                        dragStart={(id) => props.dragStart(id)}
                     />
                 ))
             }
             {props.children}
             {defaultProps && defaultProps.children}
+            {materialProp && materialProp.children}
             {
                 id !== 1 && active
                 && (
-                    <div className={styles.dragIcon}>
-                        <Icon type="drag" style={{ color: '#fff', fontSize: '20px' }} />
+                    <div className={styles.dragIcon} onMouseDown={dragDown}>
+                        <Icon type="drag" style={{ color: '#fff', fontSize: '20px', cursor: 'move' }} />
                     </div>
                 )
             }
