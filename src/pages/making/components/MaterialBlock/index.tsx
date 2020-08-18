@@ -94,8 +94,10 @@ const MaterialBlock: React.FC<IProps> = (props) => {
 
     return (
         <MaterialComponent
+            {...materialProp}
+            {...defaultProps}
             draggable={draggable}
-            className={`${styles.block} ${id < 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? styles.ghost : ''}`}
+            className={`${styles.block} ${id < 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? styles.ghost : ''} ${materialProp.className ? materialProp.className : ''}`}
             onDrop={drop}
             onDragOver={dragOver}
             onDragEnter={dragEnter}
@@ -103,8 +105,6 @@ const MaterialBlock: React.FC<IProps> = (props) => {
             onDragStart={drag}
             onDragEnd={dragEnd}
             onClick={(e: any) => selectMaterial(e)}
-            {...materialProp}
-            {...defaultProps}
         >
             {
                 children && children.map((child) => (
