@@ -26,7 +26,6 @@ class MaterialEidt extends React.Component<IProps, IState> {
         const { material } = this.props;
         return (
             <div className={styles.editList}>
-                <div className={styles.editTitle}>编辑属性</div>
                 {
                     material && material.editComponents.map((item) => {
                         const EditComponent = editComponentsMap[item.name];

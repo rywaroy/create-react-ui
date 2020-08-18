@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Tabs } from 'antd';
 import { GlobalModelState } from '@/models/global';
 import materials from '@/components/materials';
 import { BaseContentMaterial } from '@/components/materials/BaseContent';
@@ -22,6 +23,8 @@ interface IState {
     codeKey: number;
     code: string;
 }
+
+const { TabPane } = Tabs;
 
 class Making extends React.Component<IProps, IState> {
     constructor(props: IProps) {
@@ -94,11 +97,24 @@ class Making extends React.Component<IProps, IState> {
                         setMaterial={(material, id) => this.setState({ material, id })}
                         clear={this.clear} />
                 </div>
-                <div className={styles.edit}>
+                {/* <div className={styles.edit}>
                     <MaterialEidt
                         material={material}
                         key={id}
                         editProps={this.editProps} />
+                </div> */}
+                <div className={styles.edit}>
+                    <Tabs defaultActiveKey="1" animated={false}>
+                        <TabPane tab="组件属性" key="1">
+                            <MaterialEidt
+                                material={material}
+                                key={id}
+                                editProps={this.editProps} />
+                        </TabPane>
+                        <TabPane tab="页面属性" key="2">
+                            页面属性
+                        </TabPane>
+                    </Tabs>
                 </div>
             </div>
         );
