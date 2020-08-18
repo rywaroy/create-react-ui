@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { GlobalModelState } from '@/models/global';
-import materials, { baseContent } from '@/components/materials';
+import materials from '@/components/materials';
+import { BaseContentMaterial } from '@/components/materials/BaseContent';
 import { IMaterial } from '@/types/making';
 import MaterialList from '../components/MaterialList';
 import MaterialContent from '../components/MaterialContent';
@@ -25,7 +26,7 @@ class Making extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
-            materialList: [baseContent],
+            materialList: [BaseContentMaterial],
             material: null,
             id: 0,
             // codeVisible: false,
@@ -43,7 +44,7 @@ class Making extends React.Component<IProps, IState> {
         this.setState({
             material: null,
             id: 0,
-            materialList: [baseContent],
+            materialList: [BaseContentMaterial],
         });
     }
 
