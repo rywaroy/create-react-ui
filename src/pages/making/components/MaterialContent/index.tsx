@@ -3,18 +3,17 @@ import { Button, Switch } from 'antd';
 import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
 import { IMaterial } from '@/types/making';
-import materialComponents from '@/components/materials';
 import MaterialBlock from '../MaterialBlock';
 import styles from './index.less';
 
-export interface IProps {
+interface IProps {
     materialList: IMaterial[];
     setMaterialList: (materials: IMaterial[]) => void;
     setMaterial: (material: IMaterial, id: number) => void;
     clear: () => void;
 }
 
-export interface IState {
+interface IState {
     visual: boolean;
     mid: number;
 }
@@ -53,10 +52,6 @@ class MaterialContent extends React.Component<IProps, IState> {
         return result;
     }
 
-    dropAdd = (index: number, pid: number, id?: number) => {
-        this.addMaterial(materialComponents[index], pid, id);
-    }
-
     create = () => {
 
     }
@@ -82,7 +77,7 @@ class MaterialContent extends React.Component<IProps, IState> {
     /**
      * 添加物料组件
      */
-    addMaterial = (item: IMaterial, pid?: number, cid?: number) => {
+    addMaterial = (item: IMaterial, pid?: number, cid?: number, ghost?: boolean) => {
         const material = cloneDeep(item);
         const materials = cloneDeep(this.props.materialList);
         let index = 0;
@@ -96,7 +91,7 @@ class MaterialContent extends React.Component<IProps, IState> {
         material.id = key;
         material.active = true;
         material.pid = pid || 1;
-        material.ghost = false;
+        material.ghost = !!ghost;
         // 没有child id 表示添加物料组件
         if (!cid) {
             materials.push(material);
@@ -125,6 +120,11 @@ class MaterialContent extends React.Component<IProps, IState> {
                 materials.splice(index + 1, 0, ...children);
                 delete material.children;
             }
+        }
+        if (ghost) {
+            this.setState({
+                mid: key,
+            });
         }
         this.selectMaterial(material, materials);
     };
@@ -159,28 +159,6 @@ class MaterialContent extends React.Component<IProps, IState> {
             }
         }
         return 0;
-    }
-
-    dorpMove = (cid: number, tid: number) => {
-        const materials = [...this.props.materialList];
-        const cIndex = this.findMaterialIndex(materials, cid);
-        const mc = materials.splice(cIndex, 1)[0];
-        const tIndex = this.findMaterialIndex(materials, tid);
-        const tc = materials[tIndex];
-        mc.ghost = false;
-        // 判断目标物料组件是否可以有子物料
-        if (tc.haveChildren) {
-            mc.pid = tc.id; // 改变pid
-            materials.push(mc); // 插入到最后一个
-        } else {
-            mc.pid = tc.pid; // 改变未目标pid
-            materials.splice(tIndex, 0, mc); // 在目标物料前插入
-        }
-        this.setState({
-            mid: 0,
-        });
-        this.props.setMaterialList(materials);
-        this.props.setMaterial(mc, mc.id);
     }
 
     /**
@@ -233,6 +211,10 @@ class MaterialContent extends React.Component<IProps, IState> {
         this.props.setMaterialList(materials);
     }
 
+    setMaterial = (material: IMaterial) => {
+        this.addMaterial(material, undefined, undefined, true);
+    }
+
     render() {
         const { visual } = this.state;
         const { materialList } = this.props;
@@ -254,8 +236,6 @@ class MaterialContent extends React.Component<IProps, IState> {
                                 material={item}
                                 selectMaterial={(m) => this.selectMaterial(m)}
                                 deleteMaterial={(id) => this.deleteMaterial(id)}
-                                dropAdd={this.dropAdd}
-                                dorpMove={this.dorpMove}
                                 dragStart={this.dragStart}
                                 dragEnter={this.dragEnter}
                                 dragEnd={this.dragEnd}

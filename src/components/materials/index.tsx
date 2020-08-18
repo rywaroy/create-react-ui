@@ -35,8 +35,8 @@ const RowMaterial: IMaterial = {
     haveChildren: true,
     editComponents: [],
     children: [
-        ColMaterial,
-        ColMaterial,
+        { ...ColMaterial, id: 1 },
+        { ...ColMaterial, id: 2 },
     ],
 };
 

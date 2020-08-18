@@ -70,6 +70,13 @@ class Making extends React.Component<IProps, IState> {
         });
     }
 
+    /**
+     * 记录拖拽的material
+     */
+    setAddMaterial = (material: IMaterial) => {
+        this.materialContent.addMaterial(material, undefined, undefined, true);
+    }
+
     componentDidMount() {
         // 收起菜单
         this.props.dispatch({
@@ -87,7 +94,8 @@ class Making extends React.Component<IProps, IState> {
                 <div className={styles.material}>
                     <MaterialList
                         materials={materials}
-                        addMaterial={this.addMaterial} />
+                        addMaterial={this.addMaterial}
+                        setAddMaterial={this.setAddMaterial} />
                 </div>
                 <div className={styles.pageContent}>
                     <MaterialContent
@@ -97,12 +105,6 @@ class Making extends React.Component<IProps, IState> {
                         setMaterial={(material, id) => this.setState({ material, id })}
                         clear={this.clear} />
                 </div>
-                {/* <div className={styles.edit}>
-                    <MaterialEidt
-                        material={material}
-                        key={id}
-                        editProps={this.editProps} />
-                </div> */}
                 <div className={styles.edit}>
                     <Tabs defaultActiveKey="1" animated={false}>
                         <TabPane tab="组件属性" key="1">

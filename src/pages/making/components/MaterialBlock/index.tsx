@@ -8,8 +8,6 @@ interface IProps {
   visual?: boolean;
   selectMaterial: (item: IMaterial) => void;
   deleteMaterial: (id: number) => void;
-  dropAdd: (index: number, pid: number, id?: number) => void;
-  dorpMove: (cid: number, tid: number) => void;
   dragStart: (id: number) => void;
   dragEnter: (id: number) => void;
   dragEnd: () => void;
@@ -23,8 +21,6 @@ const MaterialBlock: React.FC<IProps> = (props) => {
         active,
         children,
         id,
-        haveChildren,
-        pid,
         defaultProps,
         ghost,
     } = material;
@@ -44,22 +40,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
     const drop = (event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
         event.preventDefault();
-        const index = event.dataTransfer.getData('index');
-        const cid = event.dataTransfer.getData('id');
-        // 添加
-        if (index) {
-            if (haveChildren) {
-                props.dropAdd(Number(index), id);
-            } else {
-                props.dropAdd(Number(index), Number(pid), id);
-            }
-            event.dataTransfer.clearData('index');
-        }
-        // 移动
-        if (cid) {
-            props.dorpMove(Number(cid), id);
-            event.dataTransfer.clearData('id');
-        }
+        props.dragEnd();
     };
 
     const dragOver = (event: React.DragEvent<HTMLDivElement>) => {
@@ -114,8 +95,6 @@ const MaterialBlock: React.FC<IProps> = (props) => {
                         key={child.id}
                         selectMaterial={(m) => props.selectMaterial(m)}
                         deleteMaterial={(id) => props.deleteMaterial(id)}
-                        dropAdd={(index, pid, id) => props.dropAdd(index, pid, id)}
-                        dorpMove={(cid, tid) => props.dorpMove(cid, tid)}
                         dragStart={(id) => props.dragStart(id)}
                         dragEnter={(id) => props.dragEnter(id)}
                         dragEnd={() => props.dragEnd()}
