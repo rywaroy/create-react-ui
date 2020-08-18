@@ -6,6 +6,7 @@ import styles from './index.less';
 interface IProps {
     materials: IMaterial[];
     addMaterial: (material: IMaterial) => void;
+    setAddMaterial: (material: IMaterial) => void;
 }
 
 interface IState {
@@ -21,14 +22,15 @@ class MaterialList extends Component<IProps, IState> {
         this.state = {
             froms: [],
             projects: [],
-            from: '',
-            project: '',
+            from: undefined,
+            project: undefined,
         };
     }
 
-    drag = (event: React.DragEvent<HTMLDivElement>) => {
+    drag = (event: React.DragEvent<HTMLDivElement>, material: IMaterial) => {
         // @ts-ignore
         event.dataTransfer.setData('index', event.target.getAttribute('data-index'));
+        this.props.setAddMaterial(material);
     }
 
     /**
@@ -132,7 +134,7 @@ class MaterialList extends Component<IProps, IState> {
                             className={styles.materialItem}
                             data-index={index}
                             draggable
-                            onDragStart={this.drag}
+                            onDragStart={(event) => this.drag(event, item)}
                             onClick={() => this.addMaterial(item)}>
                             {item.name}
                             <span>&lt;{item.tag} /&gt;</span>
