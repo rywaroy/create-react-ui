@@ -17,7 +17,10 @@ export const SpanMaterial: IMaterial = {
         children: ['测试文字测试文字'],
     },
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
 };
 
 export default SpanTag;

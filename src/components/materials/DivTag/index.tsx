@@ -15,7 +15,10 @@ export const DivMaterial: IMaterial = {
     intro: 'div标签',
     props: {},
     haveChildren: true,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
 };
 
 export default DivTag;
