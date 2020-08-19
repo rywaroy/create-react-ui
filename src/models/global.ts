@@ -2,6 +2,7 @@ import { Effect } from 'dva';
 import { Reducer } from 'redux';
 import { TreeNode } from 'antd/es/tree-select';
 import { ILabelItem, IGetFilesReturn } from '@/types/file';
+import { IClassItem } from '@/types/configlist';
 import { getFiles } from '@/services/file';
 import { getLabelConfig } from '@/services/configlist';
 
@@ -9,6 +10,7 @@ export interface GlobalModelState {
     files: TreeNode[];
     folders: TreeNode[];
     labelList: ILabelItem[];
+    classList: IClassItem[];
     labelDisplay: boolean;
     labelShow: boolean;
     collapsed: boolean;
@@ -35,6 +37,7 @@ const GlobalModel: GlobalModelType = {
         labelDisplay: false, // label是否显示
         labelShow: false, // label是否打开
         collapsed: false, // 菜单是否收缩
+        classList: [], // 缓存class
     },
     effects: {
         * updateFiles(action, { call, put }) {
@@ -58,6 +61,13 @@ const GlobalModel: GlobalModelType = {
                     labelDisplay: display,
                 },
             });
+        },
+        * getClassList(action, { call, put }) {
+            // const style = document.createElement('style');
+            // style.type = 'text/css';
+            // style.id = 'class-cache';
+            // style.innerHTML = 'body{ background-color:blue }';
+            // document.getElementsByTagName('head').item(0).appendChild(style);
         },
     },
     reducers: {
