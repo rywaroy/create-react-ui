@@ -7,3 +7,9 @@ interface ILabelItem {
   name: string;
   id: string;
 }
+
+export interface IClassItem {
+  id: string;
+  name: string;
+  value: string;
+}
