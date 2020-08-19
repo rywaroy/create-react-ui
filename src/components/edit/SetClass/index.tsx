@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select } from 'antd';
+import { getClassList } from '@/services/configlist';
+import { IClassItem } from '@/types/configlist';
 
 interface IProps {
     className: string;
+    mid: number;
     onChange: (values: any) => void;
 }
 
 const SetClass: React.FC<IProps> = (props) => {
-    const { className = '' } = props;
+    const { className = '', mid } = props;
+
+    const [classList, setClassList] = useState<IClassItem[]>([]);
 
     const classNameChange = (value: string) => {
         if (value) {
             props.onChange({ className: value });
         }
     };
+
+    useEffect(() => {
+        getClassList()
+            .then(res => {
+                setClassList(res.data.data);
+            });
+    }, [mid]);
 
     return (
         <div>
@@ -23,9 +35,11 @@ const SetClass: React.FC<IProps> = (props) => {
                 style={{ width: '200px' }}
                 onChange={(value: string) => classNameChange(value)}
             >
-                <Select.Option value="a">a</Select.Option>
-                <Select.Option value="b">b</Select.Option>
-                <Select.Option value="c">c</Select.Option>
+                {
+                    classList.map(item => (
+                        <Select.Option value={item.name} key={item.id}>{item.name}</Select.Option>
+                    ))
+                }
             </Select>
         </div>
     );
