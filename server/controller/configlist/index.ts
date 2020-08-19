@@ -1,8 +1,10 @@
-import label from './label';
-import addLabel from './addLabel';
-import delLabel from './delLabel';
-import patchLabel from './patchLabel';
-import displayLabel from './displayLabel';
+import label from './label/label';
+import addLabel from './label/addLabel';
+import delLabel from './label/delLabel';
+import patchLabel from './label/patchLabel';
+import displayLabel from './label/displayLabel';
+
+import classList from './classList/classList';
 
 export default {
     label,
@@ -10,4 +12,6 @@ export default {
     delLabel,
     patchLabel,
     displayLabel,
+
+    classList,
 };
