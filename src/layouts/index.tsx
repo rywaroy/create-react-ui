@@ -49,6 +49,9 @@ class BasicLayout extends Component<IProps, null> {
         this.props.dispatch({
             type: 'global/getLabelConfig',
         });
+        this.props.dispatch({
+            type: 'global/getClassList',
+        });
         socket.on('msg', data => {
             notification.open({
                 message: data.msg,

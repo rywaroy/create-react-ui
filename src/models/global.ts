@@ -4,7 +4,7 @@ import { TreeNode } from 'antd/es/tree-select';
 import { ILabelItem, IGetFilesReturn } from '@/types/file';
 import { IClassItem } from '@/types/configlist';
 import { getFiles } from '@/services/file';
-import { getLabelConfig } from '@/services/configlist';
+import { getLabelConfig, getClassList } from '@/services/configlist';
 
 export interface GlobalModelState {
     files: TreeNode[];
@@ -22,6 +22,7 @@ export interface GlobalModelType {
     effects: {
         updateFiles: Effect,
         getLabelConfig: Effect,
+        getClassList: Effect,
     },
     reducers: {
         updateState: Reducer<GlobalModelState>
@@ -63,11 +64,27 @@ const GlobalModel: GlobalModelType = {
             });
         },
         * getClassList(action, { call, put }) {
-            // const style = document.createElement('style');
-            // style.type = 'text/css';
-            // style.id = 'class-cache';
-            // style.innerHTML = 'body{ background-color:blue }';
-            // document.getElementsByTagName('head').item(0).appendChild(style);
+            const res = yield call(getClassList);
+            const { data } = res.data;
+            yield put({
+                type: 'updateState',
+                payload: {
+                    classList: data,
+                },
+            });
+            const cache = document.getElementById('class-cache');
+            if (cache) {
+                cache.remove();
+            }
+            const style = document.createElement('style');
+            style.type = 'text/css';
+            style.id = 'class-cache';
+            let text = '';
+            data.forEach((item: IClassItem) => {
+                text += `.${item.name}{${item.value}} `;
+            });
+            style.innerHTML = text;
+            document.getElementsByTagName('head').item(0).appendChild(style);
         },
     },
     reducers: {
