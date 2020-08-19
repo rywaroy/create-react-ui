@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
-import IContext from '../../types/context';
-import { ILabelJson } from '../../types/label';
+import IContext from '../../../types/context';
+import { ILabelJson } from '../../../types/configlist';
 
 interface IBody {
     display: boolean;

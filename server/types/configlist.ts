@@ -3,7 +3,7 @@ export interface ILabelJson {
   list: ILabelItem[];
 }
 
-interface ILabelItem {
+export interface ILabelItem {
   name: string;
   id: string;
 }

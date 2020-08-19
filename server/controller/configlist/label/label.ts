@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
-import IContext from '../../types/context';
+import IContext from '../../../types/context';
 
 export default async function label(ctx: IContext) {
     const labelPath = path.join(process.cwd(), 'node_modules/.cache/crui/label.json');

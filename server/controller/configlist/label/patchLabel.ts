@@ -1,11 +1,11 @@
 import path from 'path';
 import fs from 'fs-extra';
-import IContext from '../../types/context';
-import { ILabelJson } from '../../types/label';
+import IContext from '../../../types/context';
+import { ILabelJson, ILabelItem } from '../../../types/configlist';
 
 export default async function addLabel(ctx: IContext) {
     // @ts-ignore for travis
-    const { name, id } = ctx.request.body;
+    const { name, id }: ILabelItem = ctx.request.body;
     const labelPath = path.join(process.cwd(), 'node_modules/.cache/crui/label.json');
     const labelExists = fs.existsSync(labelPath);
     if (labelExists) {
