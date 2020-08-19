@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { v4 as uuidv4 } from 'uuid';
-import IContext from '../../types/context';
-import { ILabelJson } from '../../types/label';
+import IContext from '../../../types/context';
+import { ILabelJson } from '../../../types/label';
 
 interface IBody {
     name: string;
