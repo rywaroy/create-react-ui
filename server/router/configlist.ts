@@ -28,4 +28,24 @@ router.patch('/label', configlistController.patchLabel);
  */
 router.post('/label/display', configlistController.displayLabel);
 
+/**
+ * 获取class列表
+ */
+router.get('/class', configlistController.classList);
+
+/**
+ * 添加class列表
+ */
+router.post('/class', configlistController.addClassList);
+
+/**
+ * 删除class列表
+ */
+router.del('/class', configlistController.delClassList);
+
+/**
+ * 修改class列表
+ */
+router.patch('/class', configlistController.patchClassList);
+
 export default router;
