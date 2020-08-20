@@ -270,6 +270,7 @@ class MaterialContent extends React.Component<IProps, IState> {
         this.setState({
             saveId: null,
             saveVisible: false,
+            saveName: '',
         });
     }
 
@@ -308,6 +309,7 @@ class MaterialContent extends React.Component<IProps, IState> {
                                 material={item}
                                 selectMaterial={(m) => this.selectMaterial(m)}
                                 deleteMaterial={(id) => this.deleteMaterial(id)}
+                                saveMaterial={(id) => this.openSave(id)}
                                 copyMaterial={(id) => this.copyMaterial(id)}
                                 dragStart={this.dragStart}
                                 dragEnter={this.dragEnter}

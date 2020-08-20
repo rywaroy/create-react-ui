@@ -8,6 +8,7 @@ interface IProps {
   visual?: boolean;
   selectMaterial: (item: IMaterial) => void;
   deleteMaterial: (id: number) => void;
+  saveMaterial: (id: number) => void;
   copyMaterial: (id: number) => void;
   dragStart: (id: number) => void;
   dragEnter: (id: number) => void;
@@ -41,6 +42,11 @@ const MaterialBlock: React.FC<IProps> = (props) => {
     const copyMaterial = (e: any) => {
         e.stopPropagation();
         props.copyMaterial(id);
+    };
+
+    const saveMaterial = (e: any) => {
+        e.stopPropagation();
+        props.saveMaterial(id);
     };
 
     const drop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -102,6 +108,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
                         key={child.id}
                         selectMaterial={(m) => props.selectMaterial(m)}
                         deleteMaterial={(id) => props.deleteMaterial(id)}
+                        saveMaterial={(id) => props.saveMaterial(id)}
                         copyMaterial={(id) => props.copyMaterial(id)}
                         dragStart={(id) => props.dragStart(id)}
                         dragEnter={(id) => props.dragEnter(id)}
@@ -124,6 +131,9 @@ const MaterialBlock: React.FC<IProps> = (props) => {
                 id !== 1 && active
                 && (
                     <div className={styles.blockBottom}>
+                        <div className={styles.blockBottomIcon}>
+                            <Icon type="save" style={{ color: '#fff', fontSize: '20px' }} onClick={(e) => saveMaterial(e)} />
+                        </div>
                         <div className={styles.blockBottomIcon}>
                             <Icon type="copy" style={{ color: '#fff', fontSize: '20px' }} onClick={(e) => copyMaterial(e)} />
                         </div>

@@ -97,7 +97,24 @@ class Making extends React.Component<IProps, IState> {
      */
     save = (name: string, id?: number) => {
         if (id) {
-
+            const materials = [...this.state.materialList];
+            const ids: number[] = [id];
+            const findMaterial = (pid: number) => {
+                materials.forEach((material) => {
+                    if (material.pid === pid) {
+                        ids.push(material.id);
+                        findMaterial(material.id);
+                    }
+                });
+            };
+            findMaterial(id);
+            addPageList({
+                title: name,
+                value: materials.filter((item) => ids.indexOf(item.id) > -1),
+                isPage: false,
+            }).then(() => {
+                message.success('保存成功');
+            });
         } else { // 保存整个页面
             addPageList({
                 title: name,
