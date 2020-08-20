@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs } from 'antd';
+import { Tabs, message } from 'antd';
 import { GlobalModelState } from '@/models/global';
 import materials from '@/components/materials';
 import { BaseContentMaterial } from '@/components/materials/BaseContent';
 import { IMaterial, IPageItem } from '@/types/making';
-import { getPageList } from '@/services/making';
+import { getPageList, addPageList } from '@/services/making';
 import MaterialList from '../components/MaterialList';
 import MaterialContent from '../components/MaterialContent';
 import MaterialEidt from '../components/MaterialEdit';
@@ -80,6 +80,9 @@ class Making extends React.Component<IProps, IState> {
         this.materialContent.addMaterial(material, undefined, undefined, true);
     }
 
+    /**
+     * 获取pageList
+     */
     getPageList() {
         getPageList()
             .then(res => {
@@ -87,6 +90,23 @@ class Making extends React.Component<IProps, IState> {
                     pageList: res.data.data,
                 });
             });
+    }
+
+    /**
+     * 保存pageList
+     */
+    save = (name: string, id?: number) => {
+        if (id) {
+
+        } else { // 保存整个页面
+            addPageList({
+                title: name,
+                value: this.state.materialList,
+                isPage: true,
+            }).then(() => {
+                message.success('保存成功');
+            });
+        }
     }
 
     componentDidMount() {
@@ -116,7 +136,8 @@ class Making extends React.Component<IProps, IState> {
                         materialList={materialList}
                         setMaterialList={(materialList) => this.setState({ materialList })}
                         setMaterial={(material, id) => this.setState({ material, id })}
-                        clear={this.clear} />
+                        clear={this.clear}
+                        save={this.save} />
                 </div>
                 <div className={styles.edit}>
                     <Tabs defaultActiveKey="1" animated={false}>
