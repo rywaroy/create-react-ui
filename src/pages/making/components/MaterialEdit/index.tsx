@@ -27,10 +27,10 @@ class MaterialEidt extends React.Component<IProps, IState> {
         return (
             <div className={styles.editList}>
                 {
-                    material && material.editComponents.map((item) => {
+                    material && material.editComponents.map((item, index) => {
                         const EditComponent = editComponentsMap[item.name];
                         return EditComponent
-                            ? <div className={styles.editItem} key={item.name}><EditComponent {...material.props} {...item.props} mid={material.id} onChange={(values: any) => this.onEidtChange(values)} /></div> : null;
+                            ? <div className={styles.editItem} key={index}><EditComponent {...material.props} {...item.props} mid={material.id} onChange={(values: any) => this.onEidtChange(values)} /></div> : null;
                     })
                 }
             </div>
