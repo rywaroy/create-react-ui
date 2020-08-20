@@ -24,4 +24,5 @@ export interface IEditComponents {
 export interface IPageItem {
   title: string;
   value: IMaterial[];
+  id: string;
 }

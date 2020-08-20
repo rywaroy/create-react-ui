@@ -12,6 +12,7 @@ interface IProps {
     setMaterial: (material: IMaterial, id: number) => void;
     clear: () => void;
     save: (name: string, id?: number) => void;
+    openLoad: () => void;
 }
 
 interface IState {
@@ -295,9 +296,10 @@ class MaterialContent extends React.Component<IProps, IState> {
         return (
             <>
                 <div className={`light-theme ${styles.opt}`}>
-                    <Button type="primary" onClick={this.create} style={{ marginRight: '20px' }}>生成</Button>
-                    <Button type="primary" onClick={() => this.openSave()} style={{ marginRight: '20px' }}>保存</Button>
-                    <Button type="primary" onClick={this.props.clear} style={{ marginRight: '20px' }}>清空</Button>
+                    <Button type="primary" onClick={this.create} style={{ marginRight: '10px' }}>生成</Button>
+                    <Button type="primary" onClick={() => this.openSave()} style={{ marginRight: '10px' }}>保存</Button>
+                    <Button type="primary" onClick={this.props.openLoad} style={{ marginRight: '10px' }}>载入</Button>
+                    <Button type="primary" onClick={this.props.clear} style={{ marginRight: '10px' }}>清空</Button>
                     展示 <Switch checked={visual} onChange={value => this.setState({ visual: value })} />
                 </div>
                 <div className={styles.content}>

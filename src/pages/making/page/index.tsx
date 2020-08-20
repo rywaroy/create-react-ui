@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs, message } from 'antd';
+import { Tabs, message, Modal, Select } from 'antd';
+import cloneDeep from 'lodash/cloneDeep';
 import { GlobalModelState } from '@/models/global';
 import materials from '@/components/materials';
 import { BaseContentMaterial } from '@/components/materials/BaseContent';
@@ -24,6 +25,8 @@ interface IState {
     codeKey: number;
     code: string;
     pageList: IPageItem[];
+    loadVisible: boolean;
+    loadPageIndex: number;
 }
 
 const { TabPane } = Tabs;
@@ -36,6 +39,8 @@ class Making extends React.Component<IProps, IState> {
             material: null,
             id: 0,
             pageList: [],
+            loadVisible: false,
+            loadPageIndex: 0,
             // codeVisible: false,
             // codeKey: Math.random(),
             // code: '',
@@ -95,35 +100,68 @@ class Making extends React.Component<IProps, IState> {
     /**
      * 保存pageList
      */
-    save = (name: string, id?: number) => {
-        if (id) {
-            const materials = [...this.state.materialList];
-            const ids: number[] = [id];
-            const findMaterial = (pid: number) => {
-                materials.forEach((material) => {
-                    if (material.pid === pid) {
-                        ids.push(material.id);
-                        findMaterial(material.id);
-                    }
-                });
-            };
-            findMaterial(id);
-            addPageList({
-                title: name,
-                value: materials.filter((item) => ids.indexOf(item.id) > -1),
-                isPage: false,
-            }).then(() => {
-                message.success('保存成功');
+    save = (name: string, id: number = 1) => {
+        const materials = cloneDeep(this.state.materialList);
+        const ids: number[] = id === 1 ? [] : [id];
+        const findMaterial = (pid: number) => {
+            materials.forEach((material) => {
+                if (material.component) {
+                    delete material.component;
+                }
+                if (material.pid === pid) {
+                    ids.push(material.id);
+                    findMaterial(material.id);
+                }
             });
-        } else { // 保存整个页面
-            addPageList({
-                title: name,
-                value: this.state.materialList,
-                isPage: true,
-            }).then(() => {
-                message.success('保存成功');
+        };
+        findMaterial(id);
+        addPageList({
+            title: name,
+            value: materials.filter((item) => ids.indexOf(item.id) > -1),
+        }).then(() => {
+            message.success('保存成功');
+            this.getPageList();
+        });
+    }
+
+    /**
+     * 打开保存列表
+     */
+    openLoad = () => {
+        this.setState({
+            loadVisible: true,
+        });
+    }
+
+    /**
+     * 关闭保存列表
+     */
+    closeLoad = () => {
+        this.setState({
+            loadVisible: false,
+        });
+    }
+
+    /**
+     * 载入
+     */
+    loadPage = () => {
+        const { loadPageIndex, pageList } = this.state;
+        const page = pageList[loadPageIndex];
+        const { value } = page;
+        const materialList = [...this.state.materialList];
+        const ms = cloneDeep(value);
+        ms.forEach(item => {
+            materials.forEach(m => {
+                if (item.tag === m.tag) {
+                    item.component = m.component;
+                }
             });
-        }
+        });
+        this.setState({
+            materialList: materialList.concat(ms),
+        });
+        this.closeLoad();
     }
 
     componentDidMount() {
@@ -138,7 +176,7 @@ class Making extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { materialList, material, id } = this.state;
+        const { materialList, material, id, loadVisible, pageList, loadPageIndex } = this.state;
         return (
             <div className={styles.pageWrap}>
                 <div className={styles.material}>
@@ -154,7 +192,8 @@ class Making extends React.Component<IProps, IState> {
                         setMaterialList={(materialList) => this.setState({ materialList })}
                         setMaterial={(material, id) => this.setState({ material, id })}
                         clear={this.clear}
-                        save={this.save} />
+                        save={this.save}
+                        openLoad={this.openLoad} />
                 </div>
                 <div className={styles.edit}>
                     <Tabs defaultActiveKey="1" animated={false}>
@@ -169,6 +208,23 @@ class Making extends React.Component<IProps, IState> {
                         </TabPane>
                     </Tabs>
                 </div>
+                <Modal
+                    title="保存列表"
+                    width="400px"
+                    visible={loadVisible}
+                    onCancel={this.closeLoad}
+                    onOk={this.loadPage}>
+                    <Select
+                        style={{ width: '100%' }}
+                        value={loadPageIndex}
+                        onChange={(value: number) => this.setState({ loadPageIndex: value })}>
+                        {
+                            pageList.map((item, index) => (
+                                <Select.Option value={index} key={item.id}>{item.title}</Select.Option>
+                            ))
+                        }
+                    </Select>
+                </Modal>
             </div>
         );
     }
