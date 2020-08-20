@@ -136,17 +136,44 @@ class MaterialContent extends React.Component<IProps, IState> {
         let materials = cloneDeep(this.props.materialList);
         const ids: number[] = [cid];
         function findMaterial(pid: number) {
-        materials!.forEach((material) => {
-            if (material.pid === pid) {
-                ids.push(material.id);
-                findMaterial(material.id);
-            }
-        });
+            materials!.forEach((material) => {
+                if (material.pid === pid) {
+                    ids.push(material.id);
+                    findMaterial(material.id);
+                }
+            });
         }
         findMaterial(cid);
         materials = materials.filter((item) => ids.indexOf(item.id) === -1);
         this.props.setMaterialList(materials);
         this.props.setMaterial(null, 0);
+    }
+
+    /**
+     * 复制物料组件
+     */
+    copyMaterial = (cid: number) => {
+        const materials = cloneDeep(this.props.materialList);
+        const index = this.findMaterialIndex(materials, cid);
+        const cm = cloneDeep(materials[index]);
+        const newId = Math.random();
+        cm.id = newId;
+        const copyList: IMaterial[] = [cm];
+        function findMaterial(pid: number, npid: number) {
+            materials.forEach((material) => {
+                if (material.pid === pid) {
+                    const m = cloneDeep(material);
+                    const mnewId = Math.random();
+                    m.id = mnewId;
+                    m.pid = npid;
+                    copyList.push(m);
+                    findMaterial(material.id, mnewId);
+                }
+            });
+        }
+        findMaterial(cid, newId);
+        materials.splice(index, 0, ...copyList);
+        this.props.setMaterialList(materials);
     }
 
     findMaterialIndex(materials: IMaterial[], id: number): number {
@@ -236,6 +263,7 @@ class MaterialContent extends React.Component<IProps, IState> {
                                 material={item}
                                 selectMaterial={(m) => this.selectMaterial(m)}
                                 deleteMaterial={(id) => this.deleteMaterial(id)}
+                                copyMaterial={(id) => this.copyMaterial(id)}
                                 dragStart={this.dragStart}
                                 dragEnter={this.dragEnter}
                                 dragEnd={this.dragEnd}

@@ -1,20 +1,14 @@
-.block {
-  padding: 4px;
-  position: relative;
-}
-
 .visual {
   border: 1px dashed #ccc;
   margin: 4px 0;
+}
+
+div.visual {
   min-height: 50px !important;
 }
 
 .unvisual {
   margin: 0 0;
-}
-
-.pageBox.visual {
-  background-color: #ecf5ff;
 }
 
 .pageBox.visual:hover {
@@ -31,16 +25,6 @@
 
 .visual.active {
   border: 1px solid #409eff;
-}
-
-.block.ghost {
-  overflow: hidden;
-  display: block;
-  height: 2px;
-  min-height: 2px !important;
-  border: 1px solid red;
-  padding: 0;
-  outline: none;
 }
 
 .draging::before {
@@ -65,16 +49,20 @@
   background-color: #409eff;
 }
 
-.deleteIcon {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
+.blockBottomIcon {
   width: 24px;
   height: 24px;
-  background-color: #409eff;
   cursor: pointer;
   text-align: center;
   line-height: 24px;
   padding-top: 2px;
+  background-color: #409eff;
+}
+
+.blockBottom {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
 }

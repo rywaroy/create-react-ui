@@ -8,6 +8,7 @@ interface IProps {
   visual?: boolean;
   selectMaterial: (item: IMaterial) => void;
   deleteMaterial: (id: number) => void;
+  copyMaterial: (id: number) => void;
   dragStart: (id: number) => void;
   dragEnter: (id: number) => void;
   dragEnd: () => void;
@@ -35,6 +36,11 @@ const MaterialBlock: React.FC<IProps> = (props) => {
     const deleteMaterial = (e: any) => {
         e.stopPropagation();
         props.deleteMaterial(id);
+    };
+
+    const copyMaterial = (e: any) => {
+        e.stopPropagation();
+        props.copyMaterial(id);
     };
 
     const drop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -78,7 +84,8 @@ const MaterialBlock: React.FC<IProps> = (props) => {
             {...materialProp}
             {...defaultProps}
             draggable={draggable}
-            className={`${styles.block} ${id < 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? styles.ghost : ''} ${materialProp.className ? materialProp.className : ''}`}
+            data-block="block"
+            className={`block ${id < 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? 'ghost' : ''} ${materialProp.className ? materialProp.className : ''}`}
             onDrop={drop}
             onDragOver={dragOver}
             onDragEnter={dragEnter}
@@ -95,6 +102,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
                         key={child.id}
                         selectMaterial={(m) => props.selectMaterial(m)}
                         deleteMaterial={(id) => props.deleteMaterial(id)}
+                        copyMaterial={(id) => props.copyMaterial(id)}
                         dragStart={(id) => props.dragStart(id)}
                         dragEnter={(id) => props.dragEnter(id)}
                         dragEnd={() => props.dragEnd()}
@@ -115,8 +123,13 @@ const MaterialBlock: React.FC<IProps> = (props) => {
             {
                 id !== 1 && active
                 && (
-                    <div className={styles.deleteIcon}>
-                        <Icon type="delete" style={{ color: '#fff', fontSize: '20px' }} onClick={(e) => deleteMaterial(e)} />
+                    <div className={styles.blockBottom}>
+                        <div className={styles.blockBottomIcon}>
+                            <Icon type="copy" style={{ color: '#fff', fontSize: '20px' }} onClick={(e) => copyMaterial(e)} />
+                        </div>
+                        <div className={styles.blockBottomIcon}>
+                            <Icon type="delete" style={{ color: '#fff', fontSize: '20px' }} onClick={(e) => deleteMaterial(e)} />
+                        </div>
                     </div>
                 )
             }
