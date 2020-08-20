@@ -4,7 +4,8 @@ import { Tabs } from 'antd';
 import { GlobalModelState } from '@/models/global';
 import materials from '@/components/materials';
 import { BaseContentMaterial } from '@/components/materials/BaseContent';
-import { IMaterial } from '@/types/making';
+import { IMaterial, IPageItem } from '@/types/making';
+import { getPageList } from '@/services/making';
 import MaterialList from '../components/MaterialList';
 import MaterialContent from '../components/MaterialContent';
 import MaterialEidt from '../components/MaterialEdit';
@@ -22,6 +23,7 @@ interface IState {
     codeVisible: boolean;
     codeKey: number;
     code: string;
+    pageList: IPageItem[];
 }
 
 const { TabPane } = Tabs;
@@ -33,6 +35,7 @@ class Making extends React.Component<IProps, IState> {
             materialList: [BaseContentMaterial],
             material: null,
             id: 0,
+            pageList: [],
             // codeVisible: false,
             // codeKey: Math.random(),
             // code: '',
@@ -77,6 +80,15 @@ class Making extends React.Component<IProps, IState> {
         this.materialContent.addMaterial(material, undefined, undefined, true);
     }
 
+    getPageList() {
+        getPageList()
+            .then(res => {
+                this.setState({
+                    pageList: res.data.data,
+                });
+            });
+    }
+
     componentDidMount() {
         // 收起菜单
         this.props.dispatch({
@@ -85,6 +97,7 @@ class Making extends React.Component<IProps, IState> {
                 collapsed: true,
             },
         });
+        this.getPageList();
     }
 
     render() {

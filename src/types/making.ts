@@ -20,3 +20,8 @@ export interface IEditComponents {
   name: string;
   props?: any;
 }
+
+export interface IPageItem {
+  title: string;
+  value: IMaterial[];
+}
