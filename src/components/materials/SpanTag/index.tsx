@@ -20,6 +20,7 @@ export const SpanMaterial: IMaterial = {
     editComponents: [
         { name: 'className' },
         { name: 'style' },
+        { name: 'prop', props: { propName: 'children', propType: 'string' } },
     ],
 };
 

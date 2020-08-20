@@ -1,4 +1,4 @@
-import { Row, Col } from 'antd';
+import { Row, Col, Button } from 'antd';
 import { IMaterial } from '@/types/making';
 import { DivMaterial } from './DivTag';
 import { SpanMaterial } from './SpanTag';
@@ -19,7 +19,9 @@ const ColMaterial: IMaterial = {
         },
     },
     haveChildren: true,
-    editComponents: [],
+    editComponents: [
+        { name: 'prop', props: { propName: 'span', propType: 'number' } },
+    ],
 };
 
 const RowMaterial: IMaterial = {
@@ -40,9 +42,28 @@ const RowMaterial: IMaterial = {
     ],
 };
 
+const ButtonMaterial: IMaterial = {
+    name: '按钮',
+    tag: 'Button',
+    from: 'antd',
+    id: Math.random(),
+    component: Button,
+    intro: 'antd 按钮组件',
+    props: {
+        children: '按钮',
+        type: 'primary',
+    },
+    haveChildren: false,
+    editComponents: [
+        { name: 'prop', props: { propName: 'type', propType: 'string' } },
+        { name: 'prop', props: { propName: 'children', propType: 'string' } },
+    ],
+};
+
 const materials: IMaterial[] = [
     RowMaterial,
     ColMaterial,
+    ButtonMaterial,
     DivMaterial,
     SpanMaterial,
 ];
