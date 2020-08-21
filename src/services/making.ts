@@ -18,5 +18,7 @@ export function addPageList(params) {
  * 删除page列表
  */
 export function delPageList(params) {
-    return axios.delete('making/page', params);
+    return axios.delete('making/page', {
+        params,
+    });
 }
