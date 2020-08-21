@@ -151,12 +151,37 @@ class Making extends React.Component<IProps, IState> {
         const { value } = page;
         const materialList = [...this.state.materialList];
         const ms = cloneDeep(value);
-        ms.forEach(item => {
-            materials.forEach(m => {
-                if (item.tag === m.tag) {
-                    item.component = m.component;
+        const componentMap = {};
+        materials.forEach(m => {
+            componentMap[m.tag] = m.component;
+        });
+        function findChildMaterial(pid?: number, npid?: number) {
+            ms.forEach((material) => {
+                if (!material.component) {
+                    const oldId = material.id;
+                    const newId = Math.random();
+                    if (material.pid === pid) {
+                        material.id = newId;
+                        material.pid = npid;
+                        material.active = false;
+                        material.component = componentMap[material.tag];
+                        findChildMaterial(oldId, newId);
+                    } else if (!pid) {
+                        material.id = newId;
+                        material.active = false;
+                        material.component = componentMap[material.tag];
+                        findChildMaterial(oldId, newId);
+                    }
                 }
             });
+        }
+        findChildMaterial();
+        ms.forEach((material) => {
+            if (!material.component) {
+                material.pid = 1;
+                material.active = false;
+                material.component = componentMap[material.tag];
+            }
         });
         this.setState({
             materialList: materialList.concat(ms),
