@@ -37,10 +37,6 @@ class ClassList extends React.Component<IProps, IState> {
             dataIndex: 'name',
         },
         {
-            title: '样式',
-            dataIndex: 'value',
-        },
-        {
             title: '操作',
             key: 'id',
             width: 140,

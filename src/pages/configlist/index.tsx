@@ -41,7 +41,7 @@ class ConfigList extends Component<IProps, IState> {
         return (
             <div className="base-content">
                 <Row>
-                    <Col span={10}>
+                    <Col span={7}>
                         <Card
                             className={styles.cardBox}
                             title="label配置"
@@ -54,7 +54,7 @@ class ConfigList extends Component<IProps, IState> {
                             <LabelList {...this.props} />
                         </Card>
                     </Col>
-                    <Col span={10} offset={1}>
+                    <Col span={7} offset={1}>
                         <Card
                             className={styles.cardBox}
                             title="class缓存"
