@@ -33,3 +33,9 @@ export interface IAddClassParams {
   name: string;
   value: string;
 }
+
+export interface IPageItem {
+  id: string;
+  title: string;
+  value: string;
+}

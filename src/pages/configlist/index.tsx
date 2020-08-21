@@ -5,6 +5,7 @@ import { changeLabelDisplay } from '@/services/configlist';
 import { GlobalModelState } from '@/models/global';
 import LabelList from './components/LabelList';
 import ClassList from './components/ClassList';
+import PageList from './components/PageList';
 import styles from './index.less';
 
 interface IState {
@@ -60,6 +61,14 @@ class ConfigList extends Component<IProps, IState> {
                             title="class缓存"
                             bordered={false}>
                             <ClassList {...this.props} />
+                        </Card>
+                    </Col>
+                    <Col span={7} offset={1}>
+                        <Card
+                            className={styles.cardBox}
+                            title="页面组件列表"
+                            bordered={false}>
+                            <PageList />
                         </Card>
                     </Col>
                 </Row>

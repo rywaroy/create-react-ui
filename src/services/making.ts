@@ -13,3 +13,10 @@ export function getPageList() {
 export function addPageList(params) {
     return axios.post('making/page', params);
 }
+
+/**
+ * 删除page列表
+ */
+export function delPageList(params) {
+    return axios.delete('making/page', params);
+}
