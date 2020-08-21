@@ -166,6 +166,7 @@ class MaterialContent extends React.Component<IProps, IState> {
         const cm = cloneDeep(materials[index]);
         const newId = Math.random();
         cm.id = newId;
+        cm.active = false;
         const copyList: IMaterial[] = [cm];
         function findMaterial(pid: number, npid: number) {
             materials.forEach((material) => {
@@ -180,7 +181,7 @@ class MaterialContent extends React.Component<IProps, IState> {
             });
         }
         findMaterial(cid, newId);
-        materials.splice(index, 0, ...copyList);
+        materials.splice(index + 1, 0, ...copyList);
         this.props.setMaterialList(materials);
     }
 
