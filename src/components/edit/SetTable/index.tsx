@@ -4,7 +4,6 @@ import styles from './index.less';
 
 interface IProps {
     columns: any[];
-    dataSource: any[];
     onChange: (values: any) => void;
 }
 
@@ -20,7 +19,6 @@ const SetTable: React.FC<IProps> = (props) => {
         list.push({
             title: `属性${list.length + 1}`,
             dataIndex: `属性${list.length + 1}`,
-            id: Math.random(),
         });
         setColumns(list);
     };
@@ -35,10 +33,30 @@ const SetTable: React.FC<IProps> = (props) => {
         setColumns(list);
     };
 
+    /**
+     * 删除
+     */
     const deleteColumn = (index: number) => {
         const list = [...columns];
         list.splice(index, 1);
         setColumns(list);
+    };
+
+    /**
+     * 提交
+     */
+    const submit = () => {
+        const dataSource = [];
+        const data: any = {};
+        columns.forEach(column => {
+            data[column.dataIndex] = '测试数据';
+        });
+        dataSource.push({ ...data, id: Math.random() });
+        dataSource.push({ ...data, id: Math.random() });
+        props.onChange({
+            dataSource,
+            columns,
+        });
     };
 
     return (
@@ -58,6 +76,7 @@ const SetTable: React.FC<IProps> = (props) => {
                     </div>
                 ))
             }
+            <Button type="primary" size="small" onClick={() => submit()}>提交</Button>
         </div>
     );
 };
