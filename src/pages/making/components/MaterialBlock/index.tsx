@@ -27,6 +27,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
         id,
         defaultProps,
         ghost,
+        haveWrap = true,
     } = material;
 
     const [draggable, setDraggable] = useState<boolean>(false);
@@ -97,20 +98,49 @@ const MaterialBlock: React.FC<IProps> = (props) => {
         props.down(id);
     };
 
-    return (
+    const setProps = {
+        draggable,
+        className: `block ${id < 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? 'ghost' : ''} ${materialProp.className ? materialProp.className : ''}`,
+        onDrop: drop,
+        onDragOver: dragOver,
+        onDragEnter: dragEnter,
+        onDragLeave: dragLeave,
+        onDragStart: drag,
+        onDragEnd: dragEnd,
+        onClick: (e: any) => selectMaterial(e),
+    };
+
+    const dragIcon = id !== 1 && active && (
+        <div className={styles.dragIcon} onMouseDown={dragDown}>
+            <Icon type="drag" style={{ color: '#fff', fontSize: '20px', cursor: 'move' }} />
+        </div>
+    );
+
+    const optIcon = id !== 1 && active && (
+        <div className={styles.blockBottom}>
+            <div className={styles.blockBottomIcon}>
+                <Icon type="save" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => saveMaterial(e)} />
+            </div>
+            <div className={styles.blockBottomIcon}>
+                <Icon type="copy" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => copyMaterial(e)} />
+            </div>
+            <div className={`${styles.blockBottomIcon} ${styles.hideIcon}`}>
+                <Icon type="arrow-up" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => up(e)} />
+            </div>
+            <div className={`${styles.blockBottomIcon} ${styles.hideIcon}`}>
+                <Icon type="arrow-down" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => down(e)} />
+            </div>
+            <div className={styles.blockBottomIcon}>
+                <Icon type="delete" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => deleteMaterial(e)} />
+            </div>
+        </div>
+    );
+
+    const mc = (
         <MaterialComponent
             {...materialProp}
             {...defaultProps}
-            draggable={draggable}
-            data-block="block"
-            className={`block ${id < 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? 'ghost' : ''} ${materialProp.className ? materialProp.className : ''}`}
-            onDrop={drop}
-            onDragOver={dragOver}
-            onDragEnter={dragEnter}
-            onDragLeave={dragLeave}
-            onDragStart={drag}
-            onDragEnd={dragEnd}
-            onClick={(e: any) => selectMaterial(e)}
+            {...(!haveWrap && setProps)}
         >
             {
                 children && children.map((child) => (
@@ -133,37 +163,30 @@ const MaterialBlock: React.FC<IProps> = (props) => {
             {props.children}
             {defaultProps && defaultProps.children}
             {materialProp && materialProp.children}
-            {
-                id !== 1 && active
-                && (
-                    <div className={styles.dragIcon} onMouseDown={dragDown}>
-                        <Icon type="drag" style={{ color: '#fff', fontSize: '20px', cursor: 'move' }} />
-                    </div>
-                )
-            }
-            {
-                id !== 1 && active
-                && (
-                    <div className={styles.blockBottom}>
-                        <div className={styles.blockBottomIcon}>
-                            <Icon type="save" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => saveMaterial(e)} />
-                        </div>
-                        <div className={styles.blockBottomIcon}>
-                            <Icon type="copy" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => copyMaterial(e)} />
-                        </div>
-                        <div className={`${styles.blockBottomIcon} ${styles.hideIcon}`}>
-                            <Icon type="arrow-up" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => up(e)} />
-                        </div>
-                        <div className={`${styles.blockBottomIcon} ${styles.hideIcon}`}>
-                            <Icon type="arrow-down" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => down(e)} />
-                        </div>
-                        <div className={styles.blockBottomIcon}>
-                            <Icon type="delete" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => deleteMaterial(e)} />
-                        </div>
-                    </div>
-                )
-            }
+            {!haveWrap && dragIcon}
+            {!haveWrap && optIcon}
         </MaterialComponent>
+    );
+
+    return (
+        haveWrap
+            ? (
+                <div
+                    draggable={draggable}
+                    className={`block ${id < 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? 'ghost' : ''} ${materialProp.className ? materialProp.className : ''}`}
+                    onDrop={drop}
+                    onDragOver={dragOver}
+                    onDragEnter={dragEnter}
+                    onDragLeave={dragLeave}
+                    onDragStart={drag}
+                    onDragEnd={dragEnd}
+                    onClick={(e: any) => selectMaterial(e)}>
+                    {mc}
+                    {dragIcon}
+                    {optIcon}
+                </div>
+            )
+            : mc
     );
 };
 
