@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { Input, Button } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { AutoComplete, Button } from 'antd';
+import { getLabelConfig } from '@/services/configlist';
+import { ILabelItem } from '@/types/configlist';
 import styles from './index.less';
 
 interface IProps {
@@ -10,6 +12,14 @@ interface IProps {
 const SetTable: React.FC<IProps> = (props) => {
     const columnList = [...props.columns];
     const [columns, setColumns] = useState(columnList);
+    const [label, setLabel] = useState<ILabelItem[]>([]);
+
+    useEffect(() => {
+        getLabelConfig()
+            .then(res => {
+                setLabel(res.data.data.list);
+            });
+    }, []);
 
     /**
      * 添加
@@ -26,10 +36,10 @@ const SetTable: React.FC<IProps> = (props) => {
     /**
      * 修改
      */
-    const changeColumn = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const changeColumn = (value: string, index: number) => {
         const list = [...columns];
-        list[index].title = e.target.value;
-        list[index].dataIndex = e.target.value;
+        list[index].title = value;
+        list[index].dataIndex = value;
         setColumns(list);
     };
 
@@ -71,7 +81,11 @@ const SetTable: React.FC<IProps> = (props) => {
             {
                 columns.map((colum, index) => (
                     <div className={styles.tableItem} key={index}>
-                        <Input style={{ width: '150px', marginRight: '10px' }} value={colum.title} onChange={(e) => changeColumn(e, index)} />
+                        <AutoComplete
+                            dataSource={label.map(item => item.name)}
+                            value={colum.title}
+                            style={{ width: '150px', marginRight: '10px' }}
+                            onChange={(value: string) => changeColumn(value, index)} />
                         <Button type="primary" icon="minus" size="small" onClick={() => deleteColumn(index)} />
                     </div>
                 ))
