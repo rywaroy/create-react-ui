@@ -10,6 +10,8 @@ interface IProps {
   deleteMaterial: (id: number) => void;
   saveMaterial: (id: number) => void;
   copyMaterial: (id: number) => void;
+  up: (id: number) => void;
+  down: (id: number) => void;
   dragStart: (id: number) => void;
   dragEnter: (id: number) => void;
   dragEnd: () => void;
@@ -29,23 +31,23 @@ const MaterialBlock: React.FC<IProps> = (props) => {
 
     const [draggable, setDraggable] = useState<boolean>(false);
 
-    const selectMaterial = (e: any) => {
-        e.stopPropagation();
+    const selectMaterial = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        event.stopPropagation();
         props.selectMaterial(props.material);
     };
 
-    const deleteMaterial = (e: any) => {
-        e.stopPropagation();
+    const deleteMaterial = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        event.stopPropagation();
         props.deleteMaterial(id);
     };
 
-    const copyMaterial = (e: any) => {
-        e.stopPropagation();
+    const copyMaterial = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        event.stopPropagation();
         props.copyMaterial(id);
     };
 
-    const saveMaterial = (e: any) => {
-        e.stopPropagation();
+    const saveMaterial = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        event.stopPropagation();
         props.saveMaterial(id);
     };
 
@@ -85,6 +87,16 @@ const MaterialBlock: React.FC<IProps> = (props) => {
         props.dragEnd();
     };
 
+    const up = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        event.stopPropagation();
+        props.up(id);
+    };
+
+    const down = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        event.stopPropagation();
+        props.down(id);
+    };
+
     return (
         <MaterialComponent
             {...materialProp}
@@ -110,6 +122,8 @@ const MaterialBlock: React.FC<IProps> = (props) => {
                         deleteMaterial={(id) => props.deleteMaterial(id)}
                         saveMaterial={(id) => props.saveMaterial(id)}
                         copyMaterial={(id) => props.copyMaterial(id)}
+                        up={(id) => props.up(id)}
+                        down={(id) => props.down(id)}
                         dragStart={(id) => props.dragStart(id)}
                         dragEnter={(id) => props.dragEnter(id)}
                         dragEnd={() => props.dragEnd()}
@@ -132,13 +146,19 @@ const MaterialBlock: React.FC<IProps> = (props) => {
                 && (
                     <div className={styles.blockBottom}>
                         <div className={styles.blockBottomIcon}>
-                            <Icon type="save" style={{ color: '#fff', fontSize: '20px' }} onClick={(e) => saveMaterial(e)} />
+                            <Icon type="save" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => saveMaterial(e)} />
                         </div>
                         <div className={styles.blockBottomIcon}>
-                            <Icon type="copy" style={{ color: '#fff', fontSize: '20px' }} onClick={(e) => copyMaterial(e)} />
+                            <Icon type="copy" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => copyMaterial(e)} />
+                        </div>
+                        <div className={`${styles.blockBottomIcon} ${styles.hideIcon}`}>
+                            <Icon type="arrow-up" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => up(e)} />
+                        </div>
+                        <div className={`${styles.blockBottomIcon} ${styles.hideIcon}`}>
+                            <Icon type="arrow-down" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => down(e)} />
                         </div>
                         <div className={styles.blockBottomIcon}>
-                            <Icon type="delete" style={{ color: '#fff', fontSize: '20px' }} onClick={(e) => deleteMaterial(e)} />
+                            <Icon type="delete" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => deleteMaterial(e)} />
                         </div>
                     </div>
                 )

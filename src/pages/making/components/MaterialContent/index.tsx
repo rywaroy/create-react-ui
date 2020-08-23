@@ -198,6 +198,34 @@ class MaterialContent extends React.Component<IProps, IState> {
     }
 
     /**
+     * 上移
+     */
+    upMaterial = (id: number) => {
+        const materials = [...this.props.materialList];
+        const index = this.findMaterialIndex(materials, id);
+        if (index === 0) {
+            return;
+        }
+        const material = materials.splice(index, 1)[0];
+        materials.splice(index - 1, 0, material);
+        this.props.setMaterialList(materials);
+    }
+
+    /**
+     * 下移
+     */
+    downMaterial = (id: number) => {
+        const materials = [...this.props.materialList];
+        const index = this.findMaterialIndex(materials, id);
+        if (index === materials.length - 1) {
+            return;
+        }
+        const material = materials.splice(index, 1)[0];
+        materials.splice(index + 1, 0, material);
+        this.props.setMaterialList(materials);
+    }
+
+    /**
      * 开始拖拽
      */
     dragStart = (id: number) => {
@@ -312,6 +340,8 @@ class MaterialContent extends React.Component<IProps, IState> {
                                 material={item}
                                 selectMaterial={(m) => this.selectMaterial(m)}
                                 deleteMaterial={(id) => this.deleteMaterial(id)}
+                                up={(id) => this.upMaterial(id)}
+                                down={(id) => this.downMaterial(id)}
                                 saveMaterial={(id) => this.openSave(id)}
                                 copyMaterial={(id) => this.copyMaterial(id)}
                                 dragStart={this.dragStart}
