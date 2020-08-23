@@ -19,6 +19,7 @@ const ColMaterial: IMaterial = {
         },
     },
     haveChildren: true,
+    haveWrap: false,
     editComponents: [
         { name: 'prop', props: { propName: 'span', propType: 'number' } },
     ],
@@ -54,6 +55,7 @@ const ButtonMaterial: IMaterial = {
         type: 'primary',
     },
     haveChildren: false,
+    haveWrap: false,
     editComponents: [
         { name: 'prop', props: { propName: 'type', propType: 'string' } },
         { name: 'prop', props: { propName: 'children', propType: 'string' } },
@@ -82,7 +84,9 @@ const TableMaterial: IMaterial = {
         rowKey: 'id',
     },
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'table' },
+    ],
 };
 
 const materials: IMaterial[] = [

@@ -13,6 +13,7 @@ export interface IMaterial {
   children?: IMaterial[];
   project?: string;
   haveChildren: boolean;
+  haveWrap?: boolean;
   ghost?: boolean;
 }
 

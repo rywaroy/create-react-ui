@@ -17,6 +17,7 @@ export const SpanMaterial: IMaterial = {
         children: ['测试文字测试文字'],
     },
     haveChildren: false,
+    haveWrap: false,
     editComponents: [
         { name: 'className' },
         { name: 'style' },
