@@ -1,4 +1,4 @@
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Button, Table } from 'antd';
 import { IMaterial } from '@/types/making';
 import { DivMaterial } from './DivTag';
 import { SpanMaterial } from './SpanTag';
@@ -60,12 +60,38 @@ const ButtonMaterial: IMaterial = {
     ],
 };
 
+const TableMaterial: IMaterial = {
+    name: '表格',
+    tag: 'Table',
+    from: 'antd',
+    id: Math.random(),
+    component: Table,
+    intro: 'antd 表格组件',
+    props: {
+        columns: [
+            { title: '属性1', dataIndex: '属性1' },
+            { title: '属性2', dataIndex: '属性2' },
+            { title: '属性3', dataIndex: '属性3' },
+            { title: '属性4', dataIndex: '属性4' },
+            { title: '属性5', dataIndex: '属性5' },
+        ],
+        dataSource: [
+            { 属性1: '测试数据', 属性2: '测试数据', 属性3: '测试数据', 属性4: '测试数据', 属性5: '测试数据', id: 1 },
+            { 属性1: '测试数据', 属性2: '测试数据', 属性3: '测试数据', 属性4: '测试数据', 属性5: '测试数据', id: 2 },
+        ],
+        rowKey: 'id',
+    },
+    haveChildren: false,
+    editComponents: [],
+};
+
 const materials: IMaterial[] = [
     RowMaterial,
     ColMaterial,
     ButtonMaterial,
     DivMaterial,
     SpanMaterial,
+    TableMaterial,
 ];
 
 export default materials;
