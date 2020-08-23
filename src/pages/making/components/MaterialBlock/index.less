@@ -44,7 +44,7 @@ div.visual {
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 2;
+  z-index: 6;
   width: 24px;
   height: 24px;
   background-color: #409eff;
@@ -58,6 +58,7 @@ div.visual {
   line-height: 24px;
   padding-top: 2px;
   background-color: #409eff;
+  z-index: 2;
 }
 
 .blockBottom {
@@ -66,4 +67,12 @@ div.visual {
   bottom: 0;
   z-index: 2;
   display: flex;
+}
+
+.hideIcon {
+  display: none;
+}
+
+div.pageBox .hideIcon {
+  display: block;
 }
