@@ -331,7 +331,7 @@ class MaterialContent extends React.Component<IProps, IState> {
                     <Button type="primary" onClick={this.props.clear} style={{ marginRight: '10px' }}>清空</Button>
                     展示 <Switch checked={visual} onChange={value => this.setState({ visual: value })} />
                 </div>
-                <div className={styles.content}>
+                <div className={`light-theme ${styles.content}`}>
                     {
                         materials.map((item) => (
                             <MaterialBlock
