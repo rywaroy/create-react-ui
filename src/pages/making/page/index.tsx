@@ -10,6 +10,7 @@ import { getPageList, addPageList } from '@/services/making';
 import MaterialList from '../components/MaterialList';
 import MaterialContent from '../components/MaterialContent';
 import MaterialEidt from '../components/MaterialEdit';
+import { loadMaterial } from './map';
 import styles from './index.less';
 
 interface IProps {
@@ -177,6 +178,7 @@ class Making extends React.Component<IProps, IState> {
         }
         findChildMaterial();
         ms.forEach((material) => {
+            loadMaterial(material);
             if (!material.component) {
                 material.pid = 1;
                 material.active = false;
