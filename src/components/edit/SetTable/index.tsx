@@ -11,8 +11,6 @@ interface IProps {
     onChange: (values: any) => void;
 }
 
-const ACTION_KEY = 'action';
-
 const SetTable: React.FC<IProps> = (props) => {
     const columnList = [...props.columns];
     const [columns, setColumns] = useState<IColumn[]>(columnList);
@@ -47,7 +45,6 @@ const SetTable: React.FC<IProps> = (props) => {
     const changeColumn = (value: string, index: number) => {
         const list = [...columns];
         list[index].title = value;
-        list[index].dataIndex = value;
         setColumns(list);
     };
 
@@ -83,6 +80,11 @@ const SetTable: React.FC<IProps> = (props) => {
     const addOpt = () => {
         setVisible(true);
         setKey(Math.random());
+        setColumn({
+            title: '操作',
+            key: 'action',
+        });
+        setIndex(null);
     };
 
     /**
@@ -107,7 +109,11 @@ const SetTable: React.FC<IProps> = (props) => {
      */
     const editColumn = (values: IColumn) => {
         const list = [...columns];
-        list[index] = values;
+        if (index === null) { // 添加操作项
+            list.push(values);
+        } else {
+            list[index] = values;
+        }
         setColumns(list);
         closeColumn();
     };

@@ -30,6 +30,15 @@ export interface IPageItem {
 
 export interface IColumn {
   title: string;
-  dataIndex: string;
+  dataIndex?: string;
+  key?: string;
   width?: number;
+  fixed?: string | boolean;
+  render?: () => React.ReactNode;
+  opts?: IOpt[];
+}
+
+export interface IOpt {
+  text: string;
+  link: boolean;
 }
