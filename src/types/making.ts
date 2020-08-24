@@ -27,3 +27,9 @@ export interface IPageItem {
   value: IMaterial[];
   id: string;
 }
+
+export interface IColumn {
+  title: string;
+  dataIndex: string;
+  width?: number;
+}

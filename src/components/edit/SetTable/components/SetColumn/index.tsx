@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { Modal, Input, InputNumber, Form } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
+import { IColumn } from '@/types/making';
 
 interface IProps extends FormComponentProps {
     visible: boolean;
-    title: string;
-    dataIndex: string;
-    width?: number;
+    column: IColumn;
+    key: number;
+    onCancel: () => void;
+    onOk: (values: IColumn) => void;
 }
 
 const formItemLayout = {
@@ -15,17 +17,23 @@ const formItemLayout = {
 };
 
 const SetColumn: React.FC<IProps> = (props) => {
-    const { title, dataIndex, width } = props;
+    const { title, dataIndex, width } = props.column;
     const { getFieldDecorator } = props.form;
 
-    useEffect(() => {
-        console.log(111);
-    }, []);
+    const onOk = () => {
+        props.form.validateFields((err, values: IColumn) => {
+            if (!err) {
+                props.onOk(values);
+            }
+        });
+    };
 
     return (
         <Modal
             title="设置"
-            visible={props.visible}>
+            visible={props.visible}
+            onCancel={props.onCancel}
+            onOk={onOk}>
             <Form>
                 <Form.Item label="title" {...formItemLayout}>
                     {
@@ -59,4 +67,4 @@ const SetColumn: React.FC<IProps> = (props) => {
     );
 };
 
-export default Form.create()(SetColumn);
+export default Form.create<IProps>()(SetColumn);
