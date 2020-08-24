@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { AutoComplete, Button } from 'antd';
+import { AutoComplete, Button, Switch } from 'antd';
 import { getLabelConfig } from '@/services/configlist';
 import { ILabelItem } from '@/types/configlist';
-import { IColumn } from '@/types/making';
+import { IColumn, ITableScroll } from '@/types/making';
 import SetColumn from './components/SetColumn';
 import styles from './index.less';
 
 interface IProps {
     columns: IColumn[];
+    scroll?: ITableScroll;
     onChange: (values: any) => void;
 }
 
@@ -19,6 +20,7 @@ const SetTable: React.FC<IProps> = (props) => {
     const [label, setLabel] = useState<ILabelItem[]>([]);
     const [visible, setVisible] = useState<boolean>(false);
     const [key, setKey] = useState<number>(1);
+    const [scroll, setScroll] = useState<boolean>(!!props.scroll);
 
     useEffect(() => {
         getLabelConfig()
@@ -63,14 +65,21 @@ const SetTable: React.FC<IProps> = (props) => {
     const submit = () => {
         const dataSource = [];
         const data: any = {};
+        let total = 0;
         columns.forEach(column => {
             data[column.dataIndex] = '测试数据';
+            if (column.width) {
+                total += column.width; // 累加width，计算scorll
+            } else {
+                total += 200;
+            }
         });
         dataSource.push({ ...data, id: Math.random() });
         dataSource.push({ ...data, id: Math.random() });
         props.onChange({
             dataSource,
             columns,
+            scroll: scroll ? { x: total } : undefined,
         });
     };
 
@@ -140,6 +149,9 @@ const SetTable: React.FC<IProps> = (props) => {
                     </div>
                 ))
             }
+            <div className={styles.tableScroll}>
+                滚动: <Switch checked={scroll} onChange={(checked) => { setScroll(checked); }} />
+            </div>
             <Button type="primary" size="small" onClick={() => submit()}>提交</Button>
             <SetColumn
                 visible={visible}

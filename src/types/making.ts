@@ -42,3 +42,8 @@ export interface IOpt {
   text: string;
   link: boolean;
 }
+
+export interface ITableScroll {
+  x?: number | true;
+  y?: number | true;
+}
