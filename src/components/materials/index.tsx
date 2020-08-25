@@ -2,6 +2,8 @@ import { Row, Col, Button, Table } from 'antd';
 import { IMaterial } from '@/types/making';
 import { DivMaterial } from './DivTag';
 import { SpanMaterial } from './SpanTag';
+import { GenerateFormMaterial } from './GenerateForm';
+import { ListFilterMaterial } from './ListFilter';
 
 const ColMaterial: IMaterial = {
     name: '栅格',
@@ -96,6 +98,8 @@ const materials: IMaterial[] = [
     DivMaterial,
     SpanMaterial,
     TableMaterial,
+    GenerateFormMaterial,
+    ListFilterMaterial,
 ];
 
 export default materials;
