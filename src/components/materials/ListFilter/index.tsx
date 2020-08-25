@@ -84,5 +84,7 @@ export const ListFilterMaterial: IMaterial = {
         filters: [],
     },
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'form', props: { propName: 'filters' } },
+    ],
 };

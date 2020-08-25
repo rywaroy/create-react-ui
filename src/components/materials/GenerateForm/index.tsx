@@ -220,7 +220,9 @@ export const GenerateFormMaterial: IMaterial = {
         formSet: [],
     },
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'form', props: { propName: 'formSet' } },
+    ],
 };
 
 export default Form.create<IProps>()(GenerateForm);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Select, Input, message } from 'antd';
 import { ISetFormValues } from '@/types/code';
 import { TYPES, mockData } from '@/utils/enum';
+import SetFormItem from './components/SetFormItem';
 import styles from './index.less';
 
 interface IProps {
@@ -77,6 +78,13 @@ const SetForm: React.FC<IProps> = (props) => {
         setVisible(false);
     };
 
+    const editItem = (values: ISetFormValues) => {
+        const list = [...forms];
+        list[index] = values;
+        setForms(list);
+        closeEdit();
+    };
+
     /**
      * 提交
      */
@@ -118,6 +126,12 @@ const SetForm: React.FC<IProps> = (props) => {
                 ))
             }
             <Button type="primary" size="small" onClick={submit}>提交</Button>
+            <SetFormItem
+                visible={visible}
+                key={key}
+                formValue={formValue}
+                onCancel={closeEdit}
+                onOk={editItem} />
         </div>
     );
 };
