@@ -1,0 +1,24 @@
+.generateFormWrap {
+  width: 100%;
+  :global {
+      .ant-row {
+          display: flex;
+          flex-wrap: wrap;
+      }
+
+      .ant-input, .tf-addr-input, .ant-input-number-input {
+          color: #1E283C;
+      }
+      // 地址组件样式
+      @addrHeight:18px;
+      .tf-site-wrapper,.tf-site-addr-wrapper{
+          width: 100%;
+      }
+      .tf-site-addr-wrapper .tf-addr-dropdown .tf-addr-dropdown-selectbox .tf-addr-dropdown-selectbox-content .tf-addr-dropdown-selectbox-flex .tf-addr-dropdown-selectbox-item{
+          line-height: @addrHeight;
+      }
+      .tf-site-addr-wrapper .tf-addr-dropdown .tf-addr-dropdown-selectbox .tf-addr-dropdown-selectbox-title .tf-addr-dropdown-selectbox-tag{
+          line-height: @addrHeight;
+      }
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Select, DatePicker, Row, Col, Input, InputNumber, Checkbox, Radio, Button } from 'antd';
+import { Form, Select, DatePicker, Row, Col, Input, InputNumber, Checkbox, Radio } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { ISetFormValues } from '@/types/code';
 import { IMaterial } from '@/types/making';
@@ -78,17 +78,9 @@ interface IProps extends FormComponentProps {
     formSet: ISetFormValues[];
     gutter?: number;
     formType?: string;
-    isEdit?: boolean;
-    deleteItem?: (key: number) => void;
-}
-
-interface IDefaultProps {
-    isEdit: boolean;
 }
 
 class GenerateForm extends React.Component<IProps, any> {
-    static defaultProps: IDefaultProps;
-
     // 提供给父组件用的校验方法
     verify = (callback?: (errors: Error, fieldsValue: any) => void) => {
         this.props.form.validateFields((errors, fieldsValue) => {
@@ -109,7 +101,7 @@ class GenerateForm extends React.Component<IProps, any> {
 
     render() {
         /* formSet代表form表单的配置 */
-        const { className, formSet, form, gutter = 0, formType, isEdit } = this.props;
+        const { className, formSet, form, gutter = 0, formType } = this.props;
         const { getFieldDecorator } = form;
 
         return (
@@ -166,11 +158,6 @@ class GenerateForm extends React.Component<IProps, any> {
 
                                 return (
                                     <Col span={span} key={key} className={colClass}>
-                                        {
-                                            isEdit
-                                            && <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
-                                        }
-
                                         <FormItem label={label} colon={colon} {...formItemLayout}>
                                             {getFieldDecorator(name, realOptions)(
                                                 <WrappedComponent {...defaultProps} {...props}>
@@ -191,10 +178,6 @@ class GenerateForm extends React.Component<IProps, any> {
                             if (type.toLowerCase() === 'label') {
                                 return (
                                     <Col span={span} key={key} className={colClass}>
-                                        {
-                                            isEdit
-                                            && <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
-                                        }
                                         <FormItem label={label} colon={colon} {...formItemLayout}>
                                             <span style={{ margin: '0 10px' }}>{initialValue}</span>
                                             {
@@ -207,10 +190,6 @@ class GenerateForm extends React.Component<IProps, any> {
 
                             return (
                                 <Col span={span} key={key} className={colClass}>
-                                    {
-                                        isEdit
-                                        && <Button type="primary" className={styles.deleteButton} icon="close" size="small" onClick={() => this.props.deleteItem(key)} />
-                                    }
                                     <FormItem label={label} colon={colon} {...formItemLayout}>
 
                                         {getFieldDecorator(name, realOptions)(
@@ -230,8 +209,18 @@ class GenerateForm extends React.Component<IProps, any> {
     }
 }
 
-GenerateForm.defaultProps = {
-    isEdit: true,
+export const GenerateFormMaterial: IMaterial = {
+    name: '表单',
+    tag: 'GenerateForm',
+    from: '',
+    id: Math.random(),
+    component: Form.create<IProps>()(GenerateForm),
+    intro: '表单组件',
+    props: {
+        formSet: [],
+    },
+    haveChildren: false,
+    editComponents: [],
 };
 
 export default Form.create<IProps>()(GenerateForm);
