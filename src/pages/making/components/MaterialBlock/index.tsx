@@ -21,7 +21,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
     const { material, visual } = props;
     const {
         component: MaterialComponent,
-        props: materialProp,
+        props: materialProps,
         active,
         children,
         id,
@@ -98,18 +98,6 @@ const MaterialBlock: React.FC<IProps> = (props) => {
         props.down(id);
     };
 
-    const setProps = {
-        draggable,
-        className: `block ${id < 1 ? 'pageBox' : ''} ${active ? 'active' : ''} ${visual ? 'visual' : 'unvisual'} ${ghost ? 'ghost' : ''} ${materialProp.className ? materialProp.className : ''}`,
-        onDrop: drop,
-        onDragOver: dragOver,
-        onDragEnter: dragEnter,
-        onDragLeave: dragLeave,
-        onDragStart: drag,
-        onDragEnd: dragEnd,
-        onClick: (e: any) => selectMaterial(e),
-    };
-
     const dragIcon = id !== 1 && active && (
         <div className={styles.dragIcon} onMouseDown={dragDown}>
             <Icon type="drag" style={{ color: '#fff', fontSize: '20px', cursor: 'move' }} />
@@ -136,11 +124,19 @@ const MaterialBlock: React.FC<IProps> = (props) => {
         </div>
     );
 
-    const mc = (
+    return (
         <MaterialComponent
-            {...materialProp}
-            {...defaultProps}
-            {...(!haveWrap && setProps)}
+            {...(haveWrap ? { props: materialProps } : materialProps)}
+            {...(haveWrap ? { defaultprops: defaultProps } : defaultProps)}
+            draggable={draggable}
+            className={`block ${id < 1 ? 'pageBox' : ''} ${active ? 'active' : ''} ${visual ? 'visual' : 'unvisual'} ${ghost ? 'ghost' : ''} ${materialProps.className ? materialProps.className : ''}`}
+            onDrop={drop}
+            onDragOver={dragOver}
+            onDragEnter={dragEnter}
+            onDragLeave={dragLeave}
+            onDragStart={drag}
+            onDragEnd={dragEnd}
+            onClick={(e: any) => selectMaterial(e)}
         >
             {
                 children && children.map((child) => (
@@ -162,31 +158,10 @@ const MaterialBlock: React.FC<IProps> = (props) => {
             }
             {props.children}
             {defaultProps && defaultProps.children}
-            {materialProp && materialProp.children}
-            {!haveWrap && dragIcon}
-            {!haveWrap && optIcon}
+            {materialProps && materialProps.children}
+            {dragIcon}
+            {optIcon}
         </MaterialComponent>
-    );
-
-    return (
-        haveWrap
-            ? (
-                <div
-                    draggable={draggable}
-                    className={`block ${id < 1 ? 'pageBox' : ''} ${active ? 'active' : ''} ${visual ? 'visual' : 'unvisual'} ${ghost ? 'ghost' : ''} ${materialProp.className ? materialProp.className : ''}`}
-                    onDrop={drop}
-                    onDragOver={dragOver}
-                    onDragEnter={dragEnter}
-                    onDragLeave={dragLeave}
-                    onDragStart={drag}
-                    onDragEnd={dragEnd}
-                    onClick={(e: any) => selectMaterial(e)}>
-                    {mc}
-                    {dragIcon}
-                    {optIcon}
-                </div>
-            )
-            : mc
     );
 };
 
