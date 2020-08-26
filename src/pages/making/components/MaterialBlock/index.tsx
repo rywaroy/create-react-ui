@@ -100,7 +100,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
 
     const setProps = {
         draggable,
-        className: `block ${id < 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? 'ghost' : ''} ${materialProp.className ? materialProp.className : ''}`,
+        className: `block ${id < 1 ? 'pageBox' : ''} ${active ? 'active' : ''} ${visual ? 'visual' : 'unvisual'} ${ghost ? 'ghost' : ''} ${materialProp.className ? materialProp.className : ''}`,
         onDrop: drop,
         onDragOver: dragOver,
         onDragEnter: dragEnter,
@@ -124,10 +124,10 @@ const MaterialBlock: React.FC<IProps> = (props) => {
             <div className={styles.blockBottomIcon}>
                 <Icon type="copy" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => copyMaterial(e)} />
             </div>
-            <div className={`${styles.blockBottomIcon} ${styles.hideIcon}`}>
+            <div className={`${styles.blockBottomIcon} hideIcon`}>
                 <Icon type="arrow-up" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => up(e)} />
             </div>
-            <div className={`${styles.blockBottomIcon} ${styles.hideIcon}`}>
+            <div className={`${styles.blockBottomIcon} hideIcon`}>
                 <Icon type="arrow-down" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => down(e)} />
             </div>
             <div className={styles.blockBottomIcon}>
@@ -173,7 +173,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
             ? (
                 <div
                     draggable={draggable}
-                    className={`block ${id < 1 ? styles.pageBox : ''} ${active ? styles.active : ''} ${visual ? styles.visual : styles.unvisual} ${ghost ? 'ghost' : ''} ${materialProp.className ? materialProp.className : ''}`}
+                    className={`block ${id < 1 ? 'pageBox' : ''} ${active ? 'active' : ''} ${visual ? 'visual' : 'unvisual'} ${ghost ? 'ghost' : ''} ${materialProp.className ? materialProp.className : ''}`}
                     onDrop={drop}
                     onDragOver={dragOver}
                     onDragEnter={dragEnter}
