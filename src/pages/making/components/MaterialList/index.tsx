@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Select } from 'antd';
 import { IMaterial } from '@/types/making';
 import styles from './index.less';
 
@@ -9,21 +8,21 @@ interface IProps {
     setAddMaterial: (material: IMaterial) => void;
 }
 
+interface IMaterialList {
+    title: string;
+    id: number;
+    children: IMaterial[];
+}
+
 interface IState {
-    froms: string[],
-    projects: string[],
-    from: string;
-    project: string;
+    materialList: IMaterialList[];
 }
 
 class MaterialList extends Component<IProps, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            froms: [],
-            projects: [],
-            from: undefined,
-            project: undefined,
+            materialList: [],
         };
     }
 
@@ -40,104 +39,50 @@ class MaterialList extends Component<IProps, IState> {
         this.props.addMaterial(material);
     }
 
-    /**
-     * 切换筛选
-     */
-    fromChange = (value: string) => {
-        this.setState({
-            from: value,
-        });
-    }
-
-    /**
-     * 切换筛选
-     */
-    projectChange = (value: string) => {
-        this.setState({
-            project: value,
-        });
-    }
-
-    /**
-     * 筛选组件列表
-     */
-    getList(from: string, project: string) {
-        const { materials } = this.props;
-        const materialList = materials.filter(material => {
-            if ((!from || from === 'all' || from === material.from) && (!project || project === 'all' || material.project?.indexOf(project) > -1)) {
-                return true;
-            }
-            return false;
-        });
-        return materialList;
-    }
-
     componentDidMount() {
         const { materials } = this.props;
-        const froms = { all: true };
-        const projects = { all: true };
+        const materialList = [
+            { title: '基础组件', id: 1, children: [] },
+            { title: '公用组件', id: 2, children: [] },
+            { title: 'antd组件', id: 3, children: [] },
+        ];
         materials.forEach(item => {
-            if (item.from && !froms[item.from]) {
-                froms[item.from] = true;
-            }
-            if (item.project) {
-                const project = item.project.split(',');
-                project.forEach(p => {
-                    if (!projects[p]) {
-                        projects[p] = true;
-                    }
-                });
+            if (item.from === '') {
+                materialList[0].children.push(item);
+            } else if (item.from === 'antd') {
+                materialList[2].children.push(item);
+            } else {
+                materialList[1].children.push(item);
             }
         });
         this.setState({
-            froms: Object.keys(froms),
-            projects: Object.keys(projects),
+            materialList,
         });
     }
 
     render() {
-        const { froms, projects, from, project } = this.state;
-        const materialList = this.getList(from, project);
+        const { materialList } = this.state;
 
         return (
             <div className={styles.materialList}>
-                <div className={styles.materialTitle}>筛选</div>
-                <div className={styles.materialFilter}>
-                    <Select
-                        placeholder="请选择组件"
-                        style={{ width: '48%', marginRight: '1%' }}
-                        value={from}
-                        onChange={this.fromChange}>
-                        {
-                            froms.map(item => (
-                                <Select.Option value={item} key={item}>{item}</Select.Option>
-                            ))
-                        }
-                    </Select>
-                    <Select
-                        placeholder="请选择项目"
-                        style={{ width: '48%' }}
-                        value={project}
-                        onChange={this.projectChange}>
-                        {
-                            projects.map(item => (
-                                <Select.Option value={item} key={item}>{item}</Select.Option>
-                            ))
-                        }
-                    </Select>
-                </div>
-                <div className={styles.materialTitle}>组件列表</div>
                 {
-                    materialList.map((item, index) => (
-                        <div
-                            key={item.tag}
-                            className={styles.materialItem}
-                            data-index={index}
-                            draggable
-                            onDragStart={(event) => this.drag(event, item)}
-                            onClick={() => this.addMaterial(item)}>
-                            {item.name}
-                            <span>&lt;{item.tag} /&gt;</span>
+                    materialList.map(item => (
+                        <div>
+                            <div className={styles.materialTitle}>{item.title}</div>
+                            {
+                                item.children.map((material, index) => (
+                                    <div
+                                        key={material.tag}
+                                        className={styles.materialItem}
+                                        data-index={index}
+                                        draggable
+                                        onDragStart={(event) => this.drag(event, material)}
+                                        onClick={() => this.addMaterial(material)}>
+                                        {material.name}
+                                        <span>&lt;{material.tag} /&gt;</span>
+                                    </div>
+                                ))
+                            }
                         </div>
                     ))
                 }
