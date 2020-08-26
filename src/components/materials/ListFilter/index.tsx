@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import { ISetFormValues } from '@/types/code';
 import { IMaterial } from '@/types/making';
 import GenerateForm from '../GenerateForm';
+import materialWrap from '../MaterialWrap';
 import styles from './index.less';
 
 interface IProps {
@@ -78,7 +79,7 @@ export const ListFilterMaterial: IMaterial = {
     tag: 'ListFilter',
     from: '@/components',
     id: Math.random(),
-    component: ListFilter,
+    component: materialWrap(ListFilter),
     intro: '列表筛选表单组件',
     props: {
         filters: [],

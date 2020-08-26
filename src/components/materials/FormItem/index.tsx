@@ -16,7 +16,8 @@ export const FormItemMaterial: IMaterial = {
     props: {
         label: '标签名',
     },
-    haveChildren: false,
+    haveWrap: false,
+    haveChildren: true,
     editComponents: [
         { name: 'prop', props: { propName: 'label', propType: 'string' } },
         { name: 'layout' },

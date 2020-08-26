@@ -3,6 +3,7 @@ import { Form, Select, DatePicker, Row, Col, Input, InputNumber, Checkbox, Radio
 import { FormComponentProps } from 'antd/es/form';
 import { ISetFormValues } from '@/types/code';
 import { IMaterial } from '@/types/making';
+import materialWrap from '../MaterialWrap';
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -214,7 +215,7 @@ export const GenerateFormMaterial: IMaterial = {
     tag: 'GenerateForm',
     from: '@/components',
     id: Math.random(),
-    component: Form.create<IProps>()(GenerateForm),
+    component: materialWrap(Form.create<IProps>()(GenerateForm)),
     intro: '表单组件',
     props: {
         formSet: [],

@@ -98,31 +98,96 @@ const MaterialBlock: React.FC<IProps> = (props) => {
         props.down(id);
     };
 
+    const setProps = {
+        draggable,
+        className: `block ${id < 1 ? 'pageBox' : ''} ${active ? 'active' : ''} ${visual ? 'visual' : 'unvisual'} ${ghost ? 'ghost' : ''} ${materialProps.className ? materialProps.className : ''}`,
+        onDrop: drop,
+        onDragOver: dragOver,
+        onDragEnter: dragEnter,
+        onDragLeave: dragLeave,
+        onDragStart: drag,
+        onDragEnd: dragEnd,
+        onClick: (e: any) => selectMaterial(e),
+    };
+
     const dragIcon = id !== 1 && active && (
-        <div className={styles.dragIcon} onMouseDown={dragDown}>
+        <span className="dragIcon" onMouseDown={dragDown}>
             <Icon type="drag" style={{ color: '#fff', fontSize: '20px', cursor: 'move' }} />
-        </div>
+        </span>
     );
 
     const optIcon = id !== 1 && active && (
-        <div className={styles.blockBottom}>
-            <div className={styles.blockBottomIcon}>
+        <span className="blockBottom">
+            <span className={styles.blockBottomIcon}>
                 <Icon type="save" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => saveMaterial(e)} />
-            </div>
-            <div className={styles.blockBottomIcon}>
+            </span>
+            <span className={styles.blockBottomIcon}>
                 <Icon type="copy" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => copyMaterial(e)} />
-            </div>
-            <div className={`${styles.blockBottomIcon} hideIcon`}>
+            </span>
+            <span className={`${styles.blockBottomIcon} hideIcon`}>
                 <Icon type="arrow-up" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => up(e)} />
-            </div>
-            <div className={`${styles.blockBottomIcon} hideIcon`}>
+            </span>
+            <span className={`${styles.blockBottomIcon} hideIcon`}>
                 <Icon type="arrow-down" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => down(e)} />
-            </div>
-            <div className={styles.blockBottomIcon}>
+            </span>
+            <span className={styles.blockBottomIcon}>
                 <Icon type="delete" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => deleteMaterial(e)} />
-            </div>
-        </div>
+            </span>
+        </span>
     );
+
+    const mc = (
+        <MaterialComponent
+            {...materialProps}
+            {...defaultProps}
+            {...(!haveWrap && setProps)}
+        >
+            {
+                children && children.map((child) => (
+                    <MaterialBlock
+                        material={child}
+                        visual={visual}
+                        key={child.id}
+                        selectMaterial={(m) => props.selectMaterial(m)}
+                        deleteMaterial={(id) => props.deleteMaterial(id)}
+                        saveMaterial={(id) => props.saveMaterial(id)}
+                        copyMaterial={(id) => props.copyMaterial(id)}
+                        up={(id) => props.up(id)}
+                        down={(id) => props.down(id)}
+                        dragStart={(id) => props.dragStart(id)}
+                        dragEnter={(id) => props.dragEnter(id)}
+                        dragEnd={() => props.dragEnd()}
+                    />
+                ))
+            }
+            {props.children}
+            {defaultProps && defaultProps.children}
+            {materialProps && materialProps.children}
+            {!haveWrap && dragIcon}
+            {!haveWrap && optIcon}
+        </MaterialComponent>
+    );
+
+    // return (
+    //     haveWrap
+    //         ? (
+    //             <div
+    //                 draggable={draggable}
+    //                 className={`block ${id < 1 ? 'pageBox' : ''} ${active ? 'active' : ''} ${visual ? 'visual' : 'unvisual'} ${ghost ? 'ghost' : ''} ${materialProps.className ? materialProps.className : ''}`}
+    //                 onDrop={drop}
+    //                 onDragOver={dragOver}
+    //                 onDragEnter={dragEnter}
+    //                 onDragLeave={dragLeave}
+    //                 onDragStart={drag}
+    //                 onDragEnd={dragEnd}
+    //                 onClick={(e: any) => selectMaterial(e)}>
+    //                 {mc}
+    //                 {dragIcon}
+    //                 {optIcon}
+    //             </div>
+    //         )
+    //         : mc
+    // );
 
     return (
         <MaterialComponent

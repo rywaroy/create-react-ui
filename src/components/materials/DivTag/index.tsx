@@ -15,6 +15,7 @@ export const DivMaterial: IMaterial = {
     intro: 'div标签',
     props: {},
     haveChildren: true,
+    haveWrap: false,
     editComponents: [
         { name: 'className' },
         { name: 'style' },
