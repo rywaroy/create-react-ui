@@ -1,9 +1,11 @@
-import { Row, Col, Button, Table } from 'antd';
+import { Row, Col, Button, Table, Form, InputNumber, Input } from 'antd';
 import { IMaterial } from '@/types/making';
 import { DivMaterial } from './DivTag';
 import { SpanMaterial } from './SpanTag';
+import { PMaterial } from './PTag';
 import { GenerateFormMaterial } from './GenerateForm';
 import { ListFilterMaterial } from './ListFilter';
+import materialWrap from './MaterialWrap';
 
 const ColMaterial: IMaterial = {
     name: '栅格',
@@ -38,6 +40,7 @@ const RowMaterial: IMaterial = {
         gutter: 24,
     },
     haveChildren: true,
+    haveWrap: false,
     editComponents: [],
     children: [
         { ...ColMaterial, id: 1 },
@@ -69,7 +72,7 @@ const TableMaterial: IMaterial = {
     tag: 'Table',
     from: 'antd',
     id: Math.random(),
-    component: Table,
+    component: materialWrap(Table),
     intro: 'antd 表格组件',
     props: {
         columns: [
@@ -91,15 +94,85 @@ const TableMaterial: IMaterial = {
     ],
 };
 
+const FormMaterial: IMaterial = {
+    name: '表单Form',
+    tag: 'Form',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(Form),
+    intro: '表单Form组件',
+    props: {
+        labelCol: {
+            span: 8,
+        },
+        wrapperCol: {
+            span: 10,
+        },
+    },
+    haveChildren: true,
+    editComponents: [
+        { name: 'layout' },
+    ],
+};
+
+const InputMaterial: IMaterial = {
+    name: '输入框 Input',
+    tag: 'Input',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(Input),
+    intro: '输入框Input组件',
+    props: {
+        placeholder: '111',
+    },
+    haveChildren: false,
+    editComponents: [],
+};
+
+const FormItemMaterial: IMaterial = {
+    name: 'Form.Item',
+    tag: 'Form.Item',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(Form.Item),
+    intro: 'Form Input标签',
+    props: {
+        label: '标签名',
+    },
+    haveChildren: true,
+    editComponents: [
+        { name: 'prop', props: { propName: 'label', propType: 'string' } },
+        { name: 'layout' },
+    ],
+};
+
+const InputNumberMaterial: IMaterial = {
+    name: '输入框 InputNumber',
+    tag: 'InputNumber',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(InputNumber),
+    intro: '输入框InputNumber组件',
+    props: {},
+    haveWrap: false,
+    haveChildren: false,
+    editComponents: [],
+};
+
 const materials: IMaterial[] = [
     RowMaterial,
     ColMaterial,
     ButtonMaterial,
     DivMaterial,
     SpanMaterial,
+    PMaterial,
     TableMaterial,
     GenerateFormMaterial,
     ListFilterMaterial,
+    FormMaterial,
+    FormItemMaterial,
+    InputMaterial,
+    InputNumberMaterial,
 ];
 
 export default materials;
