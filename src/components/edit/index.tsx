@@ -3,6 +3,7 @@ import SetClass from './SetClass';
 import SetSingleProp from './SetSingleProp';
 import SetTable from './SetTable';
 import SetForm from './SetForm';
+import SetLayout from './SetLayout';
 
 export { SetStyle, SetClass };
 
@@ -14,6 +15,7 @@ const editComponentsMap: {
     prop: SetSingleProp,
     table: SetTable,
     form: SetForm,
+    layout: SetLayout,
 };
 
 export default editComponentsMap;
