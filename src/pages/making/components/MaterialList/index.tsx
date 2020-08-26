@@ -67,7 +67,7 @@ class MaterialList extends Component<IProps, IState> {
             <div className={styles.materialList}>
                 {
                     materialList.map(item => (
-                        <div>
+                        <div key={item.title}>
                             <div className={styles.materialTitle}>{item.title}</div>
                             {
                                 item.children.map((material, index) => (
