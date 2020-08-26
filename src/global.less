@@ -127,10 +127,6 @@ div.visual {
   border: 1px solid #409eff;
 }
 
-.pageBox.unvisual:hover {
-  outline: 2px solid #409eff;
-}
-
 .active {
   outline: 2px solid #409eff;
 }
@@ -145,4 +141,22 @@ div.visual {
 
 div.pageBox .hideIcon {
   display: block;
+}
+
+.dragIcon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 6;
+  width: 24px;
+  height: 24px;
+  background-color: #409eff;
+}
+
+.blockBottom {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
 }
