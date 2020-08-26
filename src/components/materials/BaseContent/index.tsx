@@ -9,7 +9,7 @@ const BaseContent: React.FC<any> = (props) => (
 export const BaseContentMaterial: IMaterial = {
     name: '根组件',
     tag: 'BaseContent',
-    from: 'xxx',
+    from: '@/components',
     id: 1,
     component: BaseContent,
     intro: '根目录',

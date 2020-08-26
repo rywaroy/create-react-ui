@@ -212,7 +212,7 @@ class GenerateForm extends React.Component<IProps, any> {
 export const GenerateFormMaterial: IMaterial = {
     name: '表单',
     tag: 'GenerateForm',
-    from: '',
+    from: '@/components',
     id: Math.random(),
     component: Form.create<IProps>()(GenerateForm),
     intro: '表单组件',

@@ -76,7 +76,7 @@ export default class ListFilter extends React.Component<IProps, any> {
 export const ListFilterMaterial: IMaterial = {
     name: '列表筛选表单',
     tag: 'ListFilter',
-    from: '',
+    from: '@/components',
     id: Math.random(),
     component: ListFilter,
     intro: '列表筛选表单组件',
