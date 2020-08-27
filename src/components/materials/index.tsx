@@ -174,6 +174,22 @@ const SelectMaterial: IMaterial = {
     editComponents: [],
 };
 
+const PasswordMaterial: IMaterial = {
+    name: '密码框 Password',
+    tag: 'Input.Password',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(Input.Password, 'inline-block'),
+    intro: '密码框 Password组件',
+    props: {
+        style: {
+            width: '200px',
+        },
+    },
+    haveChildren: false,
+    editComponents: [],
+};
+
 const materials: IMaterial[] = [
     RowMaterial,
     ColMaterial,
@@ -189,6 +205,7 @@ const materials: IMaterial[] = [
     InputMaterial,
     SelectMaterial,
     InputNumberMaterial,
+    PasswordMaterial,
 ];
 
 export default materials;
