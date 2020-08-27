@@ -1,4 +1,4 @@
-import { Row, Col, Button, Table, Form, InputNumber, Input } from 'antd';
+import { Row, Col, Button, Table, Form, InputNumber, Input, Select } from 'antd';
 import { IMaterial } from '@/types/making';
 import { DivMaterial } from './DivTag';
 import { SpanMaterial } from './SpanTag';
@@ -151,10 +151,25 @@ const InputNumberMaterial: IMaterial = {
     tag: 'InputNumber',
     from: 'antd',
     id: Math.random(),
-    component: materialWrap(InputNumber),
+    component: materialWrap(InputNumber, 'inline-block'),
     intro: '输入框InputNumber组件',
     props: {},
-    haveWrap: false,
+    haveChildren: false,
+    editComponents: [],
+};
+
+const SelectMaterial: IMaterial = {
+    name: '选择框 Select',
+    tag: 'Select',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(Select, 'inline-block'),
+    intro: '选择框 Select组件',
+    props: {
+        style: {
+            width: '200px',
+        },
+    },
     haveChildren: false,
     editComponents: [],
 };
@@ -172,6 +187,7 @@ const materials: IMaterial[] = [
     FormMaterial,
     FormItemMaterial,
     InputMaterial,
+    SelectMaterial,
     InputNumberMaterial,
 ];
 
