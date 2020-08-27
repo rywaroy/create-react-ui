@@ -15,6 +15,7 @@ export interface IMaterial {
   haveChildren: boolean;
   haveWrap?: boolean;
   ghost?: boolean;
+  ext?: any;
 }
 
 export interface IEditComponents {
