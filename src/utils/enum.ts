@@ -18,7 +18,7 @@ export const TYPES = [
     { value: 'monthpicker', label: '月份选择框 monthpicker' },
     { value: 'rangepicker', label: '时间区间选择框 rangepicker' },
     // { value: 'checkbox', label: '多选 checkbox' },
-    { value: 'checkboxgroup', label: '输入框组 checkboxgroup' },
+    { value: 'checkboxgroup', label: '多选组 checkboxgroup' },
     { value: 'textarea', label: '文本框 textarea' },
     { value: 'radiogroup', label: '单选组 radiogroup' },
 ];
