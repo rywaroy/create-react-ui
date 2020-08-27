@@ -5,6 +5,7 @@ import { SpanMaterial } from './SpanTag';
 import { PMaterial } from './PTag';
 import { GenerateFormMaterial } from './GenerateForm';
 import { ListFilterMaterial } from './ListFilter';
+import { ModalMaterial } from './Modal';
 import materialWrap from './MaterialWrap';
 
 const ColMaterial: IMaterial = {
@@ -138,7 +139,7 @@ const InputMaterial: IMaterial = {
 };
 
 const FormItemMaterial: IMaterial = {
-    name: 'Form.Item',
+    name: '表单 Form.Item',
     tag: 'Form.Item',
     from: 'antd',
     id: Math.random(),
@@ -319,6 +320,7 @@ const materials: IMaterial[] = [
     SpanMaterial,
     PMaterial,
     TableMaterial,
+    ModalMaterial,
     GenerateFormMaterial,
     ListFilterMaterial,
     FormMaterial,
