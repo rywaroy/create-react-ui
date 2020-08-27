@@ -1,4 +1,4 @@
-import { Row, Col, Button, Table, Form, InputNumber, Input, Select } from 'antd';
+import { Row, Col, Button, Table, Form, InputNumber, Input, Select, DatePicker } from 'antd';
 import { IMaterial } from '@/types/making';
 import { DivMaterial } from './DivTag';
 import { SpanMaterial } from './SpanTag';
@@ -8,7 +8,7 @@ import { ListFilterMaterial } from './ListFilter';
 import materialWrap from './MaterialWrap';
 
 const ColMaterial: IMaterial = {
-    name: '栅格',
+    name: '栅格 Col',
     tag: 'Col',
     from: 'antd',
     id: 1,
@@ -17,11 +17,7 @@ const ColMaterial: IMaterial = {
     props: {
         span: 12,
     },
-    defaultProps: {
-        style: {
-            minHeight: '50px',
-        },
-    },
+    defaultProps: {},
     haveChildren: true,
     haveWrap: false,
     editComponents: [
@@ -30,7 +26,7 @@ const ColMaterial: IMaterial = {
 };
 
 const RowMaterial: IMaterial = {
-    name: '栅格',
+    name: '栅格 Row',
     tag: 'Row',
     from: 'antd',
     id: 2,
@@ -49,18 +45,18 @@ const RowMaterial: IMaterial = {
 };
 
 const ButtonMaterial: IMaterial = {
-    name: '按钮',
+    name: '按钮 Button',
     tag: 'Button',
     from: 'antd',
     id: Math.random(),
-    component: Button,
+    component: materialWrap(Button, 'inline-block'),
     intro: 'antd 按钮组件',
     props: {
         children: '按钮',
         type: 'primary',
     },
     haveChildren: false,
-    haveWrap: false,
+    // haveWrap: false,
     editComponents: [
         { name: 'prop', props: { propName: 'type', propType: 'string' } },
         { name: 'prop', props: { propName: 'children', propType: 'string' } },
@@ -68,7 +64,7 @@ const ButtonMaterial: IMaterial = {
 };
 
 const TableMaterial: IMaterial = {
-    name: '表格',
+    name: '表格 Table',
     tag: 'Table',
     from: 'antd',
     id: Math.random(),
@@ -122,9 +118,7 @@ const InputMaterial: IMaterial = {
     id: Math.random(),
     component: materialWrap(Input),
     intro: '输入框Input组件',
-    props: {
-        placeholder: '111',
-    },
+    props: {},
     haveChildren: false,
     editComponents: [],
 };
@@ -181,11 +175,33 @@ const PasswordMaterial: IMaterial = {
     id: Math.random(),
     component: materialWrap(Input.Password, 'inline-block'),
     intro: '密码框 Password组件',
-    props: {
-        style: {
-            width: '200px',
-        },
-    },
+    props: {},
+    haveChildren: false,
+    editComponents: [],
+};
+
+const DatePickerMaterial: IMaterial = {
+    name: '日期选择框 DatePicker',
+    tag: 'DatePicker',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(DatePicker, 'inline-block'),
+    intro: '日期选择框 DatePicker组件',
+    props: {},
+    haveChildren: false,
+    editComponents: [],
+};
+
+const { RangePicker, MonthPicker } = DatePicker;
+
+const MonthPickerMaterial: IMaterial = {
+    name: '月份选择框 MonthPicker',
+    tag: 'MonthPicker',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(MonthPicker, 'inline-block'),
+    intro: '月份选择框 MonthPicker组件',
+    props: {},
     haveChildren: false,
     editComponents: [],
 };
@@ -206,6 +222,8 @@ const materials: IMaterial[] = [
     SelectMaterial,
     InputNumberMaterial,
     PasswordMaterial,
+    DatePickerMaterial,
+    MonthPickerMaterial,
 ];
 
 export default materials;
