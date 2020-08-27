@@ -1,4 +1,4 @@
-import { Row, Col, Button, Table, Form, InputNumber, Input, Select, DatePicker, Checkbox } from 'antd';
+import { Row, Col, Button, Table, Form, InputNumber, Input, Select, DatePicker, Checkbox, Radio } from 'antd';
 import { IMaterial } from '@/types/making';
 import { DivMaterial } from './DivTag';
 import { SpanMaterial } from './SpanTag';
@@ -247,6 +247,23 @@ const TextAreaGroupMaterial: IMaterial = {
     editComponents: [],
 };
 
+const RadioGroupMaterial: IMaterial = {
+    name: '单选 RadioGroup',
+    tag: 'Radio.Group',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(Radio.Group, 'inline-block'),
+    intro: '单选 RadioGroup组件',
+    props: {
+        options: [
+            { label: '测试数据1', value: '测试数据1' },
+            { label: '测试数据2', value: '测试数据2' },
+        ],
+    },
+    haveChildren: false,
+    editComponents: [],
+};
+
 const materials: IMaterial[] = [
     RowMaterial,
     ColMaterial,
@@ -263,6 +280,7 @@ const materials: IMaterial[] = [
     TextAreaGroupMaterial,
     SelectMaterial,
     CheckboxGroupMaterial,
+    RadioGroupMaterial,
     InputNumberMaterial,
     PasswordMaterial,
     DatePickerMaterial,
