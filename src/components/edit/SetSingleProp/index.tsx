@@ -1,23 +1,41 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Input, InputNumber, Switch } from 'antd';
 
 interface IProps {
     propName: string;
-    propType: 'string' | 'number';
+    propType: 'string' | 'number' | 'boolean';
     onChange: (values: any) => void;
 }
 
 const SetSingleProp: React.FC<IProps> = (props) => {
     const { propName, propType } = props;
-    const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onChangeStringValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         props.onChange({
-            [propName]: propType === 'number' ? Number(e.target.value) : e.target.value,
+            [propName]: e.target.value,
+        });
+    };
+    const onChangeNumberValue = (number: number) => {
+        props.onChange({
+            [propName]: number,
+        });
+    };
+    const onChangeBooleanValue = (value: boolean) => {
+        props.onChange({
+            [propName]: value,
         });
     };
     return (
         <div>
             <div className="editTitle">{propName}</div>
-            <Input value={props[propName]} onChange={e => onChangeValue(e)} />
+            {
+                propType === 'string' && <Input value={props[propName]} onChange={e => onChangeStringValue(e)} />
+            }
+            {
+                propType === 'number' && <InputNumber value={props[propName]} onChange={number => onChangeNumberValue(number)} />
+            }
+            {
+                propType === 'boolean' && <Switch checked={props[propName]} onChange={value => onChangeBooleanValue(value)} />
+            }
         </div>
     );
 };
