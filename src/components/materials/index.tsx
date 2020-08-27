@@ -1,4 +1,4 @@
-import { Row, Col, Button, Table, Form, InputNumber, Input, Select, DatePicker } from 'antd';
+import { Row, Col, Button, Table, Form, InputNumber, Input, Select, DatePicker, Checkbox } from 'antd';
 import { IMaterial } from '@/types/making';
 import { DivMaterial } from './DivTag';
 import { SpanMaterial } from './SpanTag';
@@ -206,6 +206,35 @@ const MonthPickerMaterial: IMaterial = {
     editComponents: [],
 };
 
+const RangePickerMaterial: IMaterial = {
+    name: '时间区间选择框 RangePicker',
+    tag: 'RangePicker',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(RangePicker, 'inline-block'),
+    intro: '时间区间选择框 RangePicker组件',
+    props: {},
+    haveChildren: false,
+    editComponents: [],
+};
+
+const CheckboxGroupMaterial: IMaterial = {
+    name: '多选 CheckboxGroup',
+    tag: 'Checkbox.Group',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(Checkbox.Group, 'inline-block'),
+    intro: '多选 CheckboxGroup组件',
+    props: {
+        options: [
+            { label: '测试数据1', value: '测试数据1' },
+            { label: '测试数据2', value: '测试数据2' },
+        ],
+    },
+    haveChildren: false,
+    editComponents: [],
+};
+
 const materials: IMaterial[] = [
     RowMaterial,
     ColMaterial,
@@ -220,10 +249,12 @@ const materials: IMaterial[] = [
     FormItemMaterial,
     InputMaterial,
     SelectMaterial,
+    CheckboxGroupMaterial,
     InputNumberMaterial,
     PasswordMaterial,
     DatePickerMaterial,
     MonthPickerMaterial,
+    RangePickerMaterial,
 ];
 
 export default materials;
