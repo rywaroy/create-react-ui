@@ -222,6 +222,8 @@ export const GenerateFormMaterial: IMaterial = {
     },
     haveChildren: false,
     editComponents: [
+        { name: 'className' },
+        { name: 'style' },
         { name: 'form', props: { propName: 'formSet' } },
     ],
 };

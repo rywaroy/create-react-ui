@@ -86,6 +86,8 @@ export const ListFilterMaterial: IMaterial = {
     },
     haveChildren: false,
     editComponents: [
+        { name: 'className' },
+        { name: 'style' },
         { name: 'form', props: { propName: 'filters' } },
     ],
 };

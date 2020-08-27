@@ -21,6 +21,8 @@ const ColMaterial: IMaterial = {
     haveChildren: true,
     haveWrap: false,
     editComponents: [
+        { name: 'className' },
+        { name: 'style' },
         { name: 'prop', props: { propName: 'span', propType: 'number' } },
     ],
 };
@@ -37,7 +39,10 @@ const RowMaterial: IMaterial = {
     },
     haveChildren: true,
     haveWrap: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
     children: [
         { ...ColMaterial, id: 1 },
         { ...ColMaterial, id: 2 },
@@ -56,8 +61,9 @@ const ButtonMaterial: IMaterial = {
         type: 'primary',
     },
     haveChildren: false,
-    // haveWrap: false,
     editComponents: [
+        { name: 'className' },
+        { name: 'style' },
         { name: 'prop', props: { propName: 'type', propType: 'string' } },
         { name: 'prop', props: { propName: 'children', propType: 'string' } },
     ],
@@ -86,6 +92,8 @@ const TableMaterial: IMaterial = {
     },
     haveChildren: false,
     editComponents: [
+        { name: 'className' },
+        { name: 'style' },
         { name: 'table' },
     ],
 };
@@ -107,6 +115,8 @@ const FormMaterial: IMaterial = {
     },
     haveChildren: true,
     editComponents: [
+        { name: 'className' },
+        { name: 'style' },
         { name: 'layout' },
     ],
 };
@@ -120,7 +130,11 @@ const InputMaterial: IMaterial = {
     intro: '输入框Input组件',
     props: {},
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+        { name: 'prop', props: { propName: 'placeholder', propType: 'string' } },
+    ],
 };
 
 const FormItemMaterial: IMaterial = {
@@ -135,6 +149,8 @@ const FormItemMaterial: IMaterial = {
     },
     haveChildren: true,
     editComponents: [
+        { name: 'className' },
+        { name: 'style' },
         { name: 'prop', props: { propName: 'label', propType: 'string' } },
         { name: 'layout' },
     ],
@@ -149,7 +165,14 @@ const InputNumberMaterial: IMaterial = {
     intro: '输入框InputNumber组件',
     props: {},
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+        { name: 'prop', props: { propName: 'max', propType: 'number' } },
+        { name: 'prop', props: { propName: 'min', propType: 'number' } },
+        { name: 'prop', props: { propName: 'precision', propType: 'number' } },
+        { name: 'prop', props: { propName: 'step', propType: 'number' } },
+    ],
 };
 
 const SelectMaterial: IMaterial = {
@@ -165,7 +188,10 @@ const SelectMaterial: IMaterial = {
         },
     },
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
 };
 
 const PasswordMaterial: IMaterial = {
@@ -177,7 +203,10 @@ const PasswordMaterial: IMaterial = {
     intro: '密码框 Password组件',
     props: {},
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
 };
 
 const DatePickerMaterial: IMaterial = {
@@ -189,7 +218,10 @@ const DatePickerMaterial: IMaterial = {
     intro: '日期选择框 DatePicker组件',
     props: {},
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
 };
 
 const { RangePicker, MonthPicker } = DatePicker;
@@ -203,7 +235,10 @@ const MonthPickerMaterial: IMaterial = {
     intro: '月份选择框 MonthPicker组件',
     props: {},
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
 };
 
 const RangePickerMaterial: IMaterial = {
@@ -215,7 +250,10 @@ const RangePickerMaterial: IMaterial = {
     intro: '时间区间选择框 RangePicker组件',
     props: {},
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
 };
 
 const CheckboxGroupMaterial: IMaterial = {
@@ -232,7 +270,10 @@ const CheckboxGroupMaterial: IMaterial = {
         ],
     },
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
 };
 
 const TextAreaGroupMaterial: IMaterial = {
@@ -244,7 +285,10 @@ const TextAreaGroupMaterial: IMaterial = {
     intro: '文本框 TextArea组件',
     props: {},
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
 };
 
 const RadioGroupMaterial: IMaterial = {
@@ -261,7 +305,10 @@ const RadioGroupMaterial: IMaterial = {
         ],
     },
     haveChildren: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
 };
 
 const materials: IMaterial[] = [
