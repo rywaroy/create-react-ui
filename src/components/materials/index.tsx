@@ -235,6 +235,18 @@ const CheckboxGroupMaterial: IMaterial = {
     editComponents: [],
 };
 
+const TextAreaGroupMaterial: IMaterial = {
+    name: '文本框 TextArea',
+    tag: 'Input.TextArea',
+    from: 'antd',
+    id: Math.random(),
+    component: materialWrap(Input.TextArea, 'inline-block'),
+    intro: '文本框 TextArea组件',
+    props: {},
+    haveChildren: false,
+    editComponents: [],
+};
+
 const materials: IMaterial[] = [
     RowMaterial,
     ColMaterial,
@@ -248,6 +260,7 @@ const materials: IMaterial[] = [
     FormMaterial,
     FormItemMaterial,
     InputMaterial,
+    TextAreaGroupMaterial,
     SelectMaterial,
     CheckboxGroupMaterial,
     InputNumberMaterial,
