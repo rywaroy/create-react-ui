@@ -135,10 +135,11 @@ div.visual {
   border: 1px solid #409eff;
 }
 
-.hideIcon {
+.blockBottomIcon.hideIcon {
   display: none;
 }
 
+p.pageBox .hideIcon,
 div.pageBox .hideIcon {
   display: block;
 }
@@ -159,4 +160,16 @@ div.pageBox .hideIcon {
   bottom: 0;
   z-index: 2;
   display: flex;
+}
+
+.blockBottomIcon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 24px;
+  padding-top: 2px;
+  background-color: #409eff;
+  z-index: 2;
 }

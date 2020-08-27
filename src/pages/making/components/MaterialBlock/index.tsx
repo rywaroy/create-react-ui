@@ -25,7 +25,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
         active,
         children,
         id,
-        defaultProps,
+        defaultProps = {},
         ghost,
         haveWrap = true,
     } = material;
@@ -106,19 +106,19 @@ const MaterialBlock: React.FC<IProps> = (props) => {
 
     const optIcon = id !== 1 && active && (
         <span className="blockBottom">
-            <span className={styles.blockBottomIcon}>
+            <span className="blockBottomIcon hideIcon">
                 <Icon type="save" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => saveMaterial(e)} />
             </span>
-            <span className={styles.blockBottomIcon}>
+            <span className="blockBottomIcon">
                 <Icon type="copy" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => copyMaterial(e)} />
             </span>
-            <span className={`${styles.blockBottomIcon} hideIcon`}>
+            <span className="blockBottomIcon hideIcon">
                 <Icon type="arrow-up" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => up(e)} />
             </span>
-            <span className={`${styles.blockBottomIcon} hideIcon`}>
+            <span className="blockBottomIcon hideIcon">
                 <Icon type="arrow-down" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => down(e)} />
             </span>
-            <span className={styles.blockBottomIcon}>
+            <span className="blockBottomIcon">
                 <Icon type="delete" style={{ color: '#fff', fontSize: '16px' }} onClick={(e) => deleteMaterial(e)} />
             </span>
         </span>
@@ -129,7 +129,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
             {...(haveWrap ? { props: materialProps } : materialProps)}
             {...(haveWrap ? { defaultprops: defaultProps } : defaultProps)}
             draggable={draggable}
-            className={`block ${id < 1 ? 'pageBox' : ''} ${active ? 'active' : ''} ${visual ? 'visual' : 'unvisual'} ${ghost ? 'ghost' : ''} ${materialProps.className ? materialProps.className : ''}`}
+            className={`block ${id < 1 ? 'pageBox' : ''} ${active ? 'active' : ''} ${visual ? 'visual' : 'unvisual'} ${ghost ? 'ghost' : ''} ${materialProps.className ? materialProps.className : ''} ${defaultProps.className ? defaultProps.className : ''}`}
             onDrop={drop}
             onDragOver={dragOver}
             onDragEnter={dragEnter}
