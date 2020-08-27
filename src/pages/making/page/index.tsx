@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs, message, Modal, Select } from 'antd';
+import { Tabs, message, Modal, Select, Button } from 'antd';
 import cloneDeep from 'lodash/cloneDeep';
 import { GlobalModelState } from '@/models/global';
 import materials from '@/components/materials';
@@ -21,7 +21,8 @@ interface IProps {
 interface IState {
     materialList: IMaterial[];
     material: IMaterial | null;
-    id: number,
+    id: number;
+    modalList: IMaterial[];
     codeVisible: boolean;
     codeKey: number;
     code: string;
@@ -39,6 +40,7 @@ class Making extends React.Component<IProps, IState> {
             materialList: [BaseContentMaterial],
             material: null,
             id: 0,
+            modalList: [],
             pageList: [],
             loadVisible: false,
             loadPageIndex: 0,
@@ -191,6 +193,24 @@ class Making extends React.Component<IProps, IState> {
         this.closeLoad();
     }
 
+    setMaterialList = (materialList: IMaterial[]) => {
+        // 筛选出弹窗组件
+        const modalList: IMaterial[] = [];
+        materialList.forEach(material => {
+            if (material.ext?.type === 'modal') {
+                modalList.push(material);
+            }
+        });
+        this.setState({
+            materialList,
+            modalList,
+        });
+    }
+
+    setMaterial = (material: IMaterial, id: number) => {
+        this.setState({ material, id });
+    }
+
     componentDidMount() {
         // 收起菜单
         this.props.dispatch({
@@ -203,7 +223,7 @@ class Making extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { materialList, material, id, loadVisible, pageList, loadPageIndex } = this.state;
+        const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList } = this.state;
         return (
             <div className={styles.pageWrap}>
                 <div className={styles.material}>
@@ -216,11 +236,18 @@ class Making extends React.Component<IProps, IState> {
                     <MaterialContent
                         ref={el => { this.materialContent = el; }}
                         materialList={materialList}
-                        setMaterialList={(materialList) => this.setState({ materialList })}
-                        setMaterial={(material, id) => this.setState({ material, id })}
+                        setMaterialList={this.setMaterialList}
+                        setMaterial={this.setMaterial}
                         clear={this.clear}
                         save={this.save}
                         openLoad={this.openLoad} />
+                    <div>
+                        {
+                            modalList.map(modal => (
+                                <Button style={{ marginRight: '10px' }} onClick={() => this.setMaterial(modal, modal.id)}>{modal.props.title}</Button>
+                            ))
+                        }
+                    </div>
                 </div>
                 <div className={styles.edit}>
                     <Tabs defaultActiveKey="1" animated={false}>
