@@ -98,18 +98,6 @@ const MaterialBlock: React.FC<IProps> = (props) => {
         props.down(id);
     };
 
-    const setProps = {
-        draggable,
-        className: `block ${id < 1 ? 'pageBox' : ''} ${active ? 'active' : ''} ${visual ? 'visual' : 'unvisual'} ${ghost ? 'ghost' : ''} ${materialProps.className ? materialProps.className : ''}`,
-        onDrop: drop,
-        onDragOver: dragOver,
-        onDragEnter: dragEnter,
-        onDragLeave: dragLeave,
-        onDragStart: drag,
-        onDragEnd: dragEnd,
-        onClick: (e: any) => selectMaterial(e),
-    };
-
     const dragIcon = id !== 1 && active && (
         <span className="dragIcon" onMouseDown={dragDown}>
             <Icon type="drag" style={{ color: '#fff', fontSize: '20px', cursor: 'move' }} />
@@ -135,59 +123,6 @@ const MaterialBlock: React.FC<IProps> = (props) => {
             </span>
         </span>
     );
-
-    const mc = (
-        <MaterialComponent
-            {...materialProps}
-            {...defaultProps}
-            {...(!haveWrap && setProps)}
-        >
-            {
-                children && children.map((child) => (
-                    <MaterialBlock
-                        material={child}
-                        visual={visual}
-                        key={child.id}
-                        selectMaterial={(m) => props.selectMaterial(m)}
-                        deleteMaterial={(id) => props.deleteMaterial(id)}
-                        saveMaterial={(id) => props.saveMaterial(id)}
-                        copyMaterial={(id) => props.copyMaterial(id)}
-                        up={(id) => props.up(id)}
-                        down={(id) => props.down(id)}
-                        dragStart={(id) => props.dragStart(id)}
-                        dragEnter={(id) => props.dragEnter(id)}
-                        dragEnd={() => props.dragEnd()}
-                    />
-                ))
-            }
-            {props.children}
-            {defaultProps && defaultProps.children}
-            {materialProps && materialProps.children}
-            {!haveWrap && dragIcon}
-            {!haveWrap && optIcon}
-        </MaterialComponent>
-    );
-
-    // return (
-    //     haveWrap
-    //         ? (
-    //             <div
-    //                 draggable={draggable}
-    //                 className={`block ${id < 1 ? 'pageBox' : ''} ${active ? 'active' : ''} ${visual ? 'visual' : 'unvisual'} ${ghost ? 'ghost' : ''} ${materialProps.className ? materialProps.className : ''}`}
-    //                 onDrop={drop}
-    //                 onDragOver={dragOver}
-    //                 onDragEnter={dragEnter}
-    //                 onDragLeave={dragLeave}
-    //                 onDragStart={drag}
-    //                 onDragEnd={dragEnd}
-    //                 onClick={(e: any) => selectMaterial(e)}>
-    //                 {mc}
-    //                 {dragIcon}
-    //                 {optIcon}
-    //             </div>
-    //         )
-    //         : mc
-    // );
 
     return (
         <MaterialComponent
