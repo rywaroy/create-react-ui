@@ -6,6 +6,7 @@ import { PMaterial } from './PTag';
 import { GenerateFormMaterial } from './GenerateForm';
 import { ListFilterMaterial } from './ListFilter';
 import { ModalMaterial } from './Modal';
+import { GenerateModalMaterial } from './GenerateModal';
 import materialWrap from './MaterialWrap';
 
 const ColMaterial: IMaterial = {
@@ -335,6 +336,7 @@ const materials: IMaterial[] = [
     DatePickerMaterial,
     MonthPickerMaterial,
     RangePickerMaterial,
+    GenerateModalMaterial,
 ];
 
 export default materials;
