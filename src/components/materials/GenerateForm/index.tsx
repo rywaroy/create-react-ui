@@ -79,6 +79,8 @@ interface IProps extends FormComponentProps {
     formSet: ISetFormValues[];
     gutter?: number;
     formType?: string;
+    labelCol?: { span: number };
+    wrapperCol?: { span: number };
 }
 
 class GenerateForm extends React.Component<IProps, any> {
@@ -102,11 +104,11 @@ class GenerateForm extends React.Component<IProps, any> {
 
     render() {
         /* formSet代表form表单的配置 */
-        const { className, formSet, form, gutter = 0, formType } = this.props;
+        const { className, formSet, form, gutter = 0, formType, labelCol = { span: 8 }, wrapperCol = { span: 16 } } = this.props;
         const { getFieldDecorator } = form;
 
         return (
-            <Form className={`${styles.generateFormWrap} ${className}`}>
+            <Form className={`${styles.generateFormWrap} ${className}`} labelCol={labelCol} wrapperCol={wrapperCol}>
                 <Row gutter={gutter}>
                     {
                         formSet.map((item, key) => {
@@ -123,7 +125,7 @@ class GenerateForm extends React.Component<IProps, any> {
                                 span = formType === 'filter' ? 8 : 12, // 表单项的布局长度
                                 colClass = '', /* 表单col的样式 */
                                 options = {}, // //ant design Form原生表单项options
-                                formItemLayout = { labelCol: { span: 8 }, wrapperCol: { span: 16 } }, // 表单项lable、表单组件的布局
+                                formItemLayout, // 表单项lable、表单组件的布局
                             } = item;
                             const { WrappedComponent, defaultProps } = mapTypeToComponent[type.toLowerCase()];
 
@@ -224,6 +226,7 @@ export const GenerateFormMaterial: IMaterial = {
     editComponents: [
         { name: 'className' },
         { name: 'style' },
+        { name: 'layout' },
         { name: 'form', props: { propName: 'formSet' } },
     ],
 };
