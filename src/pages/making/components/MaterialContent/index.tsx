@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Switch, Modal, Input, message } from 'antd';
+import { Switch } from 'antd';
 import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
 import { IMaterial } from '@/types/making';
@@ -9,18 +9,13 @@ import styles from './index.less';
 interface IProps {
     materialList: IMaterial[];
     setMaterialList: (materials: IMaterial[]) => void;
-    setMaterial: (material: IMaterial, id: number) => void;
-    clear: () => void;
-    save: (name: string, id?: number) => void;
-    openLoad: () => void;
+    setMaterial: (material: IMaterial, materials?: IMaterial[]) => void;
+    save: (id?: number) => void;
 }
 
 interface IState {
     visual: boolean;
     mid: number;
-    saveName: string;
-    saveId: number | null;
-    saveVisible: boolean;
 }
 
 class MaterialContent extends React.Component<IProps, IState> {
@@ -29,9 +24,6 @@ class MaterialContent extends React.Component<IProps, IState> {
         this.state = {
             visual: true,
             mid: 0,
-            saveName: '',
-            saveId: null,
-            saveVisible: false,
         };
         this.dragEnter = debounce(this.dragEnter, 300);
     }
@@ -59,28 +51,6 @@ class MaterialContent extends React.Component<IProps, IState> {
         });
         return result;
     }
-
-    create = () => {
-
-    }
-
-    /**
-     * 选中物料组件
-     */
-    selectMaterial = (material: IMaterial, materials?: IMaterial[]) => {
-        if (!materials) {
-            materials = [...this.props.materialList];
-        }
-        materials.forEach((item) => {
-            if (item.id === material.id) {
-                item.active = true;
-            } else {
-                item.active = false;
-            }
-        });
-        this.props.setMaterialList(materials);
-        this.props.setMaterial(material, material.id);
-    };
 
     /**
      * 添加物料组件
@@ -134,7 +104,7 @@ class MaterialContent extends React.Component<IProps, IState> {
                 mid: key,
             });
         }
-        this.selectMaterial(material, materials);
+        this.props.setMaterial(material, materials);
     };
 
     /**
@@ -153,8 +123,7 @@ class MaterialContent extends React.Component<IProps, IState> {
         }
         findMaterial(cid);
         materials = materials.filter((item) => ids.indexOf(item.id) === -1);
-        this.props.setMaterialList(materials);
-        this.props.setMaterial(null, 0);
+        this.props.setMaterial(null, materials);
     }
 
     /**
@@ -275,91 +244,35 @@ class MaterialContent extends React.Component<IProps, IState> {
         this.props.setMaterialList(materials);
     }
 
-    setMaterial = (material: IMaterial) => {
-        this.addMaterial(material, undefined, undefined, true);
-    }
-
-    /**
-     * 打开保存弹窗
-     */
-    openSave = (id?: number) => {
-        if (this.props.materialList.length < 2) {
-            message.error('请添加组件');
-            return;
-        }
-        this.setState({
-            saveId: id,
-            saveVisible: true,
-        });
-    }
-
-    /**
-     * 关闭保存弹窗
-     */
-    closeSave = () => {
-        this.setState({
-            saveId: null,
-            saveVisible: false,
-            saveName: '',
-        });
-    }
-
-    /**
-     * 确认保存
-     */
-    save = () => {
-        const { saveId, saveName } = this.state;
-        if (!saveName) {
-            message.error('请输入保存名字');
-            return;
-        }
-        this.props.save(saveName, saveId);
-        this.closeSave();
-    }
-
     render() {
-        const { visual, saveName, saveVisible } = this.state;
+        const { visual } = this.state;
         const { materialList } = this.props;
         const materials = this.getMaterilTree(materialList);
 
         return (
-            <>
-                <div className={`light-theme ${styles.opt}`}>
-                    <Button type="primary" onClick={this.create} style={{ marginRight: '10px' }}>生成</Button>
-                    <Button type="primary" onClick={() => this.openSave()} style={{ marginRight: '10px' }}>保存</Button>
-                    <Button type="primary" onClick={this.props.openLoad} style={{ marginRight: '10px' }}>载入</Button>
-                    <Button type="primary" onClick={this.props.clear} style={{ marginRight: '10px' }}>清空</Button>
-                    展示 <Switch checked={visual} onChange={value => this.setState({ visual: value })} />
+            <div className={styles.content}>
+                <div className={styles.display}>
+                    展示 <Switch checked={!visual} onChange={value => this.setState({ visual: !value })} />
                 </div>
-                <div className={`light-theme ${styles.content}`}>
-                    {
-                        materials.map((item) => (
-                            <MaterialBlock
-                                key={item.id}
-                                visual={visual}
-                                material={item}
-                                selectMaterial={(m) => this.selectMaterial(m)}
-                                deleteMaterial={(id) => this.deleteMaterial(id)}
-                                up={(id) => this.upMaterial(id)}
-                                down={(id) => this.downMaterial(id)}
-                                saveMaterial={(id) => this.openSave(id)}
-                                copyMaterial={(id) => this.copyMaterial(id)}
-                                dragStart={this.dragStart}
-                                dragEnter={this.dragEnter}
-                                dragEnd={this.dragEnd}
-                            />
-                        ))
-                    }
-                </div>
-                <Modal
-                    title="保存"
-                    width="400px"
-                    visible={saveVisible}
-                    onCancel={this.closeSave}
-                    onOk={this.save}>
-                    <Input placeholder="命名" value={saveName} onChange={(e) => this.setState({ saveName: e.target.value })} />
-                </Modal>
-            </>
+                {
+                    materials.map((item) => (
+                        <MaterialBlock
+                            key={item.id}
+                            visual={visual}
+                            material={item}
+                            selectMaterial={(m) => this.props.setMaterial(m)}
+                            deleteMaterial={(id) => this.deleteMaterial(id)}
+                            up={(id) => this.upMaterial(id)}
+                            down={(id) => this.downMaterial(id)}
+                            saveMaterial={(id) => this.props.save(id)}
+                            copyMaterial={(id) => this.copyMaterial(id)}
+                            dragStart={this.dragStart}
+                            dragEnter={this.dragEnter}
+                            dragEnd={this.dragEnd}
+                        />
+                    ))
+                }
+            </div>
         );
     }
 }
