@@ -7,6 +7,7 @@ import { GenerateFormMaterial } from './GenerateForm';
 import { ListFilterMaterial } from './ListFilter';
 import { ModalMaterial } from './Modal';
 import { GenerateModalMaterial } from './GenerateModal';
+import { CurrencyFormatterMaterial } from './CurrencyFormatter';
 import materialWrap from './MaterialWrap';
 
 const ColMaterial: IMaterial = {
@@ -337,6 +338,7 @@ const materials: IMaterial[] = [
     MonthPickerMaterial,
     RangePickerMaterial,
     GenerateModalMaterial,
+    CurrencyFormatterMaterial,
 ];
 
 export default materials;
