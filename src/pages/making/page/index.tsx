@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs, message, Modal, Select, Button } from 'antd';
+import { Tabs, message, Modal, Select, Button, Input } from 'antd';
 import cloneDeep from 'lodash/cloneDeep';
 import { GlobalModelState } from '@/models/global';
 import materials from '@/components/materials';
@@ -23,12 +23,15 @@ interface IState {
     material: IMaterial | null;
     id: number;
     modalList: IMaterial[];
-    codeVisible: boolean;
-    codeKey: number;
-    code: string;
+    // codeVisible: boolean;
+    // codeKey: number;
+    // code: string;
     pageList: IPageItem[];
     loadVisible: boolean;
     loadPageIndex: number;
+    saveName: string;
+    saveId: number | null;
+    saveVisible: boolean;
 }
 
 const { TabPane } = Tabs;
@@ -44,9 +47,9 @@ class Making extends React.Component<IProps, IState> {
             pageList: [],
             loadVisible: false,
             loadPageIndex: 0,
-            // codeVisible: false,
-            // codeKey: Math.random(),
-            // code: '',
+            saveName: '',
+            saveId: null,
+            saveVisible: false,
         };
     }
 
@@ -193,12 +196,15 @@ class Making extends React.Component<IProps, IState> {
         this.closeLoad();
     }
 
+    /**
+     * 设置组件列表
+     */
     setMaterialList = (materialList: IMaterial[]) => {
         // 筛选出弹窗组件
         const modalList: IMaterial[] = [];
-        materialList.forEach(material => {
-            if (material.ext?.type === 'modal') {
-                modalList.push(material);
+        materialList.forEach(item => {
+            if (item.ext?.type === 'modal') {
+                modalList.push(item);
             }
         });
         this.setState({
@@ -207,8 +213,71 @@ class Making extends React.Component<IProps, IState> {
         });
     }
 
-    setMaterial = (material: IMaterial, id: number) => {
-        this.setState({ material, id });
+    /**
+     * 设置目标组件以及组件列表
+     */
+    setMaterial = (material: IMaterial, materials?: IMaterial[]) => {
+        let materialList = [...this.state.materialList];
+        // 筛选出弹窗组件
+        const modalList: IMaterial[] = [];
+        if (materials) {
+            materialList = materials;
+        }
+        const id = material ? material.id : 0;
+        materialList.forEach((item) => {
+            if (item.id === id) {
+                item.active = true;
+            } else {
+                item.active = false;
+            }
+            if (item.ext?.type === 'modal') {
+                modalList.push(item);
+            }
+        });
+        this.setState({
+            material,
+            id,
+            materialList,
+            modalList,
+        });
+    }
+
+    /**
+     * 打开保存弹窗
+     */
+    openSave = (id?: number) => {
+        if (this.state.materialList.length < 2) {
+            message.error('请添加组件');
+            return;
+        }
+        this.setState({
+            saveId: id,
+            saveVisible: true,
+        });
+    }
+
+    /**
+     * 关闭保存弹窗
+     */
+    closeSave = () => {
+        this.setState({
+            saveId: null,
+            saveVisible: false,
+            saveName: '',
+        });
+    }
+
+    /**
+     * 确认保存
+     */
+    confirmSave = () => {
+        const { saveId, saveName } = this.state;
+        if (!saveName) {
+            message.error('请输入保存名字');
+            return;
+        }
+        this.save(saveName, saveId);
+        this.closeSave();
     }
 
     componentDidMount() {
@@ -223,7 +292,7 @@ class Making extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList } = this.state;
+        const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList, saveVisible, saveName } = this.state;
         return (
             <div className={styles.pageWrap}>
                 <div className={styles.material}>
@@ -232,19 +301,23 @@ class Making extends React.Component<IProps, IState> {
                         addMaterial={this.addMaterial}
                         setAddMaterial={this.setAddMaterial} />
                 </div>
-                <div className={styles.pageContent}>
+                <div className={`${styles.pageContent} light-theme`}>
+                    <div className={styles.opt}>
+                        <Button type="primary" style={{ marginRight: '10px' }}>生成</Button>
+                        <Button type="primary" onClick={() => this.openSave()} style={{ marginRight: '10px' }}>保存</Button>
+                        <Button type="primary" onClick={this.openLoad} style={{ marginRight: '10px' }}>载入</Button>
+                        <Button type="primary" onClick={this.clear} style={{ marginRight: '10px' }}>清空</Button>
+                    </div>
                     <MaterialContent
                         ref={el => { this.materialContent = el; }}
                         materialList={materialList}
                         setMaterialList={this.setMaterialList}
                         setMaterial={this.setMaterial}
-                        clear={this.clear}
-                        save={this.save}
-                        openLoad={this.openLoad} />
+                        save={this.openSave} />
                     <div>
                         {
                             modalList.map(modal => (
-                                <Button style={{ marginRight: '10px' }} onClick={() => this.setMaterial(modal, modal.id)}>{modal.props.title}</Button>
+                                <Button key={modal.id} style={{ marginRight: '10px' }} onClick={() => this.setMaterial(modal)}>{modal.props.title}</Button>
                             ))
                         }
                     </div>
@@ -278,6 +351,14 @@ class Making extends React.Component<IProps, IState> {
                             ))
                         }
                     </Select>
+                </Modal>
+                <Modal
+                    title="保存"
+                    width="400px"
+                    visible={saveVisible}
+                    onCancel={this.closeSave}
+                    onOk={this.confirmSave}>
+                    <Input placeholder="命名" value={saveName} onChange={(e) => this.setState({ saveName: e.target.value })} />
                 </Modal>
             </div>
         );
