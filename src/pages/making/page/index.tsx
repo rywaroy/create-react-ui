@@ -314,7 +314,7 @@ class Making extends React.Component<IProps, IState> {
                         setMaterialList={this.setMaterialList}
                         setMaterial={this.setMaterial}
                         save={this.openSave} />
-                    <div>
+                    <div className={styles.modalBtns}>
                         {
                             modalList.map(modal => (
                                 <Button key={modal.id} style={{ marginRight: '10px' }} onClick={() => this.setMaterial(modal)}>{modal.props.title}</Button>
