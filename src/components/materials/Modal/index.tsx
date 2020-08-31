@@ -46,6 +46,7 @@ export const ModalMaterial: IMaterial = {
     editComponents: [
         { name: 'className' },
         { name: 'style' },
+        { name: 'prop', props: { propName: 'title', propType: 'string' } },
         { name: 'prop', props: { propName: 'visible', propType: 'boolean' } },
     ],
     ext: {
