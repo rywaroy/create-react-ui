@@ -6,7 +6,7 @@ import { GlobalModelState } from '@/models/global';
 import materials from '@/components/materials';
 import { BaseContentMaterial } from '@/components/materials/BaseContent';
 import { IMaterial, IPageItem } from '@/types/making';
-import { getPageList, addPageList } from '@/services/making';
+import { getPageList, addPageList, preview } from '@/services/making';
 import MaterialList from '../components/MaterialList';
 import MaterialContent from '../components/MaterialContent';
 import MaterialEidt from '../components/MaterialEdit';
@@ -280,6 +280,44 @@ class Making extends React.Component<IProps, IState> {
         this.closeSave();
     }
 
+    /**
+     * 预览
+     */
+    preview = () => {
+        const { materialList } = this.state;
+        if (materialList.length < 2) {
+            message.error('请添加组件');
+            return;
+        }
+        preview({
+            materials: this.getMaterilTree(materialList),
+        });
+    }
+
+    getMaterilTree(list: IMaterial[]) {
+        const result: IMaterial[] = [];
+        const data = cloneDeep(list);
+        const hash: {
+          [props: number]: IMaterial
+        } = {};
+        data.forEach((_, index) => {
+            hash[data[index].id] = data[index];
+        });
+        data.forEach((item) => {
+            const hashVP = hash[(item.pid as number)];
+            if (hashVP) {
+                if (hashVP.children) {
+                    hashVP.children.push(item);
+                } else {
+                    hashVP.children = [item];
+                }
+            } else {
+                result.push(item);
+            }
+        });
+        return result;
+    }
+
     componentDidMount() {
         // 收起菜单
         this.props.dispatch({
@@ -304,9 +342,10 @@ class Making extends React.Component<IProps, IState> {
                 <div className={`${styles.pageContent} light-theme`}>
                     <div className={styles.opt}>
                         <Button type="primary" style={{ marginRight: '10px' }}>生成</Button>
+                        <Button type="primary" style={{ marginRight: '10px' }} onClick={this.preview}>预览</Button>
                         <Button type="primary" onClick={() => this.openSave()} style={{ marginRight: '10px' }}>保存</Button>
                         <Button type="primary" onClick={this.openLoad} style={{ marginRight: '10px' }}>载入</Button>
-                        <Button type="primary" onClick={this.clear} style={{ marginRight: '10px' }}>清空</Button>
+                        <Button type="danger" onClick={this.clear} style={{ marginRight: '10px' }}>清空</Button>
                     </div>
                     <MaterialContent
                         ref={el => { this.materialContent = el; }}

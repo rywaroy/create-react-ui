@@ -22,3 +22,10 @@ export function delPageList(params) {
         params,
     });
 }
+
+/**
+ * 预览代码
+ */
+export function preview(params) {
+    return axios.post('making/preview', params);
+}
