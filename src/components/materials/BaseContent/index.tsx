@@ -19,7 +19,10 @@ export const BaseContentMaterial: IMaterial = {
     },
     haveChildren: true,
     haveWrap: false,
-    editComponents: [],
+    editComponents: [
+        { name: 'className' },
+        { name: 'style' },
+    ],
 };
 
 export default BaseContent;
