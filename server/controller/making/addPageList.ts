@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { v4 as uuidv4 } from 'uuid';
-import IContext from '../../../types/context';
+import IContext from '../../types/context';
 
 interface IBody {
     title: string;

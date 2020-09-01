@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
-import IContext from '../../../types/context';
+import IContext from '../../types/context';
 
 export default async function pageList(ctx: IContext) {
     const pagePath = path.join(process.cwd(), 'node_modules/.cache/crui/pageList.json');

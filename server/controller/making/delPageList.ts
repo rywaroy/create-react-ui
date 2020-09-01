@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
-import IContext from '../../../types/context';
+import IContext from '../../types/context';
 
 interface IQuery {
     id: string;

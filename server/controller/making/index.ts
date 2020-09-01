@@ -1,6 +1,6 @@
-import pageList from './pageList/pageList';
-import addPageList from './pageList/addPageList';
-import delPageList from './pageList/delPageList';
+import pageList from './pageList';
+import addPageList from './addPageList';
+import delPageList from './delPageList';
 
 export default {
     pageList,
