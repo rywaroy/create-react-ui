@@ -13,7 +13,6 @@ export default function CurrencyFormatter(props) {
     if (txt && !isNaN(txt)) {
         txt = formater(Number(txt), precision);
     }
-    console.log(txt);
 
     return <i className={`${styles.defaultWrapper} ${className}`} {...other}>{txt}</i>;
 }
