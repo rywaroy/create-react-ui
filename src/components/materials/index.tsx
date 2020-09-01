@@ -276,6 +276,7 @@ const CheckboxGroupMaterial: IMaterial = {
     editComponents: [
         { name: 'className' },
         { name: 'style' },
+        { name: 'options', props: { propName: 'options' } },
     ],
 };
 
@@ -311,6 +312,7 @@ const RadioGroupMaterial: IMaterial = {
     editComponents: [
         { name: 'className' },
         { name: 'style' },
+        { name: 'options', props: { propName: 'options' } },
     ],
 };
 
