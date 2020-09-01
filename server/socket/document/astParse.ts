@@ -17,6 +17,7 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                 'jsx',
             ],
         });
+        // @ts-ignore
         traverse(ast, {
             ExportDefaultDeclaration(path: any) {
                 if (path.node.declaration.type === 'FunctionDeclaration') {
@@ -33,6 +34,7 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                     if (path.node.leadingComments) {
                         obj.main = commentParse(path.node.leadingComments);
                     }
+                    // @ts-ignore
                     traverse(ast, createPropsVisitor(obj, identifier));
                 }
                 if (path.node.declaration.type === 'ClassDeclaration') {
@@ -61,6 +63,7 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                     const identifier = path.node.declaration.id.name;
                     obj.name = identifier;
                     obj.isClass = true;
+                    // @ts-ignore
                     traverse(ast, createPropsVisitor(obj, identifier));
                 }
                 if (path.node.declaration.type === 'Identifier') {
@@ -72,6 +75,7 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                      */
                     const identifier = path.node.declaration.name;
                     obj.name = identifier;
+                    // @ts-ignore
                     traverse(ast, createVisitor(obj, identifier, ast));
                 }
                 if (path.node.declaration.type === 'CallExpression') {
@@ -96,6 +100,7 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                             identifier = argument.arguments[0].name;
                         }
                         obj.name = identifier;
+                        // @ts-ignore
                         traverse(ast, createVisitor(obj, identifier, ast));
                     }
                 }
