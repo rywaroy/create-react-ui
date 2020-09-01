@@ -9,6 +9,7 @@ import { ModalMaterial } from './Modal';
 import { GenerateModalMaterial } from './GenerateModal';
 import { CurrencyFormatterMaterial } from './CurrencyFormatter';
 import { SubHeaderMaterial } from './SubHeader';
+import { ImgMaterial } from './ImgTag';
 import materialWrap from './MaterialWrap';
 
 const ColMaterial: IMaterial = {
@@ -343,6 +344,7 @@ const materials: IMaterial[] = [
     GenerateModalMaterial,
     CurrencyFormatterMaterial,
     SubHeaderMaterial,
+    ImgMaterial,
 ];
 
 export default materials;
