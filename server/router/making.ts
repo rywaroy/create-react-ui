@@ -18,4 +18,9 @@ router.post('/page', makingController.addPageList);
  */
 router.del('/page', makingController.delPageList);
 
+/**
+ * 预览代码
+ */
+router.post('/preview', makingController.preview);
+
 export default router;
