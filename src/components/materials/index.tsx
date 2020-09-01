@@ -8,6 +8,7 @@ import { ListFilterMaterial } from './ListFilter';
 import { ModalMaterial } from './Modal';
 import { GenerateModalMaterial } from './GenerateModal';
 import { CurrencyFormatterMaterial } from './CurrencyFormatter';
+import { SubHeaderMaterial } from './SubHeader';
 import materialWrap from './MaterialWrap';
 
 const ColMaterial: IMaterial = {
@@ -341,6 +342,7 @@ const materials: IMaterial[] = [
     RangePickerMaterial,
     GenerateModalMaterial,
     CurrencyFormatterMaterial,
+    SubHeaderMaterial,
 ];
 
 export default materials;
