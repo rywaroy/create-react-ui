@@ -1,7 +1,7 @@
 import children from './children';
-import functionString from './functionString';
+import table from './table';
 
 export default [
     children,
-    functionString,
+    table,
 ];
