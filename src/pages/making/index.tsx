@@ -1,19 +1,20 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs, message, Modal, Select, Button, Input } from 'antd';
+import { Tabs, message, Modal, Select, Button, Input, Form } from 'antd';
 import cloneDeep from 'lodash/cloneDeep';
 import { GlobalModelState } from '@/models/global';
+import { FormComponentProps } from 'antd/es/form';
 import materials from '@/components/materials';
 import { BaseContentMaterial } from '@/components/materials/BaseContent';
 import { IMaterial, IPageItem } from '@/types/making';
 import { getPageList, addPageList, preview } from '@/services/making';
-import MaterialList from '../components/MaterialList';
-import MaterialContent from '../components/MaterialContent';
-import MaterialEidt from '../components/MaterialEdit';
+import MaterialList from './components/MaterialList';
+import MaterialContent from './components/MaterialContent';
+import MaterialEidt from './components/MaterialEdit';
 import { loadMaterial } from './map';
 import styles from './index.less';
 
-interface IProps {
+interface IProps extends FormComponentProps {
     global: GlobalModelState;
     dispatch: Function;
 }
@@ -406,4 +407,4 @@ class Making extends React.Component<IProps, IState> {
 
 export default connect(({ global }: { global: GlobalModelState }) => ({
     global,
-}))(Making);
+}))(Form.create<IProps>()(Making));
