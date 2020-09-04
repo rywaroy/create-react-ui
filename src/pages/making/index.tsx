@@ -1,20 +1,20 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs, message, Modal, Select, Button, Input, Form } from 'antd';
+import { Tabs, message, Modal, Select, Button, Input } from 'antd';
 import cloneDeep from 'lodash/cloneDeep';
 import { GlobalModelState } from '@/models/global';
-import { FormComponentProps } from 'antd/es/form';
 import materials from '@/components/materials';
 import { BaseContentMaterial } from '@/components/materials/BaseContent';
-import { IMaterial, IPageItem } from '@/types/making';
+import { IMaterial, IPageItem, IPageProps } from '@/types/making';
 import { getPageList, addPageList, preview } from '@/services/making';
 import MaterialList from './components/MaterialList';
 import MaterialContent from './components/MaterialContent';
 import MaterialEidt from './components/MaterialEdit';
+import PageProps from './components/PageProps';
 import { loadMaterial } from './map';
 import styles from './index.less';
 
-interface IProps extends FormComponentProps {
+interface IProps {
     global: GlobalModelState;
     dispatch: Function;
 }
@@ -55,6 +55,8 @@ class Making extends React.Component<IProps, IState> {
     }
 
     materialContent: MaterialContent;
+
+    pageProps: any;
 
     /**
      * 清空
@@ -295,6 +297,15 @@ class Making extends React.Component<IProps, IState> {
         });
     }
 
+    /**
+     * 生成
+     */
+    create = () => {
+        this.pageProps.props.form.validateFields((err, values: IPageProps) => {
+            console.log(values);
+        });
+    }
+
     getMaterilTree(list: IMaterial[]) {
         const result: IMaterial[] = [];
         const data = cloneDeep(list);
@@ -332,6 +343,8 @@ class Making extends React.Component<IProps, IState> {
 
     render() {
         const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList, saveVisible, saveName } = this.state;
+        const { folders } = this.props.global;
+
         return (
             <div className={styles.pageWrap}>
                 <div className={styles.material}>
@@ -342,7 +355,7 @@ class Making extends React.Component<IProps, IState> {
                 </div>
                 <div className={`${styles.pageContent} light-theme`}>
                     <div className={styles.opt}>
-                        <Button type="primary" style={{ marginRight: '10px' }}>生成</Button>
+                        <Button type="primary" style={{ marginRight: '10px' }} onClick={this.create}>生成</Button>
                         <Button type="primary" style={{ marginRight: '10px' }} onClick={this.preview}>预览</Button>
                         <Button type="primary" onClick={() => this.openSave()} style={{ marginRight: '10px' }}>保存</Button>
                         <Button type="primary" onClick={this.openLoad} style={{ marginRight: '10px' }}>载入</Button>
@@ -371,7 +384,9 @@ class Making extends React.Component<IProps, IState> {
                                 editProps={this.editProps} />
                         </TabPane>
                         <TabPane tab="页面属性" key="2">
-                            页面属性
+                            <div className={styles.pageProps}>
+                                <PageProps folders={folders} wrappedComponentRef={el => { this.pageProps = el; }} />
+                            </div>
                         </TabPane>
                     </Tabs>
                 </div>
@@ -407,4 +422,4 @@ class Making extends React.Component<IProps, IState> {
 
 export default connect(({ global }: { global: GlobalModelState }) => ({
     global,
-}))(Form.create<IProps>()(Making));
+}))(Making);
