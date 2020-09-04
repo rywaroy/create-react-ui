@@ -15,7 +15,72 @@ export interface IMaterial {
   haveChildren: boolean;
   haveWrap?: boolean;
   ghost?: boolean;
-  ext?: any;
+  ext?: {
+    type?: string;
+    code?: {
+      index?: IComponentOption;
+      model?: IModelOption;
+      [file: string]: string[] | IComponentOption | IModelOption;
+    }
+  };
+}
+
+export interface IComponentOption {
+  /**
+   * 可变说明符
+   * @example
+   * const formRef = useRef(null);
+   * const dispatch = useDispatch();
+  */
+  variableDeclarator?: string[];
+
+  /**
+   * import
+   * @example
+   * import React, { useEffect, useRef } from 'react';
+   */
+  import?: IImport;
+
+  /**
+   * 解构
+   * @example
+   * const { data } = this.props;
+   */
+  destructuring?: IDestructuring;
+
+  /**
+   * 方法
+   */
+  methods?: string[];
+
+  /**
+   * useState
+   * @example
+   * const [data, setData] = useState([]);
+   */
+  useState?: string[];
+
+  /**
+   * useEffect
+   * @example
+   * useEffect(() => {}, []);
+   */
+  useEffect?: string[];
+}
+
+export interface IModelOption {
+
+}
+
+export interface IImport {
+  [module: string]: {
+    default?: string;
+    export?: string | string[];
+  };
+}
+
+export interface IDestructuring {
+  [v: string]: string[];
 }
 
 export interface IEditComponents {
