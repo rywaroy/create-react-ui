@@ -22,7 +22,7 @@ export default class GeneratorMaterial extends EventEmitter {
         this.emit('before-create-jsx');
         const { props, tag } = this.material;
         this.emit('before-create-props');
-        const propsString = Object.keys(props).map((key) => `${key}={${JSON.stringify(props[key])}}`).join(' ');
+        const propsString = this.toStringProps(props);
         this.emit('after-create-props');
         this.emit('before-create-startTag');
         this.jsx += `<${tag} ${propsString}>`;
@@ -43,5 +43,21 @@ export default class GeneratorMaterial extends EventEmitter {
         this.emit('after-create-endTag');
         this.generator.jsx += this.jsx;
         this.jsx = '';
+    }
+
+    toStringProps(props: any) {
+        return Object.keys(props).map((key) => {
+            if (key === 'expansion') {
+                if (typeof props[key] === 'string') {
+                    return props[key];
+                }
+                return props[key].join(' ');
+            }
+            if (key.endsWith('FS')) {
+                const newProps = key.slice(0, -2);
+                return `${newProps}={${props[key]}}`;
+            }
+            return `${key}={${JSON.stringify(props[key])}}`;
+        }).join(' ');
     }
 }
