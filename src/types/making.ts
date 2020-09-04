@@ -48,3 +48,9 @@ export interface ITableScroll {
   x?: number | true;
   y?: number | true;
 }
+
+export interface IPageProps {
+  url: string;
+  name: string;
+  namespace: string;
+}
