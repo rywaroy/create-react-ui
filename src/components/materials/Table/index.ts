@@ -1,4 +1,5 @@
 import { Table } from 'antd';
+import { IMaterial } from '@/types/making';
 import materialWrap from '../MaterialWrap';
 
 export const TableMaterial: IMaterial = {
@@ -21,6 +22,7 @@ export const TableMaterial: IMaterial = {
             { 属性1: '测试数据', 属性2: '测试数据', 属性3: '测试数据', 属性4: '测试数据', 属性5: '测试数据', id: 2 },
         ],
         rowKey: 'id',
+        expansion: '{...tableProps}',
     },
     haveChildren: false,
     editComponents: [
@@ -28,4 +30,40 @@ export const TableMaterial: IMaterial = {
         { name: 'style' },
         { name: 'table' },
     ],
+    ext: {
+        code: {
+            index: {
+                import: {
+                    antd: {
+                        export: 'Table',
+                    },
+                    './map': {
+                        export: 'columns',
+                    },
+                    '@/hooks': {
+                        export: 'useAntdTable',
+                    },
+                },
+                methods: [
+                    `const getData = ({ current, pageSize }, formData) => {
+                        return queryCompanyOilCardList({
+                            pageNum: current,
+                            pageSize,
+                            ...formData
+                        });
+                    };`,
+                    `const { tableProps, search, run, refresh } = useAntdTable(getData, {
+                        form: formRef.current ? formRef.current.getForm() : false,
+                        formatResult: (res) => {
+                            return {
+                                list: res.data,
+                                total: res.count,
+                            };
+                        },
+                    });`,
+                    'const { submit, reset } = search',
+                ],
+            },
+        },
+    },
 };
