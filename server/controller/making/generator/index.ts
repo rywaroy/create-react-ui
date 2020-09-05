@@ -6,6 +6,9 @@ type IPlugin = ((material: IMaterial, generatorMaterial: GeneratorMaterial, gene
 
 interface IOption {
     plugin: IPlugin;
+    url: string;
+    name: string;
+    namespace: string;
 }
 
 export default class Generator {
@@ -15,10 +18,19 @@ export default class Generator {
 
     jsx: string = '';
 
+    url: string;
+
+    name: string;
+
+    namespace: string;
+
     constructor(materials: IMaterial[], option: IOption) {
-        const { plugin } = option;
+        const { plugin, url, name, namespace } = option;
         this.materials = materials;
         this.plugin = plugin;
+        this.url = url;
+        this.name = name;
+        this.namespace = namespace;
     }
 
     create() {
