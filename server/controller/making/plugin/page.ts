@@ -10,7 +10,7 @@ export default function page(material: IMaterial, generatorMaterial: GeneratorMa
         Object.keys(material.ext.code).forEach(file => {
             if (file === 'model') { // model文件
 
-            } else if (Array.isArray(material.ext.code)) { // 其他文件
+            } else if (Array.isArray(material.ext.code[file])) { // 其他文件
                 if (!generator.files[file]) {
                     generator.files[file] = [];
                 }
@@ -39,7 +39,7 @@ function mergeComponentFile(source: IComponentOption, target: IComponentOption) 
                     source[key][d] = target[key][d];
                 } else if (key === 'destructuring') {
                     source[key][d] = Array.from(new Set(source[key][d].concat(target[key][d])));
-                } else if (key === 'import') {
+                } else if (key === 'importDeclaration') {
                     if (target[key][d].default) {
                         source[key][d].default = target[key][d].default;
                     }
