@@ -19,7 +19,5 @@ export default function preview(ctx: IContext) {
         name,
         namespace,
     });
-    ctx.success(200, '成功', {
-        code: generator.create(),
-    });
+    ctx.success(200, '成功', generator.create());
 }

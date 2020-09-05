@@ -1,6 +1,7 @@
 import { IMaterial } from '../../../types/making';
 import GeneratorMaterial from './GeneratorMaterial';
 import codeFormat from '../../../utils/codeFormat';
+import functionComponentIndex from '../../../templateString/function-component-index';
 
 type IPlugin = ((material: IMaterial, generatorMaterial: GeneratorMaterial, generator?: Generator) => void)[]
 
@@ -37,8 +38,7 @@ export default class Generator {
 
     create() {
         this.getMaterials(this.materials);
-        console.log(this.files);
-        return codeFormat(this.jsx);
+        return this.making();
     }
 
     private getMaterials(materials: IMaterial[]) {
@@ -66,5 +66,19 @@ export default class Generator {
         }
         ergodic(this.materials);
         return haveTag;
+    }
+
+    making() {
+        const files = {};
+        Object.keys(this.files).forEach(file => {
+            if (Array.isArray(this.files[file])) {
+                files[file] = codeFormat(this.files[file].join('\n'));
+            } else if (file === 'model') {
+
+            } else {
+                files[file] = codeFormat(functionComponentIndex(this.files[file], this.name, this.jsx));
+            }
+        });
+        return files;
     }
 }
