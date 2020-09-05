@@ -12,7 +12,7 @@ interface IOption {
 }
 
 export default class Generator {
-    materials: IMaterial[];
+    private materials: IMaterial[];
 
     plugin: IPlugin;
 
@@ -23,6 +23,8 @@ export default class Generator {
     name: string;
 
     namespace: string;
+
+    files: any = {};
 
     constructor(materials: IMaterial[], option: IOption) {
         const { plugin, url, name, namespace } = option;
@@ -35,10 +37,11 @@ export default class Generator {
 
     create() {
         this.getMaterials(this.materials);
+        console.log(this.files);
         return codeFormat(this.jsx);
     }
 
-    getMaterials(materials: IMaterial[]) {
+    private getMaterials(materials: IMaterial[]) {
         materials.forEach(m => {
             const material = new GeneratorMaterial(m, this);
             material.create();
