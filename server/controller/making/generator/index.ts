@@ -70,10 +70,13 @@ export default class Generator {
 
     making() {
         const files = {};
+        if (!this.files['index.js']) {
+            files['index.js'] = codeFormat(functionComponentIndex({}, this.name, this.jsx));
+        }
         Object.keys(this.files).forEach(file => {
             if (Array.isArray(this.files[file])) {
                 files[file] = codeFormat(this.files[file].join('\n'));
-            } else if (file === 'model') {
+            } else if (file === 'model.js') {
 
             } else {
                 files[file] = codeFormat(functionComponentIndex(this.files[file], this.name, this.jsx));
