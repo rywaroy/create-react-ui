@@ -24,9 +24,9 @@ interface IState {
     material: IMaterial | null;
     id: number;
     modalList: IMaterial[];
-    // codeVisible: boolean;
-    // codeKey: number;
-    // code: string;
+    codeVisible: boolean;
+    codeKey: number;
+    code: { [file: string]: any};
     pageList: IPageItem[];
     loadVisible: boolean;
     loadPageIndex: number;
@@ -51,6 +51,9 @@ class Making extends React.Component<IProps, IState> {
             saveName: '',
             saveId: null,
             saveVisible: false,
+            codeVisible: false,
+            codeKey: Math.random(),
+            code: {},
         };
     }
 
@@ -300,7 +303,22 @@ class Making extends React.Component<IProps, IState> {
             preview({
                 ...values,
                 materials: this.getMaterilTree(materialList),
+            }).then(res => {
+                this.setState({
+                    codeKey: Math.random(),
+                    codeVisible: true,
+                    code: res.data.data,
+                });
             });
+        });
+    }
+
+    /**
+     * 关闭代码弹窗
+     */
+    closeCode = () => {
+        this.setState({
+            codeVisible: false,
         });
     }
 
@@ -349,8 +367,16 @@ class Making extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList, saveVisible, saveName } = this.state;
+        const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList, saveVisible, saveName, codeVisible, codeKey, code } = this.state;
         const { folders } = this.props.global;
+
+        const files = [];
+        Object.keys(code).forEach(file => {
+            files.push({
+                file,
+                code: code[file],
+            });
+        });
 
         return (
             <div className={styles.pageWrap}>
@@ -421,6 +447,26 @@ class Making extends React.Component<IProps, IState> {
                     onCancel={this.closeSave}
                     onOk={this.confirmSave}>
                     <Input placeholder="命名" value={saveName} onChange={(e) => this.setState({ saveName: e.target.value })} />
+                </Modal>
+                <Modal
+                    title="代码"
+                    visible={codeVisible}
+                    key={codeKey}
+                    width="700px"
+                    onCancel={this.closeCode}
+                    onOk={this.closeCode}>
+                    <div>
+
+                        <Tabs animated={false}>
+                            {
+                                files.map(file => (
+                                    <TabPane tab={file.file} key={file.file}>
+                                        <pre>{file.code}</pre>
+                                    </TabPane>
+                                ))
+                            }
+                        </Tabs>
+                    </div>
                 </Modal>
             </div>
         );
