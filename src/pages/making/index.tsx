@@ -292,6 +292,10 @@ class Making extends React.Component<IProps, IState> {
             message.error('请添加组件');
             return;
         }
+        if (!this.pageProps) {
+            message.error('请设置页面属性');
+            return;
+        }
         this.pageProps.props.form.validateFields((err, values: IPageProps) => {
             preview({
                 ...values,
