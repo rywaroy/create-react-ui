@@ -19,7 +19,7 @@ export default function template(material: IMaterial, generatorMaterial: Generat
         });
         return object;
     }
-    if (material?.ext?.code) {
+    if (material.ext && material.ext.code) {
         material.ext.code = deep(material.ext.code);
     }
 

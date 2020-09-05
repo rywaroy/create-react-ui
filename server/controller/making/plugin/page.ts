@@ -6,7 +6,7 @@ import { IMaterial, IComponentOption } from '../../../types/making';
  * 收集页面数据
  */
 export default function page(material: IMaterial, generatorMaterial: GeneratorMaterial, generator: Generator) {
-    if (material?.ext?.code) {
+    if (material.ext && material.ext.code) {
         Object.keys(material.ext.code).forEach(file => {
             if (file === 'model') { // model文件
 
