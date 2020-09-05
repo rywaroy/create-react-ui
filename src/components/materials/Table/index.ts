@@ -53,7 +53,7 @@ export const TableMaterial: IMaterial = {
                         });
                     };`,
                     `const { tableProps, search, run, refresh } = useAntdTable(getData, {
-                        form: formRef.current ? formRef.current.getForm() : false,
+                        form: {{hasMaterialByTag('ListFilter') ? 'formRef.current ? formRef.current.getForm() : false' : false}},
                         formatResult: (res) => {
                             return {
                                 list: res.data,
