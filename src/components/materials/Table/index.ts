@@ -32,8 +32,8 @@ export const TableMaterial: IMaterial = {
     ],
     ext: {
         code: {
-            index: {
-                import: {
+            'index.js': {
+                importDeclaration: {
                     antd: {
                         export: 'Table',
                     },
@@ -64,6 +64,17 @@ export const TableMaterial: IMaterial = {
                     'const { submit, reset } = search',
                 ],
             },
+            'map.js': [
+                `export function columns() {
+                    return [
+                        { title: '属性1', dataIndex: '属性1' },
+                        { title: '属性2', dataIndex: '属性2' },
+                        { title: '属性3', dataIndex: '属性3' },
+                        { title: '属性4', dataIndex: '属性4' },
+                        { title: '属性5', dataIndex: '属性5' },
+                    ];
+                }`,
+            ],
         },
     },
 };

@@ -18,9 +18,8 @@ export interface IMaterial {
   ext?: {
     type?: string;
     code?: {
-      index?: IComponentOption;
-      model?: IModelOption;
-      [file: string]: string[] | IComponentOption | IModelOption;
+      'model.js'?: IModelOption;
+      [file: string]: string[] | IComponentOption;
     }
   };
 }
@@ -39,7 +38,7 @@ export interface IComponentOption {
    * @example
    * import React, { useEffect, useRef } from 'react';
    */
-  import?: IImport;
+  importDeclaration?: IImport;
 
   /**
    * 解构
