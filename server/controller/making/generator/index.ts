@@ -48,4 +48,20 @@ export default class Generator {
             }
         });
     }
+
+    hasMaterialByTag(tag: string) {
+        let haveTag = false;
+        function ergodic(materials: IMaterial[]) {
+            materials.forEach(m => {
+                if (m.tag === tag) {
+                    haveTag = true;
+                }
+                if (m.children) {
+                    ergodic(m.children);
+                }
+            });
+        }
+        ergodic(this.materials);
+        return haveTag;
+    }
 }
