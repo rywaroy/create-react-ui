@@ -292,8 +292,11 @@ class Making extends React.Component<IProps, IState> {
             message.error('请添加组件');
             return;
         }
-        preview({
-            materials: this.getMaterilTree(materialList),
+        this.pageProps.props.form.validateFields((err, values: IPageProps) => {
+            preview({
+                ...values,
+                materials: this.getMaterilTree(materialList),
+            });
         });
     }
 
