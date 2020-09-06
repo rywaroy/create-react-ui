@@ -40,10 +40,12 @@ export default function template(material: IMaterial, generatorMaterial: Generat
                 args.push(prop);
             }
         }
+        const props = Object.keys(material.props);
         let s: string;
         const code = `
             const { ${args} } = generator;
             let { ${fns} } = generator;
+            const { ${props} } = material.props;
             ${fns.map(fn => `${fn} = ${fn}.bind(generator);`).join('\n')}
             s = str.replace(/{{(.*?)}}/g, ($1, $2) => eval($2));
         `;
