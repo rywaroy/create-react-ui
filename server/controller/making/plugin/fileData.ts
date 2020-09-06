@@ -1,6 +1,6 @@
 import GeneratorMaterial from '../generator/GeneratorMaterial';
 import Generator from '../generator';
-import { IMaterial, IComponentOption } from '../../../types/making';
+import { IMaterial, IComponentOption, IModelOption } from '../../../types/making';
 
 /**
  * 收集页面数据
@@ -8,8 +8,11 @@ import { IMaterial, IComponentOption } from '../../../types/making';
 export default function fileData(material: IMaterial, generatorMaterial: GeneratorMaterial, generator: Generator) {
     if (material.ext && material.ext.code) {
         Object.keys(material.ext.code).forEach(file => {
-            if (file === 'model') { // model文件
-
+            if (file === 'model.js') { // model文件
+                if (!generator.files[file]) {
+                    generator.files[file] = {};
+                }
+                mergeModelFile(generator.files[file], (material.ext.code[file] as IModelOption));
             } else if (Array.isArray(material.ext.code[file])) { // 其他文件
                 if (!generator.files[file]) {
                     generator.files[file] = [];
@@ -64,6 +67,20 @@ function mergeComponentFile(source: IComponentOption, target: IComponentOption) 
                     }
                 }
             });
+        }
+    });
+}
+
+function mergeModelFile(source: IModelOption, target: IModelOption) {
+    const arrayProps = ['effects', 'reducers'];
+
+    Object.keys(target).forEach(key => {
+        if (!source[key]) {
+            source[key] = target[key];
+        } else if (arrayProps.indexOf(key) > -1) {
+            source[key] = source[key].cancat(target[key]);
+        } else {
+            Object.assign(source[key], target[key]);
         }
     });
 }
