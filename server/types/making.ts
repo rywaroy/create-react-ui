@@ -19,7 +19,7 @@ export interface IMaterial {
         type?: string;
         code?: {
             'model.js'?: IModelOption;
-            [file: string]: string[] | IComponentOption;
+            [file: string]: string[] | IComponentOption | IModelOption;
         };
     };
 }
@@ -67,7 +67,13 @@ export interface IComponentOption {
     useEffect?: string[];
 }
 
-export interface IModelOption {}
+export interface IModelOption {
+    state?: {
+        [prop: string]: any;
+    };
+    effects?: string[];
+    reducers?: string[];
+}
 
 export interface IImport {
     [module: string]: {
