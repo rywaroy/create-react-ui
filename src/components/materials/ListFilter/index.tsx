@@ -83,6 +83,9 @@ export const ListFilterMaterial: IMaterial = {
     intro: '列表筛选表单组件',
     props: {
         filters: [],
+        refFS: 'formRef',
+        onSearchFS: 'submit',
+        onResetFS: 'reset',
     },
     haveChildren: false,
     editComponents: [
@@ -90,4 +93,23 @@ export const ListFilterMaterial: IMaterial = {
         { name: 'style' },
         { name: 'form', props: { propName: 'filters' } },
     ],
+    ext: {
+        code: {
+            'index.js': {
+                importDeclaration: {
+                    './map': {
+                        export: ['listFiltles'],
+                    },
+                },
+                variableDeclarator: [
+                    'const formRef = useRef(null);',
+                ],
+            },
+            'map.js': [
+                `export function listFiltles() {
+                    return {{JSON.stringify(filters)}};
+                }`,
+            ],
+        },
+    },
 };
