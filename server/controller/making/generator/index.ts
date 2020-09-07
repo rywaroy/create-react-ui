@@ -71,12 +71,6 @@ export default class Generator {
 
     making() {
         const files = {};
-        if (!this.files['index.js']) {
-            files['index.js'] = codeFormat(functionComponentIndex({}, this.name, this.jsx));
-        }
-        if (!this.files['model.js']) {
-            files['model.js'] = codeFormat(functionComponentModel({}, this.namespace));
-        }
         Object.keys(this.files).forEach(file => {
             if (Array.isArray(this.files[file])) {
                 files[file] = codeFormat(this.files[file].join('\n'));
@@ -86,6 +80,12 @@ export default class Generator {
                 files[file] = codeFormat(functionComponentIndex(this.files[file], this.name, this.jsx));
             }
         });
+        if (!this.files['index.js']) {
+            files['index.js'] = codeFormat(functionComponentIndex({}, this.name, this.jsx));
+        }
+        if (!this.files['model.js']) {
+            files['model.js'] = codeFormat(functionComponentModel({}, this.namespace));
+        }
         return files;
     }
 }
