@@ -35,24 +35,28 @@ export const TableMaterial: IMaterial = {
             'index.js': {
                 importDeclaration: {
                     antd: {
-                        export: 'Table',
+                        export: ['Table'],
                     },
                     './map': {
-                        export: 'columns',
+                        export: ['columns'],
                     },
                     '@/hooks': {
-                        export: 'useAntdTable',
+                        export: ['useAntdTable'],
                     },
                 },
                 methods: [
                     `const getData = ({ current, pageSize }, formData) => {
-                        return queryCompanyOilCardList({
-                            pageNum: current,
-                            pageSize,
-                            ...formData
-                        });
+                        // return getList({
+                        //     pageNum: current,
+                        //     pageSize,
+                        //     ...formData
+                        // });
+                        return {
+                            data: {{JSON.stringify(dataSource)}},
+                            total: 2,
+                        };
                     };`,
-                    `const { tableProps, search, run, refresh } = useAntdTable(getData, {
+                    `const { tableProps{{hasMaterialByTag('ListFilter') ? ', search' : ''}} } = useAntdTable(getData, {
                         form: {{hasMaterialByTag('ListFilter') ? 'formRef.current ? formRef.current.getForm() : false' : false}},
                         formatResult: (res) => {
                             return {
@@ -61,18 +65,12 @@ export const TableMaterial: IMaterial = {
                             };
                         },
                     });`,
-                    'const { submit, reset } = search',
+                    '{{hasMaterialByTag(\'ListFilter\') ? \'const { submit, reset } = search\' : \'\'}}',
                 ],
             },
             'map.js': [
                 `export function columns() {
-                    return [
-                        { title: '属性1', dataIndex: '属性1' },
-                        { title: '属性2', dataIndex: '属性2' },
-                        { title: '属性3', dataIndex: '属性3' },
-                        { title: '属性4', dataIndex: '属性4' },
-                        { title: '属性5', dataIndex: '属性5' },
-                    ];
+                    return {{JSON.stringify(columns)}};
                 }`,
             ],
         },

@@ -78,7 +78,7 @@ export interface IModelOption {
 export interface IImport {
   [module: string]: {
     default?: string;
-    export?: string | string[];
+    export?: string[];
   };
 }
 

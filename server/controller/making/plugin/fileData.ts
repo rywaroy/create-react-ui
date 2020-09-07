@@ -47,21 +47,10 @@ function mergeComponentFile(source: IComponentOption, target: IComponentOption) 
                         source[key][d].default = target[key][d].default;
                     }
                     if (target[key][d].export) {
-                        let ta: string[];
-                        if (typeof target[key][d].export === 'string') {
-                            ta = [(target[key][d].export as string)];
-                        } else {
-                            ta = (target[key][d].export as string[]);
-                        }
-                        let sa: string[];
+                        const ta = target[key][d].export;
+                        let sa: string[] = [];
                         if (source[key][d].export) {
-                            if (typeof source[key][d].export === 'string') {
-                                sa = [(source[key][d].export as string)];
-                            } else {
-                                sa = (source[key][d].export as string[]);
-                            }
-                        } else {
-                            sa = [];
+                            sa = source[key][d].export;
                         }
                         source[key][d].export = Array.from(new Set(sa.concat(ta)));
                     }

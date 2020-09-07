@@ -5,6 +5,7 @@ export interface IMaterial {
     component: any;
     intro: string;
     props: any;
+    copyProps?: any;
     defaultProps?: any;
     editComponents: IEditComponents[];
     id: number;
@@ -78,7 +79,7 @@ export interface IModelOption {
 export interface IImport {
     [module: string]: {
         default?: string;
-        export?: string | string[];
+        export?: string[];
     };
 }
 
