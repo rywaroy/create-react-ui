@@ -1,3 +1,4 @@
+import { Console } from 'console';
 import GeneratorMaterial from '../generator/GeneratorMaterial';
 import Generator from '../generator';
 import { IMaterial } from '../../../types/making';
@@ -41,11 +42,15 @@ export default function template(material: IMaterial, generatorMaterial: Generat
             }
         }
         const props = Object.keys(material.props);
+        const copyProps = Object.keys(material.copyProps);
+        // 找到被删除的props
+        const deleteProps = copyProps.filter(item => props.indexOf(item) === -1);
         let s: string;
         const code = `
             const { ${args} } = generator;
             let { ${fns} } = generator;
             const { ${props} } = material.props;
+            const { ${deleteProps}} = material.copyProps;
             ${fns.map(fn => `${fn} = ${fn}.bind(generator);`).join('\n')}
             s = str.replace(/{{(.*?)}}/g, ($1, $2) => eval($2));
         `;
