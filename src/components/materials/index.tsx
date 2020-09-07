@@ -96,6 +96,16 @@ const FormMaterial: IMaterial = {
         { name: 'style' },
         { name: 'layout' },
     ],
+    ext: {
+        code: {
+            'index.js': {
+                destructuring: {
+                    props: ['from'],
+                    from: ['getFieldDecorator'],
+                },
+            },
+        },
+    },
 };
 
 const InputMaterial: IMaterial = {
