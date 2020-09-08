@@ -39,13 +39,7 @@ class MenuBox extends Component<any, IState> {
                     title: '可视化搭建',
                     key: 'making',
                     icon: 'layout',
-                    children: [
-                        {
-                            title: '页面',
-                            key: 'page',
-                            url: '/making/page',
-                        },
-                    ],
+                    url: '/making',
                 },
                 {
                     title: '脚手架',
