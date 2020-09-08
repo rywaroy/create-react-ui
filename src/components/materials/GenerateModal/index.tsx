@@ -52,9 +52,13 @@ export const GenerateModalMaterial: IMaterial = {
     component: GenerateModal,
     intro: '表单弹窗组件',
     props: {
+        keyFS: '{{modalName}}Key',
+        modalName: 'modal',
         visible: true,
         title: '弹窗标题',
         modalForm: [],
+        visibleFS: '{{modalName}}Visible',
+        modalFormFS: '{{modalName}}()',
     },
     haveChildren: false,
     haveWrap: false,
@@ -62,11 +66,58 @@ export const GenerateModalMaterial: IMaterial = {
         { name: 'className' },
         { name: 'style' },
         { name: 'layout' },
-        { name: 'form', props: { propName: 'modalForm' } },
         { name: 'prop', props: { propName: 'title', propType: 'string' } },
+        { name: 'prop', props: { propName: 'modalName', propType: 'string' } },
+        { name: 'form', props: { propName: 'modalForm' } },
         { name: 'prop', props: { propName: 'visible', propType: 'boolean' } },
     ],
     ext: {
         type: 'modal',
+        code: {
+            'index.js': {
+                importDeclaration: {
+                    './map': {
+                        export: ['{{modalName}}'],
+                    },
+                },
+                destructuring: {
+                    props: ['{{namespace}}'],
+                    '{{namespace}}': ['{{modalName}}Visible', '{{modalName}}ModalKey'],
+                },
+                methods: [
+                    `const {{modalName}}ModalCancel = () => {
+                        dispatch({
+                            type: '{{namespace}}/updateState',
+                            payload: {
+                                {{modalName}}Visible: false,
+                            }
+                        })
+                    }`,
+                    `const {{modalName}}ModalSubmit = (values) => {
+                        {{modalName}}ModalCancel();
+                    }`,
+                    `const {{modalName}}ModalOpen = () => {
+                        dispatch({
+                            type: '{{namespace}}/updateState',
+                            payload: {
+                                {{modalName}}ModalKey: Math.random(),
+                                {{modalName}}Visible: true,
+                            }
+                        });
+                    }`,
+                ],
+            },
+            'map.js': [
+                `export function {{modalName}}() {
+                    return {{JSON.stringify(modalForm)}}
+                }`,
+            ],
+            'model.js': {
+                state: {
+                    '{{modalName}}Visible': 'false',
+                    '{{modalName}}ModalKey': 'Math.random()',
+                },
+            },
+        },
     },
 };
