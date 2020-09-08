@@ -69,6 +69,7 @@ class Making extends React.Component<IProps, IState> {
             material: null,
             id: 0,
             materialList: [BaseContentMaterial],
+            modalList: [],
         });
     }
 
