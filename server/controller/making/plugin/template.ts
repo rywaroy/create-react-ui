@@ -1,4 +1,3 @@
-import { Console } from 'console';
 import GeneratorMaterial from '../generator/GeneratorMaterial';
 import Generator from '../generator';
 import { IMaterial } from '../../../types/making';
@@ -16,7 +15,12 @@ export default function template(material: IMaterial, generatorMaterial: Generat
             return object.map(item => deep(item));
         }
         Object.keys(object).forEach(key => {
-            object[key] = deep(object[key]);
+            if (/{{.*?}}/.test(key)) {
+                object[change(key)] = deep(object[key]);
+                delete object[key];
+            } else {
+                object[key] = deep(object[key]);
+            }
         });
         return object;
     }
