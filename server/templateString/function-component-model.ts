@@ -4,7 +4,9 @@ export default function functionComponentModel(values: IModelOption, namespace: 
     const { state = {}, effects = [], reducers = [] } = values;
 
     return `
-    const initState = () => (${JSON.stringify(state)});
+    const initState = () => ({
+        ${renderState(state)}
+    });
     
     export default {
         namespace: '${namespace}',
@@ -29,4 +31,12 @@ export default function functionComponentModel(values: IModelOption, namespace: 
         }
     };
     `;
+}
+
+function renderState(state) {
+    let str = '';
+    Object.keys(state).forEach(key => {
+        str += `${key}: ${state[key]},\n`;
+    });
+    return str;
 }
