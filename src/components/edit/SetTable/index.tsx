@@ -67,7 +67,9 @@ const SetTable: React.FC<IProps> = (props) => {
         const data: any = {};
         let total = 0;
         columns.forEach(column => {
-            data[column.dataIndex] = '测试数据';
+            if (column.dataIndex) {
+                data[column.dataIndex] = '测试数据';
+            }
             if (column.width) {
                 total += column.width; // 累加width，计算scorll
             } else {
