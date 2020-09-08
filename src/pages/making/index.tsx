@@ -450,10 +450,11 @@ class Making extends React.Component<IProps, IState> {
                     <Input placeholder="命名" value={saveName} onChange={(e) => this.setState({ saveName: e.target.value })} />
                 </Modal>
                 <Modal
+                    className={styles.codeModal}
                     title="代码"
                     visible={codeVisible}
                     key={codeKey}
-                    width="700px"
+                    width="800px"
                     onCancel={this.closeCode}
                     onOk={this.closeCode}>
                     <div>
@@ -462,7 +463,9 @@ class Making extends React.Component<IProps, IState> {
                             {
                                 files.map(file => (
                                     <TabPane tab={file.file} key={file.file}>
-                                        <pre>{file.code}</pre>
+                                        <div className={styles.codeContent}>
+                                            <pre>{file.code}</pre>
+                                        </div>
                                     </TabPane>
                                 ))
                             }
