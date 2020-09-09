@@ -1,4 +1,5 @@
 import { IComponentOption } from '../types/making';
+import functionComponentImportTemplate from './function-component-import-template';
 
 export default function functionComponentIndex(values: IComponentOption, name: string, jsx: string) {
     const { variableDeclarator, importDeclaration, destructuring, methods, useState, useEffect } = values;
@@ -7,23 +8,7 @@ export default function functionComponentIndex(values: IComponentOption, name: s
     const functionName = name.charAt(0).toUpperCase() + name.slice(1);
 
     // import
-    let importString = '';
-    if (importDeclaration) {
-        Object.keys(importDeclaration).forEach(key => {
-            const { export: exportVar, default: defaultVar } = importDeclaration[key];
-            importString += 'import ';
-            if (defaultVar) {
-                importString += `${defaultVar} `;
-            }
-            if (exportVar) {
-                if (defaultVar) {
-                    importString += ',';
-                }
-                importString += `{ ${exportVar.join(',')} } `;
-            }
-            importString += `from '${key}';\n`;
-        });
-    }
+    const importString = functionComponentImportTemplate(importDeclaration);
 
     // useState
     let useStateString = '';
