@@ -68,6 +68,7 @@ export interface IComponentOption {
 }
 
 export interface IModelOption {
+  importDeclaration?: IImport;
   state?: {
     [prop: string]: any;
   };
