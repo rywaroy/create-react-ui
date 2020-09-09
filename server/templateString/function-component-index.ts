@@ -16,7 +16,10 @@ export default function functionComponentIndex(values: IComponentOption, name: s
                 importString += `${defaultVar} `;
             }
             if (exportVar) {
-                importString += `{ ${exportVar.join(',')} }`;
+                if (defaultVar) {
+                    importString += ',';
+                }
+                importString += `{ ${exportVar.join(',')} } `;
             }
             importString += `from '${key}';\n`;
         });
