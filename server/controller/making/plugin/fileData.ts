@@ -35,7 +35,7 @@ function mergeComponentFile(source: IComponentOption, target: IComponentOption) 
         if (!source[key]) {
             source[key] = target[key];
         } else if (arrayProps.indexOf(key) > -1) {
-            source[key] = source[key].cancat(target[key]);
+            source[key] = source[key].concat(target[key]);
         } else {
             Object.keys(target[key]).forEach(d => {
                 if (!source[key][d]) {
