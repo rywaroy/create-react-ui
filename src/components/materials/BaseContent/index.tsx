@@ -23,6 +23,31 @@ export const BaseContentMaterial: IMaterial = {
         { name: 'className' },
         { name: 'style' },
     ],
+    ext: {
+        code: {
+            'index.js': {
+                importDeclaration: {
+                    react: {
+                        default: 'React',
+                    },
+                    dva: {
+                        export: ['useDispatch', 'useSelector'],
+                    },
+                },
+                variableDeclarator: [
+                    'const dispatch = useDispatch();',
+                    'const {{namespace}} = useSelector(state => state.{{namespace}});',
+                ],
+                useEffect: [
+                    `useEffect(() => {
+                        return () => {
+                            dispatch({ type: '{{namespace}}/resetState' });
+                        };
+                    }, []);`,
+                ],
+            },
+        },
+    },
 };
 
 export default BaseContent;
