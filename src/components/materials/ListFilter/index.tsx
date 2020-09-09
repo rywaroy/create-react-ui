@@ -97,6 +97,9 @@ export const ListFilterMaterial: IMaterial = {
         code: {
             'index.js': {
                 importDeclaration: {
+                    react: {
+                        export: ['useRef'],
+                    },
                     './map': {
                         export: ['listFiltles'],
                     },
