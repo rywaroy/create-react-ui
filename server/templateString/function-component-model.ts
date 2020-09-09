@@ -1,9 +1,15 @@
 import { IModelOption } from '../types/making';
+import functionComponentImportTemplate from './function-component-import-template';
 
 export default function functionComponentModel(values: IModelOption, namespace: string) {
-    const { state = {}, effects = [], reducers = [] } = values;
+    const { state = {}, effects = [], reducers = [], importDeclaration } = values;
+
+    // import
+    const importString = functionComponentImportTemplate(importDeclaration);
 
     return `
+    ${importString}
+
     const initState = () => ({
         ${renderState(state)}
     });
