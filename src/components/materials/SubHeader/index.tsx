@@ -26,4 +26,15 @@ export const SubHeaderMaterial: IMaterial = {
         { name: 'style' },
         { name: 'prop', props: { propName: 'title', propType: 'string' } },
     ],
+    ext: {
+        code: {
+            'index.js': {
+                importDeclaration: {
+                    '@/components': {
+                        export: ['SubHeader'],
+                    },
+                },
+            },
+        },
+    },
 };

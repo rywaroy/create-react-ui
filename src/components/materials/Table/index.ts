@@ -51,10 +51,12 @@ export const TableMaterial: IMaterial = {
                         //     pageSize,
                         //     ...formData
                         // });
-                        return {
-                            data: {{JSON.stringify(dataSource)}},
-                            total: 2,
-                        };
+                        return new Promise((resolve) => {
+                            resolve({
+                                data: {{JSON.stringify(dataSource)}},
+                                total: 2,
+                            });
+                        });
                     };`,
                     `const { tableProps{{hasMaterialByTag('ListFilter') ? ', search' : ''}} } = useAntdTable(getData, {
                         form: {{hasMaterialByTag('ListFilter') ? 'formRef.current ? formRef.current.getForm() : false' : false}},

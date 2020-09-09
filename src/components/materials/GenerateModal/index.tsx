@@ -76,13 +76,15 @@ export const GenerateModalMaterial: IMaterial = {
         code: {
             'index.js': {
                 importDeclaration: {
+                    '@/components': {
+                        export: ['GenerateModal'],
+                    },
                     './map': {
                         export: ['{{modalName}}'],
                     },
                 },
                 destructuring: {
-                    props: ['{{namespace}}'],
-                    '{{namespace}}': ['{{modalName}}Visible', '{{modalName}}ModalKey'],
+                    '{{namespace}}': ['{{modalName}}Visible', '{{modalName}}Key'],
                 },
                 methods: [
                     `const {{modalName}}ModalCancel = () => {

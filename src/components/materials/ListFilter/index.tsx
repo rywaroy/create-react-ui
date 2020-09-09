@@ -103,6 +103,9 @@ export const ListFilterMaterial: IMaterial = {
                     './map': {
                         export: ['listFiltles'],
                     },
+                    '@/components': {
+                        export: ['ListFilter'],
+                    },
                 },
                 variableDeclarator: [
                     'const formRef = useRef(null);',

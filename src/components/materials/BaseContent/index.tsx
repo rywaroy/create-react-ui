@@ -29,6 +29,7 @@ export const BaseContentMaterial: IMaterial = {
                 importDeclaration: {
                     react: {
                         default: 'React',
+                        export: ['useEffect'],
                     },
                     dva: {
                         export: ['useDispatch', 'useSelector'],
