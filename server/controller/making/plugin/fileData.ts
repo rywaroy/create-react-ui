@@ -48,10 +48,7 @@ function mergeComponentFile(source: IComponentOption, target: IComponentOption) 
                     }
                     if (target[key][d].export) {
                         const ta = target[key][d].export;
-                        let sa: string[] = [];
-                        if (source[key][d].export) {
-                            sa = source[key][d].export;
-                        }
+                        const sa = source[key][d].export ? source[key][d].export : [];
                         source[key][d].export = Array.from(new Set(sa.concat(ta)));
                     }
                 }
@@ -68,6 +65,17 @@ function mergeModelFile(source: IModelOption, target: IModelOption) {
             source[key] = target[key];
         } else if (arrayProps.indexOf(key) > -1) {
             source[key] = source[key].cancat(target[key]);
+        } else if (key === 'importDeclaration') {
+            Object.keys(target[key]).forEach(d => {
+                if (target[key][d].default) {
+                    source[key][d].default = target[key][d].default;
+                }
+                if (target[key][d].export) {
+                    const ta = target[key][d].export;
+                    const sa = source[key][d].export ? source[key][d].export : [];
+                    source[key][d].export = Array.from(new Set(sa.concat(ta)));
+                }
+            });
         } else {
             Object.assign(source[key], target[key]);
         }
