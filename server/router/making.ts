@@ -23,4 +23,9 @@ router.del('/page', makingController.delPageList);
  */
 router.post('/preview', makingController.preview);
 
+/**
+ * 生成代码
+ */
+router.post('/create', makingController.create);
+
 export default router;

@@ -29,3 +29,10 @@ export function delPageList(params) {
 export function preview(params) {
     return axios.post('making/preview', params);
 }
+
+/**
+ * 生成代码
+ */
+export function create(params) {
+    return axios.post('making/create', params);
+}

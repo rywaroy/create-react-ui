@@ -6,7 +6,7 @@ import { GlobalModelState } from '@/models/global';
 import materials from '@/components/materials';
 import { BaseContentMaterial } from '@/components/materials/BaseContent';
 import { IMaterial, IPageItem, IPageProps } from '@/types/making';
-import { getPageList, addPageList, preview } from '@/services/making';
+import { getPageList, addPageList, preview, create } from '@/services/making';
 import MaterialList from './components/MaterialList';
 import MaterialContent from './components/MaterialContent';
 import MaterialEidt from './components/MaterialEdit';
@@ -327,8 +327,27 @@ class Making extends React.Component<IProps, IState> {
      * 生成
      */
     create = () => {
-        this.pageProps.props.form.validateFields((err, values: IPageProps) => {
-            console.log(values);
+        const { materialList } = this.state;
+        if (materialList.length < 2) {
+            message.error('请添加组件');
+            return;
+        }
+        if (!this.pageProps) {
+            message.error('请设置页面属性');
+            return;
+        }
+        Modal.confirm({
+            title: '确认生成',
+            onOk: () => {
+                this.pageProps.props.form.validateFields((err, values: IPageProps) => {
+                    create({
+                        ...values,
+                        materials: this.getMaterilTree(materialList),
+                    }).then(res => {
+                        message.success('成功生成代码');
+                    });
+                });
+            },
         });
     }
 
