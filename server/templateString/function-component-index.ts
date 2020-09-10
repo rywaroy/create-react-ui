@@ -48,9 +48,9 @@ export default function functionComponentIndex(values: IComponentOption, name: s
         const ${functionName} = (props) => {
             ${useStateString}
 
-            ${destructuringString}
-
             ${variableString}
+
+            ${destructuringString}
 
             ${methodsString}
 
