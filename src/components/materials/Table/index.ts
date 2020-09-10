@@ -72,7 +72,7 @@ export const TableMaterial: IMaterial = {
             },
             'map.js': [
                 `export function columns() {
-                    return {{JSON.stringify(columns)}};
+                    return {{createFunctionString(columns)}};
                 }`,
             ],
         },
