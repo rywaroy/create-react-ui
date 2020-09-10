@@ -4,9 +4,7 @@ import { IMaterial } from '../../../types/making';
 
 export default function template(material: IMaterial, generatorMaterial: GeneratorMaterial, generator: Generator) {
     Object.keys(material.props).forEach(key => {
-        if (typeof material.props[key] === 'string') {
-            material.props[key] = change(material.props[key]);
-        }
+        material.props[key] = deep(material.props[key]);
     });
     function deep(object) {
         if (typeof object === 'string') {
@@ -54,7 +52,7 @@ export default function template(material: IMaterial, generatorMaterial: Generat
             const { ${args} } = generator;
             let { ${fns} } = generator;
             const { ${props} } = material.props;
-            const { ${deleteProps}} = material.copyProps;
+            const { ${deleteProps} } = material.copyProps;
             ${fns.map(fn => `${fn} = ${fn}.bind(generator);`).join('\n')}
             s = str.replace(/{{(.*?)}}/g, ($1, $2) => eval($2));
         `;
