@@ -69,6 +69,12 @@ export default class Generator {
         return haveTag;
     }
 
+    createFunctionString(target: object | any[]) {
+        return JSON.stringify(target)
+            .replace(/"(\(\).*\))"/g, (a, b) => b)
+            .replace(/\\"(opt-link|mr10|_blank|\/)\\"/g, (a, b) => `"${b}"`);
+    }
+
     making() {
         const files = {};
         Object.keys(this.files).forEach(file => {
