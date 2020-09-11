@@ -41,8 +41,10 @@ export function changeLabelDisplay(params: IChangeLabelDisplayParams) {
 /**
  * 获取class配置
  */
-export function getClassList() {
-    return axios.get('/configlist/class');
+export function getClassList(params?) {
+    return axios.get('/configlist/class', {
+        params,
+    });
 }
 
 /**

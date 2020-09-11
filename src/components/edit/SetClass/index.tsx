@@ -21,10 +21,11 @@ const SetClass: React.FC<IProps> = (props) => {
     };
 
     useEffect(() => {
-        getClassList()
-            .then(res => {
-                setClassList(res.data.data);
-            });
+        getClassList({
+            display: true,
+        }).then(res => {
+            setClassList(res.data.data);
+        });
     }, [mid]);
 
     return (
