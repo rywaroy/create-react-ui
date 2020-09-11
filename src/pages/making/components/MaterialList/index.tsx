@@ -43,18 +43,33 @@ class MaterialList extends Component<IProps, IState> {
         const { materials } = this.props;
         const materialList = [
             { title: '基础组件', id: 1, children: [] },
-            { title: '公用组件', id: 2, children: [] },
             { title: 'antd组件', id: 3, children: [] },
         ];
+        const projectMap = {};
         materials.forEach(item => {
             if (item.from === '') {
                 materialList[0].children.push(item);
             } else if (item.from === 'antd') {
-                materialList[2].children.push(item);
-            } else {
                 materialList[1].children.push(item);
+            } else {
+                if (!item.project) {
+                    item.project = '其他业务组件';
+                }
+                if (!projectMap[item.project]) {
+                    projectMap[item.project] = [];
+                }
+                projectMap[item.project].push(item);
             }
         });
+        const project = [];
+        Object.keys(projectMap).forEach(key => {
+            project.push({
+                title: key,
+                id: Math.random(),
+                children: projectMap[key],
+            });
+        });
+        materialList.splice(1, 0, ...project);
         this.setState({
             materialList,
         });
