@@ -12,10 +12,8 @@ interface IProps {
 }
 
 interface IState {
-    className: string;
-    classId: string;
     classVisible: boolean;
-    classValue: string;
+    classItem: IClassItem;
 }
 
 const { confirm } = Modal;
@@ -24,10 +22,13 @@ class ClassList extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
-            className: '',
-            classId: '',
+            classItem: {
+                id: '',
+                name: '',
+                value: '',
+                display: false,
+            },
             classVisible: false,
-            classValue: '',
         };
     }
 
@@ -39,10 +40,11 @@ class ClassList extends React.Component<IProps, IState> {
         {
             title: '操作',
             key: 'id',
-            width: 140,
+            width: 160,
             render: record => (
                 <>
                     <span className="opt-link" onClick={() => this.openClass(record)}>修改</span>
+                    <span className="opt-link" onClick={() => this.hideClass(record)}>{record.display ? '隐藏' : '显示'}</span>
                     <span className="opt-link" onClick={() => this.delClass(record)}>删除</span>
                 </>
             ),
@@ -61,12 +63,10 @@ class ClassList extends React.Component<IProps, IState> {
     /**
      * 打开class编辑弹窗
      */
-    openClass({ id, name, value }: IClassItem) {
+    openClass(classItem: IClassItem) {
         this.setState({
-            classId: id,
-            className: name,
+            classItem,
             classVisible: true,
-            classValue: value,
         });
     }
 
@@ -84,7 +84,10 @@ class ClassList extends React.Component<IProps, IState> {
      */
     onChangeClass = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            className: e.target.value,
+            classItem: {
+                ...this.state.classItem,
+                name: e.target.value,
+            },
         });
     }
 
@@ -93,7 +96,10 @@ class ClassList extends React.Component<IProps, IState> {
      */
     onChangeStyle = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            classValue: e.target.value,
+            classItem: {
+                ...this.state.classItem,
+                value: e.target.value,
+            },
         });
     }
 
@@ -101,12 +107,14 @@ class ClassList extends React.Component<IProps, IState> {
      * 确认修改/添加babel
      */
     confirmChangeClass = () => {
-        const { classId, className, classValue } = this.state;
-        if (classId) {
+        const { classItem } = this.state;
+        const { id, name, value, display } = classItem;
+        if (id) {
             patchClass({
-                id: classId,
-                name: className,
-                value: classValue,
+                id,
+                name,
+                value,
+                display,
             }).then(() => {
                 message.success('修改成功');
                 this.closeClass();
@@ -114,8 +122,8 @@ class ClassList extends React.Component<IProps, IState> {
             });
         } else {
             addClass({
-                name: className,
-                value: classValue,
+                name,
+                value,
             }).then(() => {
                 message.success('添加成功');
                 this.closeClass();
@@ -142,18 +150,35 @@ class ClassList extends React.Component<IProps, IState> {
         });
     }
 
+    /**
+     * 隐藏/显示class
+     */
+    hideClass = (classItem: IClassItem) => {
+        const { id, name, value, display } = classItem;
+        patchClass({
+            id,
+            name,
+            value,
+            display: !display,
+        }).then(() => {
+            message.success('修改成功');
+            this.getClassConfig();
+        });
+    }
+
     componentDidMount() {
         this.getClassConfig();
     }
 
     render() {
         const { classList } = this.props.global;
-        const { className, classVisible, classValue } = this.state;
+        const { classItem, classVisible } = this.state;
+        const { name, value } = classItem;
 
         return (
             <div>
                 <div className={styles.classTop}>
-                    <Button type="primary" size="small" onClick={() => { this.openClass({ id: '', name: '', value: '' }); }}>新增</Button>
+                    <Button type="primary" size="small" onClick={() => { this.openClass({ id: '', name: '', value: '', display: false }); }}>新增</Button>
                 </div>
                 <Table columns={this.columns} dataSource={classList} rowKey="id" pagination={{ defaultPageSize: 5 }} />
                 <Modal
@@ -161,8 +186,8 @@ class ClassList extends React.Component<IProps, IState> {
                     onCancel={this.closeClass}
                     onOk={this.confirmChangeClass}>
                     <div style={{ paddingTop: '20px' }}>
-                        <Input style={{ marginBottom: '10px' }} autoFocus placeholder="请输入class" value={className} onChange={this.onChangeClass} />
-                        <Input placeholder="请输入样式" value={classValue} onChange={this.onChangeStyle} />
+                        <Input style={{ marginBottom: '10px' }} autoFocus placeholder="请输入class" value={name} onChange={this.onChangeClass} />
+                        <Input placeholder="请输入样式" value={value} onChange={this.onChangeStyle} />
                     </div>
                 </Modal>
             </div>
