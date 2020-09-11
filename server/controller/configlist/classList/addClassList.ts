@@ -20,6 +20,7 @@ export default function addLabel(ctx: IContext) {
             name,
             id: uuidv4(),
             value,
+            display: false,
         });
         fs.writeJsonSync(classPath, classList);
         ctx.success(200, '添加成功');
