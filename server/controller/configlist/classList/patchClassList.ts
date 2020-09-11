@@ -5,7 +5,7 @@ import { IClassItem } from '../../../types/configlist';
 
 export default async function addLabel(ctx: IContext) {
     // @ts-ignore for travis
-    const { name, id, value }: IClassItem = ctx.request.body;
+    const { name, id, value, display }: IClassItem = ctx.request.body;
     const classPath = path.join(process.cwd(), 'node_modules/.cache/crui/classList.json');
     const classExists = fs.existsSync(classPath);
     if (classExists) {
@@ -22,6 +22,7 @@ export default async function addLabel(ctx: IContext) {
         } else {
             classList[index].name = name;
             classList[index].value = value;
+            classList[index].display = display;
             fs.writeJsonSync(classPath, classList);
             ctx.success(200, '修改成功');
         }
