@@ -21,6 +21,7 @@ export interface IClassItem {
   id: string;
   name: string;
   value: string;
+  display: boolean;
 }
 
 export interface IPatchClassParams extends IClassItem {}
