@@ -3,7 +3,7 @@ import { IMaterial } from '@/types/making';
 import materialWrap from '../MaterialWrap';
 
 export const TableMaterial: IMaterial = {
-    name: '表格 Table',
+    name: '油涟表格 Table',
     tag: 'Table',
     from: 'antd',
     id: Math.random(),

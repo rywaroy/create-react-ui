@@ -38,4 +38,16 @@ export const CurrencyFormatterMaterial: IMaterial = {
         { name: 'style' },
         { name: 'prop', props: { propName: 'children', propType: 'string' } },
     ],
+    project: '油涟后台',
+    ext: {
+        code: {
+            'index.js': {
+                importDeclaration: {
+                    '@/componenets': {
+                        export: ['CurrencyFormatter'],
+                    },
+                },
+            },
+        },
+    },
 };

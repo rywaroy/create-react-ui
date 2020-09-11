@@ -71,6 +71,7 @@ export const GenerateModalMaterial: IMaterial = {
         { name: 'form', props: { propName: 'modalForm' } },
         { name: 'prop', props: { propName: 'visible', propType: 'boolean' } },
     ],
+    project: '油涟后台',
     ext: {
         type: 'modal',
         code: {

@@ -93,6 +93,7 @@ export const ListFilterMaterial: IMaterial = {
         { name: 'style' },
         { name: 'form', props: { propName: 'filters' } },
     ],
+    project: '油涟后台',
     ext: {
         code: {
             'index.js': {

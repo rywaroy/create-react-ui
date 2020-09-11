@@ -229,6 +229,18 @@ export const GenerateFormMaterial: IMaterial = {
         { name: 'layout' },
         { name: 'form', props: { propName: 'formSet' } },
     ],
+    project: '油涟后台',
+    ext: {
+        code: {
+            'index.js': {
+                importDeclaration: {
+                    '@/componenets': {
+                        export: ['GenerateForm'],
+                    },
+                },
+            },
+        },
+    },
 };
 
 export default Form.create<IProps>()(GenerateForm);

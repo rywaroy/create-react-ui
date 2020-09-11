@@ -26,6 +26,7 @@ export const SubHeaderMaterial: IMaterial = {
         { name: 'style' },
         { name: 'prop', props: { propName: 'title', propType: 'string' } },
     ],
+    project: '油涟后台',
     ext: {
         code: {
             'index.js': {
