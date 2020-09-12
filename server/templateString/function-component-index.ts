@@ -1,8 +1,8 @@
 import { IComponentOption } from '../types/making';
 import functionComponentImportTemplate from './function-component-import-template';
 
-export default function functionComponentIndex(values: IComponentOption, name: string, jsx: string) {
-    const { variableDeclarator, importDeclaration, destructuring, methods, useState, useEffect } = values;
+export default function functionComponentIndex(values: IComponentOption) {
+    const { variableDeclarator, importDeclaration, destructuring, methods, useState, useEffect, jsx, name } = values;
 
     // 组件名
     const functionName = name.charAt(0).toUpperCase() + name.slice(1);
@@ -42,6 +42,14 @@ export default function functionComponentIndex(values: IComponentOption, name: s
         useEffectString = useEffect.join('\n');
     }
 
+    // export
+    let exportDefaultName = functionName;
+    if (importDeclaration && importDeclaration.antd) {
+        if (importDeclaration.antd.export.indexOf('Form') > -1) {
+            exportDefaultName = `Form.create()(${exportDefaultName})`;
+        }
+    }
+
     return `
         ${importString}
 
@@ -61,6 +69,6 @@ export default function functionComponentIndex(values: IComponentOption, name: s
             )
         }
 
-        export default ${functionName};
+        export default ${exportDefaultName};
     `;
 }
