@@ -46,11 +46,22 @@ export const ModalMaterial: IMaterial = {
     editComponents: [
         { name: 'className' },
         { name: 'style' },
+        { name: 'prop', props: { propName: 'extraComponent', propType: 'boolean' } },
+        { name: 'prop', props: { propName: 'extraName', propType: 'string' } },
         { name: 'prop', props: { propName: 'title', propType: 'string' } },
         { name: 'prop', props: { propName: 'visible', propType: 'boolean' } },
     ],
     ext: {
         type: 'modal',
+        code: {
+            'index.js': {
+                importDeclaration: {
+                    antd: {
+                        export: ['Modal'],
+                    },
+                },
+            },
+        },
     },
 };
 
