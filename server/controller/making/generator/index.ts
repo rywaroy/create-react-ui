@@ -18,22 +18,23 @@ export default class Generator {
 
     plugin: IPlugin;
 
-    jsx: string = '';
-
     url: string;
 
     name: string;
 
     namespace: string;
 
-    files: any = {};
+    files: any = {
+        'index.js': {},
+    };
 
     constructor(materials: IMaterial[], option: IOption) {
         const { plugin, url, name, namespace } = option;
         this.materials = materials;
         this.plugin = plugin;
         this.url = url;
-        this.name = name;
+        // this.name = name;
+        this.files['index.js'].name = name;
         this.namespace = namespace;
     }
 
@@ -83,12 +84,9 @@ export default class Generator {
             } else if (file === 'model.js') {
                 files[file] = codeFormat(functionComponentModel(this.files[file], this.namespace));
             } else {
-                files[file] = codeFormat(functionComponentIndex(this.files[file], this.name, this.jsx));
+                files[file] = codeFormat(functionComponentIndex(this.files[file]));
             }
         });
-        if (!this.files['index.js']) {
-            files['index.js'] = codeFormat(functionComponentIndex({}, this.name, this.jsx));
-        }
         if (!this.files['model.js']) {
             files['model.js'] = codeFormat(functionComponentModel({}, this.namespace));
         }
