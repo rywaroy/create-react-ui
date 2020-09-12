@@ -6,6 +6,7 @@ import template from './template';
 import formitem from './formitem';
 import listFilter from './listFilter';
 import generateModal from './generateModal';
+import extraComponent from './extraComponent';
 
 export default [
     defaultPlugin,
@@ -14,6 +15,7 @@ export default [
     formitem,
     listFilter,
     generateModal,
+    extraComponent,
     template,
     fileData,
 ];
