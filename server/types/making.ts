@@ -22,6 +22,7 @@ export interface IMaterial {
             'model.js'?: IModelOption;
             [file: string]: string[] | IComponentOption | IModelOption;
         };
+        componentPath?: string;
     };
 }
 
@@ -66,6 +67,10 @@ export interface IComponentOption {
      * useEffect(() => {}, []);
      */
     useEffect?: string[];
+
+    jsx?: string;
+
+    name: string;
 }
 
 export interface IModelOption {
