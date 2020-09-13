@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Select, Input, message } from 'antd';
+import React, { useState } from 'react';
+import { Button, Select, Input } from 'antd';
 import { ISetFormValues } from '@/types/code';
 import { TYPES, mockData } from '@/utils/enum';
 import SetFormItem from './components/SetFormItem';
@@ -7,11 +7,12 @@ import styles from './index.less';
 
 interface IProps {
     propName: string;
+    types: any;
     onChange: (values: any) => void;
 }
 
 const SetForm: React.FC<IProps> = (props) => {
-    const { propName } = props;
+    const { propName, types = TYPES } = props;
     const [forms, setForms] = useState<ISetFormValues[]>(props[propName]);
     const [formValue, setFormValue] = useState<ISetFormValues>({ type: '', label: '', name: '' });
     const [index, setIndex] = useState<number>(0);
@@ -89,10 +90,10 @@ const SetForm: React.FC<IProps> = (props) => {
      * 提交
      */
     const submit = () => {
-        const dataType = ['select', 'checkboxgroup', 'radiogroup'];
+        const dataType = ['select', 'checkboxgroup', 'radiogroup', 'checkbox', 'radio'];
         const list = forms.filter(form => {
             if (dataType.indexOf(form.type) > -1) {
-                form.subOptionsData = mockData;
+                form.dataOptions = mockData;
             }
             return !!form.type;
         });
@@ -113,7 +114,7 @@ const SetForm: React.FC<IProps> = (props) => {
                 forms.map((item, index) => (
                     <div key={index} className={styles.formItem}>
                         <Select style={{ width: '140px', marginRight: '10px' }} value={item.type} onChange={(value: string) => setType(value, index)}>
-                            {TYPES.map((item, i) => (
+                            {types.map((item, i) => (
                                 <Select.Option value={item.value} key={i}>
                                     {item.label}
                                 </Select.Option>
