@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Collapse } from 'antd';
 import { IMaterial } from '@/types/making';
 import styles from './index.less';
+
+const { Panel } = Collapse;
 
 interface IProps {
     materials: IMaterial[];
@@ -79,28 +82,29 @@ class MaterialList extends Component<IProps, IState> {
         const { materialList } = this.state;
 
         return (
-            <div className={styles.materialList}>
-                {
-                    materialList.map(item => (
-                        <div key={item.title}>
-                            <div className={styles.materialTitle}>{item.title}</div>
-                            {
-                                item.children.map((material, index) => (
-                                    <div
-                                        key={material.tag}
-                                        className={styles.materialItem}
-                                        data-index={index}
-                                        draggable
-                                        onDragStart={(event) => this.drag(event, material)}
-                                        onClick={() => this.addMaterial(material)}>
-                                        {material.name}
-                                        <span>&lt;{material.tag} /&gt;</span>
-                                    </div>
-                                ))
-                            }
-                        </div>
-                    ))
-                }
+            <div>
+                <Collapse accordion className={styles.collapse} defaultActiveKey="油涟后台">
+                    {
+                        materialList.map(item => (
+                            <Panel header={item.title} key={item.title}>
+                                {
+                                    item.children.map((material, index) => (
+                                        <div
+                                            key={material.tag}
+                                            className={styles.materialItem}
+                                            data-index={index}
+                                            draggable
+                                            onDragStart={(event) => this.drag(event, material)}
+                                            onClick={() => this.addMaterial(material)}>
+                                            {material.name}
+                                            <span>&lt;{material.tag} /&gt;</span>
+                                        </div>
+                                    ))
+                                }
+                            </Panel>
+                        ))
+                    }
+                </Collapse>
             </div>
         );
     }
