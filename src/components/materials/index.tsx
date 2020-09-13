@@ -26,6 +26,7 @@ import { TextAreaGroupMaterial } from './TextAreaGroup';
 import { RadioGroupMaterial } from './RadioGroup';
 import { RangePickerMaterial } from './RangePicker';
 import { BreadCrumbMaterial } from './Breadcrumb';
+import { PageHeaderLayoutMaterial } from './PageHeaderLayout';
 
 const materials: IMaterial[] = [
     RowMaterial,
@@ -55,6 +56,7 @@ const materials: IMaterial[] = [
     SubHeaderMaterial,
     ImgMaterial,
     BreadCrumbMaterial,
+    PageHeaderLayoutMaterial,
 ];
 
 export default materials;
