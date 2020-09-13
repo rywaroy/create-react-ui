@@ -27,6 +27,7 @@ import { RadioGroupMaterial } from './RadioGroup';
 import { RangePickerMaterial } from './RangePicker';
 import { BreadCrumbMaterial } from './Breadcrumb';
 import { PageHeaderLayoutMaterial } from './PageHeaderLayout';
+import { LytListFilter } from './LytListFilter';
 
 const materials: IMaterial[] = [
     RowMaterial,
@@ -57,6 +58,7 @@ const materials: IMaterial[] = [
     ImgMaterial,
     BreadCrumbMaterial,
     PageHeaderLayoutMaterial,
+    LytListFilter,
 ];
 
 export default materials;
