@@ -1,6 +1,7 @@
 import React from 'react';
 import { IMaterial } from '@/types/making';
 import { Breadcrumb } from 'antd';
+import materialWrap from '../MaterialWrap';
 import styles from './index.less';
 
 interface IProps {
@@ -24,13 +25,12 @@ export const BreadCrumbMaterial: IMaterial = {
     tag: 'BreadCrumb',
     from: '@/components/Breadcrumb',
     id: Math.random(),
-    component: BreadCrumb,
+    component: materialWrap(BreadCrumb),
     intro: '面包屑组件',
     props: {
         list: ['首页'],
     },
     haveChildren: false,
-    haveWrap: false,
     editComponents: [
         { name: 'className' },
         { name: 'style' },
