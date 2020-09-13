@@ -23,6 +23,14 @@ export const TYPES = [
     { value: 'radiogroup', label: '单选组 radiogroup' },
 ];
 
+export const LYTTYPES = [
+    { value: 'input', label: '输入框 input' },
+    { value: 'select', label: '选择框 select' },
+    { value: 'rangepicker', label: '时间区间选择框 rangepicker' },
+    { value: 'checkbox', label: '多选组 checkbox' },
+    { value: 'radio', label: '单选组 radio' },
+];
+
 export const initialValueOptions = [
     { label: 'false', value: false },
     { label: 'true', value: true },
