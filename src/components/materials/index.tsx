@@ -25,6 +25,7 @@ import { CheckboxGroupMaterial } from './CheckboxGroup';
 import { TextAreaGroupMaterial } from './TextAreaGroup';
 import { RadioGroupMaterial } from './RadioGroup';
 import { RangePickerMaterial } from './RangePicker';
+import { BreadCrumbMaterial } from './Breadcrumb';
 
 const materials: IMaterial[] = [
     RowMaterial,
@@ -53,6 +54,7 @@ const materials: IMaterial[] = [
     CurrencyFormatterMaterial,
     SubHeaderMaterial,
     ImgMaterial,
+    BreadCrumbMaterial,
 ];
 
 export default materials;
