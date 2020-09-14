@@ -33,10 +33,14 @@ export default class GeneratorMaterial extends EventEmitter {
             this.emit('after-create-endTag');
         }
         this.emit('after-create-jsx');
-        // this.generator.jsx += this.jsx;
         let file = 'index.js';
         if (this.material.ext && this.material.ext.componentPath) {
             file = `${this.material.ext.componentPath}/index.js`;
+            if (this.material.ext.isExtraComponent) {
+                // 主页面组件jsx
+                const { name } = this.generator.files[file];
+                this.generator.files['index.js'].jsx += `<${name.charAt(0).toUpperCase() + name.slice(1)} />`;
+            }
         }
         if (!this.generator.files[file].jsx) {
             this.generator.files[file].jsx = '';
