@@ -71,6 +71,7 @@ module.exports = {
     'no-with': 0,
     'no-eval': 0,
     'no-nested-ternary': 0,
+    'jsx-a11y/anchor-is-valid': 0,
   },
   settings: {
     "import/resolver": {
