@@ -5,7 +5,17 @@ import { IMaterial } from '../../../types/making';
  */
 export default function listFilter(material: IMaterial) {
     if (material.tag === 'ListFilter') {
-        delete material.props.filters;
-        material.props.filtersFS = 'listFiltles()';
+        if (material.props.filters) {
+            material.props.filtersFS = 'listFiltles()';
+            delete material.props.filters;
+        }
+        if (material.props.formSet) {
+            material.props.formSetFS = 'outherSet()';
+            delete material.props.formSet;
+        }
+        if (material.props.outherSet) {
+            material.props.outherSetFS = 'listFiltles()';
+            delete material.props.outherSet;
+        }
     }
 }
