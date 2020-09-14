@@ -28,6 +28,7 @@ import { RangePickerMaterial } from './RangePicker';
 import { BreadCrumbMaterial } from './Breadcrumb';
 import { PageHeaderLayoutMaterial } from './PageHeaderLayout';
 import { LytListFilter } from './LytListFilter';
+import { LytTableMaterial } from './LytTable';
 
 const materials: IMaterial[] = [
     RowMaterial,
@@ -37,6 +38,7 @@ const materials: IMaterial[] = [
     SpanMaterial,
     PMaterial,
     TableMaterial,
+    LytTableMaterial,
     ModalMaterial,
     GenerateFormMaterial,
     ListFilterMaterial,
