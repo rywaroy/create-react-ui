@@ -11,7 +11,9 @@ import {
     Button,
     Icon,
 } from 'antd';
+import { FormComponentProps } from 'antd/es/form';
 import { LYTTYPES } from '@/utils/enum';
+import { ISetFormValues } from '@/types/code';
 import materialWrap from '../MaterialWrap';
 import styles from './index.less';
 
@@ -50,7 +52,23 @@ const mapTypeToComponent = {
     },
 };
 
-class ListFilter extends Component {
+interface IState {
+    needOpen: boolean;
+    isOpen: boolean;
+    openCol: boolean;
+}
+
+interface IProps extends FormComponentProps {
+    isOpen: boolean;
+    formSet: ISetFormValues[];
+    outherSet: ISetFormValues[];
+    resetBtn: boolean;
+    formData: any;
+    setOpen: (isOpen: boolean) => void;
+    onSearch: (values: any) => void;
+}
+
+class ListFilter extends Component<IProps, IState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -77,7 +95,7 @@ class ListFilter extends Component {
   /**
    * 提交
    */
-  handleSubmit = (e) => {
+  handleSubmit = (e?) => {
       if (e) {
           e.preventDefault();
       }
@@ -176,7 +194,7 @@ class ListFilter extends Component {
       );
       // const list = formSet.length === 8 ? formSet : isOpen ? formSet : formSet.slice(0, 7);
 
-      let list = [];
+      let list: ISetFormValues[] = [];
       if (this.getLength(formSet) === 8) {
           list = formSet;
       } else if (isOpen) {
