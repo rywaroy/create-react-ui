@@ -90,7 +90,7 @@ class MaterialList extends Component<IProps, IState> {
                                 {
                                     item.children.map((material, index) => (
                                         <div
-                                            key={material.tag}
+                                            key={material.id}
                                             className={styles.materialItem}
                                             data-index={index}
                                             draggable
