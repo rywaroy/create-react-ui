@@ -17,4 +17,8 @@ export const styleMap: IStyleMap = {
     paddingRight: [],
     paddingBottom: [],
     position: ['absolute', 'relative', 'fixed'],
+    left: [],
+    top: [],
+    right: [],
+    bottom: [],
 };
