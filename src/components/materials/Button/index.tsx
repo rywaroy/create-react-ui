@@ -1,4 +1,5 @@
 import { Button } from 'antd';
+import { IMaterial } from '@/types/making';
 import materialWrap from '../MaterialWrap';
 
 export const ButtonMaterial: IMaterial = {

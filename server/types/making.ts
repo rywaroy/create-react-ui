@@ -23,6 +23,7 @@ export interface IMaterial {
             [file: string]: string[] | IComponentOption | IModelOption;
         };
         componentPath?: string;
+        [prop: string]: any;
     };
 }
 

@@ -17,11 +17,21 @@ export const PageHeaderLayoutMaterial: IMaterial = {
     props: {},
     project: '陆运通后台',
     haveChildren: true,
-    // haveWrap: false,
     editComponents: [
         { name: 'className' },
         { name: 'style' },
     ],
+    ext: {
+        code: {
+            'index.js': {
+                importDeclaration: {
+                    '@/layouts/PageHeaderLayout': {
+                        default: 'PageHeaderLayout',
+                    },
+                },
+            },
+        },
+    },
 };
 
 export default PageHeaderLayout;
