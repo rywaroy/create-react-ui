@@ -166,23 +166,25 @@ class Making extends React.Component<IProps, IState> {
         const ms = cloneDeep(value);
         const componentMap = {};
         materials.forEach(m => {
-            componentMap[m.tag] = m.component;
+            const mid = `${m.project || m.name}_${m.tag}`;
+            componentMap[mid] = m.component;
         });
         function findChildMaterial(pid?: number, npid?: number) {
             ms.forEach((material) => {
                 if (!material.component) {
                     const oldId = material.id;
                     const newId = Math.random();
+                    const mid = `${material.project || material.name}_${material.tag}`;
                     if (material.pid === pid) {
                         material.id = newId;
                         material.pid = npid;
                         material.active = false;
-                        material.component = componentMap[material.tag];
+                        material.component = componentMap[mid];
                         findChildMaterial(oldId, newId);
                     } else if (!pid) {
                         material.id = newId;
                         material.active = false;
-                        material.component = componentMap[material.tag];
+                        material.component = componentMap[mid];
                         findChildMaterial(oldId, newId);
                     }
                 }
