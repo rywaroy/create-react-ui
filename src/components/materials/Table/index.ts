@@ -41,7 +41,7 @@ export const TableMaterial: IMaterial = {
                         export: ['columns'],
                     },
                     '@/hooks': {
-                        export: ['useAntdTable'],
+                        export: ['useTable'],
                     },
                 },
                 methods: [
@@ -58,7 +58,7 @@ export const TableMaterial: IMaterial = {
                             });
                         });
                     };`,
-                    `const { tableProps{{hasMaterialByTag('ListFilter') ? ', search' : ''}} } = useAntdTable(getData, {
+                    `const { tableProps{{hasMaterialByTag('ListFilter') ? ', search' : ''}} } = useTable(getData, {
                         form: {{hasMaterialByTag('ListFilter') ? 'formRef.current ? formRef.current.getForm() : false' : false}},
                         formatResult: (res) => {
                             return {
