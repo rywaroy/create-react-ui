@@ -60,7 +60,7 @@ export const GenerateModalMaterial: IMaterial = {
         visibleFS: '{{modalName}}Visible',
         modalFormFS: '{{modalName}}()',
         onCancelFS: '{{modalName}}ModalCancel',
-        onOk: '{{modalName}}ModalSubmit',
+        onOkFS: '{{modalName}}ModalSubmit',
     },
     haveChildren: false,
     haveWrap: false,

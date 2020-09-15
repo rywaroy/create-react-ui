@@ -364,7 +364,7 @@ export const LytListFilter = {
                         export: ['listFiltles', 'outherSet'],
                     },
                     '@/components/ListFilter': {
-                        export: ['ListFilter'],
+                        default: 'ListFilter',
                     },
                 },
                 variableDeclarator: [
