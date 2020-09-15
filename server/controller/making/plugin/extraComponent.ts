@@ -9,7 +9,7 @@ export default function extraComponent(material: IMaterial, generatorMaterial: G
     if (material.ext && material.ext.componentPath) {
         setExtComponent(material, material.ext.componentPath);
     } else if (material.props.extraComponent) {
-        const name = `${material.props.extraName || ''}${material.tag}`;
+        const name = material.props.extraName || 'Component';
         const componentName = name.charAt(0).toUpperCase() + name.slice(1);
         if (!material.ext) {
             material.ext = {};
