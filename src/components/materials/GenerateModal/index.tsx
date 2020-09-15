@@ -59,8 +59,8 @@ export const GenerateModalMaterial: IMaterial = {
         modalForm: [],
         visibleFS: '{{modalName}}Visible',
         modalFormFS: '{{modalName}}()',
-        onCancelFS: '{{modalName}}ModalCancel',
-        onOkFS: '{{modalName}}ModalSubmit',
+        onCancelFS: '{{modalName}}Cancel',
+        onOkFS: '{{modalName}}Submit',
     },
     haveChildren: false,
     haveWrap: false,
@@ -90,7 +90,7 @@ export const GenerateModalMaterial: IMaterial = {
                     '{{namespace}}': ['{{modalName}}Visible', '{{modalName}}Key'],
                 },
                 methods: [
-                    `const {{modalName}}ModalCancel = () => {
+                    `const {{modalName}}Cancel = () => {
                         dispatch({
                             type: '{{namespace}}/updateState',
                             payload: {
@@ -98,14 +98,14 @@ export const GenerateModalMaterial: IMaterial = {
                             }
                         })
                     }`,
-                    `const {{modalName}}ModalSubmit = (values) => {
-                        {{modalName}}ModalCancel();
+                    `const {{modalName}}Submit = (values) => {
+                        {{modalName}}Cancel();
                     }`,
-                    `const {{modalName}}ModalOpen = () => {
+                    `const {{modalName}}Open = () => {
                         dispatch({
                             type: '{{namespace}}/updateState',
                             payload: {
-                                {{modalName}}ModalKey: Math.random(),
+                                {{modalName}}Key: Math.random(),
                                 {{modalName}}Visible: true,
                             }
                         });
@@ -120,7 +120,7 @@ export const GenerateModalMaterial: IMaterial = {
             'model.js': {
                 state: {
                     '{{modalName}}Visible': 'false',
-                    '{{modalName}}ModalKey': 'Math.random()',
+                    '{{modalName}}Key': 'Math.random()',
                 },
             },
         },
