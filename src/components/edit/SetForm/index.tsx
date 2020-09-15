@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { Button, Select, Input } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Button, Select, AutoComplete } from 'antd';
+import { getLabelConfig } from '@/services/configlist';
 import { ISetFormValues } from '@/types/code';
 import { TYPES, mockData } from '@/utils/enum';
+import { ILabelItem } from '@/types/configlist';
 import SetFormItem from './components/SetFormItem';
 import styles from './index.less';
 
@@ -15,6 +17,7 @@ const SetForm: React.FC<IProps> = (props) => {
     const { propName, types = TYPES } = props;
     const [forms, setForms] = useState<ISetFormValues[]>(props[propName]);
     const [formValue, setFormValue] = useState<ISetFormValues>({ type: '', label: '', name: '' });
+    const [label, setLabel] = useState<ILabelItem[]>([]);
     const [index, setIndex] = useState<number>(0);
     const [visible, setVisible] = useState<boolean>(false);
     const [key, setKey] = useState<number>(1);
@@ -56,9 +59,9 @@ const SetForm: React.FC<IProps> = (props) => {
     /**
      * 设置label
      */
-    const setLabel = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const setLabelText = (value, index) => {
         const list = [...forms];
-        list[index].label = e.target.value;
+        list[index].label = value;
         setForms(list);
     };
 
@@ -102,6 +105,13 @@ const SetForm: React.FC<IProps> = (props) => {
         });
     };
 
+    useEffect(() => {
+        getLabelConfig()
+            .then(res => {
+                setLabel(res.data.data.list);
+            });
+    }, []);
+
     return (
         <div>
             <div className={styles.formTop}>
@@ -120,7 +130,11 @@ const SetForm: React.FC<IProps> = (props) => {
                                 </Select.Option>
                             ))}
                         </Select>
-                        <Input style={{ width: '100px', marginRight: '10px' }} placeholder="label" value={item.label} onChange={(e) => setLabel(e, index)} />
+                        <AutoComplete
+                            dataSource={label.map(item => item.name)}
+                            value={item.label}
+                            style={{ width: '100px', marginRight: '10px' }}
+                            onChange={(value: string) => setLabelText(value, index)} />
                         <Button type="primary" style={{ marginRight: '10px' }} icon="edit" size="small" onClick={() => openEdit(index)} />
                         <Button type="primary" icon="minus" size="small" onClick={() => deleteItem(index)} />
                     </div>
