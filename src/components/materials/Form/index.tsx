@@ -32,8 +32,8 @@ export const FormMaterial: IMaterial = {
                     },
                 },
                 destructuring: {
-                    props: ['from'],
-                    from: ['getFieldDecorator'],
+                    props: ['form'],
+                    form: ['getFieldDecorator'],
                 },
             },
         },
