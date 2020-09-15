@@ -2,7 +2,7 @@ import React from 'react';
 import { IMaterial } from '@/types/making';
 import styles from './index.less';
 
-const Modal: React.FC<any> = (props) => (
+const Modal: React.FC<any> = ({ keyFS, onCancelFS, onOkFS, visibleFS, modalName, ...props }) => (
     <>
         {
             props.visible
@@ -37,6 +37,11 @@ export const ModalMaterial: IMaterial = {
     props: {
         title: '弹窗标题',
         visible: true,
+        keyFS: '{{modalName}}Key',
+        modalName: 'modal',
+        visibleFS: '{{modalName}}Visible',
+        onCancelFS: '{{modalName}}Cancel',
+        onOkFS: '{{modalName}}Submit',
     },
     defaultProps: {
         className: `${styles.modal} ant-modal-content`,
@@ -49,6 +54,7 @@ export const ModalMaterial: IMaterial = {
         { name: 'prop', props: { propName: 'extraComponent', propType: 'boolean' } },
         { name: 'prop', props: { propName: 'extraName', propType: 'string' } },
         { name: 'prop', props: { propName: 'title', propType: 'string' } },
+        { name: 'prop', props: { propName: 'modalName', propType: 'string' } },
         { name: 'prop', props: { propName: 'visible', propType: 'boolean' } },
     ],
     ext: {
@@ -59,6 +65,37 @@ export const ModalMaterial: IMaterial = {
                     antd: {
                         export: ['Modal'],
                     },
+                },
+                destructuring: {
+                    '{{namespace}}': ['{{modalName}}Visible', '{{modalName}}Key'],
+                },
+                methods: [
+                    `const {{modalName}}Cancel = () => {
+                        dispatch({
+                            type: '{{namespace}}/updateState',
+                            payload: {
+                                {{modalName}}Visible: false,
+                            }
+                        })
+                    }`,
+                    `const {{modalName}}Submit = (values) => {
+                        {{modalName}}Cancel();
+                    }`,
+                    `const {{modalName}}Open = () => {
+                        dispatch({
+                            type: '{{namespace}}/updateState',
+                            payload: {
+                                {{modalName}}Key: Math.random(),
+                                {{modalName}}Visible: true,
+                            }
+                        });
+                    }`,
+                ],
+            },
+            'model.js': {
+                state: {
+                    '{{modalName}}Visible': 'false',
+                    '{{modalName}}Key': 'Math.random()',
                 },
             },
         },
