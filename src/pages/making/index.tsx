@@ -26,7 +26,7 @@ interface IState {
     modalList: IMaterial[];
     codeVisible: boolean;
     codeKey: number;
-    code: { [file: string]: any};
+    code: { [file: string]: any };
     pageList: IPageItem[];
     loadVisible: boolean;
     loadPageIndex: number;
@@ -199,9 +199,7 @@ class Making extends React.Component<IProps, IState> {
                 material.component = componentMap[material.tag];
             }
         });
-        this.setState({
-            materialList: materialList.concat(ms),
-        });
+        this.setMaterialList(materialList.concat(ms));
         this.closeLoad();
     }
 
@@ -435,6 +433,7 @@ class Making extends React.Component<IProps, IState> {
                         <TabPane tab="组件属性" key="1">
                             <MaterialEidt
                                 material={material}
+                                modalList={modalList}
                                 key={id}
                                 editProps={this.editProps} />
                         </TabPane>
