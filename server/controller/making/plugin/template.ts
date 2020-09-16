@@ -6,6 +6,11 @@ export default function template(material: IMaterial, generatorMaterial: Generat
     Object.keys(material.props).forEach(key => {
         material.props[key] = deep(material.props[key]);
     });
+    if (material.extraProps) {
+        Object.keys(material.extraProps).forEach(key => {
+            material.extraProps[key] = deep(material.extraProps[key]);
+        });
+    }
     function deep(object) {
         if (typeof object === 'string') {
             return change(object);
