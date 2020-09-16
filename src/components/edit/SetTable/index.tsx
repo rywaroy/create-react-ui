@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { AutoComplete, Button, Switch } from 'antd';
 import { getLabelConfig } from '@/services/configlist';
 import { ILabelItem } from '@/types/configlist';
-import { IColumn, ITableScroll } from '@/types/making';
+import { IColumn, ITableScroll, IMaterial } from '@/types/making';
 import SetColumn from './components/SetColumn';
 import styles from './index.less';
 
 interface IProps {
     columns: IColumn[];
+    modalList: IMaterial[];
     scroll?: ITableScroll;
     onChange: (values: any) => void;
 }
 
 const SetTable: React.FC<IProps> = (props) => {
+    const { modalList } = props;
     const columnList = [...props.columns];
     const [columns, setColumns] = useState<IColumn[]>(columnList);
     const [column, setColumn] = useState<IColumn>({ title: '', dataIndex: '' });
@@ -160,7 +162,8 @@ const SetTable: React.FC<IProps> = (props) => {
                 column={column}
                 key={key}
                 onCancel={closeColumn}
-                onOk={editColumn} />
+                onOk={editColumn}
+                modalList={modalList} />
         </div>
     );
 };
