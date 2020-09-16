@@ -7,32 +7,42 @@ import GeneratorMaterial from '../generator/GeneratorMaterial';
  */
 export default function extraComponent(material: IMaterial, generatorMaterial: GeneratorMaterial, generator: Generator) {
     if (material.ext && material.ext.componentPath) {
-        setExtComponent(material, material.ext.componentPath);
+        setExtComponent(material, undefined, material.ext.componentPath);
     } else if (material.props.extraComponent) {
         const name = material.props.extraName || 'Component';
+
         const componentName = name.charAt(0).toUpperCase() + name.slice(1);
         if (!material.ext) {
             material.ext = {};
         }
-        const componentPath = `components/${componentName}`;
-        material.ext.componentPath = componentPath;
-        setExtComponent(material, componentPath, componentName);
-        setDefaultValue((material.ext.code[`${componentPath}/index.js`] as IComponentOption), 'react', 'React');
+        setExtComponent(material, componentName);
         material.ext.isExtraComponent = true;
         setDefaultValue(generator.files['index.js'] as IComponentOption, `./components/${componentName}`, componentName);
-        delete material.props.extraComponent;
-        delete material.props.extraName;
     }
+    delete material.props.extraComponent;
+    delete material.props.extraName;
 }
 
-function setExtComponent(material: IMaterial, componentPath: string, componentName?: string) {
-    if (material.ext.code) {
-        Object.keys(material.ext.code).forEach(file => {
-            material.ext.code[`${componentPath}/${file}`] = material.ext.code[file];
-            if (file === 'index.js' && componentName) {
-                (material.ext.code[`${componentPath}/${file}`] as IComponentOption).name = componentName;
+function setExtComponent(material: IMaterial, componentName?: string, componentPath?: string) {
+    if (!material.ext.code) {
+        material.ext.code = {};
+    }
+    if (material.ext.extraCode) {
+        Object.keys(material.ext.extraCode).forEach(file => {
+            if (file.indexOf('index.js') > -1 && componentName) {
+                (material.ext.extraCode[file] as IComponentOption).name = componentName;
+                material.ext.componentPath = `components/${componentName}`;
+                componentPath = `components/${componentName}`;
             }
-            delete material.ext.code[file];
+            material.ext.code[`components/${componentName}/${file}`] = material.ext.extraCode[file];
+        });
+    }
+    if (!componentName) { // 子组件
+        Object.keys(material.ext.code).forEach(file => {
+            if (file !== 'model.js') {
+                material.ext.code[`${componentPath}/${file}`] = material.ext.code[file];
+                delete material.ext.code[file];
+            }
         });
     }
     if (material.children) {
