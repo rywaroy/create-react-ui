@@ -20,7 +20,7 @@ export default class GeneratorMaterial extends EventEmitter {
             fn(this.material, this, this.generator);
         });
         this.emit('before-create-jsx');
-        const { props, tag } = this.material;
+        const { props, tag, extraProps = {} } = this.material;
         this.emit('before-create-props');
         const propsString = this.toStringProps(props);
         this.emit('after-create-props');
@@ -35,11 +35,16 @@ export default class GeneratorMaterial extends EventEmitter {
         this.emit('after-create-jsx');
         let file = 'index.js';
         if (this.material.ext && this.material.ext.componentPath) {
-            file = `${this.material.ext.componentPath}/index.js`;
+            Object.keys(this.generator.files).forEach(f => {
+                // 找到index.js 结尾的作为组件主页面
+                if (f.endsWith('index.js')) {
+                    file = f;
+                }
+            });
             if (this.material.ext.isExtraComponent) {
                 // 主页面组件jsx
-                const { name } = this.generator.files[file];
-                this.generator.files['index.js'].jsx += `<${name.charAt(0).toUpperCase() + name.slice(1)} />`;
+                const { extraName } = this.material.copyProps;
+                this.generator.files['index.js'].jsx += `<${extraName.charAt(0).toUpperCase() + extraName.slice(1)} ${this.toStringProps(extraProps)} />`;
             }
         }
         if (!this.generator.files[file].jsx) {
@@ -55,7 +60,12 @@ export default class GeneratorMaterial extends EventEmitter {
         this.emit('after-create-endTag');
         let file = 'index.js';
         if (this.material.ext && this.material.ext.componentPath) {
-            file = `${this.material.ext.componentPath}/index.js`;
+            Object.keys(this.generator.files).forEach(f => {
+                // 找到index.js 结尾的作为组件主页面
+                if (f.endsWith('index.js')) {
+                    file = f;
+                }
+            });
         }
         this.generator.files[file].jsx += this.jsx;
         this.jsx = '';
@@ -63,6 +73,9 @@ export default class GeneratorMaterial extends EventEmitter {
 
     toStringProps(props: any) {
         return Object.keys(props).map((key) => {
+            if (!props[key]) {
+                return '';
+            }
             if (key === 'expansion') {
                 if (typeof props[key] === 'string') {
                     return props[key];
