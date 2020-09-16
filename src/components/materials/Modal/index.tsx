@@ -37,14 +37,22 @@ export const ModalMaterial: IMaterial = {
     props: {
         title: '弹窗标题',
         visible: true,
-        keyFS: '{{modalName}}Key',
+        keyFS: '{{extraComponent ? \'\' : `${modalName}Key`}}',
         modalName: 'modal',
-        visibleFS: '{{modalName}}Visible',
-        onCancelFS: '{{modalName}}Cancel',
+        visibleFS: '{{extraComponent ? \'visible\' : `${modalName}Visible`}}',
+        onCancelFS: '{{extraComponent ? \'onCancel\' : `${modalName}Cancel`}}',
         onOkFS: '{{modalName}}Submit',
+        extraComponent: false,
+        extraName: 'component',
     },
     defaultProps: {
         className: `${styles.modal} ant-modal-content`,
+    },
+    extraProps: {
+        keyFS: '{{modalName}}Key',
+        visibleFS: '{{modalName}}Visible',
+        onCancelFS: '{{modalName}}Cancel',
+        onOkFS: '{{modalName}}Submit',
     },
     haveChildren: true,
     haveWrap: false,
@@ -70,6 +78,14 @@ export const ModalMaterial: IMaterial = {
                     '{{namespace}}': ['{{modalName}}Visible', '{{modalName}}Key'],
                 },
                 methods: [
+                    // `const {{modalName}}Cancel = () => {
+                    //     {{extraComponent ? 'props.onCancel();' : \`dispatch({type: "\${namespace}/updateState",payload: {\${modalName}Visible: false},})\`}};
+                    // }
+                    // `,
+                    // `const {{modalName}}Submit = (values) => {
+                    //     {{extraComponent ? 'props.onOk();' : \`\${modalName}Cancel();\`}}
+                    // }`,
+                    // '{{extraComponent ? \'\' : `const ${modalName}Open = () => {dispatch({type: "${namespace}/updateState",payload: {${modalName}Key: Math.random(),${modalName}Visible: true,},});}`}}',
                     `const {{modalName}}Cancel = () => {
                         dispatch({
                             type: '{{namespace}}/updateState',
@@ -97,6 +113,26 @@ export const ModalMaterial: IMaterial = {
                     '{{modalName}}Visible': 'false',
                     '{{modalName}}Key': 'Math.random()',
                 },
+            },
+        },
+        extraCode: {
+            'index.js': {
+                importDeclaration: {
+                    antd: {
+                        export: ['Modal'],
+                    },
+                    react: {
+                        default: 'React',
+                    },
+                },
+                destructuring: {
+                    props: ['visible', 'onOk', 'onCancel'],
+                },
+                methods: [
+                    `const {{modalName}}Submit = (values) => {
+                        onOk(values);
+                    }`,
+                ],
             },
         },
     },

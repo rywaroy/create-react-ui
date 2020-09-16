@@ -73,18 +73,13 @@ export const LytTableMaterial: IMaterial = {
                     };`,
                     `const { tableProps{{hasMaterialByTag('ListFilter') ? ', search' : ''}} } = useTable(getData, {
                         form: {{hasMaterialByTag('ListFilter') ? 'formRef.current ? formRef.current.getForm() : false' : false}},
-                        formatResult: (res) => {
-                            return {
-                                list: res.data,
-                                total: res.count,
-                            };
-                        },
                     });`,
                     '{{hasMaterialByTag(\'ListFilter\') ? \'const { submit, reset } = search\' : \'\'}}',
                 ],
             },
             'map.js': [
-                `export function columns() {
+                `export function columns(medhods) {
+                    {{ getModalLink().length > 0 ? \`const { \${getModalLink().join(', ')} } = medhods\` : ''}}
                     return {{createFunctionString(columns)}};
                 }`,
             ],
