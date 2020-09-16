@@ -6,6 +6,7 @@ export interface IMaterial {
   intro: string;
   props: any;
   defaultProps?: any;
+  extraProps?: any;
   editComponents: IEditComponents[];
   id: number;
   pid?: number;
@@ -19,6 +20,9 @@ export interface IMaterial {
     type?: string;
     code?: {
       'model.js'?: IModelOption;
+      [file: string]: string[] | IComponentOption | IModelOption;
+    }
+    extraCode?: {
       [file: string]: string[] | IComponentOption | IModelOption;
     }
   };
@@ -111,6 +115,7 @@ export interface IColumn {
 export interface IOpt {
   text: string;
   link: boolean;
+  linkModal?: string;
 }
 
 export interface ITableScroll {

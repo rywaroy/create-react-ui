@@ -7,6 +7,7 @@ export interface IMaterial {
     props: any;
     copyProps?: any;
     defaultProps?: any;
+    extraProps?: any;
     editComponents: IEditComponents[];
     id: number;
     pid?: number;
@@ -22,9 +23,13 @@ export interface IMaterial {
             'model.js'?: IModelOption;
             [file: string]: string[] | IComponentOption | IModelOption;
         };
+        extraCode?: {
+            [file: string]: string[] | IComponentOption | IModelOption;
+        }
         componentPath?: string;
         [prop: string]: any;
     };
+
 }
 
 export interface IComponentOption {
@@ -98,3 +103,9 @@ export interface IEditComponents {
     name: string;
     props?: any;
 }
+
+export interface IOpt {
+    text: string;
+    link: boolean;
+    linkModal?: string;
+  }
