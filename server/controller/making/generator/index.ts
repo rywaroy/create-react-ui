@@ -70,6 +70,22 @@ export default class Generator {
         return haveTag;
     }
 
+    getModalLink() {
+        let linkModal = [];
+        function ergodic(materials: IMaterial[]) {
+            materials.forEach(m => {
+                if (m.tag === 'Table') {
+                    linkModal = m.ext.modalMethods || [];
+                }
+                if (m.children) {
+                    ergodic(m.children);
+                }
+            });
+        }
+        ergodic(this.materials);
+        return linkModal;
+    }
+
     createFunctionString(target: object | any[]) {
         return JSON.stringify(target)
             .replace(/"(\(\).*\))"/g, (a, b) => b)
