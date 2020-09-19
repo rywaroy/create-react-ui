@@ -34,6 +34,7 @@ interface IState {
     saveVisible: boolean;
     codeLoading: boolean;
     showCode: boolean;
+    codeTip: string;
 }
 
 const { TabPane } = Tabs;
@@ -55,6 +56,7 @@ class Making extends React.Component<IProps, IState> {
             code: {},
             codeLoading: false,
             showCode: false,
+            codeTip: '',
         };
         this.getCode = debounce(this.getCode, 1000);
     }
@@ -321,9 +323,14 @@ class Making extends React.Component<IProps, IState> {
                     this.setState({
                         code: res.data.data,
                         codeLoading: false,
+                        codeTip: '',
                     });
                 });
             }
+        } else {
+            this.setState({
+                codeTip: '请设置页面属性',
+            });
         }
     }
 
@@ -391,7 +398,7 @@ class Making extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList, saveVisible, saveName, code, codeLoading, showCode } = this.state;
+        const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList, saveVisible, saveName, code, codeLoading, showCode, codeTip } = this.state;
         const { folders } = this.props.global;
 
         const files = [];
@@ -453,6 +460,9 @@ class Making extends React.Component<IProps, IState> {
                     {
                         showCode && (
                             <div className={styles.codeBox}>
+                                {
+                                    codeTip && <div className={styles.codeTip}>{codeTip}</div>
+                                }
                                 <Tabs animated={false}>
                                     {
                                         files.map(file => (
