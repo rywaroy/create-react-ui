@@ -299,7 +299,9 @@ class Making extends React.Component<IProps, IState> {
      * 预览
      */
     preview = (value: boolean) => {
-        this.getCode();
+        if (value) {
+            this.getCode();
+        }
         this.setState({
             showCode: value,
         });
