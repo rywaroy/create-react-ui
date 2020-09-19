@@ -301,6 +301,9 @@ class Making extends React.Component<IProps, IState> {
     preview = (value: boolean) => {
         if (value) {
             this.getCode();
+            if (!this.pageProps) {
+                message.error('请先设置页面属性');
+            }
         }
         this.setState({
             showCode: value,
@@ -422,7 +425,6 @@ class Making extends React.Component<IProps, IState> {
                 <div className={`${styles.pageContent} light-theme`}>
                     <div className={styles.opt}>
                         <Button type="primary" style={{ marginRight: '10px' }} onClick={this.create}>生成</Button>
-                        {/* <Button type="primary" style={{ marginRight: '10px' }} onClick={this.preview}>预览</Button> */}
                         <Button type="primary" onClick={() => this.openSave()} style={{ marginRight: '10px' }}>保存</Button>
                         <Button type="primary" onClick={this.openLoad} style={{ marginRight: '10px' }}>载入</Button>
                         <Button type="danger" onClick={this.clear} style={{ marginRight: '10px' }}>清空</Button>
