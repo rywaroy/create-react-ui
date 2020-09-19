@@ -307,7 +307,7 @@ class Making extends React.Component<IProps, IState> {
      * 获取代码
      */
     getCode = () => {
-        if (this.pageProps) {
+        if (this.pageProps && this.state.showCode) {
             const values = this.pageProps.props.form.getFieldsValue();
             if (values.namespace && values.name) {
                 const { materialList } = this.state;
