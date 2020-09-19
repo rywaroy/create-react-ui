@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs, message, Modal, Select, Button, Input } from 'antd';
+import { Tabs, message, Modal, Select, Button, Input, Spin, Switch } from 'antd';
 import cloneDeep from 'lodash/cloneDeep';
+import debounce from 'lodash/debounce';
 import { GlobalModelState } from '@/models/global';
 import materials from '@/components/materials';
 import { BaseContentMaterial } from '@/components/materials/BaseContent';
@@ -24,8 +25,6 @@ interface IState {
     material: IMaterial | null;
     id: number;
     modalList: IMaterial[];
-    codeVisible: boolean;
-    codeKey: number;
     code: { [file: string]: any };
     pageList: IPageItem[];
     loadVisible: boolean;
@@ -33,6 +32,8 @@ interface IState {
     saveName: string;
     saveId: number | null;
     saveVisible: boolean;
+    codeLoading: boolean;
+    showCode: boolean;
 }
 
 const { TabPane } = Tabs;
@@ -51,10 +52,11 @@ class Making extends React.Component<IProps, IState> {
             saveName: '',
             saveId: null,
             saveVisible: false,
-            codeVisible: false,
-            codeKey: Math.random(),
             code: {},
+            codeLoading: false,
+            showCode: false,
         };
+        this.getCode = debounce(this.getCode, 1000);
     }
 
     materialContent: MaterialContent;
@@ -71,10 +73,12 @@ class Making extends React.Component<IProps, IState> {
             materialList: [BaseContentMaterial],
             modalList: [],
         });
+        this.getCode();
     }
 
     addMaterial = (material: IMaterial) => {
         this.materialContent.addMaterial(material);
+        this.getCode();
     }
 
     /**
@@ -89,6 +93,7 @@ class Making extends React.Component<IProps, IState> {
             materialList: materials,
             material,
         });
+        this.getCode();
     }
 
     /**
@@ -218,6 +223,7 @@ class Making extends React.Component<IProps, IState> {
             materialList,
             modalList,
         });
+        this.getCode();
     }
 
     /**
@@ -290,37 +296,35 @@ class Making extends React.Component<IProps, IState> {
     /**
      * 预览
      */
-    preview = () => {
-        const { materialList } = this.state;
-        if (materialList.length < 2) {
-            message.error('请添加组件');
-            return;
-        }
-        if (!this.pageProps) {
-            message.error('请设置页面属性');
-            return;
-        }
-        this.pageProps.props.form.validateFields((err, values: IPageProps) => {
-            preview({
-                ...values,
-                materials: this.getMaterilTree(materialList),
-            }).then(res => {
-                this.setState({
-                    codeKey: Math.random(),
-                    codeVisible: true,
-                    code: res.data.data,
-                });
-            });
+    preview = (value: boolean) => {
+        this.getCode();
+        this.setState({
+            showCode: value,
         });
     }
 
     /**
-     * 关闭代码弹窗
+     * 获取代码
      */
-    closeCode = () => {
-        this.setState({
-            codeVisible: false,
-        });
+    getCode = () => {
+        if (this.pageProps) {
+            const values = this.pageProps.props.form.getFieldsValue();
+            if (values.namespace && values.name) {
+                const { materialList } = this.state;
+                this.setState({
+                    codeLoading: true,
+                });
+                preview({
+                    ...values,
+                    materials: this.getMaterilTree(materialList),
+                }).then(res => {
+                    this.setState({
+                        code: res.data.data,
+                        codeLoading: false,
+                    });
+                });
+            }
+        }
     }
 
     /**
@@ -343,7 +347,7 @@ class Making extends React.Component<IProps, IState> {
                     create({
                         ...values,
                         materials: this.getMaterilTree(materialList),
-                    }).then(res => {
+                    }).then(() => {
                         message.success('成功生成代码');
                     });
                 });
@@ -387,7 +391,7 @@ class Making extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList, saveVisible, saveName, codeVisible, codeKey, code } = this.state;
+        const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList, saveVisible, saveName, code, codeLoading, showCode } = this.state;
         const { folders } = this.props.global;
 
         const files = [];
@@ -409,10 +413,11 @@ class Making extends React.Component<IProps, IState> {
                 <div className={`${styles.pageContent} light-theme`}>
                     <div className={styles.opt}>
                         <Button type="primary" style={{ marginRight: '10px' }} onClick={this.create}>生成</Button>
-                        <Button type="primary" style={{ marginRight: '10px' }} onClick={this.preview}>预览</Button>
+                        {/* <Button type="primary" style={{ marginRight: '10px' }} onClick={this.preview}>预览</Button> */}
                         <Button type="primary" onClick={() => this.openSave()} style={{ marginRight: '10px' }}>保存</Button>
                         <Button type="primary" onClick={this.openLoad} style={{ marginRight: '10px' }}>载入</Button>
                         <Button type="danger" onClick={this.clear} style={{ marginRight: '10px' }}>清空</Button>
+                        预览 <Switch checked={showCode} onChange={this.preview} />
                     </div>
                     <MaterialContent
                         ref={el => { this.materialContent = el; }}
@@ -428,21 +433,42 @@ class Making extends React.Component<IProps, IState> {
                         }
                     </div>
                 </div>
-                <div className={styles.edit}>
-                    <Tabs defaultActiveKey="1" animated={false}>
-                        <TabPane tab="组件属性" key="1">
-                            <MaterialEidt
-                                material={material}
-                                modalList={modalList}
-                                key={id}
-                                editProps={this.editProps} />
-                        </TabPane>
-                        <TabPane tab="页面属性" key="2">
-                            <div className={styles.pageProps}>
-                                <PageProps folders={folders} wrappedComponentRef={el => { this.pageProps = el; }} />
+                <div className={styles.edit} style={{ width: showCode ? '500px' : '360px' }}>
+                    <div className={styles.editBox}>
+                        <Tabs defaultActiveKey="1" animated={false}>
+                            <TabPane tab="组件属性" key="1">
+                                <MaterialEidt
+                                    material={material}
+                                    modalList={modalList}
+                                    key={id}
+                                    editProps={this.editProps} />
+                            </TabPane>
+                            <TabPane tab="页面属性" key="2">
+                                <div className={styles.pageProps}>
+                                    <PageProps folders={folders} wrappedComponentRef={el => { this.pageProps = el; }} />
+                                </div>
+                            </TabPane>
+                        </Tabs>
+                    </div>
+                    {
+                        showCode && (
+                            <div className={styles.codeBox}>
+                                <Tabs animated={false}>
+                                    {
+                                        files.map(file => (
+                                            <TabPane tab={file.file} key={file.file}>
+                                                <Spin spinning={codeLoading}>
+                                                    <div className={styles.codeContent}>
+                                                        <pre>{file.code}</pre>
+                                                    </div>
+                                                </Spin>
+                                            </TabPane>
+                                        ))
+                                    }
+                                </Tabs>
                             </div>
-                        </TabPane>
-                    </Tabs>
+                        )
+                    }
                 </div>
                 <Modal
                     title="保存列表"
@@ -468,29 +494,6 @@ class Making extends React.Component<IProps, IState> {
                     onCancel={this.closeSave}
                     onOk={this.confirmSave}>
                     <Input placeholder="命名" value={saveName} onChange={(e) => this.setState({ saveName: e.target.value })} />
-                </Modal>
-                <Modal
-                    className={styles.codeModal}
-                    title="代码"
-                    visible={codeVisible}
-                    key={codeKey}
-                    width="800px"
-                    onCancel={this.closeCode}
-                    onOk={this.closeCode}>
-                    <div>
-
-                        <Tabs animated={false}>
-                            {
-                                files.map(file => (
-                                    <TabPane tab={file.file} key={file.file}>
-                                        <div className={styles.codeContent}>
-                                            <pre>{file.code}</pre>
-                                        </div>
-                                    </TabPane>
-                                ))
-                            }
-                        </Tabs>
-                    </div>
                 </Modal>
             </div>
         );

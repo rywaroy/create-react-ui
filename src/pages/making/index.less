@@ -13,14 +13,35 @@
 
 .edit {
   width: 360px;
-  overflow-x: hidden;
-  overflow-y: auto;
   border-left: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
   :global {
     .ant-tabs-nav-wrap {
       padding-left: 12px;
     }
   }
+}
+
+.codeBox {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-top: 1px solid #ccc;
+  :global {
+    .ant-spin-nested-loading {
+      height: 100%;
+    }
+    .ant-spin-container {
+      height: 100%;
+    }
+  }
+}
+
+.editBox {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 
@@ -47,9 +68,7 @@
 }
 
 .codeContent {
-  height: 500px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  padding: 0 10px;
 }
 
 .codeModal {
