@@ -60,7 +60,7 @@ export const LytTableMaterial: IMaterial = {
                 methods: [
                     `const getData = ({ current, pageSize }, formData) => {
                         // return getList({
-                        //     pageNum: current,
+                        //     pageNo: current,
                         //     pageSize,
                         //     ...formData
                         // });
