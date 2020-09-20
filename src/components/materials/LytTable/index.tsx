@@ -37,6 +37,7 @@ export const LytTableMaterial: IMaterial = {
             return '';
         }`,
     },
+    project: '陆运通后台',
     haveChildren: false,
     editComponents: [
         { name: 'className' },

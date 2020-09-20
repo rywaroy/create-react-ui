@@ -24,6 +24,7 @@ export const TableMaterial: IMaterial = {
         rowKey: 'id',
         expansion: '{...tableProps}',
     },
+    project: '油涟后台',
     haveChildren: false,
     editComponents: [
         { name: 'className' },

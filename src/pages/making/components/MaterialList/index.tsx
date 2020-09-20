@@ -52,7 +52,7 @@ class MaterialList extends Component<IProps, IState> {
         materials.forEach(item => {
             if (item.from === '') {
                 materialList[0].children.push(item);
-            } else if (item.from === 'antd') {
+            } else if (item.from === 'antd' && !item.project) {
                 materialList[1].children.push(item);
             } else {
                 if (!item.project) {
