@@ -3,7 +3,7 @@ import { IImport } from '../types/making';
 export default function functionComponentImportTemplate(importDeclaration: IImport) {
     let importString = '';
     if (importDeclaration) {
-        Object.keys(importDeclaration).forEach(key => {
+        Object.keys(importDeclaration).sort().reverse().forEach(key => {
             const { export: exportVar, default: defaultVar } = importDeclaration[key];
             importString += 'import ';
             if (defaultVar) {
