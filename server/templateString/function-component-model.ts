@@ -18,7 +18,7 @@ export default function functionComponentModel(values: IModelOption, namespace: 
         namespace: '${namespace}',
         state: initState(),
         effects: {
-            * changeState({ payload }, { call, put, select }) {
+            * changeState({ payload }, { put }) {
                 yield put({
                     type: 'updateState',
                     payload
@@ -30,7 +30,7 @@ export default function functionComponentModel(values: IModelOption, namespace: 
             updateState(state, { payload }) {
                 return { ...state, ...payload };
             },
-            resetState(state, { payload }) {
+            resetState() {
                 return { ...initState() };
             },
             ${reducers.join(',\n')}
