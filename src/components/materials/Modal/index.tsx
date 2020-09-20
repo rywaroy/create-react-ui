@@ -129,8 +129,8 @@ export const ModalMaterial: IMaterial = {
                     props: ['visible', 'onOk', 'onCancel'],
                 },
                 methods: [
-                    `const {{modalName}}Submit = (values) => {
-                        onOk(values);
+                    `const {{modalName}}Submit = () => {
+                        onOk();
                     }`,
                 ],
             },
