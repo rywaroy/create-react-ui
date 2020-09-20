@@ -361,7 +361,7 @@ export const LytListFilter = {
                         export: ['useRef'],
                     },
                     './map': {
-                        export: ['listFiltles', 'outherSet'],
+                        export: ['listFilters', 'outherSet'],
                     },
                     '@/components/ListFilter': {
                         default: 'ListFilter',
@@ -372,7 +372,7 @@ export const LytListFilter = {
                 ],
             },
             'map.js': [
-                `export function listFiltles() {
+                `export function listFilters() {
                     return {{JSON.stringify(formSet)}};
                 }`,
                 `export function outherSet() {

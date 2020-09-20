@@ -102,7 +102,7 @@ export const ListFilterMaterial: IMaterial = {
                         export: ['useRef'],
                     },
                     './map': {
-                        export: ['listFiltles'],
+                        export: ['listFilters'],
                     },
                     '@/components': {
                         export: ['ListFilter'],
@@ -113,7 +113,7 @@ export const ListFilterMaterial: IMaterial = {
                 ],
             },
             'map.js': [
-                `export function listFiltles() {
+                `export function listFilters() {
                     return {{JSON.stringify(filters)}};
                 }`,
             ],
