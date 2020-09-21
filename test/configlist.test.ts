@@ -74,4 +74,15 @@ describe('测试classList接口', () => {
         const res2 = await request(server).get('/api/configlist/class');
         expect(res2.body.data.list.length).toBe(1);
     });
+
+    it('/configlist/class PATCH 接口测试', async () => {
+        const res = await request(server).get('/api/configlist/class');
+        const { id } = res.body.data.list[0];
+        const res2 = await request(server)
+            .patch('/api/configlist/class')
+            .send({ name: 'test2', id, value: 'test2' });
+        expect(res2.status).toBe(200);
+        const res3 = await request(server).get('/api/configlist/class');
+        expect(res3.body.data.list[0].name).toBe('test2');
+    });
 });
