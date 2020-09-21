@@ -85,4 +85,13 @@ describe('测试classList接口', () => {
         const res3 = await request(server).get('/api/configlist/class');
         expect(res3.body.data.list[0].name).toBe('test2');
     });
+
+    it('/configlist/class DELETE 接口测试', async () => {
+        const res = await request(server).get('/api/configlist/class');
+        const { id } = res.body.data.list[0];
+        const res2 = await request(server).delete(`/api/configlist/class?id=${id}`);
+        expect(res2.status).toBe(200);
+        const res3 = await request(server).get('/api/configlist/class');
+        expect(res3.body.data.list.length).toBe(0);
+    });
 });
