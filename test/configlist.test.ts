@@ -15,7 +15,7 @@ afterAll(() => {
     server.close();
 });
 
-describe('测试configlist接口', () => {
+describe('测试label接口', () => {
     it('/configlist/label GET 接口测试', async () => {
         const res = await request(server).get('/api/configlist/label');
         expect(res.status).toBe(200);
@@ -57,5 +57,12 @@ describe('测试configlist接口', () => {
         expect(res.status).toBe(200);
         const res2 = await request(server).get('/api/configlist/label');
         expect(res2.body.data.display).toBeTruthy();
+    });
+});
+
+describe('测试classList接口', () => {
+    it('/configlist/class GET 接口测试', async () => {
+        const res = await request(server).get('/api/configlist/class');
+        expect(res.status).toBe(200);
     });
 });
