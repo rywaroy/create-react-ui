@@ -20,4 +20,13 @@ describe('测试pageList接口', () => {
         const res = await request(server).get('/api/making/page');
         expect(res.status).toBe(200);
     });
+
+    it('/making/page POST 接口测试', async () => {
+        const res = await request(server)
+            .post('/api/making/page')
+            .send({ title: 'test', value: 'test' });
+        expect(res.status).toBe(200);
+        const res2 = await request(server).get('/api/making/page');
+        expect(res2.body.data.length).toBe(1);
+    });
 });
