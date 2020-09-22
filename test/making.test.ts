@@ -15,6 +15,44 @@ afterAll(() => {
     server.close();
 });
 
+const materials = [
+    {
+        tag: 'main',
+        props: {},
+        haveChildren: true,
+        from: '@/components',
+        ext: {
+            code: {
+                'index.js': {
+                    importDeclaration: {
+                        dva: {
+                            export: ['useDispatch', 'useSelector'],
+                            react: { default: 'React', export: ['useEffect'] },
+                        },
+                    },
+                },
+            },
+        },
+        children: [
+            {
+                tag: 'GenerateForm',
+                props: {},
+                haveChildren: false,
+                from: '@/components',
+                ext: {
+                    code: {
+                        'index.js': {
+                            importDeclaration: {
+                                '@/componenets': { export: ['GenerateForm'] },
+                            },
+                        },
+                    },
+                },
+            },
+        ],
+    },
+];
+
 describe('测试pageList接口', () => {
     it('/making/page GET 接口测试', async () => {
         const res = await request(server).get('/api/making/page');
@@ -37,5 +75,17 @@ describe('测试pageList接口', () => {
         expect(res2.status).toBe(200);
         const res3 = await request(server).get('/api/making/page');
         expect(res3.body.data.length).toBe(0);
+    });
+
+    it('/making/prview 预览接口测试', async () => {
+        const res = await request(server)
+            .post('/api/making/preview')
+            .send({
+                name: 'pagelist',
+                namespace: 'pagelist',
+                url: 'example',
+                materials,
+            });
+        expect(res.status).toBe(200);
     });
 });
