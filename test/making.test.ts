@@ -29,4 +29,13 @@ describe('测试pageList接口', () => {
         const res2 = await request(server).get('/api/making/page');
         expect(res2.body.data.length).toBe(1);
     });
+
+    it('/making/page DELETE 接口测试', async () => {
+        const res = await request(server).get('/api/making/page');
+        const { id } = res.body.data[0];
+        const res2 = await request(server).delete(`/api/making/page?id=${id}`);
+        expect(res2.status).toBe(200);
+        const res3 = await request(server).get('/api/making/page');
+        expect(res3.body.data.length).toBe(0);
+    });
 });
