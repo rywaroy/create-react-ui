@@ -12,6 +12,7 @@ beforeAll(() => {
 
 afterAll(() => {
     fs.removeSync('node_modules/.cache/crui');
+    fs.removeSync('test/example');
     server.close();
 });
 
@@ -81,11 +82,24 @@ describe('测试pageList接口', () => {
         const res = await request(server)
             .post('/api/making/preview')
             .send({
-                name: 'pagelist',
-                namespace: 'pagelist',
-                url: 'example',
+                name: 'listpage',
+                namespace: 'listpage',
+                url: 'test/example',
                 materials,
             });
         expect(res.status).toBe(200);
+    });
+
+    it('/making/create 创建代码测试', async () => {
+        const res = await request(server)
+            .post('/api/making/create')
+            .send({
+                name: 'listpage',
+                namespace: 'listpage',
+                url: 'test/example',
+                materials,
+            });
+        expect(res.status).toBe(200);
+        expect(fs.statSync('test/example/listpage/index.js').isFile()).toBeTruthy();
     });
 });
