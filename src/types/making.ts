@@ -1,27 +1,64 @@
 export interface IMaterial {
+  /**组件名 */
   name: string;
+
+  /**标签 */
   tag: string;
+
+  /**import from */
   from: string;
+
+  /**component function */
   component: any;
+
+  /**简介 */
   intro: string;
+
+  /**props */
   props: any;
+
+  /**默认props 只做展示使用 */
   defaultProps?: any;
+
+  /**额外props 组件单独处理使用 */
   extraProps?: any;
+
+  /**编辑组件map */
   editComponents: IEditComponents[];
   id: number;
+
+  /**父级id */
   pid?: number;
+
+  /**是否激活 */
   active?: boolean;
+
+  /**子组件 */
   children?: IMaterial[];
+
+  /**来源项目 */
   project?: string;
+
+  /**是否能加入子组件 */
   haveChildren: boolean;
+
   haveWrap?: boolean;
+
+  /**幽灵属性 */
   ghost?: boolean;
+
+  /**额外信息 */
   ext?: {
+    /**组件类型 */
     type?: string;
+
+    /**代码逻辑 */
     code?: {
       'model.js'?: IModelOption;
       [file: string]: string[] | IComponentOption | IModelOption;
     }
+
+    /**额外代码逻辑 */
     extraCode?: {
       [file: string]: string[] | IComponentOption | IModelOption;
     }
