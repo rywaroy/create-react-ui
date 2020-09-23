@@ -1,11 +1,10 @@
-import GeneratorMaterial from '../generator/GeneratorMaterial';
 import Generator from '../generator';
 import { IMaterial, IComponentOption, IModelOption } from '../../../types/making';
 
 /**
  * 收集页面数据
  */
-export default function fileData(material: IMaterial, generatorMaterial: GeneratorMaterial, generator: Generator) {
+export default function fileData(material: IMaterial, generator: Generator) {
     if (material.ext && material.ext.code) {
         Object.keys(material.ext.code).forEach(file => {
             if (file === 'model.js') { // model文件

@@ -17,7 +17,7 @@ export default class GeneratorMaterial extends EventEmitter {
 
     create() {
         this.generator.plugin.forEach(fn => {
-            fn(this.material, this, this.generator);
+            fn.call(this, this.material, this.generator);
         });
         this.emit('before-create-jsx');
         const { props, tag, extraProps = {} } = this.material;

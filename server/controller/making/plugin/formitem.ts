@@ -1,10 +1,9 @@
 import { IMaterial } from '../../../types/making';
-import GeneratorMaterial from '../generator/GeneratorMaterial';
 
 /**
  * 处理Form.Item组件
  */
-export default function formitem(material: IMaterial, generatorMaterial: GeneratorMaterial) {
+export default function formitem(material: IMaterial) {
     if (material.tag === 'Form.Item') {
         if (material.children) {
             material.children.forEach(child => {
@@ -14,11 +13,11 @@ export default function formitem(material: IMaterial, generatorMaterial: Generat
     }
     if (material.props.getFieldDecorator) {
         const name = material.props.getFieldDecorator;
-        generatorMaterial.on('before-create-startTag', () => {
-            generatorMaterial.jsx += `{getFieldDecorator('${name}')(`;
+        this.on('before-create-startTag', () => {
+            this.jsx += `{getFieldDecorator('${name}')(`;
         });
-        generatorMaterial.on('after-create-jsx', () => {
-            generatorMaterial.jsx += ')}';
+        this.on('after-create-jsx', () => {
+            this.jsx += ')}';
         });
         delete material.props.getFieldDecorator;
     }

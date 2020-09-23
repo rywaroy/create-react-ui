@@ -4,7 +4,7 @@ import codeFormat from '../../../utils/codeFormat';
 import functionComponentIndex from '../../../templateString/function-component-index';
 import functionComponentModel from '../../../templateString/function-component-model';
 
-type IPlugin = ((material: IMaterial, generatorMaterial: GeneratorMaterial, generator?: Generator) => void)[]
+type IPlugin = ((material: IMaterial, generator?: Generator) => void)[]
 
 interface IOption {
     plugin: IPlugin;
@@ -33,7 +33,6 @@ export default class Generator {
         this.materials = materials;
         this.plugin = plugin;
         this.url = url;
-        // this.name = name;
         this.files['index.js'].name = name;
         this.namespace = namespace;
     }

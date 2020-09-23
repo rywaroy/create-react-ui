@@ -1,8 +1,7 @@
-import GeneratorMaterial from '../generator/GeneratorMaterial';
 import Generator from '../generator';
 import { IMaterial } from '../../../types/making';
 
-export default function template(material: IMaterial, generatorMaterial: GeneratorMaterial, generator: Generator) {
+export default function template(material: IMaterial, generator: Generator) {
     Object.keys(material.props).forEach(key => {
         material.props[key] = deep(material.props[key]);
     });

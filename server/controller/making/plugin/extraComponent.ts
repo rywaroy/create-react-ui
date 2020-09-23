@@ -1,11 +1,10 @@
 import { IMaterial, IComponentOption } from '../../../types/making';
 import Generator from '../generator';
-import GeneratorMaterial from '../generator/GeneratorMaterial';
 
 /**
  * 处理额外导出的组件
  */
-export default function extraComponent(material: IMaterial, generatorMaterial: GeneratorMaterial, generator: Generator) {
+export default function extraComponent(material: IMaterial, generator: Generator) {
     if (material.ext && material.ext.componentPath) {
         setExtComponent(material, undefined, material.ext.componentPath);
     } else if (material.props.extraComponent) {
