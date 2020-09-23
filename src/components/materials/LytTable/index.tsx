@@ -58,8 +58,19 @@ export const LytTableMaterial: IMaterial = {
                         export: ['useTable'],
                     },
                 },
+                destructuring: {
+                    '{{namespace}}': ['formData', 'pageSize', 'current'],
+                },
                 methods: [
                     `const getData = ({ current, pageSize }, formData) => {
+                        dispatch({
+                            type: '{{namespace}}/updateState',
+                            payload: {
+                              formData,
+                              pageSize,
+                              current,
+                            },
+                          });
                         // return getList({
                         //     pageNo: current,
                         //     pageSize,
@@ -74,6 +85,10 @@ export const LytTableMaterial: IMaterial = {
                     };`,
                     `const { tableProps{{hasMaterialByTag('ListFilter') ? ', search' : ''}} } = useTable(getData, {
                         form: {{hasMaterialByTag('ListFilter') ? 'formRef.current ? formRef.current.getForm() : false' : false}},
+                        defaultParams: [
+                            { pageSize, current },
+                            formData,
+                        ],
                     });`,
                     '{{hasMaterialByTag(\'ListFilter\') ? \'const { submit, reset } = search\' : \'\'}}',
                 ],
@@ -84,6 +99,13 @@ export const LytTableMaterial: IMaterial = {
                     return {{createFunctionString(columns)}};
                 }`,
             ],
+            'model.js': {
+                state: {
+                    formData: {},
+                    pageSize: 10,
+                    current: 1,
+                },
+            },
         },
     },
 };
