@@ -7,6 +7,7 @@ import formitem from './formitem';
 import listFilter from './listFilter';
 import generateModal from './generateModal';
 import extraComponent from './extraComponent';
+import createJsx from './createJsx';
 
 export default [
     defaultPlugin,
@@ -18,4 +19,5 @@ export default [
     extraComponent,
     template,
     fileData,
+    createJsx,
 ];
