@@ -33,13 +33,13 @@ export default function functionComponentIndex(values: IComponentOption) {
     // methods
     let methodsString = '';
     if (methods) {
-        methodsString = methods.join('\n');
+        methodsString = methods.join('\n\n');
     }
 
-    // methods
+    // useEffect
     let useEffectString = '';
     if (useEffect) {
-        useEffectString = useEffect.join('\n');
+        useEffectString = useEffect.join('\n\n');
     }
 
     // export
