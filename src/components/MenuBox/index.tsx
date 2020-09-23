@@ -48,12 +48,6 @@ class MenuBox extends Component<any, IState> {
                     url: '/create',
                 },
                 {
-                    title: '构建发布',
-                    key: 'publish',
-                    icon: 'build',
-                    url: '/publish',
-                },
-                {
                     title: '文档生成',
                     key: 'document',
                     icon: 'file',
