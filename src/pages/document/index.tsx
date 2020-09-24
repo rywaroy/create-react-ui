@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Terminal } from 'xterm';
 import { TreeSelect, Form, Button, Icon, Upload, message } from 'antd';
 import { isFolder, isJsOrFolder } from '@/services/file';
-import socket from '@/utils/socket';
+// import socket from '@/utils/socket';
 import { FormComponentProps } from 'antd/es/form';
 import { GlobalModelState } from '@/models/global';
 import { ICreateDocumentParams } from '@/types/document';
@@ -68,10 +68,10 @@ class Doucument extends Component<IProps, IState> {
         this.props.form.validateFields((err, values: ICreateDocumentParams) => {
             if (!err) {
                 const { entry, output } = values;
-                socket.emit('create-document', {
-                    entry,
-                    output,
-                });
+                // socket.emit('create-document', {
+                //     entry,
+                //     output,
+                // });
             }
         });
     }
@@ -110,14 +110,14 @@ class Doucument extends Component<IProps, IState> {
             cols: 100,
         });
         this.term.open(document.getElementById('terminal'));
-        socket.on('term-document', this.writeln);
-        socket.on('createing', this.changeCreate);
+        // socket.on('term-document', this.writeln);
+        // socket.on('createing', this.changeCreate);
     }
 
     componentWillUnmount() {
         this.term.dispose();
-        socket.removeEventListener('term-document', this.writeln);
-        socket.removeEventListener('createing', this.changeCreate);
+        // socket.removeEventListener('term-document', this.writeln);
+        // socket.removeEventListener('createing', this.changeCreate);
     }
 
     render() {

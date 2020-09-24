@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, ConfigProvider, notification, Icon } from 'antd';
+import { Layout, ConfigProvider, notification, Icon, Alert } from 'antd';
 import { connect } from 'dva';
 import 'antd/dist/antd.css';
 import 'xterm/css/xterm.css';
@@ -7,7 +7,8 @@ import zhCN from 'antd/es/locale/zh_CN';
 import MenuBox from '@/components/MenuBox';
 import { GlobalModelState } from '@/models/global';
 import LabelBox from '@/components/LabelBox';
-import socket from '@/utils/socket';
+// import socket from '@/utils/socket';
+import styles from './index.less';
 
 const { Content, Sider } = Layout;
 
@@ -52,15 +53,15 @@ class BasicLayout extends Component<IProps, null> {
         this.props.dispatch({
             type: 'global/getClassList',
         });
-        socket.on('msg', data => {
-            notification.open({
-                message: data.msg,
-                icon: data.status === 200 ? <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /> : <Icon type="close-circle" style={{ color: 'red' }} />,
-            });
-        });
-        setInterval(() => {
-            socket.emit('heart-link');
-        }, 10000);
+        // socket.on('msg', data => {
+        //     notification.open({
+        //         message: data.msg,
+        //         icon: data.status === 200 ? <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /> : <Icon type="close-circle" style={{ color: 'red' }} />,
+        //     });
+        // });
+        // setInterval(() => {
+        //     socket.emit('heart-link');
+        // }, 10000);
     }
 
     render() {
@@ -68,6 +69,7 @@ class BasicLayout extends Component<IProps, null> {
 
         return (
             <Layout style={{ height: '100%', minWidth: 1200 }}>
+                <Alert className={styles.tip} message="当前为在线预览模式，不提供功能。克隆 crui-example 项目可体验全部功能" banner />
                 <Layout>
                     <Sider
                         collapsible

@@ -18,6 +18,6 @@ export default defineConfig({
     '@': path.resolve(__dirname, 'src'),
   },
   theme: dark,
-  outputPath: './lib/static'
+  // outputPath: './lib/static'
 });
 

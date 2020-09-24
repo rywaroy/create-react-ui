@@ -88,10 +88,7 @@
     "umi-ui-theme": "^1.2.1"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --fix",
-      "git add"
-    ]
+    "*.{js,jsx}": []
   },
   "engines": {
     "node": ">=8.0.0"
