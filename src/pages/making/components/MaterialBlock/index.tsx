@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Icon } from 'antd';
 import { IMaterial } from '@/types/making';
-import styles from './index.less';
 
 interface IProps {
   material: IMaterial;
@@ -32,71 +31,71 @@ const MaterialBlock: React.FC<IProps> = (props) => {
 
     const [draggable, setDraggable] = useState<boolean>(false);
 
-    const selectMaterial = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const selectMaterial = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         event.stopPropagation();
         props.selectMaterial(props.material);
-    };
+    }, []);
 
-    const deleteMaterial = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const deleteMaterial = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         event.stopPropagation();
         props.deleteMaterial(id);
-    };
+    }, [id]);
 
-    const copyMaterial = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const copyMaterial = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         event.stopPropagation();
         props.copyMaterial(id);
-    };
+    }, [id]);
 
-    const saveMaterial = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const saveMaterial = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         event.stopPropagation();
         props.saveMaterial(id);
-    };
+    }, [id]);
 
-    const drop = (event: React.DragEvent<HTMLDivElement>) => {
+    const drop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
         event.preventDefault();
         props.dragEnd();
-    };
+    }, []);
 
-    const dragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    const dragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
         event.preventDefault();
-    };
+    }, []);
 
-    const dragEnter = (event: React.DragEvent<HTMLDivElement>) => {
+    const dragEnter = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
         props.dragEnter(id);
-    };
+    }, [id]);
 
-    const dragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+    const dragLeave = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
-    };
+    }, []);
 
-    const drag = (event: React.DragEvent<HTMLDivElement>) => {
+    const drag = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
         event.dataTransfer.setData('id', String(id));
         props.dragStart(id);
-    };
+    }, [id]);
 
-    const dragDown = () => {
+    const dragDown = useCallback(() => {
         setDraggable(true);
-    };
+    }, []);
 
-    const dragEnd = (event: React.DragEvent<HTMLDivElement>) => {
+    const dragEnd = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.stopPropagation();
         setDraggable(false);
         props.dragEnd();
-    };
+    }, []);
 
-    const up = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const up = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         event.stopPropagation();
         props.up(id);
-    };
+    }, [id]);
 
-    const down = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const down = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         event.stopPropagation();
         props.down(id);
-    };
+    }, [id]);
 
     const dragIcon = id !== 1 && active && (
         <span className="dragIcon" onMouseDown={dragDown}>
