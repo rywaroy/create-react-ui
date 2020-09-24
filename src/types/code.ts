@@ -75,6 +75,7 @@ export interface ISetFormValues {
   selectOptions?: IMockData[];
   checkboxOptions?: IMockData[];
   radioOptions?: IMockData[];
+  dataOptions?: IMockData[];
   isShow?: boolean;
   rules?: any[];
   validate?: any[];

@@ -1,0 +1,49 @@
+.materialItem {
+  display: inline-block;
+  width: 48%;
+  height: 32px;
+  padding: 0 8px;
+  background: #f9f9f9;
+  border: 1px solid #f9f9f9;
+  cursor: move;
+  font-size: 12px;
+  line-height: 30px;
+  color: #333;
+  margin-right: 1%;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  &:hover {
+    color: #409eff;
+    border: 1px dashed #409eff;
+    span {
+      opacity: 1;
+    }
+  }
+  span {
+    font-size: 12px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    line-height: 12px;
+    color: #f81d22;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+}
+
+.materialFilter {
+  margin-bottom: 20px;
+}
+
+.materialTitle {
+  font-size: 14px;
+  line-height: 30px;
+  color: #fff;
+}
+
+.collapse {
+  background-color: rgb(35, 35, 46);
+}

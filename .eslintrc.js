@@ -66,7 +66,13 @@ module.exports = {
     "import/no-absolute-path": 0,
     '@typescript-eslint/semi': 0,
     'react/jsx-props-no-spreading': 0,
-    'react/static-property-placement': 0
+    'react/static-property-placement': 0,
+    'react/jsx-one-expression-per-line': 0,
+    'no-with': 0,
+    'no-eval': 0,
+    'no-nested-ternary': 0,
+    'jsx-a11y/anchor-is-valid': 0,
+    'no-template-curly-in-string': 0,
   },
   settings: {
     "import/resolver": {

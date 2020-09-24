@@ -1,0 +1,88 @@
+.pageWrap {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  min-width: 1600px;
+}
+
+.material {
+  width: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+}
+
+.edit {
+  width: 360px;
+  border-left: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  :global {
+    .ant-tabs-nav-wrap {
+      padding-left: 12px;
+    }
+  }
+}
+
+.codeBox {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-top: 1px solid #ccc;
+  :global {
+    .ant-spin-nested-loading {
+      height: 100%;
+    }
+    .ant-spin-container {
+      height: 100%;
+    }
+  }
+}
+
+.editBox {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
+.pageContent {
+  flex: 1;
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.opt {
+  height: 40px;
+}
+
+.modalBtns {
+  margin-top: 10px;
+}
+
+.pageProps {
+  padding: 20px;
+}
+
+.codeContent {
+  padding: 0 10px;
+  height: calc(50vh - 62px);
+  overflow: auto;
+}
+
+.codeModal {
+  :global {
+    .ant-modal-body {
+      padding: 0px 24px;
+    }
+  }
+}
+
+.codeTip {
+  color: #fff;
+  padding: 10px;
+}

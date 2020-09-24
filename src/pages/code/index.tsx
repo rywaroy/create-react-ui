@@ -38,7 +38,7 @@ class Code extends Component<IProps, null> {
     render() {
         const { files, folders, labelList } = this.props.global;
         return (
-            <div>
+            <div className="base-content">
                 <div className="template-list">
                     <TableCode files={files} updateFiles={this.updateFiles} labelList={labelList} />
                     <FormCode files={files} updateFiles={this.updateFiles} labelList={labelList} />

@@ -39,7 +39,9 @@ export default async function customController(ctx: IContext) {
                     'jsx',
                 ],
             });
+            // @ts-ignore
             traverse(ast, createExportVisitor(ast, variable));
+            // @ts-ignore
             const output = generate(ast);
             fs.writeFileSync(targetUrl, output.code);
         } catch {

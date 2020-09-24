@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Select, DatePicker, Row, Col, Input, InputNumber, Checkbox, Radio, Button } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { ISetFormValues } from '@/types/code';
+import { IMaterial } from '@/types/making';
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -154,7 +155,7 @@ class GenerateForm extends React.Component<IProps, any> {
                                 /* 对于存在多种类型子组件时，可以通过subComponent字段告知组件使用哪种类型的子组件，子组件类型定义在mapTypeToComponent的SubComponentMap中 */
                                 const { optionsData, SubComponentMap, style } = mapTypeToComponent[type.toLowerCase()];
                                 let { SubComponent } = mapTypeToComponent[type.toLowerCase()];
-                                const subOptionsData = item[optionsData];
+                                const subOptionsData = item[optionsData] || item.subOptionsData;
                                 const { models } = item;
                                 const [valueKey = 'value', labelKey = 'label'] = models || [];
 

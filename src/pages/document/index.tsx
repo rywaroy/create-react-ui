@@ -140,7 +140,7 @@ class Doucument extends Component<IProps, IState> {
         };
 
         return (
-            <div>
+            <div className="base-content">
                 <div className={styles.top}>
                     <div className={styles.form}>
                         <Form {...formItemLayout}>

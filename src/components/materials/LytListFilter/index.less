@@ -1,0 +1,48 @@
+.otherForm {
+    border-top: 1px solid #e7e8e9;
+    margin-top: 8px;
+    padding-top: 8px;
+    :global {
+        .ant-form-item {
+            display: flex;
+            margin-bottom: 0;
+            .ant-form-item-label {
+                width: auto;
+            }
+            .ant-form-item-control-wrapper {
+                width: 810px;
+            }
+        }
+        .ant-checkbox-wrapper {
+            span {
+                font-size: 14px;
+                color: #171f25;
+            }
+        }
+        .ant-radio-wrapper span {
+            font-size: 14px;
+            color: #171f25;
+        }
+        .ant-form-item-label {
+            line-height: 32px;
+        }
+        .ant-form-item-control {
+            line-height: 32px;
+        }
+        .ant-checkbox-wrapper {
+            margin-bottom: 4px;
+        }
+        .ant-checkbox-group {
+            margin-top: 5px;
+        }
+    }
+}
+
+.listFilter .form {
+    :global {
+        .ant-form-item .ant-form-item-control-wrapper {
+            width: 66%;
+            height: 42px;
+        }
+    }
+}

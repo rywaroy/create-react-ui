@@ -16,3 +16,27 @@ export interface IAddLabelParams {
 export interface IChangeLabelDisplayParams {
   display: boolean;
 }
+
+export interface IClassItem {
+  id: string;
+  name: string;
+  value: string;
+  display: boolean;
+}
+
+export interface IPatchClassParams extends IClassItem {}
+
+export interface IDeleteClassParams {
+  id: string;
+}
+
+export interface IAddClassParams {
+  name: string;
+  value: string;
+}
+
+export interface IPageItem {
+  id: string;
+  title: string;
+  value: string;
+}

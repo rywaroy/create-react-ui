@@ -15,7 +15,7 @@ afterAll(() => {
     server.close();
 });
 
-describe('测试configlist接口', () => {
+describe('测试label接口', () => {
     it('/configlist/label GET 接口测试', async () => {
         const res = await request(server).get('/api/configlist/label');
         expect(res.status).toBe(200);
@@ -57,5 +57,41 @@ describe('测试configlist接口', () => {
         expect(res.status).toBe(200);
         const res2 = await request(server).get('/api/configlist/label');
         expect(res2.body.data.display).toBeTruthy();
+    });
+});
+
+describe('测试classList接口', () => {
+    it('/configlist/class GET 接口测试', async () => {
+        const res = await request(server).get('/api/configlist/class');
+        expect(res.status).toBe(200);
+    });
+
+    it('/configlist/class POST 接口测试', async () => {
+        const res = await request(server)
+            .post('/api/configlist/class')
+            .send({ name: 'test', value: 'test' });
+        expect(res.status).toBe(200);
+        const res2 = await request(server).get('/api/configlist/class');
+        expect(res2.body.data.length).toBe(1);
+    });
+
+    it('/configlist/class PATCH 接口测试', async () => {
+        const res = await request(server).get('/api/configlist/class');
+        const { id } = res.body.data[0];
+        const res2 = await request(server)
+            .patch('/api/configlist/class')
+            .send({ name: 'test2', id, value: 'test2' });
+        expect(res2.status).toBe(200);
+        const res3 = await request(server).get('/api/configlist/class');
+        expect(res3.body.data[0].name).toBe('test2');
+    });
+
+    it('/configlist/class DELETE 接口测试', async () => {
+        const res = await request(server).get('/api/configlist/class');
+        const { id } = res.body.data[0];
+        const res2 = await request(server).delete(`/api/configlist/class?id=${id}`);
+        expect(res2.status).toBe(200);
+        const res3 = await request(server).get('/api/configlist/class');
+        expect(res3.body.data.length).toBe(0);
     });
 });

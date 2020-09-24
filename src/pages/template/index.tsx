@@ -20,7 +20,7 @@ const Template: React.FC<IProps> = (props) => {
     };
 
     return (
-        <div>
+        <div className="base-content">
             <div className="template-list">
                 <DefaultTemplate folders={folders} updateFiles={updateFiles} />
                 <UmiTemplate folders={folders} updateFiles={updateFiles} />

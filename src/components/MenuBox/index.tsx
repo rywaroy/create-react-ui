@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
 import { history } from 'umi';
 
+const { SubMenu } = Menu;
+
 interface IState {
     defaultSelectedKey: string[];
     map: IRoute[];
@@ -10,15 +12,16 @@ interface IState {
 interface IRoute {
     title: string;
     key: string;
-    icon: string;
-    url: string;
+    icon?: string;
+    url?: string;
+    children?: IRoute[];
 }
 
 class MenuBox extends Component<any, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            defaultSelectedKey: ['template'],
+            defaultSelectedKey: [],
             map: [
                 {
                     title: '模板',
@@ -33,16 +36,16 @@ class MenuBox extends Component<any, IState> {
                     url: '/code',
                 },
                 {
+                    title: '可视化搭建',
+                    key: 'making',
+                    icon: 'layout',
+                    url: '/making',
+                },
+                {
                     title: '脚手架',
                     key: 'create',
                     icon: 'tool',
                     url: '/create',
-                },
-                {
-                    title: '构建发布',
-                    key: 'publish',
-                    icon: 'build',
-                    url: '/publish',
                 },
                 {
                     title: '文档生成',
@@ -75,26 +78,49 @@ class MenuBox extends Component<any, IState> {
 
     componentDidMount() {
         const { pathname } = window.location;
+        const paths = pathname.split('/');
         this.setState({
-            defaultSelectedKey: [pathname.split('/')[1]],
+            defaultSelectedKey: [paths[paths.length - 1]],
         });
     }
 
     render() {
+        const { defaultSelectedKey } = this.state;
         return (
             <Menu
                 mode="inline"
                 theme="dark"
-                selectedKeys={this.state.defaultSelectedKey}
+                selectedKeys={defaultSelectedKey}
                 style={{ borderRight: 0 }}
             >
                 {
-                    this.state.map.map(item => (
-                        <Menu.Item key={item.key} onClick={() => this.onClickItem(item)}>
-                            <Icon type={item.icon} />
-                            <span className="nav-text">{item.title}</span>
-                        </Menu.Item>
-                    ))
+                    this.state.map.map(item => {
+                        if (item.children) {
+                            return (
+                                <SubMenu
+                                    key={item.key}
+                                    title={(
+                                        <span>
+                                            <Icon type={item.icon} />
+                                            <span className="nav-text">{item.title}</span>
+                                        </span>
+                                    )}
+                                >
+                                    {
+                                        item.children.map(child => (
+                                            <Menu.Item key={child.key} onClick={() => this.onClickItem(child)}>{child.title}</Menu.Item>
+                                        ))
+                                    }
+                                </SubMenu>
+                            );
+                        }
+                        return (
+                            <Menu.Item key={item.key} onClick={() => this.onClickItem(item)}>
+                                <Icon type={item.icon} />
+                                <span className="nav-text">{item.title}</span>
+                            </Menu.Item>
+                        );
+                    })
                 }
             </Menu>
         );

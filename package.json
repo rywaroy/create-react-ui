@@ -1,6 +1,6 @@
 {
   "name": "crui",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "react代码快速生成工具",
   "scripts": {
     "start": "umi dev",
@@ -20,6 +20,7 @@
     "@babel/generator": "^7.7.4",
     "@babel/parser": "^7.7.5",
     "@babel/traverse": "^7.7.4",
+    "ahooks": "^2.5.0",
     "antd": "^3.19.5",
     "axios": "^0.19.0",
     "chalk": "^4.0.0",

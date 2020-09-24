@@ -30,12 +30,27 @@ class BasicLayout extends Component<IProps, null> {
         });
     }
 
+    /**
+     * 菜单收缩
+     */
+    onCollapse = (collapsed: boolean) => {
+        this.props.dispatch({
+            type: 'global/updateState',
+            payload: {
+                collapsed,
+            },
+        });
+    };
+
     componentDidMount() {
         this.props.dispatch({
             type: 'global/updateFiles',
         });
         this.props.dispatch({
             type: 'global/getLabelConfig',
+        });
+        this.props.dispatch({
+            type: 'global/getClassList',
         });
         socket.on('msg', data => {
             notification.open({
@@ -49,19 +64,26 @@ class BasicLayout extends Component<IProps, null> {
     }
 
     render() {
-        const { labelDisplay, labelShow, labelList } = this.props.global;
+        const { labelDisplay, labelShow, labelList, collapsed } = this.props.global;
 
         return (
             <Layout style={{ height: '100%', minWidth: 1200 }}>
                 <Layout>
-                    <Sider width={200} style={{ background: '#30303d' }}>
-                        <div className="logo" />
+                    <Sider
+                        collapsible
+                        collapsedWidth={64}
+                        collapsed={collapsed}
+                        width={200}
+                        style={{ background: '#30303d' }}
+                        onCollapse={this.onCollapse}>
+                        {
+                            collapsed ? <div style={{ height: '120px' }} /> : <div className="logo" />
+                        }
                         <MenuBox />
                     </Sider>
-                    <Layout style={{ padding: '0 24px 24px', background: '#23232e' }}>
+                    <Layout style={{ background: '#23232e' }}>
                         <Content
                             style={{
-                                padding: 24,
                                 margin: 0,
                                 minHeight: 280,
                             }}
