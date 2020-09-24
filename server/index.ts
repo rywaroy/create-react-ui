@@ -3,8 +3,6 @@
 import program from 'commander';
 import http from 'http';
 import cp from 'child_process';
-import fs from 'fs-extra';
-import path from 'path';
 import app from './app';
 import createSocket from './socket';
 
@@ -33,6 +31,3 @@ server.listen(PORT, () => {
         }
     }
 });
-
-// 创建.crui 文件夹
-fs.ensureDir(path.join(process.cwd(), '.crui'));
