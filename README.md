@@ -1,6 +1,6 @@
 # crui
 
-[![Build Status](https://www.travis-ci.org/rywaroy/crui.svg?branch=master)](https://www.travis-ci.org/rywaroy/crui)　[![Version](https://img.shields.io/badge/npm-v2.1.0-blue.svg)](https://www.npmjs.com/package/crui)
+[![Build Status](https://www.travis-ci.org/rywaroy/crui.svg?branch=master)](https://www.travis-ci.org/rywaroy/crui)　[![Version](https://img.shields.io/badge/npm-v2.2.0-blue.svg)](https://www.npmjs.com/package/crui)
 
 > react 代码、模板快速生成工具
 
@@ -49,9 +49,9 @@ npm run start & npx crui
 
 * [代码块](docs/code.md)
 
-* [脚手架](docs/create.md)
+* [可视化搭建](docs/making.md)
 
-* [构建发布](docs/publish.md)
+* [脚手架](docs/create.md)
 
 * [文档生成](docs/document.md)
 
