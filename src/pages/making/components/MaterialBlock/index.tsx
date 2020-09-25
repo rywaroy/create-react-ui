@@ -34,7 +34,7 @@ const MaterialBlock: React.FC<IProps> = (props) => {
     const selectMaterial = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         event.stopPropagation();
         props.selectMaterial(props.material);
-    }, []);
+    }, [props.material]);
 
     const deleteMaterial = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         event.stopPropagation();
