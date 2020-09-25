@@ -15,16 +15,21 @@ interface IBody {
 export default function preview(ctx: IContext) {
     // @ts-ignore for travis
     const { materials, url, name, namespace }: IBody = ctx.request.body;
-    const generator = new Generator(materials, {
-        plugin,
-        url,
-        name,
-        namespace,
-    });
-    const files = generator.create();
-    Object.keys(files).forEach(item => {
-        const filePath = path.join(process.cwd(), url, name, item);
-        fs.outputFileSync(filePath, files[item]);
-    });
-    ctx.success(200, '成功');
+
+    if (fs.existsSync(path.join(process.cwd(), url, name))) {
+        ctx.success(0, '当前文件夹已经存在');
+    } else {
+        const generator = new Generator(materials, {
+            plugin,
+            url,
+            name,
+            namespace,
+        });
+        const files = generator.create();
+        Object.keys(files).forEach(item => {
+            const filePath = path.join(process.cwd(), url, name, item);
+            fs.outputFileSync(filePath, files[item]);
+        });
+        ctx.success(200, '成功');
+    }
 }
