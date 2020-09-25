@@ -95,7 +95,7 @@ export default class Generator {
         const files = {};
         Object.keys(this.files).forEach(file => {
             if (Array.isArray(this.files[file])) {
-                files[file] = codeFormat(this.files[file].join('\n'));
+                files[file] = codeFormat(this.files[file].join('\n\n'));
             } else if (file === 'model.js') {
                 files[file] = codeFormat(functionComponentModel(this.files[file], this.namespace));
             } else {
