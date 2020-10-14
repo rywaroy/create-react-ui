@@ -52,15 +52,14 @@ export const GenerateModalMaterial: IMaterial = {
     component: GenerateModal,
     intro: '表单弹窗组件',
     props: {
-        keyFS: '{{modalName}}Key',
+        refFS: '{{modalName}}Ref',
         modalName: 'modal',
         visible: true,
         title: '弹窗标题',
         modalForm: [],
-        visibleFS: '{{modalName}}Visible',
         modalFormFS: '{{modalName}}()',
-        onCancelFS: '{{modalName}}Cancel',
         onOkFS: '{{modalName}}Submit',
+        expansion: '{...{{modalName}}Props}',
     },
     haveChildren: false,
     haveWrap: false,
@@ -85,30 +84,25 @@ export const GenerateModalMaterial: IMaterial = {
                     './map': {
                         export: ['{{modalName}}'],
                     },
+                    react: {
+                        export: ['useRef'],
+                    },
+                    behooks: {
+                        export: ['useModal'],
+                    },
                 },
-                destructuring: {
-                    '{{namespace}}': ['{{modalName}}Visible', '{{modalName}}Key'],
-                },
+                variableDeclarator: [
+                    'const {{modalName}}Ref = useRef(null);',
+                ],
                 methods: [
-                    `const {{modalName}}Cancel = () => {
-                        dispatch({
-                            type: '{{namespace}}/updateState',
-                            payload: {
-                                {{modalName}}Visible: false,
-                            }
-                        })
-                    }`,
+                    `const { toggle: {{modalName}}Toggle, modalProps: {{modalName}}Props } = useModal({
+                        form: {{modalName}}Ref.current ? {{modalName}}Ref.current.getForm() : false,
+                    });`,
                     `const {{modalName}}Submit = (values) => {
-                        {{modalName}}Cancel();
+                        {{modalName}}Toggle();
                     }`,
                     `const {{modalName}}Open = () => {
-                        dispatch({
-                            type: '{{namespace}}/updateState',
-                            payload: {
-                                {{modalName}}Key: Math.random(),
-                                {{modalName}}Visible: true,
-                            }
-                        });
+                        {{modalName}}Toggle();
                     }`,
                 ],
             },
@@ -117,12 +111,6 @@ export const GenerateModalMaterial: IMaterial = {
                     return {{JSON.stringify(modalForm)}}
                 }`,
             ],
-            'model.js': {
-                state: {
-                    '{{modalName}}Visible': 'false',
-                    '{{modalName}}Key': 'Math.random()',
-                },
-            },
         },
     },
 };
