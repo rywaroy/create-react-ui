@@ -131,6 +131,7 @@ export interface IDestructuring {
 export interface IEditComponents {
   name: string;
   props?: any;
+  tips?: string;
 }
 
 export interface IPageItem {
