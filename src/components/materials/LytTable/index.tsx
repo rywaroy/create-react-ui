@@ -54,7 +54,7 @@ export const LytTableMaterial: IMaterial = {
                     './map': {
                         export: ['columns'],
                     },
-                    '@/hooks': {
+                    behooks: {
                         export: ['useTable'],
                     },
                 },

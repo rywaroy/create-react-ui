@@ -41,7 +41,7 @@ export const TableMaterial: IMaterial = {
                     './map': {
                         export: ['columns'],
                     },
-                    '@/hooks': {
+                    behooks: {
                         export: ['useTable'],
                     },
                 },
