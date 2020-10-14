@@ -1,14 +1,17 @@
 import React from 'react';
-import { Input, InputNumber, Switch } from 'antd';
+import { Input, InputNumber, Switch, Icon, Tooltip } from 'antd';
+import singlePropTipMap from '@/utils/singlePropTipMap';
 
 interface IProps {
     propName: string;
     propType: 'string' | 'number' | 'boolean';
+    tips: string;
     onChange: (values: any) => void;
 }
 
 const SetSingleProp: React.FC<IProps> = (props) => {
     const { propName, propType } = props;
+    const tips = singlePropTipMap[propName];
     const onChangeStringValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         props.onChange({
             [propName]: e.target.value,
@@ -26,7 +29,12 @@ const SetSingleProp: React.FC<IProps> = (props) => {
     };
     return (
         <div>
-            <div className="editTitle">{propName}</div>
+            <div className="editTitle">
+                {propName}
+                {
+                    tips && <Tooltip title={tips}><Icon type="question-circle" style={{ marginLeft: '6px' }} /></Tooltip>
+                }
+            </div>
             {
                 propType === 'string' && <Input value={props[propName]} onChange={e => onChangeStringValue(e)} />
             }
