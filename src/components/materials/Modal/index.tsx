@@ -35,24 +35,24 @@ export const ModalMaterial: IMaterial = {
     component: Modal,
     intro: '弹窗 Modal组件',
     props: {
+        refFS: '{{modalName}}Ref',
         title: '弹窗标题',
         visible: true,
-        keyFS: '{{extraComponent ? \'\' : `${modalName}Key`}}',
         modalName: 'modal',
-        visibleFS: '{{extraComponent ? \'visible\' : `${modalName}Visible`}}',
-        onCancelFS: '{{extraComponent ? \'onCancel\' : `${modalName}Cancel`}}',
         onOkFS: '{{modalName}}Submit',
         extraComponent: false,
         extraName: 'component',
+        expansion: '{...{{modalName}}Props}',
+        visibleFS: '{{extraComponent ? \'visible\' : \'\'}}',
+        onCancelFS: '{{extraComponent ? \'onCancel\' : \'\'}}',
     },
     defaultProps: {
         className: `${styles.modal} ant-modal-content`,
     },
     extraProps: {
-        keyFS: '{{modalName}}Key',
-        visibleFS: '{{modalName}}Visible',
-        onCancelFS: '{{modalName}}Cancel',
+        refFS: '{{modalName}}Ref',
         onOkFS: '{{modalName}}Submit',
+        expansion: '{...{{modalName}}Props}',
     },
     haveChildren: true,
     haveWrap: false,
@@ -73,46 +73,27 @@ export const ModalMaterial: IMaterial = {
                     antd: {
                         export: ['Modal'],
                     },
+                    behooks: {
+                        export: ['useModal'],
+                    },
+                    react: {
+                        export: ['useRef'],
+                    },
                 },
-                destructuring: {
-                    '{{namespace}}': ['{{modalName}}Visible', '{{modalName}}Key'],
-                },
+                variableDeclarator: [
+                    'const {{modalName}}Ref = useRef(null);',
+                ],
                 methods: [
-                    // `const {{modalName}}Cancel = () => {
-                    //     {{extraComponent ? 'props.onCancel();' : \`dispatch({type: "\${namespace}/updateState",payload: {\${modalName}Visible: false},})\`}};
-                    // }
-                    // `,
-                    // `const {{modalName}}Submit = (values) => {
-                    //     {{extraComponent ? 'props.onOk();' : \`\${modalName}Cancel();\`}}
-                    // }`,
-                    // '{{extraComponent ? \'\' : `const ${modalName}Open = () => {dispatch({type: "${namespace}/updateState",payload: {${modalName}Key: Math.random(),${modalName}Visible: true,},});}`}}',
-                    `const {{modalName}}Cancel = () => {
-                        dispatch({
-                            type: '{{namespace}}/updateState',
-                            payload: {
-                                {{modalName}}Visible: false,
-                            }
-                        })
-                    }`,
+                    `const { toggle: {{modalName}}Toggle, modalProps: {{modalName}}Props } = useModal({
+                        form: {{modalName}}Ref.current ? {{modalName}}Ref.current.getForm() : false,
+                    });`,
                     `const {{modalName}}Submit = (values) => {
-                        {{modalName}}Cancel();
+                        {{modalName}}Toggle();
                     }`,
                     `const {{modalName}}Open = () => {
-                        dispatch({
-                            type: '{{namespace}}/updateState',
-                            payload: {
-                                {{modalName}}Key: Math.random(),
-                                {{modalName}}Visible: true,
-                            }
-                        });
+                        {{modalName}}Toggle();
                     }`,
                 ],
-            },
-            'model.js': {
-                state: {
-                    '{{modalName}}Visible': 'false',
-                    '{{modalName}}Key': 'Math.random()',
-                },
             },
         },
         extraCode: {
