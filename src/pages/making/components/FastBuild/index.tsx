@@ -1,17 +1,24 @@
 import * as React from 'react';
 import { Modal, Form, Switch, Radio } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
-import { YLComponentsList } from './map';
+import { YLComponentsList, LYTComponentsList } from './map';
 
-export interface IProps extends FormComponentProps {
+interface IProps extends FormComponentProps {
 
 }
 
-export interface IState {
+interface IState {
     project: string;
 }
 
+interface IFormList {
+    tag: string;
+    name: string;
+    [props: string]: any;
+}
+
 const YLList = YLComponentsList.filter(item => item.name);
+const LYTList = LYTComponentsList.filter(item => item.name);
 
 class FastBuild extends React.Component<IProps, IState> {
     constructor(props: IProps) {
@@ -24,6 +31,7 @@ class FastBuild extends React.Component<IProps, IState> {
     render() {
         const { project } = this.state;
         const { getFieldDecorator } = this.props.form;
+        const formList = project === '油涟后台' ? YLList : LYTList;
 
         return (
             <Modal
@@ -37,7 +45,7 @@ class FastBuild extends React.Component<IProps, IState> {
                         </Radio.Group>
                     </Form.Item>
                     {
-                        YLList.map(item => (
+                        formList.map((item: IFormList) => (
                             <Form.Item label={item.name}>
                                 {
                                     getFieldDecorator(item.tag)(<Switch />)
