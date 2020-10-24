@@ -13,7 +13,7 @@ import MaterialContent from './components/MaterialContent';
 import MaterialEidt from './components/MaterialEdit';
 import PageProps from './components/PageProps';
 import FastBuild from './components/FastBuild';
-import { loadMaterial } from './map';
+import { loadMaterial, YLComponentsList, LYTComponentsList } from './map';
 import styles from './index.less';
 
 interface IProps {
@@ -419,7 +419,35 @@ class Making extends React.Component<IProps, IState> {
      * 快速配置
      */
     fastBuild = ({ project, values }) => {
-
+        let componentsList;
+        if (project === '油涟后台') {
+            componentsList = YLComponentsList;
+        } else {
+            componentsList = LYTComponentsList;
+        }
+        const list = componentsList.filter(item => (values[item.tag] || !item.name));
+        const ms = [];
+        list.forEach(item => {
+            // 根目录
+            if (item.id === 1) {
+                ms.push({ ...BaseContentMaterial, ...item });
+            } else {
+                // 查找物料组件列表
+                materials.forEach(m => {
+                    if (m.tag === item.tag) {
+                        if (m.project) {
+                            if (m.project === project) {
+                                ms.push({ ...m, ...item });
+                            }
+                        } else {
+                            ms.push({ ...m, ...item });
+                        }
+                    }
+                });
+            }
+        });
+        this.setMaterialList(ms);
+        this.closeFastBuild();
     }
 
     componentDidMount() {
