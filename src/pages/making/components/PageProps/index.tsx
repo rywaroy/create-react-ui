@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, TreeSelect, Input } from 'antd';
+import { Form, TreeSelect, Input, InputNumber } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { TreeNode } from 'antd/es/tree-select';
 
@@ -70,6 +70,13 @@ class PageProps extends React.Component<IProps, IState> {
                                 },
                             ],
                         })(<Input placeholder="请输入model namespace" />)
+                    }
+                </Form.Item>
+                <Form.Item label="tab宽度">
+                    {
+                        getFieldDecorator('tabWith', {
+                            initialValue: 4,
+                        })(<InputNumber />)
                     }
                 </Form.Item>
             </Form>
