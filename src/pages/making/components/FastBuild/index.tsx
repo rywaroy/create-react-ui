@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { Modal, Form, Switch, Radio } from 'antd';
+import { Modal, Form, Switch, Radio, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
-import { YLComponentsList, LYTComponentsList } from './map';
+import { YLComponentsList, LYTComponentsList } from '../../map';
 
 interface IProps extends FormComponentProps {
-
+    visible: boolean;
+    onCancel: () => void;
+    onOk: (values: any) => void;
 }
 
 interface IState {
@@ -28,15 +30,36 @@ class FastBuild extends React.Component<IProps, IState> {
         };
     }
 
+    onOk = () => {
+        const data = this.props.form.getFieldsValue();
+        let f = false;
+        Object.keys(data).forEach(key => {
+            if (data[key]) {
+                f = true;
+            }
+        });
+        if (!f) {
+            message.error('请选择页面配置');
+            return;
+        }
+        this.props.onOk({
+            project: this.state.project,
+            values: data,
+        });
+    }
+
     render() {
         const { project } = this.state;
-        const { getFieldDecorator } = this.props.form;
+        const { visible, form } = this.props;
+        const { getFieldDecorator } = form;
         const formList = project === '油涟后台' ? YLList : LYTList;
 
         return (
             <Modal
                 title="快速配置"
-                visible>
+                visible={visible}
+                onOk={this.onOk}
+                onCancel={this.props.onCancel}>
                 <Form labelCol={{ span: 6 }} wrapperCol={{ span: 12 }}>
                     <Form.Item label="项目">
                         <Radio.Group value={project} onChange={e => this.setState({ project: e.target.value })}>
@@ -59,4 +82,4 @@ class FastBuild extends React.Component<IProps, IState> {
     }
 }
 
-export default Form.create()(FastBuild);
+export default Form.create<IProps>()(FastBuild);
