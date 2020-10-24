@@ -11,6 +11,7 @@ interface IOption {
     url: string;
     name: string;
     namespace: string;
+    tabWith?: number;
 }
 
 export default class Generator {
@@ -24,17 +25,20 @@ export default class Generator {
 
     namespace: string;
 
+    tabWith: number;
+
     files: any = {
         'index.js': {},
     };
 
     constructor(materials: IMaterial[], option: IOption) {
-        const { plugin, url, name, namespace } = option;
+        const { plugin, url, name, namespace, tabWith = 4 } = option;
         this.materials = materials;
         this.plugin = plugin;
         this.url = url;
         this.files['index.js'].name = name;
         this.namespace = namespace;
+        this.tabWith = tabWith;
     }
 
     create() {
@@ -95,15 +99,15 @@ export default class Generator {
         const files = {};
         Object.keys(this.files).forEach(file => {
             if (Array.isArray(this.files[file])) {
-                files[file] = codeFormat(this.files[file].join('\n\n'));
+                files[file] = codeFormat(this.files[file].join('\n\n'), this.tabWith);
             } else if (file === 'model.js') {
-                files[file] = codeFormat(functionComponentModel(this.files[file], this.namespace));
+                files[file] = codeFormat(functionComponentModel(this.files[file], this.namespace), this.tabWith);
             } else {
-                files[file] = codeFormat(functionComponentIndex(this.files[file]));
+                files[file] = codeFormat(functionComponentIndex(this.files[file]), this.tabWith);
             }
         });
         if (!this.files['model.js']) {
-            files['model.js'] = codeFormat(functionComponentModel({}, this.namespace));
+            files['model.js'] = codeFormat(functionComponentModel({}, this.namespace), this.tabWith);
         }
         return files;
     }
