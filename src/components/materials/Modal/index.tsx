@@ -2,12 +2,12 @@ import React from 'react';
 import { IMaterial } from '@/types/making';
 import styles from './index.less';
 
-const Modal: React.FC<any> = ({ keyFS, onCancelFS, onOkFS, visibleFS, modalName, ...props }) => (
+const Modal: React.FC<any> = ({ keyFS, onCancelFS, onOkFS, visibleFS, modalName, width, ...props }) => (
     <>
         {
             props.visible
                 ? (
-                    <div {...props}>
+                    <div {...props} style={{ width: width || '520px' }}>
                         <div className="ant-modal-header">
                             <div className="ant-modal-title">{props.title}</div>
                         </div>
@@ -37,6 +37,7 @@ export const ModalMaterial: IMaterial = {
     props: {
         refFS: '{{modalName}}Ref',
         title: '弹窗标题',
+        width: '520px',
         visible: true,
         modalName: 'modal',
         onOkFS: '{{modalName}}Submit',
@@ -63,6 +64,7 @@ export const ModalMaterial: IMaterial = {
         { name: 'prop', props: { propName: 'extraName', propType: 'string' } },
         { name: 'prop', props: { propName: 'title', propType: 'string' } },
         { name: 'prop', props: { propName: 'modalName', propType: 'string' } },
+        { name: 'prop', props: { propName: 'width', propType: 'string' } },
         { name: 'prop', props: { propName: 'visible', propType: 'boolean' } },
     ],
     ext: {
