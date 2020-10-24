@@ -6,6 +6,7 @@ import SetForm from './SetForm';
 import SetLayout from './SetLayout';
 import SetOptions from './SetOptions';
 import SetArray from './SetArray';
+import SetProject from './SetProject';
 
 export { SetStyle, SetClass };
 
@@ -20,6 +21,7 @@ const editComponentsMap: {
     layout: SetLayout,
     options: SetOptions,
     array: SetArray,
+    project: SetProject,
 };
 
 export default editComponentsMap;
