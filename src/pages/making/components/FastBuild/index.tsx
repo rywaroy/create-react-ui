@@ -69,9 +69,12 @@ class FastBuild extends React.Component<IProps, IState> {
                     </Form.Item>
                     {
                         formList.map((item: IFormList) => (
-                            <Form.Item label={item.name}>
+                            <Form.Item label={item.name} key={item.tag}>
                                 {
-                                    getFieldDecorator(item.tag)(<Switch />)
+                                    getFieldDecorator(item.tag, {
+                                        valuePropName: 'checked',
+                                        initialValue: item.initialValue,
+                                    })(<Switch />)
                                 }
                             </Form.Item>
                         ))
