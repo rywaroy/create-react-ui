@@ -483,7 +483,7 @@ class Making extends React.Component<IProps, IState> {
                 </div>
                 <div className={`${styles.pageContent} light-theme`}>
                     <div className={styles.opt}>
-                        <Button type="primary" style={{ marginRight: '10px' }} onClick={this.openFastBuild}>快速配置</Button>
+                        <Button type="primary" style={{ marginRight: '10px', backgroundColor: '#67c23a', borderColor: '#67c23a' }} onClick={this.openFastBuild}>快速配置</Button>
                         <Button type="primary" style={{ marginRight: '10px' }} onClick={this.create}>生成</Button>
                         <Button type="primary" onClick={() => this.openSave()} style={{ marginRight: '10px' }}>保存</Button>
                         <Button type="primary" onClick={this.openLoad} style={{ marginRight: '10px' }}>载入</Button>

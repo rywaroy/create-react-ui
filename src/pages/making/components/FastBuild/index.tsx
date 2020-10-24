@@ -52,7 +52,12 @@ class FastBuild extends React.Component<IProps, IState> {
         const { project } = this.state;
         const { visible, form } = this.props;
         const { getFieldDecorator } = form;
-        const formList = project === '油涟后台' ? YLList : LYTList;
+        let formList;
+        if (project === '油涟后台') {
+            formList = YLList;
+        } else {
+            formList = LYTList;
+        }
 
         return (
             <Modal
