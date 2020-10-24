@@ -55,7 +55,7 @@ export const LytTableMaterial: IMaterial = {
                         export: ['columns'],
                     },
                     behooks: {
-                        export: ['useTable'],
+                        export: ['useTable', 'useTableHeight'],
                     },
                 },
                 destructuring: {
@@ -93,6 +93,7 @@ export const LytTableMaterial: IMaterial = {
                         ],
                     });`,
                     '{{hasMaterialByTag(\'ListFilter\') ? \'const { submit, reset } = search\' : \'\'}}',
+                    'const height = useTableHight()',
                 ],
             },
             'map.js': [
