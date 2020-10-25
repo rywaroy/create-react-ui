@@ -42,7 +42,12 @@ export default function functionComponentModel(values: IModelOption, namespace: 
 function renderState(state) {
     let str = '';
     Object.keys(state).forEach(key => {
-        str += `${key}: ${JSON.stringify(state[key])},\n`;
+        str += `${key}: `;
+        if (typeof state[key] === 'object') {
+            str += `${JSON.stringify(state[key])},\n`;
+        } else {
+            str += `${state[key]},\n`;
+        }
     });
     return str;
 }

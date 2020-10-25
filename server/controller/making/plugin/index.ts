@@ -8,15 +8,21 @@ import listFilter from './listFilter';
 import generateModal from './generateModal';
 import extraComponent from './extraComponent';
 import createJsx from './createJsx';
+import baseComponent from './baseComponent';
 
 export default [
     defaultPlugin,
+
+    /** 自定义插件 */
     children,
     table,
     formitem,
     listFilter,
     generateModal,
     extraComponent,
+    baseComponent,
+    /** 自定义插件 */
+
     template,
     fileData,
     createJsx,

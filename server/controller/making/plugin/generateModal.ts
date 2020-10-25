@@ -8,5 +8,10 @@ export default function generateModal(material: IMaterial) {
         delete material.props.visible;
         delete material.props.modalName;
         delete material.props.modalForm;
+        if (material.props.extraComponent) {
+            // 额外导入组件删除expansion、ref属性
+            delete material.props.expansion;
+            delete material.props.refFS;
+        }
     }
 }

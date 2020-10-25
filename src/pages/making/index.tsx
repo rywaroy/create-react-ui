@@ -12,7 +12,8 @@ import MaterialList from './components/MaterialList';
 import MaterialContent from './components/MaterialContent';
 import MaterialEidt from './components/MaterialEdit';
 import PageProps from './components/PageProps';
-import { loadMaterial } from './map';
+import FastBuild from './components/FastBuild';
+import { loadMaterial, YLComponentsList, LYTComponentsList } from './map';
 import styles from './index.less';
 
 interface IProps {
@@ -35,6 +36,8 @@ interface IState {
     codeLoading: boolean;
     showCode: boolean;
     codeTip: string;
+    fastVisible: boolean;
+    fastKey: number;
 }
 
 const { TabPane } = Tabs;
@@ -57,6 +60,8 @@ class Making extends React.Component<IProps, IState> {
             codeLoading: false,
             showCode: false,
             codeTip: '',
+            fastVisible: false,
+            fastKey: Math.random(),
         };
         this.getCode = debounce(this.getCode, 1000);
     }
@@ -391,6 +396,60 @@ class Making extends React.Component<IProps, IState> {
         return result;
     }
 
+    /**
+     * 打开快速配置弹窗
+     */
+    openFastBuild = () => {
+        this.setState({
+            fastVisible: true,
+            fastKey: Math.random(),
+        });
+    }
+
+    /**
+     * 关闭快速配置弹窗
+     */
+    closeFastBuild = () => {
+        this.setState({
+            fastVisible: false,
+        });
+    }
+
+    /**
+     * 快速配置
+     */
+    fastBuild = ({ project, values }) => {
+        let componentsList;
+        if (project === '油涟后台') {
+            componentsList = YLComponentsList;
+        } else {
+            componentsList = LYTComponentsList;
+        }
+        const list = componentsList.filter(item => (values[item.tag] || !item.name));
+        const ms = [];
+        list.forEach(item => {
+            // 根目录
+            if (item.id === 1) {
+                ms.push({ ...BaseContentMaterial, ...item });
+            } else {
+                // 查找物料组件列表
+                materials.forEach(m => {
+                    if (m.tag === item.tag) {
+                        if (m.project) {
+                            if (m.project === project) {
+                                ms.push({ ...m, ...item });
+                            }
+                        } else {
+                            ms.push({ ...m, ...item });
+                        }
+                    }
+                });
+            }
+        });
+        this.setMaterialList(ms);
+        this.closeFastBuild();
+    }
+
     componentDidMount() {
         // 收起菜单
         this.props.dispatch({
@@ -403,7 +462,7 @@ class Making extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList, saveVisible, saveName, code, codeLoading, showCode, codeTip } = this.state;
+        const { materialList, material, id, loadVisible, pageList, loadPageIndex, modalList, saveVisible, saveName, code, codeLoading, showCode, codeTip, fastVisible, fastKey } = this.state;
         const { folders } = this.props.global;
 
         const files = [];
@@ -424,6 +483,7 @@ class Making extends React.Component<IProps, IState> {
                 </div>
                 <div className={`${styles.pageContent} light-theme`}>
                     <div className={styles.opt}>
+                        <Button type="primary" style={{ marginRight: '10px', backgroundColor: '#67c23a', borderColor: '#67c23a' }} onClick={this.openFastBuild}>快速配置</Button>
                         <Button type="primary" style={{ marginRight: '10px' }} onClick={this.create}>生成</Button>
                         <Button type="primary" onClick={() => this.openSave()} style={{ marginRight: '10px' }}>保存</Button>
                         <Button type="primary" onClick={this.openLoad} style={{ marginRight: '10px' }}>载入</Button>
@@ -509,6 +569,12 @@ class Making extends React.Component<IProps, IState> {
                     onOk={this.confirmSave}>
                     <Input placeholder="命名" value={saveName} onChange={(e) => this.setState({ saveName: e.target.value })} />
                 </Modal>
+
+                <FastBuild
+                    visible={fastVisible}
+                    key={fastKey}
+                    onCancel={this.closeFastBuild}
+                    onOk={this.fastBuild} />
             </div>
         );
     }

@@ -54,8 +54,8 @@ export const LytTableMaterial: IMaterial = {
                     './map': {
                         export: ['columns'],
                     },
-                    '@/hooks': {
-                        export: ['useTable'],
+                    behooks: {
+                        export: ['useTable', 'useTableHeight'],
                     },
                 },
                 destructuring: {
@@ -70,11 +70,13 @@ export const LytTableMaterial: IMaterial = {
                               pageSize,
                               current,
                             },
-                          });
+                        });
                         // return getList({
-                        //     pageNo: current,
-                        //     pageSize,
-                        //     ...formData
+                        //     data: {
+                        //         pageNo: current,
+                        //         pageSize,
+                        //         ...formData
+                        //     }
                         // });
                         return new Promise((resolve) => {
                             resolve({
@@ -91,10 +93,11 @@ export const LytTableMaterial: IMaterial = {
                         ],
                     });`,
                     '{{hasMaterialByTag(\'ListFilter\') ? \'const { submit, reset } = search\' : \'\'}}',
+                    'const height = useTableHight()',
                 ],
             },
             'map.js': [
-                `export function columns(medhods) {
+                `export function columns({{ getModalLink().length > 0 ? 'methods' : '' }}) {
                     {{ getModalLink().length > 0 ? \`const { \${getModalLink().join(', ')} } = medhods\` : ''}}
                     return {{createFunctionString(columns)}};
                 }`,

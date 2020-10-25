@@ -31,6 +31,7 @@ const materials = [
                             react: { default: 'React', export: ['useEffect'] },
                         },
                     },
+                    useEffect: [],
                 },
             },
         },

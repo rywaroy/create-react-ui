@@ -22,7 +22,7 @@ export default class GenerateModal extends React.Component<IProps, any> {
 
     render() {
         const {
-            className, modalForm, visible, modalKey, title, labelCol, wrapperCol,
+            className, modalForm, visible, modalKey, title, labelCol, wrapperCol, width,
         } = this.props;
         const modalOpts = {
             title,
@@ -36,7 +36,7 @@ export default class GenerateModal extends React.Component<IProps, any> {
         });
 
         return (
-            <Modal {...modalOpts} key={modalKey} className={`${className} ${styles.modal} ant-modal-content`} onClick={this.props.onClick}>
+            <Modal {...modalOpts} key={modalKey} width={width} className={`${className} ${styles.modal} ant-modal-content`} onClick={this.props.onClick}>
                 <GenerateForm formSet={modalForm} labelCol={labelCol} wrapperCol={wrapperCol} wrappedComponentRef={el => { this.generateModal = el; }} />
                 {this.props.children}
             </Modal>
@@ -52,15 +52,15 @@ export const GenerateModalMaterial: IMaterial = {
     component: GenerateModal,
     intro: '表单弹窗组件',
     props: {
-        keyFS: '{{modalName}}Key',
+        refFS: '{{modalName}}Ref',
         modalName: 'modal',
         visible: true,
         title: '弹窗标题',
+        width: '520px',
         modalForm: [],
-        visibleFS: '{{modalName}}Visible',
         modalFormFS: '{{modalName}}()',
-        onCancelFS: '{{modalName}}Cancel',
         onOkFS: '{{modalName}}Submit',
+        expansion: '{...{{modalName}}Props}',
     },
     haveChildren: false,
     haveWrap: false,
@@ -71,6 +71,7 @@ export const GenerateModalMaterial: IMaterial = {
         { name: 'prop', props: { propName: 'title', propType: 'string' } },
         { name: 'prop', props: { propName: 'modalName', propType: 'string' } },
         { name: 'form', props: { propName: 'modalForm' } },
+        { name: 'prop', props: { propName: 'width', propType: 'string' } },
         { name: 'prop', props: { propName: 'visible', propType: 'boolean' } },
     ],
     project: '油涟后台',
@@ -85,30 +86,25 @@ export const GenerateModalMaterial: IMaterial = {
                     './map': {
                         export: ['{{modalName}}'],
                     },
+                    react: {
+                        export: ['useRef'],
+                    },
+                    behooks: {
+                        export: ['useModal'],
+                    },
                 },
-                destructuring: {
-                    '{{namespace}}': ['{{modalName}}Visible', '{{modalName}}Key'],
-                },
+                variableDeclarator: [
+                    'const {{modalName}}Ref = useRef(null);',
+                ],
                 methods: [
-                    `const {{modalName}}Cancel = () => {
-                        dispatch({
-                            type: '{{namespace}}/updateState',
-                            payload: {
-                                {{modalName}}Visible: false,
-                            }
-                        })
-                    }`,
+                    `const { toggle: {{modalName}}Toggle, modalProps: {{modalName}}Props } = useModal({
+                        form: {{modalName}}Ref.current ? {{modalName}}Ref.current.getForm() : false,
+                    });`,
                     `const {{modalName}}Submit = (values) => {
-                        {{modalName}}Cancel();
+                        {{modalName}}Toggle();
                     }`,
                     `const {{modalName}}Open = () => {
-                        dispatch({
-                            type: '{{namespace}}/updateState',
-                            payload: {
-                                {{modalName}}Key: Math.random(),
-                                {{modalName}}Visible: true,
-                            }
-                        });
+                        {{modalName}}Toggle();
                     }`,
                 ],
             },
@@ -117,12 +113,6 @@ export const GenerateModalMaterial: IMaterial = {
                     return {{JSON.stringify(modalForm)}}
                 }`,
             ],
-            'model.js': {
-                state: {
-                    '{{modalName}}Visible': 'false',
-                    '{{modalName}}Key': 'Math.random()',
-                },
-            },
         },
     },
 };

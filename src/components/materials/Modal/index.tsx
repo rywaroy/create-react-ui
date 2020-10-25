@@ -2,12 +2,12 @@ import React from 'react';
 import { IMaterial } from '@/types/making';
 import styles from './index.less';
 
-const Modal: React.FC<any> = ({ keyFS, onCancelFS, onOkFS, visibleFS, modalName, ...props }) => (
+const Modal: React.FC<any> = ({ keyFS, onCancelFS, onOkFS, visibleFS, modalName, width, ...props }) => (
     <>
         {
             props.visible
                 ? (
-                    <div {...props}>
+                    <div {...props} style={{ width: width || '520px' }}>
                         <div className="ant-modal-header">
                             <div className="ant-modal-title">{props.title}</div>
                         </div>
@@ -35,24 +35,25 @@ export const ModalMaterial: IMaterial = {
     component: Modal,
     intro: '弹窗 Modal组件',
     props: {
+        refFS: '{{modalName}}Ref',
         title: '弹窗标题',
+        width: '520px',
         visible: true,
-        keyFS: '{{extraComponent ? \'\' : `${modalName}Key`}}',
         modalName: 'modal',
-        visibleFS: '{{extraComponent ? \'visible\' : `${modalName}Visible`}}',
-        onCancelFS: '{{extraComponent ? \'onCancel\' : `${modalName}Cancel`}}',
         onOkFS: '{{modalName}}Submit',
         extraComponent: false,
         extraName: 'component',
+        expansion: '{...{{modalName}}Props}',
+        visibleFS: '{{extraComponent ? \'visible\' : \'\'}}',
+        onCancelFS: '{{extraComponent ? \'onCancel\' : \'\'}}',
     },
     defaultProps: {
         className: `${styles.modal} ant-modal-content`,
     },
     extraProps: {
-        keyFS: '{{modalName}}Key',
-        visibleFS: '{{modalName}}Visible',
-        onCancelFS: '{{modalName}}Cancel',
+        refFS: '{{modalName}}Ref',
         onOkFS: '{{modalName}}Submit',
+        expansion: '{...{{modalName}}Props}',
     },
     haveChildren: true,
     haveWrap: false,
@@ -63,6 +64,7 @@ export const ModalMaterial: IMaterial = {
         { name: 'prop', props: { propName: 'extraName', propType: 'string' } },
         { name: 'prop', props: { propName: 'title', propType: 'string' } },
         { name: 'prop', props: { propName: 'modalName', propType: 'string' } },
+        { name: 'prop', props: { propName: 'width', propType: 'string' } },
         { name: 'prop', props: { propName: 'visible', propType: 'boolean' } },
     ],
     ext: {
@@ -73,46 +75,27 @@ export const ModalMaterial: IMaterial = {
                     antd: {
                         export: ['Modal'],
                     },
+                    behooks: {
+                        export: ['useModal'],
+                    },
+                    react: {
+                        export: ['useRef'],
+                    },
                 },
-                destructuring: {
-                    '{{namespace}}': ['{{modalName}}Visible', '{{modalName}}Key'],
-                },
+                variableDeclarator: [
+                    'const {{modalName}}Ref = useRef(null);',
+                ],
                 methods: [
-                    // `const {{modalName}}Cancel = () => {
-                    //     {{extraComponent ? 'props.onCancel();' : \`dispatch({type: "\${namespace}/updateState",payload: {\${modalName}Visible: false},})\`}};
-                    // }
-                    // `,
-                    // `const {{modalName}}Submit = (values) => {
-                    //     {{extraComponent ? 'props.onOk();' : \`\${modalName}Cancel();\`}}
-                    // }`,
-                    // '{{extraComponent ? \'\' : `const ${modalName}Open = () => {dispatch({type: "${namespace}/updateState",payload: {${modalName}Key: Math.random(),${modalName}Visible: true,},});}`}}',
-                    `const {{modalName}}Cancel = () => {
-                        dispatch({
-                            type: '{{namespace}}/updateState',
-                            payload: {
-                                {{modalName}}Visible: false,
-                            }
-                        })
-                    }`,
+                    `const { toggle: {{modalName}}Toggle, modalProps: {{modalName}}Props } = useModal({
+                        form: {{modalName}}Ref.current ? {{modalName}}Ref.current.getForm() : false,
+                    });`,
                     `const {{modalName}}Submit = (values) => {
-                        {{modalName}}Cancel();
+                        {{modalName}}Toggle();
                     }`,
                     `const {{modalName}}Open = () => {
-                        dispatch({
-                            type: '{{namespace}}/updateState',
-                            payload: {
-                                {{modalName}}Key: Math.random(),
-                                {{modalName}}Visible: true,
-                            }
-                        });
+                        {{modalName}}Toggle();
                     }`,
                 ],
-            },
-            'model.js': {
-                state: {
-                    '{{modalName}}Visible': 'false',
-                    '{{modalName}}Key': 'Math.random()',
-                },
             },
         },
         extraCode: {

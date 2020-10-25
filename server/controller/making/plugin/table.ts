@@ -19,5 +19,15 @@ export default function table(material: IMaterial) {
         }
         delete material.props.columns;
         material.props.columnsFS = `columns(${methods.length > 0 ? `{${methods.join(', ')}}` : ''})`;
+
+        if (material.project === '陆运通后台') {
+            // 处理scroll
+            if (material.props.scroll) {
+                material.props.scrollFS = `{ x: ${material.props.scroll.x}, y: height }`;
+                delete material.props.scroll;
+            } else {
+                material.props.scrollFS = '{ y: height }';
+            }
+        }
     }
 }

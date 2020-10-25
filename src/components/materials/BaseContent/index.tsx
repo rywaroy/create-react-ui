@@ -13,7 +13,9 @@ export const BaseContentMaterial: IMaterial = {
     id: 1,
     component: BaseContent,
     intro: '根目录',
-    props: {},
+    props: {
+        project: '油涟后台',
+    },
     defaultProps: {
         className: styles.baseContent,
     },
@@ -22,6 +24,7 @@ export const BaseContentMaterial: IMaterial = {
     editComponents: [
         { name: 'className' },
         { name: 'style' },
+        { name: 'project' },
     ],
     ext: {
         code: {
