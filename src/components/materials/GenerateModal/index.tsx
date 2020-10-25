@@ -22,7 +22,7 @@ export default class GenerateModal extends React.Component<IProps, any> {
 
     render() {
         const {
-            className, modalForm, visible, modalKey, title, labelCol, wrapperCol,
+            className, modalForm, visible, modalKey, title, labelCol, wrapperCol, width,
         } = this.props;
         const modalOpts = {
             title,
@@ -36,7 +36,7 @@ export default class GenerateModal extends React.Component<IProps, any> {
         });
 
         return (
-            <Modal {...modalOpts} key={modalKey} className={`${className} ${styles.modal} ant-modal-content`} onClick={this.props.onClick}>
+            <Modal {...modalOpts} key={modalKey} width={width} className={`${className} ${styles.modal} ant-modal-content`} onClick={this.props.onClick}>
                 <GenerateForm formSet={modalForm} labelCol={labelCol} wrapperCol={wrapperCol} wrappedComponentRef={el => { this.generateModal = el; }} />
                 {this.props.children}
             </Modal>
@@ -56,6 +56,7 @@ export const GenerateModalMaterial: IMaterial = {
         modalName: 'modal',
         visible: true,
         title: '弹窗标题',
+        width: '520px',
         modalForm: [],
         modalFormFS: '{{modalName}}()',
         onOkFS: '{{modalName}}Submit',
@@ -70,6 +71,7 @@ export const GenerateModalMaterial: IMaterial = {
         { name: 'prop', props: { propName: 'title', propType: 'string' } },
         { name: 'prop', props: { propName: 'modalName', propType: 'string' } },
         { name: 'form', props: { propName: 'modalForm' } },
+        { name: 'prop', props: { propName: 'width', propType: 'string' } },
         { name: 'prop', props: { propName: 'visible', propType: 'boolean' } },
     ],
     project: '油涟后台',

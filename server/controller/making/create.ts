@@ -10,11 +10,12 @@ interface IBody {
     url: string;
     name: string;
     namespace: string;
+    tabWith: number;
 }
 
 export default function preview(ctx: IContext) {
     // @ts-ignore for travis
-    const { materials, url, name, namespace }: IBody = ctx.request.body;
+    const { materials, url, name, namespace, tabWith }: IBody = ctx.request.body;
 
     if (fs.existsSync(path.join(process.cwd(), url, name))) {
         ctx.success(0, '当前文件夹已经存在');
@@ -24,6 +25,7 @@ export default function preview(ctx: IContext) {
             url,
             name,
             namespace,
+            tabWith,
         });
         const files = generator.create();
         Object.keys(files).forEach(item => {
