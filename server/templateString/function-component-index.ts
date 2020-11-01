@@ -53,7 +53,7 @@ export default function functionComponentIndex(values: IComponentOption) {
     return `
         ${importString}
 
-        const ${functionName} = (props) => {
+        const ${functionName} = () => {
             ${useStateString}
 
             ${variableString}
