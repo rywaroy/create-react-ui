@@ -93,7 +93,7 @@ export const LytTableMaterial: IMaterial = {
                         ],
                     });`,
                     '{{hasMaterialByTag(\'ListFilter\') ? \'const { submit, reset } = search\' : \'\'}}',
-                    'const height = useTableHight()',
+                    'const height = useTableHeight()',
                 ],
             },
             'map.js': [
