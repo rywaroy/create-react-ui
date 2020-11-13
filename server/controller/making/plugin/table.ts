@@ -11,7 +11,9 @@ export default function table(material: IMaterial) {
         if (last.key === 'action') {
             if (material.project === '陆运通后台') {
                 last.render = `(record) => (<TableOpt>${last.opts.map((item: IOpt) => (
-                    `<TableOpt.Item${item.linkModal ? ` onClick={() => ${item.linkModal}Open(record)}` : ''} ${item.link ? 'type="link" target="_blank"' : ''}>${item.text}</TableOpt.Item>`))}</TableOpt>)`;
+                    `<TableOpt.Item${item.linkModal ? ` onClick={() => ${item.linkModal}Open(record)}` : ''} ${item.link ? 'type="link" target="_blank"' : ''}>${item.text}</TableOpt.Item>`))}</TableOpt>),`;
+            } else if (material.project === '油涟后台') {
+                last.render = `(record) => { const buttons = []; ${last.opts.map((item: IOpt) => (`buttons.push({ name: ${item.text}, ${item.linkModal ? `method: ${item.linkModal}Open` : ''} });`))} return ( <TableBtns buttons={buttons} record={record} /> );},`;
             } else {
                 last.render = `(record) => (<>${last.opts.map((item: IOpt) => (item.link
                     ? `<a href="/" target="_blank" className="mr10">${item.text}</a>`
