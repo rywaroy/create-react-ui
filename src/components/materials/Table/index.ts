@@ -65,12 +65,14 @@ export const TableMaterial: IMaterial = {
                     '{{hasMaterialByTag(\'ListFilter\') ? \'const { submit, reset } = search\' : \'\'}}',
                 ],
             },
-            'map.js': [
-                `export function columns({{ getModalLink().length > 0 ? 'methods' : '' }}) {
-                    {{ getModalLink().length > 0 ? \`const { \${getModalLink().join(', ')} } = medhods\` : ''}}
-                    return {{createFunctionString(columns)}};
-                }`,
-            ],
+            'map.js': {
+                codes: [
+                    `export function columns({{ getModalLink().length > 0 ? 'methods' : '' }}) {
+                        {{ getModalLink().length > 0 ? \`const { \${getModalLink().join(', ')} } = medhods\` : ''}}
+                        return {{createFunctionString(columns)}};
+                    }`,
+                ],
+            },
         },
     },
 };

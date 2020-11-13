@@ -108,11 +108,13 @@ export const GenerateModalMaterial: IMaterial = {
                     }`,
                 ],
             },
-            'map.js': [
-                `export function {{modalName}}() {
-                    return {{JSON.stringify(modalForm)}}
-                }`,
-            ],
+            'map.js': {
+                codes: [
+                    `export function {{modalName}}() {
+                        return {{JSON.stringify(modalForm)}}
+                    }`,
+                ],
+            },
         },
     },
 };

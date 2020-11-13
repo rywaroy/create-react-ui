@@ -371,14 +371,16 @@ export const LytListFilter = {
                     'const formRef = useRef(null);',
                 ],
             },
-            'map.js': [
-                `export function listFilters() {
-                    return {{JSON.stringify(formSet)}};
-                }`,
-                `export function outherSet() {
-                    return {{JSON.stringify(outherSet)}};
-                }`,
-            ],
+            'map.js': {
+                codes: [
+                    `export function listFilters() {
+                        return {{JSON.stringify(formSet)}};
+                    }`,
+                    `export function outherSet() {
+                        return {{JSON.stringify(outherSet)}};
+                    }`,
+                ],
+            },
         },
     },
 };

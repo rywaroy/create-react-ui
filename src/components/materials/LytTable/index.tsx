@@ -96,12 +96,14 @@ export const LytTableMaterial: IMaterial = {
                     'const height = useTableHeight()',
                 ],
             },
-            'map.js': [
-                `export function columns({{ getModalLink().length > 0 ? 'methods' : '' }}) {
-                    {{ getModalLink().length > 0 ? \`const { \${getModalLink().join(', ')} } = medhods\` : ''}}
-                    return {{createFunctionString(columns)}};
-                }`,
-            ],
+            'map.js': {
+                codes: [
+                    `export function columns({{ getModalLink().length > 0 ? 'methods' : '' }}) {
+                        {{ getModalLink().length > 0 ? \`const { \${getModalLink().join(', ')} } = medhods\` : ''}}
+                        return {{createFunctionString(columns)}};
+                    }`,
+                ],
+            },
             'model.js': {
                 state: {
                     formData: {},

@@ -55,12 +55,12 @@ export interface IMaterial {
     /**代码逻辑 */
     code?: {
       'model.js'?: IModelOption;
-      [file: string]: string[] | IComponentOption | IModelOption;
+      [file: string]: IPageOtion | IComponentOption | IModelOption;
     }
 
     /**额外代码逻辑 */
     extraCode?: {
-      [file: string]: string[] | IComponentOption | IModelOption;
+      [file: string]: IPageOtion | IComponentOption | IModelOption;
     }
   };
 }
@@ -115,6 +115,11 @@ export interface IModelOption {
   };
   effects?: string[];
   reducers?: string[];
+}
+
+export interface IPageOtion {
+  importDeclaration?: IImport;
+  codes: string[];
 }
 
 export interface IImport {
