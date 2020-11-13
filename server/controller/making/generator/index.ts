@@ -3,6 +3,7 @@ import GeneratorMaterial from './GeneratorMaterial';
 import codeFormat from '../../../utils/codeFormat';
 import functionComponentIndex from '../../../templateString/function-component-index';
 import functionComponentModel from '../../../templateString/function-component-model';
+import functionComponentPage from '../../../templateString/function-component-page';
 
 type IPlugin = ((material: IMaterial, generator?: Generator) => void)[]
 
@@ -98,8 +99,9 @@ export default class Generator {
     making() {
         const files = {};
         Object.keys(this.files).forEach(file => {
-            if (Array.isArray(this.files[file])) {
-                files[file] = codeFormat(this.files[file].join('\n\n'), this.tabWith);
+            if (this.files[file].codes) {
+                // files[file] = codeFormat(this.files[file].join('\n\n'), this.tabWith);
+                files[file] = codeFormat(functionComponentPage(this.files[file]), this.tabWith);
             } else if (file === 'model.js') {
                 files[file] = codeFormat(functionComponentModel(this.files[file], this.namespace), this.tabWith);
             } else {
