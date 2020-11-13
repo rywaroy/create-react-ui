@@ -97,6 +97,11 @@ export const LytTableMaterial: IMaterial = {
                 ],
             },
             'map.js': {
+                importDeclaration: {
+                    '@/components/TableOpt': {
+                        default: 'TableOpt',
+                    },
+                },
                 codes: [
                     `export function columns({{ getModalLink().length > 0 ? 'methods' : '' }}) {
                         {{ getModalLink().length > 0 ? \`const { \${getModalLink().join(', ')} } = medhods\` : ''}}
