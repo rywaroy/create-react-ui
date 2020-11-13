@@ -66,6 +66,11 @@ export const TableMaterial: IMaterial = {
                 ],
             },
             'map.js': {
+                importDeclaration: {
+                    '@/components': {
+                        export: ['TableBtns'],
+                    },
+                },
                 codes: [
                     `export function columns({{ getModalLink().length > 0 ? 'methods' : '' }}) {
                         {{ getModalLink().length > 0 ? \`const { \${getModalLink().join(', ')} } = medhods\` : ''}}
