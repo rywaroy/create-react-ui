@@ -21,10 +21,10 @@ export interface IMaterial {
         type?: string;
         code?: {
             'model.js'?: IModelOption;
-            [file: string]: string[] | IComponentOption | IModelOption;
+            [file: string]: IPageOtion | IComponentOption | IModelOption;
         };
         extraCode?: {
-            [file: string]: string[] | IComponentOption | IModelOption;
+            [file: string]: IPageOtion | IComponentOption | IModelOption;
         }
         componentPath?: string;
         [prop: string]: any;
@@ -79,6 +79,7 @@ export interface IComponentOption {
     name: string;
 }
 
+
 export interface IModelOption {
     importDeclaration?: IImport;
     state?: {
@@ -87,6 +88,11 @@ export interface IModelOption {
     effects?: string[];
     reducers?: string[];
 }
+
+export interface IPageOtion {
+    importDeclaration?: IImport;
+    codes: string[];
+  }
 
 export interface IImport {
     [module: string]: {
