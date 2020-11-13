@@ -92,7 +92,7 @@ export default class Generator {
 
     createFunctionString(target: object | any[]) {
         return JSON.stringify(target)
-            .replace(/"(\(.*\).*\))"/g, (a, b) => b)
+            .replace(/"(\(.*\).*,)"/g, (a, b) => b)
             .replace(/\\"(opt-link|mr10|_blank|link|\/)\\"/g, (a, b) => `"${b}"`);
     }
 
