@@ -17,6 +17,7 @@ export default function fileData(material: IMaterial, generator: Generator) {
                     generator.files[file] = {};
                 }
                 mergePageFile(generator.files[file], (material.ext.code[file] as IPageOtion));
+                console.log(generator.files[file].codes);
             } else { // 组件文件
                 if (!generator.files[file]) {
                     generator.files[file] = {};
@@ -102,5 +103,4 @@ function mergePageFile(source: IPageOtion, target: IPageOtion) {
             Object.assign(source[key], target[key]);
         }
     });
-    source.codes = source.codes.concat(target.codes);
 }
