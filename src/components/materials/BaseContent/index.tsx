@@ -32,23 +32,8 @@ export const BaseContentMaterial: IMaterial = {
                 importDeclaration: {
                     react: {
                         default: 'React',
-                        export: ['useEffect'],
-                    },
-                    dva: {
-                        export: ['useDispatch', 'useSelector'],
                     },
                 },
-                variableDeclarator: [
-                    'const dispatch = useDispatch();',
-                    'const {{namespace}} = useSelector(state => state.{{namespace}});',
-                ],
-                useEffect: [
-                    `useEffect(() => {
-                        return () => {
-                            dispatch({ type: '{{namespace}}/resetState' });
-                        };
-                    }, []);`,
-                ],
             },
         },
     },
