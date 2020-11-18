@@ -105,7 +105,7 @@ export default class Generator {
             } else if (file === 'model.js') {
                 files[file] = codeFormat(functionComponentModel(this.files[file], this.namespace), this.tabWith);
             } else {
-                files[file] = codeFormat(functionComponentIndex(this.files[file]), this.tabWith);
+                files[file] = codeFormat(functionComponentIndex(this.files[file], this.namespace), this.tabWith);
             }
         });
         if (!this.files['model.js']) {

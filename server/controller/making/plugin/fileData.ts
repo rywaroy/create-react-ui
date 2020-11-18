@@ -17,7 +17,6 @@ export default function fileData(material: IMaterial, generator: Generator) {
                     generator.files[file] = {};
                 }
                 mergePageFile(generator.files[file], (material.ext.code[file] as IPageOtion));
-                console.log(generator.files[file].codes);
             } else { // 组件文件
                 if (!generator.files[file]) {
                     generator.files[file] = {};
@@ -36,6 +35,8 @@ function mergeComponentFile(source: IComponentOption, target: IComponentOption) 
             source[key] = target[key];
         } else if (arrayProps.indexOf(key) > -1) {
             source[key] = source[key].concat(target[key]);
+        } else if (key === 'state') {
+            source[key] = { ...source[key], ...target[key] };
         } else {
             Object.keys(target[key]).forEach(d => {
                 if (!source[key][d]) {
