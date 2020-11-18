@@ -344,6 +344,7 @@ export const LytListFilter = {
         refFS: 'formRef',
         onSearchFS: 'submit',
         onResetFS: 'reset',
+        formDataFS: 'formData',
     },
     haveChildren: false,
     editComponents: [
@@ -369,6 +370,8 @@ export const LytListFilter = {
                 },
                 variableDeclarator: [
                     'const formRef = useRef(null);',
+                    `const [{{namespace}}] = store;
+                     const { formData } = {{namespace}};`,
                 ],
             },
             'map.js': {
