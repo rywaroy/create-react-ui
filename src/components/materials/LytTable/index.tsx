@@ -55,44 +55,21 @@ export const LytTableMaterial: IMaterial = {
                         export: ['columns'],
                     },
                     behooks: {
-                        export: ['useTable', 'useTableHeight'],
+                        export: ['useTableHeight', 'useStore'],
+                    },
+                    './hooks/useData': {
+                        default: 'useData',
                     },
                 },
-                destructuring: {
-                    '{{namespace}}': ['formData', 'pageSize', 'current'],
+                state: {
+                    formData: {},
+                    pageSize: 10,
+                    current: 1,
                 },
                 methods: [
-                    `const getData = ({ current, pageSize }, formData) => {
-                        dispatch({
-                            type: '{{namespace}}/updateState',
-                            payload: {
-                              formData,
-                              pageSize,
-                              current,
-                            },
-                        });
-                        // return getList({
-                        //     data: {
-                        //         pageNo: current,
-                        //         pageSize,
-                        //         ...formData
-                        //     }
-                        // });
-                        return new Promise((resolve) => {
-                            resolve({
-                                data: {{JSON.stringify(dataSource)}},
-                                total: 2,
-                            });
-                        });
-                    };`,
-                    `const { tableProps{{hasMaterialByTag('ListFilter') ? ', search' : ''}} } = useTable(getData, {
-                        form: {{hasMaterialByTag('ListFilter') ? 'formRef.current ? formRef.current.getForm() : false' : false}},
-                        defaultParams: [
-                            { pageSize, current },
-                            formData,
-                        ],
-                    });`,
-                    '{{hasMaterialByTag(\'ListFilter\') ? \'const { submit, reset } = search\' : \'\'}}',
+                    `// table 逻辑
+                    const { tableProps, {{hasMaterialByTag('ListFilter') ? 'search' : ''}} } = useData(formRef, store);
+                    {{hasMaterialByTag('ListFilter') ? 'const { submit, reset } = search' : ''}}`,
                     'const height = useTableHeight()',
                 ],
             },
@@ -109,12 +86,44 @@ export const LytTableMaterial: IMaterial = {
                     }`,
                 ],
             },
-            'model.js': {
-                state: {
-                    formData: {},
-                    pageSize: 10,
-                    current: 1,
+            './hooks/useData.js': {
+                importDeclaration: {
+                    behooks: {
+                        export: ['useTable'],
+                    },
                 },
+                codes: [
+                    `export default function useData(formRef, store) {
+                        const [state, setState] = store;
+                        const { formData, pageSize, current } = state;
+                      
+                        const getData = ({ current, pageSize }, formData) => {
+                            setState({
+                                formData,
+                                pageSize,
+                                current,
+                            });
+                        //   return getList({
+                        //     data: {
+                        //       skipcount: (current - 1) * pageSize,
+                        //       pagesize: pageSize,
+                        //       ...formData,
+                        //     },
+                        //   });
+                            return new Promise((resolve) => {
+                                resolve({
+                                    data: {{JSON.stringify(dataSource)}},
+                                    total: 2,
+                                });
+                            });
+                        };
+                        
+                        return useTable(getData, {
+                          form: formRef.current ? formRef.current.getForm() : false,
+                          defaultParams: [{ pageSize, current }, formData],
+                        });
+                      }`,
+                ],
             },
         },
     },
