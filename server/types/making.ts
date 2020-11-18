@@ -77,6 +77,8 @@ export interface IComponentOption {
     jsx?: string;
 
     name: string;
+
+    state?: any;
 }
 
 

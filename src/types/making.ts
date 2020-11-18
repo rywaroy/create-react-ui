@@ -106,6 +106,9 @@ export interface IComponentOption {
    * useEffect(() => {}, []);
    */
   useEffect?: string[];
+
+  
+  state?: any;
 }
 
 export interface IModelOption {
