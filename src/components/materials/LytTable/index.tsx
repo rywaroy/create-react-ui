@@ -60,6 +60,9 @@ export const LytTableMaterial: IMaterial = {
                     './hooks/useData': {
                         default: 'useData',
                     },
+                    react: {
+                        export: ['useRef'],
+                    },
                 },
                 state: {
                     formData: {},
@@ -68,7 +71,7 @@ export const LytTableMaterial: IMaterial = {
                 },
                 methods: [
                     `// table 逻辑
-                    const { tableProps, {{hasMaterialByTag('ListFilter') ? 'search' : ''}} } = useData(formRef, store);
+                    const { tableProps, {{hasMaterialByTag('ListFilter') ? 'search' : ''}} } = useData(store{{hasMaterialByTag('ListFilter') ? ', formRef' : ''}});
                     {{hasMaterialByTag('ListFilter') ? 'const { submit, reset } = search' : ''}}`,
                     'const height = useTableHeight()',
                 ],
@@ -93,7 +96,7 @@ export const LytTableMaterial: IMaterial = {
                     },
                 },
                 codes: [
-                    `export default function useData(formRef, store) {
+                    `export default function useData(store{{hasMaterialByTag('ListFilter') ? ', formRef' : ''}}) {
                         const [state, setState] = store;
                         const { formData, pageSize, current } = state;
                       
@@ -105,8 +108,8 @@ export const LytTableMaterial: IMaterial = {
                             });
                         //   return getList({
                         //     data: {
-                        //       skipcount: (current - 1) * pageSize,
-                        //       pagesize: pageSize,
+                        //       pageNo: current,
+                        //       pageSize,
                         //       ...formData,
                         //     },
                         //   });
@@ -119,7 +122,7 @@ export const LytTableMaterial: IMaterial = {
                         };
                         
                         return useTable(getData, {
-                          form: formRef.current ? formRef.current.getForm() : false,
+                          form: {{hasMaterialByTag('ListFilter') ? 'formRef.current ? formRef.current.getForm() : false,' : 'false,'}}
                           defaultParams: [{ pageSize, current }, formData],
                         });
                       }`,
