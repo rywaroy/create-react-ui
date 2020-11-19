@@ -8,8 +8,6 @@ export interface IPageObject {
   projectPath?: string;
   fileName?: string;
   ext?: string;
-  isFunction?: boolean;
-  isClass?: boolean;
 }
 
 export interface ICommentLine {

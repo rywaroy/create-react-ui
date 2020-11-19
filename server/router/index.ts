@@ -2,7 +2,6 @@ import Router from 'koa-router';
 import file from './file';
 import template from './template';
 import code from './code';
-import document from './document';
 import configlist from './configlist';
 import create from './create';
 import making from './making';
@@ -20,7 +19,6 @@ router.get('*', async (ctx, next) => {
 router.use('/api/file', file.routes());
 router.use('/api/template', template.routes());
 router.use('/api/code', code.routes());
-router.use('/api/document', document.routes());
 router.use('/api/configlist', configlist.routes());
 router.use('/api/create', create.routes());
 router.use('/api/making', making.routes());
