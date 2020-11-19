@@ -15,6 +15,7 @@ export default function astParse(base: string, code?: string): IPageObject | boo
             plugins: [
                 'classProperties',
                 'jsx',
+                'typescript',
             ],
         });
         // @ts-ignore
@@ -31,9 +32,6 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                     const identifier = path.node.declaration.id.name;
                     obj.name = identifier;
                     obj.isFunction = true;
-                    if (path.node.leadingComments) {
-                        obj.main = commentParse(path.node.leadingComments);
-                    }
                     // @ts-ignore
                     traverse(ast, createPropsVisitor(obj, identifier));
                 }
@@ -45,9 +43,6 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                     *
                     * }
                     */
-                    if (path.node.leadingComments) {
-                        obj.main = commentParse(path.node.leadingComments);
-                    }
                     if (path.node.declaration.body.body.length > 0) {
                         path.node.declaration.body.body.forEach(item => {
                             if (item.type === 'ClassProperty' && item.static) {
@@ -105,6 +100,14 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                     }
                 }
             },
+            Program(path: any) {
+                if (path.node.body.length > 0) {
+                    const node = path.node.body[0];
+                    if (node.leadingComments) {
+                        obj.main = commentParse(node.leadingComments);
+                    }
+                }
+            },
         });
 
         // 合并defaultProps
@@ -135,18 +138,12 @@ function createVisitor(object: IPageObject, identifier: string, ast): Visitor {
         FunctionDeclaration(path: any) {
             object.isFunction = true;
             if (path.node.id.name === identifier) {
-                if (path.node.leadingComments) {
-                    object.main = commentParse(path.node.leadingComments);
-                }
                 traverse(ast, createPropsVisitor(object, identifier));
             }
         },
         ClassDeclaration(path: any) {
             object.isClass = true;
             if (path.node.id.name === identifier) {
-                if (path.node.leadingComments) {
-                    object.main = commentParse(path.node.leadingComments);
-                }
                 if (path.node.body.body.length > 0) {
                     path.node.body.body.forEach(item => {
                         if (item.type === 'ClassProperty' && item.static) {
