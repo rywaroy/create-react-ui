@@ -1,8 +1,15 @@
 export interface IPageObject {
+  /** 组件名 */
   name?: string;
   defaultProps?: IPageDefaultProps;
   props?: IPageProps[];
   main?: ICommentLine[];
+  path?: string;
+  projectPath?: string;
+  fileName?: string;
+  ext?: string;
+  isFunction?: boolean;
+  isClass?: boolean;
 }
 
 export interface ICommentLine {

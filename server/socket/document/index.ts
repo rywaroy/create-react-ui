@@ -46,6 +46,10 @@ export default function document(socket: Socket) {
                     if (reset) {
                         warningTip.push(chalk.yellowBright(`${item} 文件重名，由 ${name}.mdx 修改为 ${newName}.mdx`));
                     }
+                    fileObj.path = item;
+                    fileObj.projectPath = item.replace(process.cwd(), '');
+                    fileObj.fileName = newName;
+                    fileObj.ext = path.extname(item);
                     createMd(fileObj, newName, output);
                 }
             }
