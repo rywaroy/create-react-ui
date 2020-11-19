@@ -108,9 +108,6 @@ export default class Generator {
                 files[file] = codeFormat(functionComponentIndex(this.files[file], this.namespace), this.tabWith);
             }
         });
-        if (!this.files['model.js']) {
-            files['model.js'] = codeFormat(functionComponentModel({}, this.namespace), this.tabWith);
-        }
         return files;
     }
 }
