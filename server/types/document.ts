@@ -1,7 +1,5 @@
 export interface IPageObject {
   name?: string;
-  isFunction?: boolean;
-  isClass?: boolean;
   defaultProps?: IPageDefaultProps;
   props?: IPageProps[];
   main?: ICommentLine[];

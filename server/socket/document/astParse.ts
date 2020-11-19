@@ -31,7 +31,6 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                     */
                     const identifier = path.node.declaration.id.name;
                     obj.name = identifier;
-                    obj.isFunction = true;
                     // @ts-ignore
                     traverse(ast, createPropsVisitor(obj, identifier));
                 }
@@ -57,7 +56,6 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                     }
                     const identifier = path.node.declaration.id.name;
                     obj.name = identifier;
-                    obj.isClass = true;
                     // @ts-ignore
                     traverse(ast, createPropsVisitor(obj, identifier));
                 }
@@ -136,13 +134,11 @@ export default function astParse(base: string, code?: string): IPageObject | boo
 function createVisitor(object: IPageObject, identifier: string, ast): Visitor {
     return {
         FunctionDeclaration(path: any) {
-            object.isFunction = true;
             if (path.node.id.name === identifier) {
                 traverse(ast, createPropsVisitor(object, identifier));
             }
         },
         ClassDeclaration(path: any) {
-            object.isClass = true;
             if (path.node.id.name === identifier) {
                 if (path.node.body.body.length > 0) {
                     path.node.body.body.forEach(item => {
