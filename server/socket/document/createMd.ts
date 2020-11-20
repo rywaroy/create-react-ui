@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { IPageObject, ICommentLine, INote } from '../../types/document';
+import { IPageObject, ICommentLine } from '../../types/document';
 
 export default function createMd(fileObj: IPageObject, name: string, output: string) {
     const md = createMdString(fileObj, name);
@@ -16,22 +16,12 @@ function createMdString(notes: IPageObject, name: string) {
     let md = `# ${name} \n\n`;
 
     if (notes.main && notes.main.length > 0) {
-        md += createNote(getNote(notes.main));
+        notes.main.forEach(item => {
+            md += createNote(item);
+        });
     }
 
     return md;
-}
-
-/**
- * 获取注释对象
- * @param {Array} note
- */
-function getNote(note: ICommentLine[]): INote {
-    const noteObj = {};
-    note.forEach(item => {
-        noteObj[item.name] = item;
-    });
-    return noteObj;
 }
 
 /**
@@ -39,25 +29,17 @@ function getNote(note: ICommentLine[]): INote {
  * @param {Object} note
  * @returns {String}
  */
-function createNote(note: INote) {
+function createNote(note: ICommentLine) {
     let md = '';
-    if (note.intro) {
-        md += `> ${note.intro.value}\n\n`;
-    }
-    if (note.version) {
-        md += `${note.version.cn}: ${note.version.value} \n\n`;
-    }
-    if (note.author) {
-        md += `${note.author.cn}: ${note.author.value}\n\n`;
-    }
-    if (note.url) {
-        md += `${note.url.cn}: ${note.url.value}\n\n`;
-    }
-    if (note.image) {
-        md += `${note.image.cn}: ![](${note.image.value})\n\n`;
-    }
-    if (note.txt) {
-        md += `${note.txt.value}\n\n`;
+    switch (note.name) {
+    case 'author':
+        md = `${note.cn}: ${note.value}\n\n`;
+        break;
+    case 'url':
+        md = `${note.cn}: ${note.value}\n\n`;
+        break;
+    default:
+        md = `${note.value}\n\n`;
     }
     return md;
 }
