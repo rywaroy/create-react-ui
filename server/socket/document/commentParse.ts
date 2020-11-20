@@ -1,25 +1,13 @@
 import { ICommentLine } from '../../types/document';
 
 const rules = {
-    '@version': {
-        name: 'version',
-        cn: '版本号',
-    },
     '@author': {
         name: 'author',
         cn: '作者',
     },
-    '@intro': {
-        name: 'intro',
-        cn: '介绍',
-    },
     '@url': {
         name: 'url',
         cn: '地址',
-    },
-    '@image': {
-        name: 'image',
-        cn: '图片',
     },
     '@txt': {
         name: 'txt',
@@ -65,9 +53,14 @@ export default function commentParse(comments: IComment[]): ICommentLine[] {
 function filterCommentBlock(comment: IComment): string[] {
     const commentArray = [];
     comment.value.split('\n').forEach(item => {
-    // 去除星号、首尾空格 ' * abcd   ' -> 'abcd'
-        const str = item.replace(/(^\s*\*\s*)|(\s*$)/, '');
-
+        let str = '';
+        if (item.indexOf('@') > -1) {
+            // 去除星号、首尾空格 ' * abcd   ' -> 'abcd'
+            str = item.replace(/(^\s*\*\s*)|(\s*$)/, '');
+        } else {
+            // 去除星号、尾部空格，保留星号后的空格 ' * abcd   ' -> ' abcd'
+            str = item.replace(/(^\s*\*)|(\s*$)/, '');
+        }
         // 过滤空字符串
         if (str) {
             commentArray.push(str);
