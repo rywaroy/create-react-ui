@@ -5,7 +5,6 @@ import { Socket } from 'socket.io';
 import getTargetFile from './getTargetFile';
 import astParse from './astParse';
 import createMd from './createMd';
-import creatProgress from './createProgress';
 import getComponentName from './getComponentName';
 
 interface INameMap {
@@ -31,7 +30,9 @@ export default function document(socket: Socket) {
         const nameMap: INameMap = {};
 
         files.forEach(item => {
-            socket.emit('term-document', creatProgress(num, total, `正在解析${item}`));
+            const projectPath = item.replace(process.cwd(), '');
+            num++;
+            socket.emit('term-document', `正在解析${projectPath}  ${chalk.greenBright(`${num}/${total}`)}`);
             const fileObj = astParse(item);
             if (typeof fileObj === 'boolean') {
                 warningTip.push(chalk.yellowBright(`${item} 文件解析出错`));
@@ -47,15 +48,14 @@ export default function document(socket: Socket) {
                         warningTip.push(chalk.yellowBright(`${item} 文件重名，由 ${name}.mdx 修改为 ${newName}.mdx`));
                     }
                     fileObj.path = item;
-                    fileObj.projectPath = item.replace(process.cwd(), '');
+                    fileObj.projectPath = projectPath;
                     fileObj.fileName = newName;
                     fileObj.ext = path.extname(item);
                     createMd(fileObj, output);
                 }
             }
-            num++;
         });
-        socket.emit('term-document', creatProgress(num, total, '解析完成!'));
+        socket.emit('term-document', chalk.greenBright('\n解析完成!'));
         if (warningTip.length > 0) {
             socket.emit('term-document', chalk.yellowBright('提示: \n'));
             warningTip.forEach(item => {
