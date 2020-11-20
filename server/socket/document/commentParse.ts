@@ -24,25 +24,43 @@ interface IComment {
     value: string;
 }
 
+interface ICommentParseReturn {
+    commentArray: ICommentLine[];
+    example: string;
+}
+
 /**
  * 过滤注释，返回注释解析对象
  * @param {Array} comments - 注释数组
  * @returns {Object}
  */
-export default function commentParse(comments: IComment[]): ICommentLine[] {
+export default function commentParse(comments: IComment[]): ICommentParseReturn {
     const commentArray = [];
+    let example = '';
     comments.forEach(comment => {
         if (comment.type === 'CommentBlock') {
             const cb = filterCommentBlock(comment);
-            cb.forEach(line => {
-                commentArray.push(filterCommentLine(line));
-            });
+            for (let i = 0; i < cb.length; i++) {
+                if (cb[i].indexOf('@example') > -1) {
+                    i++;
+                    while (i < cb.length && cb[i].indexOf('@') === -1) {
+                        example += `${cb[i]}\n`;
+                        i++;
+                    }
+                    i--;
+                } else {
+                    commentArray.push(filterCommentLine(cb[i]));
+                }
+            }
         }
         if (comment.type === 'CommentLine') {
             commentArray.push(filterCommentLine(comment.value));
         }
     });
-    return commentArray;
+    return {
+        commentArray,
+        example,
+    };
 }
 
 /**
