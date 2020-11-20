@@ -50,7 +50,7 @@ export default function document(socket: Socket) {
                     fileObj.projectPath = item.replace(process.cwd(), '');
                     fileObj.fileName = newName;
                     fileObj.ext = path.extname(item);
-                    createMd(fileObj, newName, output);
+                    createMd(fileObj, output);
                 }
             }
             num++;
