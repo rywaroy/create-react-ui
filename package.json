@@ -1,6 +1,6 @@
 {
   "name": "crui",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "description": "react代码快速生成工具",
   "scripts": {
     "start": "umi dev",

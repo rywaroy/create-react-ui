@@ -5,9 +5,7 @@ import { Socket } from 'socket.io';
 import getTargetFile from './getTargetFile';
 import astParse from './astParse';
 import createMd from './createMd';
-import creatProgress from './createProgress';
 import getComponentName from './getComponentName';
-import { IPageObject } from '../../types/document';
 
 interface INameMap {
     [prop: string]: boolean
@@ -32,34 +30,32 @@ export default function document(socket: Socket) {
         const nameMap: INameMap = {};
 
         files.forEach(item => {
-            socket.emit('term-document', creatProgress(num, total, `正在解析${item}`));
+            const projectPath = item.replace(process.cwd(), '');
+            num++;
+            socket.emit('term-document', `正在解析${projectPath}  ${chalk.greenBright(`${num}/${total}`)}`);
             const fileObj = astParse(item);
             if (typeof fileObj === 'boolean') {
                 warningTip.push(chalk.yellowBright(`${item} 文件解析出错`));
             } else {
-                const { isFunction, isClass, props, main } = fileObj;
-                if (isFunction && !props) {
-                // 如果是函数，如果没有props，代表不是函数组件，不生成md
-                    warningTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
-                } else if (isClass && !main && !props) {
-                // 如果是类，如果没有props且也没有注释，不 生成md
-                    warningTip.push(chalk.yellowBright(`${item} 暂无解析数据`));
-                } else if (!main && !props) {
-                // 不是函数也不是类，可能是工具库文件
-                    warningTip.push(chalk.yellowBright(`${item} 该文件不是组件`));
+                const { main } = fileObj;
+                if (!main) {
+                    warningTip.push(chalk.yellowBright(`${item} 该文件没有注释`));
                 } else {
                     const { name, newName, reset } = resetName(nameMap, getComponentName(fileObj));
 
                     // 判断是否修改过文件名，有则发起提示
                     if (reset) {
-                        warningTip.push(chalk.yellowBright(`${item} 文件重名，由 ${name}.md 修改为 ${newName}.d`));
+                        warningTip.push(chalk.yellowBright(`${item} 文件重名，由 ${name}.mdx 修改为 ${newName}.mdx`));
                     }
-                    createMd(fileObj, newName, output);
+                    fileObj.path = item;
+                    fileObj.projectPath = projectPath;
+                    fileObj.fileName = newName;
+                    fileObj.ext = path.extname(item);
+                    createMd(fileObj, output);
                 }
             }
-            num++;
         });
-        socket.emit('term-document', creatProgress(num, total, '解析完成!'));
+        socket.emit('term-document', chalk.greenBright('\n解析完成!'));
         if (warningTip.length > 0) {
             socket.emit('term-document', chalk.yellowBright('提示: \n'));
             warningTip.forEach(item => {
