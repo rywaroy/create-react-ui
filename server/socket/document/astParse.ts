@@ -192,7 +192,7 @@ function parsePropTypes(props): IPageProps[] {
          * optionalElement: PropTypes.element,
          * optionalElementType: PropTypes.elementType,
          */
-        if (props[i].value.object && props[i].value === 'MemberExpression') {
+        if (props[i].value.object && props[i].value.type === 'MemberExpression') {
             if (props[i].value.object.type === 'Identifier') {
                 obj.type = props[i].value.property.name;
             }
@@ -206,7 +206,7 @@ function parsePropTypes(props): IPageProps[] {
             propsCallee(obj, props[i].value);
         }
 
-        if (props[i].value.object && props[i].value === 'CallExpression') {
+        if (props[i].value.object && props[i].value.type === 'CallExpression') {
             propsCallee(obj, props[i].value.object);
             obj.isRequired = props[i].value.property.name === 'isRequired';
         }
@@ -238,7 +238,7 @@ function propsCallee(obj: IPropsObject, value: any) {
      * optionalEnum: PropTypes.oneOf(['News', 'Photos']),
      */
     if (value.callee.property.name === 'oneOf') {
-        obj.type = value.arguments[0].elements.map(item => item.value).join(' | ');
+        obj.type = value.arguments[0].elements.map(item => item.value).join(' / ');
     }
 
     /**
@@ -283,6 +283,6 @@ function propsCallee(obj: IPropsObject, value: any) {
                 }
             }
         });
-        obj.type = arr.join(' |  ');
+        obj.type = arr.join(' /  ');
     }
 }
