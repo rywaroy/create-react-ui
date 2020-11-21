@@ -22,7 +22,7 @@ export default function astParse(base: string, code?: string): IPageObject | boo
         traverse(ast, {
             ExportDefaultDeclaration(path: any) {
                 if (path.node.declaration.type === 'FunctionDeclaration') {
-                    /**
+                /**
                     * 导出函数式组件
                     * @example
                     * export default function Component(props) {
@@ -31,9 +31,12 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                     */
                     const identifier = path.node.declaration.id.name;
                     obj.name = identifier;
+
+                    // @ts-ignore
+                    traverse(ast, createPropsVisitor(obj, identifier));
                 }
                 if (path.node.declaration.type === 'ClassDeclaration') {
-                    /**
+                /**
                     * 导出类组件
                     * @example
                     * export default class Component extends React.Component {
@@ -42,9 +45,12 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                     */
                     const identifier = path.node.declaration.id.name;
                     obj.name = identifier;
+
+                    // @ts-ignore
+                    traverse(ast, createPropsVisitor(obj, identifier));
                 }
                 if (path.node.declaration.type === 'Identifier') {
-                    /**
+                /**
                      * 导出变量
                      * @example
                      * class Component extends react.Component {}
@@ -52,9 +58,12 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                      */
                     const identifier = path.node.declaration.name;
                     obj.name = identifier;
+
+                    // @ts-ignore
+                    traverse(ast, createPropsVisitor(obj, identifier));
                 }
                 if (path.node.declaration.type === 'CallExpression') {
-                    /**
+                /**
                      * 导出表达式
                      * @example
                      * class Component extends react.Component {}
@@ -75,6 +84,9 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                             identifier = argument.arguments[0].name;
                         }
                         obj.name = identifier;
+
+                        // @ts-ignore
+                        traverse(ast, createPropsVisitor(obj, identifier));
                     }
                 }
             },
@@ -89,61 +101,21 @@ export default function astParse(base: string, code?: string): IPageObject | boo
                 }
             },
         });
+
+        // 合并defaultProps
+        if (obj.defaultProps && obj.props) {
+            obj.props.forEach(item => {
+                if (obj.defaultProps[item.name]) {
+                    item.defaultProps = obj.defaultProps[item.name];
+                }
+            });
+            delete obj.defaultProps;
+        }
     } catch {
         return false;
     }
 
     return obj;
-}
-
-/**
- * 创建遍历器
- * @param {Object} object - 页面object对象
- * @param {String} identifier - 遍历名称
- * @param {Object} ast - ast对象
- * @returns {Object} - visitor对象
- */
-function createVisitor(object: IPageObject, identifier: string, ast): Visitor {
-    return {
-        FunctionDeclaration(path: any) {
-            if (path.node.id.name === identifier) {
-                traverse(ast, createPropsVisitor(object, identifier));
-            }
-        },
-        ClassDeclaration(path: any) {
-            if (path.node.id.name === identifier) {
-                if (path.node.body.body.length > 0) {
-                    path.node.body.body.forEach(item => {
-                        if (item.type === 'ClassProperty' && item.static) {
-                            if (item.key.name === 'defaultProps') {
-                                object.defaultProps = parseDefaultProps(item.value.properties);
-                            }
-                            if (item.key.name === 'propTypes') {
-                                object.props = parsePropTypes(item.value.properties);
-                            }
-                        }
-                    });
-                }
-                traverse(ast, createPropsVisitor(object, identifier));
-            }
-        },
-        VariableDeclaration(path) {
-            /**
-             * 使用Form组件的情况
-             * @example
-             * const ComponentForm = Form.create()(Component);
-             * export default ComponentForm
-             */
-            path.node.declarations.forEach((item: any) => {
-                if (item.id.name === identifier && item.init.type === 'CallExpression') {
-                    if (item.init.arguments.length > 0) {
-                        const id = item.init.arguments[0].name;
-                        traverse(ast, createVisitor(object, id, ast));
-                    }
-                }
-            });
-        },
-    };
 }
 
 /**
@@ -205,13 +177,92 @@ function parsePropTypes(props): IPageProps[] {
         const obj: IPropsObject = {
             name: props[i].key.name,
         };
-        if (props[i].value.object.type === 'Identifier') {
-            obj.type = props[i].value.property.name;
-            obj.isRequired = false;
+
+        /**
+         * @example
+         * optionalArray: PropTypes.array,
+         * optionalBool: PropTypes.bool,
+         * optionalFunc: PropTypes.func,
+         * optionalNumber: PropTypes.number,
+         * optionalObject: PropTypes.object,
+         * optionalString: PropTypes.string,
+         * optionalSymbol: PropTypes.symbol,
+         * optionalNode: PropTypes.node,
+         * optionalElement: PropTypes.element,
+         * optionalElementType: PropTypes.elementType,
+         */
+        if (props[i].value.object) {
+            if (props[i].value.object.type === 'Identifier') {
+                obj.type = props[i].value.property.name;
+                obj.isRequired = false;
+            }
+            if (props[i].value.object.type === 'MemberExpression') {
+                obj.type = props[i].value.object.property.name;
+                obj.isRequired = props[i].value.property.name === 'isRequired';
+            }
         }
-        if (props[i].value.object.type === 'MemberExpression') {
-            obj.type = props[i].value.object.property.name;
-            obj.isRequired = props[i].value.property.name === 'isRequired';
+
+        if (props[i].value.callee) {
+            /**
+             * @example
+             * optionalMessage: PropTypes.instanceOf(Message),
+             */
+            if (props[i].value.callee.property.name === 'instanceOf') {
+                obj.type = `instanceOf ${props[i].value.arguments[0].name}`;
+            }
+
+            /**
+             * @example
+             * optionalEnum: PropTypes.oneOf(['News', 'Photos']),
+             */
+            if (props[i].value.callee.property.name === 'oneOf') {
+                obj.type = props[i].value.arguments[0].elements.map(item => item.value).join(' | ');
+            }
+
+            /**
+             * @example
+             * optionalArrayOf: PropTypes.arrayOf(PropTypes.number),
+             */
+            if (props[i].value.callee.property.name === 'arrayOf') {
+                obj.type = `array of ${props[i].value.arguments[0].property.name}`;
+            }
+
+            /**
+             * @example
+             * optionalObjectOf: PropTypes.objectOf(PropTypes.number),
+             */
+            if (props[i].value.callee.property.name === 'objectOf') {
+                obj.type = `object of ${props[i].value.arguments[0].property.name}`;
+            }
+
+            /**
+             * @example
+             * optionalUnion: PropTypes.oneOfType([
+             *      PropTypes.string,
+             *      PropTypes.number,
+             *      PropTypes.instanceOf(Message)
+             *   ]),
+             */
+            if (props[i].value.callee.property.name === 'oneOfType') {
+                const arr = [];
+                props[i].value.arguments[0].elements.forEach(item => {
+                    if (item.type === 'MemberExpression') {
+                        arr.push(item.property.name);
+                    }
+                    if (item.type === 'CallExpression') {
+                        if (item.callee.property.name === 'instanceOf') {
+                            arr.push(`instanceOf ${item.arguments[0].name}`);
+                        }
+                        if (item.callee.property.name === 'arrayOf') {
+                            arr.push(`array of ${item.arguments[0].property.name}`);
+                        }
+                        if (item.callee.property.name === 'objectOf') {
+                            arr.push(`object of ${item.arguments[0].property.name}`);
+                        }
+                    }
+                });
+                obj.type = arr.join(' |  ');
+            }
         }
         // 最后一项取trailingComments内容
         if (i === props.length - 1) {
