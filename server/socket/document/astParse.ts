@@ -156,7 +156,7 @@ function parseDefaultProps(props): IPageDefaultProps {
     const df = {};
     props.forEach(prop => {
         const { code } = generate(prop.value);
-        df[prop.key.name] = code;
+        df[prop.key.name] = code.replace(/[\n]/g, '');
     });
     return df;
 }
@@ -200,15 +200,14 @@ function parsePropTypes(props): IPageProps[] {
                 obj.type = props[i].value.object.property.name;
                 obj.isRequired = props[i].value.property.name === 'isRequired';
             }
+            if (props[i].value.object.type === 'CallExpression') {
+                propsCallee(obj, props[i].value.object);
+                obj.isRequired = props[i].value.property.name === 'isRequired';
+            }
         }
 
         if (props[i].value.callee) {
             propsCallee(obj, props[i].value);
-        }
-
-        if (props[i].value.object && props[i].value.type === 'CallExpression') {
-            propsCallee(obj, props[i].value.object);
-            obj.isRequired = props[i].value.property.name === 'isRequired';
         }
 
         // 最后一项取trailingComments内容
