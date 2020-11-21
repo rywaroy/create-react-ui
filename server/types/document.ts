@@ -7,6 +7,8 @@ export interface IPageObject {
   fileName?: string;
   ext?: string;
   example?: string;
+  defaultProps?: any;
+  props?: any;
 }
 
 export interface ICommentLine {
@@ -17,4 +19,16 @@ export interface ICommentLine {
 
 export interface INote {
   [props: string]: ICommentLine
+}
+
+export interface IPageProps {
+  name: string;
+  value?: ICommentLine[];
+  type: string;
+  isRequired?: boolean;
+  defaultProps?: string | number;
+}
+
+export interface IPageDefaultProps {
+  [props: string]: string | number;
 }
