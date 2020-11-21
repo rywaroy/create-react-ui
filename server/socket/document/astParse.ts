@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { parse } from '@babel/parser';
 import traverse, { Visitor } from '@babel/traverse';
+import generate from '@babel/generator';
 import commentParse from './commentParse';
 import { IPageObject, IPageDefaultProps, IPageProps } from '../../types/document';
 
@@ -154,9 +155,8 @@ function createPropsVisitor(object, identifier: string): Visitor {
 function parseDefaultProps(props): IPageDefaultProps {
     const df = {};
     props.forEach(prop => {
-        if (prop.value.type === 'StringLiteral' || prop.value.type === 'NumericLiteral' || prop.value.type === 'BooleanLiteral') { // 存储字符串、数字、布尔类型的默认值
-            df[prop.key.name] = prop.value.value;
-        }
+        const { code } = generate(prop.value);
+        df[prop.key.name] = code;
     });
     return df;
 }
