@@ -156,7 +156,7 @@ function parseDefaultProps(props): IPageDefaultProps {
     const df = {};
     props.forEach(prop => {
         const { code } = generate(prop.value);
-        df[prop.key.name] = code.replace(/[\n]/g, '');
+        df[prop.key.name] = code.replace(/[\n]/g, ' ');
     });
     return df;
 }
@@ -282,6 +282,6 @@ function propsCallee(obj: IPropsObject, value: any) {
                 }
             }
         });
-        obj.type = arr.join(' /  ');
+        obj.type = arr.join(' / ');
     }
 }
