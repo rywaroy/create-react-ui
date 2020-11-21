@@ -176,6 +176,7 @@ function parsePropTypes(props): IPageProps[] {
     for (let i = 0; i < props.length; i++) {
         const obj: IPropsObject = {
             name: props[i].key.name,
+            isRequired: false,
         };
 
         /**
@@ -191,10 +192,9 @@ function parsePropTypes(props): IPageProps[] {
          * optionalElement: PropTypes.element,
          * optionalElementType: PropTypes.elementType,
          */
-        if (props[i].value.object) {
+        if (props[i].value.object && props[i].value === 'MemberExpression') {
             if (props[i].value.object.type === 'Identifier') {
                 obj.type = props[i].value.property.name;
-                obj.isRequired = false;
             }
             if (props[i].value.object.type === 'MemberExpression') {
                 obj.type = props[i].value.object.property.name;
@@ -203,67 +203,14 @@ function parsePropTypes(props): IPageProps[] {
         }
 
         if (props[i].value.callee) {
-            /**
-             * @example
-             * optionalMessage: PropTypes.instanceOf(Message),
-             */
-            if (props[i].value.callee.property.name === 'instanceOf') {
-                obj.type = `instanceOf ${props[i].value.arguments[0].name}`;
-            }
-
-            /**
-             * @example
-             * optionalEnum: PropTypes.oneOf(['News', 'Photos']),
-             */
-            if (props[i].value.callee.property.name === 'oneOf') {
-                obj.type = props[i].value.arguments[0].elements.map(item => item.value).join(' | ');
-            }
-
-            /**
-             * @example
-             * optionalArrayOf: PropTypes.arrayOf(PropTypes.number),
-             */
-            if (props[i].value.callee.property.name === 'arrayOf') {
-                obj.type = `array of ${props[i].value.arguments[0].property.name}`;
-            }
-
-            /**
-             * @example
-             * optionalObjectOf: PropTypes.objectOf(PropTypes.number),
-             */
-            if (props[i].value.callee.property.name === 'objectOf') {
-                obj.type = `object of ${props[i].value.arguments[0].property.name}`;
-            }
-
-            /**
-             * @example
-             * optionalUnion: PropTypes.oneOfType([
-             *      PropTypes.string,
-             *      PropTypes.number,
-             *      PropTypes.instanceOf(Message)
-             *   ]),
-             */
-            if (props[i].value.callee.property.name === 'oneOfType') {
-                const arr = [];
-                props[i].value.arguments[0].elements.forEach(item => {
-                    if (item.type === 'MemberExpression') {
-                        arr.push(item.property.name);
-                    }
-                    if (item.type === 'CallExpression') {
-                        if (item.callee.property.name === 'instanceOf') {
-                            arr.push(`instanceOf ${item.arguments[0].name}`);
-                        }
-                        if (item.callee.property.name === 'arrayOf') {
-                            arr.push(`array of ${item.arguments[0].property.name}`);
-                        }
-                        if (item.callee.property.name === 'objectOf') {
-                            arr.push(`object of ${item.arguments[0].property.name}`);
-                        }
-                    }
-                });
-                obj.type = arr.join(' |  ');
-            }
+            propsCallee(obj, props[i].value);
         }
+
+        if (props[i].value.object && props[i].value === 'CallExpression') {
+            propsCallee(obj, props[i].value.object);
+            obj.isRequired = props[i].value.property.name === 'isRequired';
+        }
+
         // 最后一项取trailingComments内容
         if (i === props.length - 1) {
             if (props[i].trailingComments) {
@@ -275,4 +222,67 @@ function parsePropTypes(props): IPageProps[] {
         types.push(obj);
     }
     return types;
+}
+
+function propsCallee(obj: IPropsObject, value: any) {
+    /**
+     * @example
+     * optionalMessage: PropTypes.instanceOf(Message),
+     */
+    if (value.callee.property.name === 'instanceOf') {
+        obj.type = `instanceOf ${value.arguments[0].name}`;
+    }
+
+    /**
+     * @example
+     * optionalEnum: PropTypes.oneOf(['News', 'Photos']),
+     */
+    if (value.callee.property.name === 'oneOf') {
+        obj.type = value.arguments[0].elements.map(item => item.value).join(' | ');
+    }
+
+    /**
+     * @example
+     * optionalArrayOf: PropTypes.arrayOf(PropTypes.number),
+     */
+    if (value.callee.property.name === 'arrayOf') {
+        obj.type = `array of ${value.arguments[0].property.name}`;
+    }
+
+    /**
+     * @example
+     * optionalObjectOf: PropTypes.objectOf(PropTypes.number),
+     */
+    if (value.callee.property.name === 'objectOf') {
+        obj.type = `object of ${value.arguments[0].property.name}`;
+    }
+
+    /**
+     * @example
+     * optionalUnion: PropTypes.oneOfType([
+     *      PropTypes.string,
+     *      PropTypes.number,
+     *      PropTypes.instanceOf(Message)
+     *   ]),
+     */
+    if (value.callee.property.name === 'oneOfType') {
+        const arr = [];
+        value.arguments[0].elements.forEach(item => {
+            if (item.type === 'MemberExpression') {
+                arr.push(item.property.name);
+            }
+            if (item.type === 'CallExpression') {
+                if (item.callee.property.name === 'instanceOf') {
+                    arr.push(`instanceOf ${item.arguments[0].name}`);
+                }
+                if (item.callee.property.name === 'arrayOf') {
+                    arr.push(`array of ${item.arguments[0].property.name}`);
+                }
+                if (item.callee.property.name === 'objectOf') {
+                    arr.push(`object of ${item.arguments[0].property.name}`);
+                }
+            }
+        });
+        obj.type = arr.join(' |  ');
+    }
 }
