@@ -21,6 +21,8 @@ export default function createMd(fileObj: IPageObject, output: string) {
     let exampleText = '';
     if (example) {
         exampleText = `
+## 代码演示
+
 \`\`\`jsx
 import React from 'react';
 import ${name} from '${componentPath}';
@@ -73,7 +75,7 @@ function getNote(note: ICommentLine[]): INote {
 
 function createProps(props: IPageProps[]) {
     let md = '';
-    md += '## props \n\n';
+    md += '## API \n\n';
     md += `| 属性 | 类型 | 默认值 | 是否必填 | 说明
 | ---- | ---- | ---- | ---- | ---- | \n`;
     props.forEach(item => {
