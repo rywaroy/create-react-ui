@@ -1,9 +1,8 @@
 import path from 'path';
-import fs from 'fs';
-import { IPageObject, ICommentLine } from '../../types/document';
+import { IPageObject, ICommentLine, INote, IPageProps } from '../../types/document';
 
 export default function createMd(fileObj: IPageObject, output: string) {
-    const { main, name, projectPath, fileName, example } = fileObj;
+    const { main, name, projectPath, example, props } = fileObj;
     let notes = '';
     if (main && main.length > 0) {
         main.forEach(item => {
@@ -11,29 +10,39 @@ export default function createMd(fileObj: IPageObject, output: string) {
         });
     }
 
-    const md = `---
-name: ${name}
-route: /${fileName}
----
+    // 相对组件路径
+    const componentPath = `${path.relative(`/${output}`, projectPath)}`;
 
-import { Playground, Props } from 'docz';
-import ${name} from '${path.relative(`/${output}`, projectPath)}';
+    // 后缀
+    const ext = path.extname(projectPath);
 
-# ${name}
+    // 组件代码
+    let exampleText = '';
+    if (example) {
+        exampleText = `
+## 代码演示
 
-${notes}
+\`\`\`jsx
+import React from 'react';
+import ${name} from '${componentPath}';
+    
+export default ${example.startsWith('<') ? `() => ${example}` : example};
+\`\`\``;
+    }
 
-<h3>属性</h3>
+    let md = `# ${name}\n\n`;
+    md += `${notes}\n\n`;
+    if (exampleText) {
+        md += `${exampleText}\n\n`;
+    }
+    if (ext === '.tsx' && (!props || props.length === 0)) {
+        md += `<API src="${componentPath}"></API>\n\n`;
+    }
+    if (props && props.length > 0) {
+        md += createProps(props);
+    }
 
-<Props of={${name}} />
-
-${example && `<h3>例子</h3>
-
-<Playground>
-${example}
-</Playground>`}`;
-
-    fs.writeFileSync(`${path.join(process.cwd(), output, `${fileName}.mdx`)}`, md);
+    return md;
 }
 
 function createNote(note: ICommentLine) {
@@ -48,5 +57,29 @@ function createNote(note: ICommentLine) {
     default:
         md = `${note.value}\n\n`;
     }
+    return md;
+}
+
+/**
+ * 获取注释对象
+ * @param {Array} note
+ */
+function getNote(note: ICommentLine[]): INote {
+    const noteObj = {};
+    note.forEach(item => {
+        noteObj[item.name] = item;
+    });
+    return noteObj;
+}
+
+function createProps(props: IPageProps[]) {
+    let md = '';
+    md += '## API \n\n';
+    md += `| 参数 | 类型 | 默认值 | 是否必填 | 说明
+| ---- | ---- | ---- | ---- | ---- | \n`;
+    props.forEach(item => {
+        md += `| ${item.name} | ${item.type} | ${item.defaultProps ? item.defaultProps : ''} | ${item.isRequired ? '是' : ''} | ${item.value ? getNote(item.value).txt.value : ''} | \n`;
+    });
+    md += '\n';
     return md;
 }
