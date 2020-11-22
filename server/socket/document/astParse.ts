@@ -211,15 +211,20 @@ function parsePropTypes(props): IPageProps[] {
         }
 
         // 最后一项取trailingComments内容
-        if (i === props.length - 1) {
-            if (props[i].trailingComments) {
-                const { commentArray } = commentParse(props[i].trailingComments);
-                obj.value = commentArray;
-            }
-        } else if (props[i + 1].leadingComments) { // 不是最后一项取下一项的leadingComments内容
-            const { commentArray } = commentParse(props[i + 1].leadingComments);
+        // if (i === props.length - 1) {
+        //     if (props[i].trailingComments) {
+        //         const { commentArray } = commentParse(props[i].trailingComments);
+        //         obj.value = commentArray;
+        //     }
+        // } else if (props[i + 1].leadingComments) { // 不是最后一项取下一项的leadingComments内容
+        //     const { commentArray } = commentParse(props[i + 1].leadingComments);
+        //     obj.value = commentArray;
+        // }
+        if (props[i].leadingComments) {
+            const { commentArray } = commentParse(props[i].leadingComments);
             obj.value = commentArray;
         }
+
         types.push(obj);
     }
     return types;
