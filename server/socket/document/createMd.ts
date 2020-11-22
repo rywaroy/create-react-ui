@@ -1,9 +1,8 @@
 import path from 'path';
-import fs from 'fs';
 import { IPageObject, ICommentLine, INote, IPageProps } from '../../types/document';
 
 export default function createMd(fileObj: IPageObject, output: string) {
-    const { main, name, projectPath, fileName, example, props } = fileObj;
+    const { main, name, projectPath, example, props } = fileObj;
     let notes = '';
     if (main && main.length > 0) {
         main.forEach(item => {
@@ -43,7 +42,7 @@ export default () => ${example};
         md += createProps(props);
     }
 
-    fs.writeFileSync(`${path.join(process.cwd(), output, `${fileName}.md`)}`, md);
+    return md;
 }
 
 function createNote(note: ICommentLine) {
