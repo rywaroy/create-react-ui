@@ -75,10 +75,10 @@ function getNote(note: ICommentLine[]): INote {
 function createProps(props: IPageProps[]) {
     let md = '';
     md += '## API \n\n';
-    md += `| 属性 | 类型 | 默认值 | 是否必填 | 说明
+    md += `| 参数 | 类型 | 默认值 | 是否必填 | 说明
 | ---- | ---- | ---- | ---- | ---- | \n`;
     props.forEach(item => {
-        md += `| ${item.name} | ${item.type} | ${item.defaultProps ? item.defaultProps : ''} | ${item.isRequired} | ${item.value ? getNote(item.value).txt.value : ''} | \n`;
+        md += `| ${item.name} | ${item.type} | ${item.defaultProps ? item.defaultProps : ''} | ${item.isRequired ? '是' : ''} | ${item.value ? getNote(item.value).txt.value : ''} | \n`;
     });
     md += '\n';
     return md;
