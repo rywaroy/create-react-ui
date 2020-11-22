@@ -15,6 +15,7 @@ export default function document(socket: Socket) {
     socket.on('create-document', ({ entry, output }: { entry: string, output: string}) => {
         const entryBase = path.join(process.cwd(), entry);
         const stat = fs.statSync(entryBase);
+        let isSingle = false;
         let files: string[] = [];
         if (stat.isDirectory()) {
             files = getTargetFile(entryBase);
@@ -22,10 +23,10 @@ export default function document(socket: Socket) {
         }
         if (stat.isFile()) {
             files = [entryBase];
+            isSingle = true;
         }
         socket.emit('createing', true);
         const total = files.length;
-        const warningTip: string[] = [];
         let num = 0;
         const nameMap: INameMap = {};
 
@@ -35,33 +36,33 @@ export default function document(socket: Socket) {
             socket.emit('term-document', `正在解析${projectPath}  ${chalk.greenBright(`${num}/${total}`)}`);
             const fileObj = astParse(item);
             if (typeof fileObj === 'boolean') {
-                warningTip.push(chalk.yellowBright(`${item} 文件解析出错`));
+                socket.emit('term-document', chalk.yellowBright(`${projectPath} 文件解析出错\n`));
             } else {
                 const { main } = fileObj;
                 if (!main) {
-                    warningTip.push(chalk.yellowBright(`${item} 该文件没有注释`));
+                    socket.emit('term-document', chalk.yellowBright(`${projectPath} 该文件没有注释\n`));
                 } else {
                     const { name, newName, reset } = resetName(nameMap, getComponentName(fileObj));
 
                     // 判断是否修改过文件名，有则发起提示
                     if (reset) {
-                        warningTip.push(chalk.yellowBright(`${item} 文件重名，由 ${name}.mdx 修改为 ${newName}.mdx`));
+                        socket.emit('term-document', chalk.yellowBright(`${projectPath} 文件重名，由 ${name}.md 修改为 ${newName}.md\n`));
                     }
                     fileObj.path = item;
                     fileObj.projectPath = projectPath;
                     fileObj.fileName = newName;
                     fileObj.ext = path.extname(item);
-                    createMd(fileObj, output);
+                    const md = createMd(fileObj, output);
+                    const mdPath = `${path.join(process.cwd(), output, `${newName}.md`)}`;
+                    if (fs.existsSync(mdPath) && !isSingle) {
+                        socket.emit('term-document', chalk.redBright(`${projectPath} 该文件已有文档，请单独生成文档并替换\n`));
+                    } else {
+                        fs.writeFileSync(`${path.join(process.cwd(), output, `${newName}.md`)}`, md);
+                    }
                 }
             }
         });
         socket.emit('term-document', chalk.greenBright('\n解析完成!'));
-        if (warningTip.length > 0) {
-            socket.emit('term-document', chalk.yellowBright('提示: \n'));
-            warningTip.forEach(item => {
-                socket.emit('term-document', item);
-            });
-        }
         socket.emit('createing', false);
     });
 }
