@@ -26,7 +26,7 @@ export default function createMd(fileObj: IPageObject, output: string) {
 import React from 'react';
 import ${name} from '${componentPath}';
     
-export default ${example.startsWith('<') ? `() => ${example}` : example};
+export default ${/^[\s]*</.test(example) ? `() => ${example}` : example};
 \`\`\``;
     }
 
