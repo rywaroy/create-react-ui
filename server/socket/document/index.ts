@@ -35,18 +35,18 @@ export default function document(socket: Socket) {
             num++;
             socket.emit('term-document', `正在解析${projectPath}  ${chalk.greenBright(`${num}/${total}`)}`);
             const fileObj = astParse(item);
-            if (typeof fileObj === 'boolean') {
-                socket.emit('term-document', chalk.yellowBright(`${projectPath} 文件解析出错\n`));
+            if (typeof fileObj === 'string') {
+                socket.emit('term-document', chalk.redBright(`文件解析出错: ${fileObj}\n`));
             } else {
                 const { main } = fileObj;
                 if (!main) {
-                    socket.emit('term-document', chalk.yellowBright(`${projectPath} 该文件没有注释\n`));
+                    socket.emit('term-document', chalk.yellowBright('该文件没有注释\n'));
                 } else {
                     const { name, newName, reset } = resetName(nameMap, getComponentName(fileObj));
 
                     // 判断是否修改过文件名，有则发起提示
                     if (reset) {
-                        socket.emit('term-document', chalk.yellowBright(`${projectPath} 文件重名，由 ${name}.md 修改为 ${newName}.md\n`));
+                        socket.emit('term-document', chalk.yellowBright(`文件名冲突，由 ${name}.md 修改为 ${newName}.md\n`));
                     }
                     fileObj.path = item;
                     fileObj.projectPath = projectPath;

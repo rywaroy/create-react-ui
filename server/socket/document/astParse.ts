@@ -5,7 +5,7 @@ import generate from '@babel/generator';
 import commentParse from './commentParse';
 import { IPageObject, IPageDefaultProps, IPageProps } from '../../types/document';
 
-export default function astParse(base: string, code?: string): IPageObject | boolean {
+export default function astParse(base: string, code?: string): IPageObject | string {
     const obj: IPageObject = {};
     if (!code) {
         code = fs.readFileSync(base, 'utf-8');
@@ -112,8 +112,8 @@ export default function astParse(base: string, code?: string): IPageObject | boo
             });
             delete obj.defaultProps;
         }
-    } catch {
-        return false;
+    } catch (err) {
+        return err.message;
     }
 
     return obj;
@@ -244,7 +244,15 @@ function propsCallee(obj: IPropsObject, value: any) {
      * optionalEnum: PropTypes.oneOf(['News', 'Photos']),
      */
     if (value.callee.property.name === 'oneOf') {
-        obj.type = value.arguments[0].elements.map(item => item.value).join(' / ');
+        obj.type = value.arguments[0].elements.map(item => {
+            if (typeof item.value === 'object' && !item) {
+                return 'null';
+            }
+            if (typeof item.value === 'undefined') {
+                return 'undefined';
+            }
+            return `'${item.value}'`;
+        }).join(' / ');
     }
 
     /**
