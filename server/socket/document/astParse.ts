@@ -244,7 +244,15 @@ function propsCallee(obj: IPropsObject, value: any) {
      * optionalEnum: PropTypes.oneOf(['News', 'Photos']),
      */
     if (value.callee.property.name === 'oneOf') {
-        obj.type = value.arguments[0].elements.map(item => item.value).join(' / ');
+        obj.type = value.arguments[0].elements.map(item => {
+            if (typeof item.value === 'object' && !item) {
+                return 'null';
+            }
+            if (typeof item.value === 'undefined') {
+                return 'undefined';
+            }
+            return `'${item.value}'`;
+        }).join(' / ');
     }
 
     /**
