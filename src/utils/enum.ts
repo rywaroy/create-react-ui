@@ -29,6 +29,7 @@ export const LYTTYPES = [
     { value: 'rangepicker', label: '时间区间选择框 rangepicker' },
     { value: 'checkbox', label: '多选组 checkbox' },
     { value: 'radio', label: '单选组 radio' },
+    { value: 'datepicker', label: '日期选择框 datepicker' },
 ];
 
 export const initialValueOptions = [

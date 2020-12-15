@@ -50,6 +50,9 @@ const mapTypeToComponent = {
     radio: {
         WrappedComponent: Radio.Group,
     },
+    datepicker: {
+        WrappedComponent: DatePicker,
+    },
 };
 
 interface IState {
