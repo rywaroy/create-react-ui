@@ -11,11 +11,11 @@ export default function listFilter(material: IMaterial) {
         }
         if (material.props.formSet && material.props.formSet.length > 0) {
             material.props.formSetFS = 'listFilters()';
-            delete material.props.formSet;
         }
-        if (material.props.outherSet && material.props.outherSet.length > 0) {
-            material.props.outherSetFS = 'outherSet()';
-            delete material.props.outherSet;
+        delete material.props.formSet;
+        if (material.props.otherSet && material.props.otherSet.length > 0) {
+            material.props.otherSetFS = 'otherSet()';
         }
+        delete material.props.otherSet;
     }
 }
