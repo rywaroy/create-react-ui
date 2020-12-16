@@ -4,4 +4,5 @@ export interface mockData {
   labelMax?: number;
   value: string | number;
   objectValue?: mockData[];
+  arrayValue?: mockData[][];
 }
