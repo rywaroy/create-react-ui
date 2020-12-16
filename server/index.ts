@@ -9,7 +9,7 @@ import createSocket from './socket';
 const server = http.createServer(app.callback());
 
 program
-    .version('2.0.0');
+    .version('2.5.2');
 
 // socket
 createSocket(server);
