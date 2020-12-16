@@ -5,4 +5,6 @@ export interface mockData {
   value: string | number;
   objectValue?: mockData[];
   arrayValue?: mockData[][];
+  id: number;
+  pid: number;
 }
