@@ -2,7 +2,7 @@ import path from 'path';
 import { IPageObject, ICommentLine, INote, IPageProps } from '../../types/document';
 
 export default function createMd(fileObj: IPageObject, output: string) {
-    const { main, name, projectPath, example, props } = fileObj;
+    const { main, name, projectPath, example, props, fileName } = fileObj;
     let notes = '';
     if (main && main.length > 0) {
         main.forEach(item => {
@@ -30,7 +30,7 @@ export default ${/^[\s]*</.test(example) ? `() => ${example}` : example};
 \`\`\``;
     }
 
-    let md = `# ${name}\n\n`;
+    let md = `# ${fileName}\n\n`;
     md += `${notes}\n\n`;
     if (exampleText) {
         md += `${exampleText}\n\n`;
@@ -53,6 +53,8 @@ function createNote(note: ICommentLine) {
         break;
     case 'url':
         md = `${note.cn}: ${note.value}\n\n`;
+        break;
+    case 'title':
         break;
     default:
         md = `${note.value}\n\n`;

@@ -50,18 +50,16 @@ const SetForm: React.FC<IProps> = (props) => {
     const setType = (value: string, index: number) => {
         const list = [...forms];
         list[index].type = value;
-        if (!list[index].name) {
-            list[index].name = value;
-        }
         setForms(list);
     };
 
     /**
      * 设置label
      */
-    const setLabelText = (value, index) => {
+    const setLabelText = (value: string, index: number) => {
         const list = [...forms];
         list[index].label = value;
+        list[index].name = value;
         setForms(list);
     };
 

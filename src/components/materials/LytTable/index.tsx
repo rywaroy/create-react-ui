@@ -84,7 +84,7 @@ export const LytTableMaterial: IMaterial = {
                 },
                 codes: [
                     `export function columns({{ getModalLink().length > 0 ? 'methods' : '' }}) {
-                        {{ getModalLink().length > 0 ? \`const { \${getModalLink().join(', ')} } = medhods\` : ''}}
+                        {{ getModalLink().length > 0 ? \`const { \${getModalLink().join(', ')} } = methods\` : ''}}
                         return {{createFunctionString(columns)}};
                     }`,
                 ],
