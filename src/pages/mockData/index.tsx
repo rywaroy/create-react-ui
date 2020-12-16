@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Input, InputNumber, AutoComplete } from 'antd';
 import { mockData } from '@/types/mockData';
 import { getDataTree } from './map';
@@ -17,7 +17,7 @@ const valueData = ['arrayValue', 'objectValue'];
 const MockData: React.FC = () => {
     const [dataList, setDataList] = useState<mockData[]>(initialValue);
 
-    const list = getDataTree(dataList);
+    const dataListTree = getDataTree(dataList);
 
     const onChangeLabel = (text: string, id: number) => {
         const list = [...dataList];
@@ -75,7 +75,7 @@ const MockData: React.FC = () => {
     /**
      * 渲染单条mock数据
      */
-    const renderMockItem = useCallback((item: mockData) => (
+    const renderMockItem = (item: mockData) => (
         <div className={styles.mockData} key={item.id}>
             <Input placeholder="value" value={item.label} style={{ width: '100px' }} onChange={e => onChangeLabel(e.target.value, item.id)} />
                 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -95,12 +95,12 @@ const MockData: React.FC = () => {
                 item.value === 'arrayValue' && renderArrayMockData(item.arrayValue)
             }
         </div>
-    ), []);
+    );
 
     /**
      * 渲染对象mock数据
      */
-    const renderObjectMockData = useCallback((data: mockData[], index: number) => (
+    const renderObjectMockData = (data: mockData[], index: number) => (
         <div className={styles.mockBlock} key={index}>
             <div className={styles.brackets}>{'{'}</div>
             {
@@ -108,12 +108,12 @@ const MockData: React.FC = () => {
             }
             <div className={styles.brackets}>{'}'}</div>
         </div>
-    ), []);
+    );
 
     /**
      * 渲染数组mock数据
      */
-    const renderArrayMockData = useCallback((data: mockData[][]) => (
+    const renderArrayMockData = (data: mockData[][]) => (
         <div className={styles.mockBlock}>
             <div className={styles.brackets}>[</div>
             {
@@ -121,11 +121,11 @@ const MockData: React.FC = () => {
             }
             <div className={styles.brackets}>]</div>
         </div>
-    ), []);
+    );
 
     return (
         <div className={styles.mockBox}>
-            {renderObjectMockData(list, 1)}
+            {renderObjectMockData(dataListTree, 1)}
         </div>
     );
 };
