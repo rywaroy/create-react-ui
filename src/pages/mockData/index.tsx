@@ -75,7 +75,10 @@ const MockData: React.FC = () => {
      * 添加属性
      */
     const addItem = (data: mockData[]) => {
-        const { pid } = data[0];
+        let pid = 1;
+        if (data.length > 0) {
+            pid = data[0].pid;
+        }
         const list = [...dataList];
         list.push({ label: '', value: '', id: Math.random(), pid });
         setDataList(list);
