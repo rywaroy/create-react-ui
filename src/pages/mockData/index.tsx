@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, InputNumber, AutoComplete } from 'antd';
 import { mockData } from '@/types/mockData';
-import { getDataTree } from './map';
+import { getDataTree, valueData, getMockObjectText } from './map';
 import styles from './index.less';
 
 const initialValue: mockData[] = [
@@ -12,12 +12,10 @@ const initialValue: mockData[] = [
     { label: '', value: '', id: 6, pid: 5 },
 ];
 
-const valueData = ['arrayValue', 'objectValue'];
-
 const MockData: React.FC = () => {
     const [dataList, setDataList] = useState<mockData[]>(initialValue);
-
-    const dataListTree = getDataTree(dataList);
+    const [dataListTree, setDataListTree] = useState<mockData[]>([]);
+    const [mockObject, setMockObject] = useState({});
 
     const onChangeLabel = (text: string, id: number) => {
         const list = [...dataList];
@@ -123,9 +121,25 @@ const MockData: React.FC = () => {
         </div>
     );
 
+    useEffect(() => {
+        setDataListTree(getDataTree(dataList));
+    }, [dataList]);
+
+    useEffect(() => {
+        setMockObject(getMockObjectText(dataListTree));
+    }, [dataListTree]);
+
     return (
         <div className={styles.mockBox}>
-            {renderObjectMockData(dataListTree, 1)}
+            <div className={styles.mockTree}>
+                {renderObjectMockData(dataListTree, 1)}
+            </div>
+            <div className={styles.mockCode}>
+                <pre>
+                    {JSON.stringify(mockObject, null, 2)}
+                </pre>
+            </div>
+
         </div>
     );
 };
