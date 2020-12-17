@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputNumber, AutoComplete } from 'antd';
+import { Input, InputNumber, AutoComplete, Button } from 'antd';
 import { mockData } from '@/types/mockData';
 import { getDataTree, valueData, getMockObjectText } from './map';
 import styles from './index.less';
@@ -71,6 +71,16 @@ const MockData: React.FC = () => {
     };
 
     /**
+     * 添加属性
+     */
+    const addItem = (data: mockData[]) => {
+        const { pid } = data[0];
+        const list = [...dataList];
+        list.push({ label: '', value: '', id: Math.random(), pid });
+        setDataList(list);
+    };
+
+    /**
      * 渲染单条mock数据
      */
     const renderMockItem = (item: mockData) => (
@@ -100,7 +110,7 @@ const MockData: React.FC = () => {
      */
     const renderObjectMockData = (data: mockData[], index: number) => (
         <div className={styles.mockBlock} key={index}>
-            <div className={styles.brackets}>{'{'}</div>
+            <div className={styles.brackets}>{'{'} <Button type="primary" size="small" icon="plus" onClick={() => addItem(data)} /></div>
             {
                 data.map((item) => renderMockItem(item))
             }
