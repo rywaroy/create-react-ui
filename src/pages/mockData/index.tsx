@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Input, InputNumber, AutoComplete, Button } from 'antd';
+import mockjs from 'mockjs';
 import { mockData } from '@/types/mockData';
 import { getDataTree, valueData, getMockObjectText } from './map';
 import styles from './index.less';
@@ -145,11 +146,19 @@ const MockData: React.FC = () => {
                 {renderObjectMockData(dataListTree, 1)}
             </div>
             <div className={styles.mockCode}>
+                mock 对象
+                <br />
                 <pre>
                     {JSON.stringify(mockObject, null, 2)}
                 </pre>
             </div>
-
+            <div className={styles.mockCode}>
+                mock 数据
+                <br />
+                <pre>
+                    {JSON.stringify(mockjs.mock(mockObject), null, 2)}
+                </pre>
+            </div>
         </div>
     );
 };
