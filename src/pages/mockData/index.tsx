@@ -82,9 +82,28 @@ const MockData: React.FC = () => {
     };
 
     /**
+     * 删除属性
+     */
+    const deleteItem = (id: number) => {
+        const deleteId = [id];
+        let list = [...dataList];
+        function findItem(pid: number) {
+            list.forEach(item => {
+                if (item.pid === pid) {
+                    deleteId.push(item.id);
+                    findItem(item.id);
+                }
+            });
+        }
+        findItem(id);
+        list = list.filter((item) => deleteId.indexOf(item.id) === -1);
+        setDataList(list);
+    };
+
+    /**
      * 渲染单条mock数据
      */
-    const renderMockItem = (item: mockData) => (
+    const renderMockItem = (item: mockData, index: number) => (
         <div className={styles.mockData} key={item.id}>
             <Input placeholder="value" value={item.label} style={{ width: '100px' }} onChange={e => onChangeLabel(e.target.value, item.id)} />
                 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -94,9 +113,12 @@ const MockData: React.FC = () => {
                 &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;
             <AutoComplete
                 value={item.value}
-                style={{ width: '100px' }}
+                style={{ width: '100px', marginRight: '10px' }}
                 dataSource={valueData}
                 onChange={(value: string) => onChangeValue(value, item.id)} />
+            {
+                index > 0 && <Button type="primary" icon="minus" size="small" onClick={() => deleteItem(item.id)} />
+            }
             {
                 item.value === 'objectValue' && renderObjectMockData(item.objectValue, item.id)
             }
@@ -113,7 +135,7 @@ const MockData: React.FC = () => {
         <div className={styles.mockBlock} key={index}>
             <div className={styles.brackets}>{'{'} <Button type="primary" size="small" icon="plus" onClick={() => addItem(data)} /></div>
             {
-                data.map((item) => renderMockItem(item))
+                data.map((item, index) => renderMockItem(item, index))
             }
             <div className={styles.brackets}>{'}'}</div>
         </div>
