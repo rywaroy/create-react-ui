@@ -1,6 +1,25 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { mockData } from '@/types/mockData';
 
+export const valueData = [
+    '@id',
+    '@ctitle',
+    '@cname',
+    '@datetime',
+    '@natural',
+    '@cparagraph',
+    '@county(true)',
+    '@character',
+    '@boolean',
+    '@string',
+    '@date',
+    '@time',
+    '@color',
+    '@url',
+    'arrayValue',
+    'objectValue',
+];
+
 export function getDataTree(dataList: mockData[]) {
     const result: mockData[] = [];
     const data = cloneDeep<mockData[]>(dataList);
