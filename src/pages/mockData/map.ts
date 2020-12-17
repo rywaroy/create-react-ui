@@ -53,3 +53,32 @@ export function getDataTree(dataList: mockData[]) {
     });
     return result;
 }
+
+function getMockArrayText(dataListTree: mockData[][]) {
+    const data = [];
+    data[0] = getMockObjectText(dataListTree[0]);
+    return data;
+}
+
+export function getMockObjectText(dataListTree: mockData[]) {
+    const data = {};
+    dataListTree.forEach(item => {
+        if (item.label && item.value) {
+            let labelText = item.label;
+            if (item.labelMin) {
+                labelText = `${labelText}|${item.labelMin}`;
+                if (item.labelMax) {
+                    labelText = `${labelText}-${item.labelMax}`;
+                }
+            }
+            if (item.value === 'objectValue') {
+                data[labelText] = getMockObjectText(item.objectValue);
+            } else if (item.value === 'arrayValue') {
+                data[labelText] = getMockArrayText(item.arrayValue);
+            } else {
+                data[labelText] = item.value;
+            }
+        }
+    });
+    return data;
+}
