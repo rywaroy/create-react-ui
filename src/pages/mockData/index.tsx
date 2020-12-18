@@ -3,6 +3,7 @@ import { Input, InputNumber, AutoComplete, Button } from 'antd';
 import { mockData } from '@/types/mockData';
 import useChangeMock from './hooks/useChangeMock';
 import useEditMock from './hooks/useEditMock';
+import useCreateMock from './hooks/useCreateMock';
 import { valueData } from './map';
 import styles from './index.less';
 
@@ -22,6 +23,9 @@ const MockData: React.FC = () => {
 
     // 添加/删除mock对象逻辑
     const { addItem, deleteItem } = useEditMock(dataList, setDataList);
+
+    // 打开生成mock弹窗
+    const { toggle, modalProps } = useCreateMock();
 
     /**
      * 渲染单条mock数据
