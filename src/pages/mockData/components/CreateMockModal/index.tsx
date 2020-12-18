@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Modal, TreeSelect, Input } from 'antd';
 import { useSelector } from 'dva';
 import { FormComponentProps } from 'antd/es/form';
+import { isJsOrFolder } from '@/services/file';
 import { GlobalModelState } from '@/models/global';
 
 interface IProps extends FormComponentProps {
@@ -12,7 +13,24 @@ interface IProps extends FormComponentProps {
 const CreateMockModal = (props: IProps) => {
     const { visible, onCancel, form } = props;
     const { getFieldDecorator } = form;
+    const [fileType, setFileType] = useState('');
     const { files } = useSelector<any, GlobalModelState>(state => state.global);
+
+    /**
+     * 验证是否是js文件或者文件夹
+     */
+    const validatorPath = (rule, value: string, callback: (err?: Error) => void) => {
+        isJsOrFolder({
+            url: value,
+        }).then((res) => {
+            setFileType(res.data.data.type);
+            callback();
+        }).catch(err => {
+            setFileType('');
+            callback(err);
+        });
+    };
+
     return (
         <Modal
             title="创建mock"
@@ -35,6 +53,7 @@ const CreateMockModal = (props: IProps) => {
                         getFieldDecorator('path', {
                             rules: [
                                 { required: true, message: '请选择文件夹或文件路径' },
+                                { validator: validatorPath },
                             ],
                         })(
                             <TreeSelect
@@ -46,6 +65,29 @@ const CreateMockModal = (props: IProps) => {
                         )
                     }
                 </Form.Item>
+                {
+                    fileType === 'folder'
+                    && (
+                        <Form.Item label="文件名">
+                            {
+                                getFieldDecorator('fileName', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '请填写文件名',
+                                        },
+                                        {
+                                            pattern: /^[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+$/,
+                                            message: '请填写正确文件名',
+                                        },
+                                    ],
+                                })(
+                                    <Input />,
+                                )
+                            }
+                        </Form.Item>
+                    )
+                }
             </Form>
         </Modal>
     );
