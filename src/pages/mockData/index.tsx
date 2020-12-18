@@ -4,6 +4,7 @@ import { mockData } from '@/types/mockData';
 import useChangeMock from './hooks/useChangeMock';
 import useEditMock from './hooks/useEditMock';
 import useCreateMock from './hooks/useCreateMock';
+import CreateMockModal from './components/CreateMockModal';
 import { valueData } from './map';
 import styles from './index.less';
 
@@ -83,7 +84,7 @@ const MockData: React.FC = () => {
 
     return (
         <div className={styles.mockWrap}>
-            <Button type="primary">生成mock</Button>
+            <Button type="primary" onClick={toggle}>生成mock</Button>
             <div className={styles.mockBox}>
                 <div className={styles.mockTree}>
                     {renderObjectMockData(dataListTree, 1)}
@@ -101,6 +102,8 @@ const MockData: React.FC = () => {
                     </pre>
                 </div>
             </div>
+            <CreateMockModal
+                {...modalProps} />
         </div>
     );
 };
