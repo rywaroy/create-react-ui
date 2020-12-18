@@ -1,75 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Input, InputNumber, AutoComplete, Button } from 'antd';
-import Mock from 'mockjs';
 import { mockData } from '@/types/mockData';
-import { getDataTree, valueData, getMockObjectText } from './map';
+import useChangeMock from './hooks/useChangeMock';
+import { valueData } from './map';
 import styles from './index.less';
 
-const initialValue: mockData[] = [
-    { label: 'code', value: '200', id: 2, pid: 1 },
-    { label: 'count', value: '50', id: 3, pid: 1 },
-    { label: 'result', value: 'success', id: 4, pid: 1 },
-    { label: 'data', value: 'arrayValue', id: 5, pid: 1 },
-    { label: '', value: '', id: 6, pid: 5 },
-];
-
 const MockData: React.FC = () => {
-    const [dataList, setDataList] = useState<mockData[]>(initialValue);
-    const [dataListTree, setDataListTree] = useState<mockData[]>([]);
-    const [mockObject, setMockObject] = useState({});
-
-    const onChangeLabel = (text: string, id: number) => {
-        const list = [...dataList];
-        list.forEach(item => {
-            if (item.id === id) {
-                item.label = text;
-            }
-        });
-        setDataList(list);
-    };
-
-    const onChangeLabelMin = (text: number, id: number) => {
-        const list = [...dataList];
-        list.forEach(item => {
-            if (item.id === id) {
-                item.labelMin = text;
-            }
-        });
-        setDataList(list);
-    };
-
-    const onChangeLabelMax = (text: number, id: number) => {
-        const list = [...dataList];
-        list.forEach(item => {
-            if (item.id === id) {
-                item.labelMax = text;
-            }
-        });
-        setDataList(list);
-    };
-
-    const onChangeValue = (text: string, id: number) => {
-        const list = [...dataList];
-        for (let i = 0; i < list.length; i++) {
-            if (list[i].id === id) {
-                list[i].value = text;
-                break;
-            }
-        }
-        if (text === 'objectValue') {
-            list.push({ label: '', value: '', id: Math.random(), pid: id });
-        } else if (text === 'arrayValue') {
-            list.push({ label: '', value: '', id: Math.random(), pid: id });
-        } else {
-            // 清空子项
-            for (let i = list.length - 1; i >= 0; i--) {
-                if (list[i].pid === id) {
-                    list.splice(i, 1);
-                }
-            }
-        }
-        setDataList(list);
-    };
+    // 修改mock对象逻辑
+    const {
+        dataList,
+        dataListTree,
+        mockObject,
+        mockResult,
+        setDataList,
+        onChangeLabel,
+        onChangeLabelMin,
+        onChangeLabelMax,
+        onChangeValue,
+    } = useChangeMock();
 
     /**
      * 添加属性
@@ -157,32 +105,27 @@ const MockData: React.FC = () => {
         </div>
     );
 
-    useEffect(() => {
-        setDataListTree(getDataTree(dataList));
-    }, [dataList]);
-
-    useEffect(() => {
-        setMockObject(getMockObjectText(dataListTree));
-    }, [dataListTree]);
-
     return (
-        <div className={styles.mockBox}>
-            <div className={styles.mockTree}>
-                {renderObjectMockData(dataListTree, 1)}
-            </div>
-            <div className={styles.mockCode}>
+        <div className={styles.mockWrap}>
+            <Button type="primary">生成mock</Button>
+            <div className={styles.mockBox}>
+                <div className={styles.mockTree}>
+                    {renderObjectMockData(dataListTree, 1)}
+                </div>
+                <div className={styles.mockCode}>
                 mock 对象
-                <br />
-                <pre>
-                    {JSON.stringify(mockObject, null, 2)}
-                </pre>
-            </div>
-            <div className={styles.mockCode}>
+                    <br />
+                    <pre>
+                        {JSON.stringify(mockObject, null, 2)}
+                    </pre>
+                </div>
+                <div className={styles.mockCode}>
                 mock 数据
-                <br />
-                <pre>
-                    {JSON.stringify(Mock.mock(mockObject), null, 2)}
-                </pre>
+                    <br />
+                    <pre>
+                        {JSON.stringify(mockResult, null, 2)}
+                    </pre>
+                </div>
             </div>
         </div>
     );
