@@ -2,6 +2,7 @@ import React from 'react';
 import { Input, InputNumber, AutoComplete, Button } from 'antd';
 import { mockData } from '@/types/mockData';
 import useChangeMock from './hooks/useChangeMock';
+import useEditMock from './hooks/useEditMock';
 import { valueData } from './map';
 import styles from './index.less';
 
@@ -19,37 +20,8 @@ const MockData: React.FC = () => {
         onChangeValue,
     } = useChangeMock();
 
-    /**
-     * 添加属性
-     */
-    const addItem = (data: mockData[]) => {
-        let pid = 1;
-        if (data.length > 0) {
-            pid = data[0].pid;
-        }
-        const list = [...dataList];
-        list.push({ label: '', value: '', id: Math.random(), pid });
-        setDataList(list);
-    };
-
-    /**
-     * 删除属性
-     */
-    const deleteItem = (id: number) => {
-        const deleteId = [id];
-        let list = [...dataList];
-        function findItem(pid: number) {
-            list.forEach(item => {
-                if (item.pid === pid) {
-                    deleteId.push(item.id);
-                    findItem(item.id);
-                }
-            });
-        }
-        findItem(id);
-        list = list.filter((item) => deleteId.indexOf(item.id) === -1);
-        setDataList(list);
-    };
+    // 添加/删除mock对象逻辑
+    const { addItem, deleteItem } = useEditMock(dataList, setDataList);
 
     /**
      * 渲染单条mock数据
@@ -113,15 +85,13 @@ const MockData: React.FC = () => {
                     {renderObjectMockData(dataListTree, 1)}
                 </div>
                 <div className={styles.mockCode}>
-                mock 对象
-                    <br />
+                    mock 对象
                     <pre>
                         {JSON.stringify(mockObject, null, 2)}
                     </pre>
                 </div>
                 <div className={styles.mockCode}>
-                mock 数据
-                    <br />
+                    mock 数据
                     <pre>
                         {JSON.stringify(mockResult, null, 2)}
                     </pre>
