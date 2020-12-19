@@ -103,6 +103,20 @@ const CreateMockModal = (props: IProps) => {
                         </Form.Item>
                     )
                 }
+                <Form.Item label="请求函数名">
+                    {
+                        getFieldDecorator('functionName', {
+                            rules: [
+                                {
+                                    pattern: /^[a-zA-Z$_][a-zA-Z\d_]*$/,
+                                    message: '请填写正确函数名',
+                                },
+                            ],
+                        })(
+                            <Input />,
+                        )
+                    }
+                </Form.Item>
             </Form>
         </Modal>
     );
