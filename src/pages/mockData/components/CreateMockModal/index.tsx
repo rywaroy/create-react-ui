@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Form, Modal, TreeSelect, Input, Radio } from 'antd';
 import { useSelector } from 'dva';
 import { FormComponentProps } from 'antd/es/form';
-import { isJsOrFolder } from '@/services/file';
+import { isJsOrFolder, isJs } from '@/services/file';
+
 import { GlobalModelState } from '@/models/global';
 
 interface IProps extends FormComponentProps {
@@ -27,6 +28,19 @@ const CreateMockModal = (props: IProps) => {
             callback();
         }).catch(err => {
             setFileType('');
+            callback(err);
+        });
+    };
+
+    /**
+     * 验证是否是js文件
+     */
+    const validatorServerPath = (rule, value: string, callback: (err?: Error) => void) => {
+        isJs({
+            url: value,
+        }).then(() => {
+            callback();
+        }).catch(err => {
             callback(err);
         });
     };
@@ -105,7 +119,7 @@ const CreateMockModal = (props: IProps) => {
                 }
                 <Form.Item label="请求函数名">
                     {
-                        getFieldDecorator('functionName', {
+                        getFieldDecorator('serverName', {
                             rules: [
                                 {
                                     pattern: /^[a-zA-Z$_][a-zA-Z\d_]*$/,
@@ -114,6 +128,22 @@ const CreateMockModal = (props: IProps) => {
                             ],
                         })(
                             <Input />,
+                        )
+                    }
+                </Form.Item>
+                <Form.Item label="请求函数文件">
+                    {
+                        getFieldDecorator('serverPath', {
+                            rules: [
+                                { validator: validatorServerPath },
+                            ],
+                        })(
+                            <TreeSelect
+                                showSearch
+                                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                placeholder="请选择路径"
+                                allowClear
+                                treeData={files} />,
                         )
                     }
                 </Form.Item>
