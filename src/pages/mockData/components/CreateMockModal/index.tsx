@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Modal, TreeSelect, Input } from 'antd';
+import { Form, Modal, TreeSelect, Input, Radio } from 'antd';
 import { useSelector } from 'dva';
 import { FormComponentProps } from 'antd/es/form';
 import { isJsOrFolder } from '@/services/file';
@@ -48,7 +48,22 @@ const CreateMockModal = (props: IProps) => {
                         )
                     }
                 </Form.Item>
-                <Form.Item label="文件夹/文件">
+                <Form.Item label="Method">
+                    {
+                        getFieldDecorator('method', {
+                            initialValue: 'GET',
+                            rules: [
+                                { required: true, message: '请填写method' },
+                            ],
+                        })(
+                            <Radio.Group>
+                                <Radio value="GET">GET</Radio>
+                                <Radio value="POST">POST</Radio>
+                            </Radio.Group>,
+                        )
+                    }
+                </Form.Item>
+                <Form.Item label="Mock 文件夹/文件">
                     {
                         getFieldDecorator('path', {
                             rules: [
