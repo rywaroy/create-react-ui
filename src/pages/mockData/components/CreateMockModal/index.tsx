@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Modal, TreeSelect, Input, Radio } from 'antd';
+import { Form, Modal, TreeSelect, Input, Radio, Select } from 'antd';
 import { useSelector } from 'dva';
 import { FormComponentProps } from 'antd/es/form';
 import { isJsOrFolder, isJs } from '@/services/file';
@@ -15,6 +15,7 @@ const CreateMockModal = (props: IProps) => {
     const { visible, onCancel, form } = props;
     const { getFieldDecorator } = form;
     const [fileType, setFileType] = useState('');
+    const [baseUrl, setBaseUrl] = useState('/marketingScoreNode/proxy/tradeManager');
     const { files } = useSelector<any, GlobalModelState>(state => state.global);
 
     /**
@@ -45,6 +46,15 @@ const CreateMockModal = (props: IProps) => {
         });
     };
 
+    const selectBefore = (
+        <Select defaultValue="/marketingScoreNode/proxy/tradeManager" onChange={(value: string) => setBaseUrl(value)}>
+            <Select.Option value="/marketingScoreNode/proxy/tradeManager">/marketingScoreNode/proxy/tradeManager</Select.Option>
+            <Select.Option value="/oilChainBoss">/oilChainBoss</Select.Option>
+            <Select.Option value="/oilChainEnterprice">/oilChainEnterprice</Select.Option>
+            <Select.Option value="/oilChainGasStation">/oilChainGasStation</Select.Option>
+        </Select>
+    );
+
     return (
         <Modal
             title="创建mock"
@@ -58,7 +68,7 @@ const CreateMockModal = (props: IProps) => {
                                 { required: true, message: '请填写url' },
                             ],
                         })(
-                            <Input />,
+                            <Input addonBefore={selectBefore} />,
                         )
                     }
                 </Form.Item>
