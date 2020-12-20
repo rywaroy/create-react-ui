@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Modal, TreeSelect, Input, Radio, Select } from 'antd';
+import { Form, Modal, TreeSelect, Input, Radio, Select, message } from 'antd';
 import { useSelector } from 'dva';
 import { FormComponentProps } from 'antd/es/form';
 import { isJsOrFolder, isJs } from '@/services/file';
-
 import { GlobalModelState } from '@/models/global';
+import { mockObject } from '@/types/mockData';
+import { createMock } from '@/services/mockData';
 
 interface IProps extends FormComponentProps {
     visible: boolean;
@@ -59,11 +60,25 @@ const CreateMockModal = (props: IProps) => {
         </Select>
     );
 
+    const onOk = () => {
+        validateFields((err, values: mockObject) => {
+            if (!err) {
+                values.baseUrl = baseUrl;
+                createMock(values)
+                    .then(() => {
+                        onCancel();
+                        message.success('创建成功');
+                    });
+            }
+        });
+    };
+
     return (
         <Modal
             title="创建mock"
             visible={visible}
-            onCancel={onCancel}>
+            onCancel={onCancel}
+            onOk={onOk}>
             <Form>
                 <Form.Item label="API url">
                     {
