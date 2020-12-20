@@ -13,7 +13,7 @@ interface IProps extends FormComponentProps {
 
 const CreateMockModal = (props: IProps) => {
     const { visible, onCancel, form } = props;
-    const { getFieldDecorator } = form;
+    const { getFieldDecorator, validateFields } = form;
     const [fileType, setFileType] = useState('');
     const [baseUrl, setBaseUrl] = useState('/marketingScoreNode/proxy/tradeManager');
     const { files } = useSelector<any, GlobalModelState>(state => state.global);
@@ -37,6 +37,10 @@ const CreateMockModal = (props: IProps) => {
      * 验证是否是js文件
      */
     const validatorServerPath = (rule, value: string, callback: (err?: Error) => void) => {
+        if (!value) {
+            callback();
+            return;
+        }
         isJs({
             url: value,
         }).then(() => {
