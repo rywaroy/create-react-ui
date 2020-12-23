@@ -5,15 +5,15 @@ import { FormComponentProps } from 'antd/es/form';
 import { isJsOrFolder, isJs } from '@/services/file';
 import { GlobalModelState } from '@/models/global';
 import { mockObject } from '@/types/mockData';
-import { createMock } from '@/services/mockData';
 
 interface IProps extends FormComponentProps {
     visible: boolean;
     onCancel: () => void;
+    onOk: (values: mockObject) => void;
 }
 
 const CreateMockModal = (props: IProps) => {
-    const { visible, onCancel, form } = props;
+    const { visible, onCancel, form, onOk } = props;
     const { getFieldDecorator, validateFields } = form;
     const [fileType, setFileType] = useState('');
     const [baseUrl, setBaseUrl] = useState('/marketingScoreNode/proxy/tradeManager');
@@ -60,15 +60,11 @@ const CreateMockModal = (props: IProps) => {
         </Select>
     );
 
-    const onOk = () => {
+    const onSubmit = () => {
         validateFields((err, values: mockObject) => {
             if (!err) {
                 values.baseUrl = baseUrl;
-                createMock(values)
-                    .then(() => {
-                        onCancel();
-                        message.success('创建成功');
-                    });
+                onOk(values);
             }
         });
     };
@@ -78,7 +74,7 @@ const CreateMockModal = (props: IProps) => {
             title="创建mock"
             visible={visible}
             onCancel={onCancel}
-            onOk={onOk}>
+            onOk={onSubmit}>
             <Form>
                 <Form.Item label="API url">
                     {
