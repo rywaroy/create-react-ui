@@ -1,9 +1,9 @@
 import axios from '@/utils/axios';
-import { mockObject } from '@/types/mockData';
+import { mockDataParams } from '@/types/mockData';
 
 /**
  * 创建mock
  */
-export function createMock(params: mockObject) {
+export function createMock(params: mockDataParams) {
     return axios.post('mockData/createMock', params);
 }

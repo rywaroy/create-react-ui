@@ -60,7 +60,7 @@ function getMockArrayText(dataListTree: mockData[][]) {
     return data;
 }
 
-export function getMockObjectText(dataListTree: mockData[]) {
+export function getMockObjectText(dataListTree: mockData[]): Object {
     const data = {};
     dataListTree.forEach(item => {
         if (item.label && item.value) {

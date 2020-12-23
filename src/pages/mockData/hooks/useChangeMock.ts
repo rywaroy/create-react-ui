@@ -15,8 +15,8 @@ const initialValue: mockData[] = [
 export default function useChangeMock() {
     const [dataList, setDataList] = useState<mockData[]>(initialValue);
     const [dataListTree, setDataListTree] = useState<mockData[]>([]);
-    const [mockObject, setMockObject] = useState({});
-    const [mockResult, setMockResult] = useState({});
+    const [mockObject, setMockObject] = useState<Object>({});
+    const [mockResult, setMockResult] = useState<Object>({});
 
     const onChangeLabel = (text: string, id: number) => {
         const list = [...dataList];
