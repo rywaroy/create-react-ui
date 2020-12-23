@@ -26,7 +26,7 @@ const MockData: React.FC = () => {
     const { addItem, deleteItem } = useEditMock(dataList, setDataList);
 
     // 打开生成mock弹窗
-    const { toggle, modalProps } = useCreateMock();
+    const { toggle, modalProps, onCreate } = useCreateMock(mockObject);
 
     /**
      * 渲染单条mock数据
@@ -103,7 +103,8 @@ const MockData: React.FC = () => {
                 </div>
             </div>
             <CreateMockModal
-                {...modalProps} />
+                {...modalProps}
+                onOk={onCreate} />
         </div>
     );
 };
