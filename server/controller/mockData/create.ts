@@ -1,5 +1,8 @@
 import path from 'path';
 import fs from 'fs-extra';
+import { parse } from '@babel/parser';
+import traverse, { Visitor } from '@babel/traverse';
+import generate from '@babel/generator';
 import IContext from '../../types/context';
 import { mockDataParams } from '../../types/mockData';
 
@@ -27,10 +30,45 @@ export default async function createMock(ctx: IContext) {
             }
             `;
             fs.outputFileSync(p, code);
+        } else {
+            p = path.join(process.cwd(), basePath);
+            const ast = parse(fs.readFileSync(p, 'utf-8'), {
+                sourceType: 'module',
+            });
+            const mockObjectAst = getMockObjectAst(`'${method} ${baseUrl}${url}': Mock.mock(${JSON.stringify(mockObject)})`);
+            // @ts-ignore
+            traverse(ast, createExportVisitor(mockObjectAst));
+            // @ts-ignore
+            const { code } = generate(ast);
+            fs.outputFileSync(p, code);
         }
 
         ctx.success(200, '创建成功', null);
     } catch (err) {
         ctx.error(0, '系统错误', err);
     }
+}
+
+function createExportVisitor(mockObjectAst): Visitor {
+    const visitor = {
+        ExportDefaultDeclaration(path) {
+            // 导出对象
+            if (path.node.declaration.type === 'ObjectExpression') {
+                path.node.declaration.properties.push(mockObjectAst);
+            }
+        },
+    };
+
+    return visitor;
+}
+
+function getMockObjectAst(str: string) {
+    const code = `const obj = {
+        ${str}
+    }`;
+    const ast = parse(code, {
+        sourceType: 'module',
+    });
+    // @ts-ignore
+    return ast.program.body[0].declarations[0].init.properties[0];
 }
