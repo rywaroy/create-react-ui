@@ -8,6 +8,6 @@ const { create } = mockController;
 /**
  * 创建mock
  */
-router.get('/page', create);
+router.post('/createMock', create);
 
 export default router;
