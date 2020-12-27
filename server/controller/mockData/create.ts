@@ -3,6 +3,7 @@ import fs from 'fs-extra';
 import { parse } from '@babel/parser';
 import traverse, { Visitor } from '@babel/traverse';
 import generate from '@babel/generator';
+import codeFormat from '../../utils/codeFormat';
 import IContext from '../../types/context';
 import { mockDataParams } from '../../types/mockData';
 
@@ -29,7 +30,7 @@ export default async function createMock(ctx: IContext) {
                 '${method} ${baseUrl}${url}': Mock.mock(${JSON.stringify(mockObject)}),
             }
             `;
-            fs.outputFileSync(p, code);
+            fs.outputFileSync(p, codeFormat(code, 2));
         } else {
             p = path.join(process.cwd(), basePath);
             const ast = parse(fs.readFileSync(p, 'utf-8'), {
@@ -40,7 +41,7 @@ export default async function createMock(ctx: IContext) {
             traverse(ast, createExportVisitor(mockObjectAst));
             // @ts-ignore
             const { code } = generate(ast);
-            fs.outputFileSync(p, code);
+            fs.outputFileSync(p, codeFormat(code, 2));
         }
 
         ctx.success(200, '创建成功', null);
