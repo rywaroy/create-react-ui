@@ -10,7 +10,7 @@
     "precommit": "lint-staged",
     "commit": "git-cz",
     "dev:watch": "NODE_ENV=development npx nodemon server/index.js",
-    "dev": "ts-node server/index.ts",
+    "dev": "NODE_ENV=development node lib/index.js",
     "build:server": "tsc -p tsconfig.server.json"
   },
   "bin": {
