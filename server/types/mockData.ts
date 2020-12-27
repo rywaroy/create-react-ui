@@ -14,3 +14,7 @@ export interface mockObject {
     /**请求函数文件路径 */
     serverPath?: string;
 }
+
+export interface mockDataParams extends mockObject {
+    mockObject: Object
+}
