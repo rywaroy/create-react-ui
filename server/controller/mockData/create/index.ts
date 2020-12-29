@@ -3,9 +3,9 @@ import fs from 'fs-extra';
 import { parse } from '@babel/parser';
 import traverse, { Visitor } from '@babel/traverse';
 import generate from '@babel/generator';
-import codeFormat from '../../utils/codeFormat';
-import IContext from '../../types/context';
-import { mockDataParams } from '../../types/mockData';
+import codeFormat from '../../../utils/codeFormat';
+import IContext from '../../../types/context';
+import { mockDataParams } from '../../../types/mockData';
 
 export default async function createMock(ctx: IContext) {
     const {
