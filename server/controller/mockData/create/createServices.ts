@@ -1,9 +1,9 @@
 import path from 'path';
 import fs from 'fs-extra';
 import codeFormat from '../../../utils/codeFormat';
-import { IMockDataParams } from '../../../types/mockData';
+import { ICreateServices } from '../../../types/mockData';
 
-export default function createServices(options: IMockDataParams) {
+export default function createServices(options: ICreateServices) {
     const { method, baseUrl, url, serverName, serverPath } = options;
     let code = '';
     if (baseUrl === '/marketingScoreNode/proxy/tradeManager') {

@@ -1,9 +1,3 @@
-import path from 'path';
-import fs from 'fs-extra';
-import { parse } from '@babel/parser';
-import traverse, { Visitor } from '@babel/traverse';
-import generate from '@babel/generator';
-import codeFormat from '../../../utils/codeFormat';
 import IContext from '../../../types/context';
 import { IMockDataParams } from '../../../types/mockData';
 import createMockFile from './createMockFile';
@@ -50,6 +44,7 @@ export default async function createMock(ctx: IContext) {
                 method,
                 serverName,
                 serverPath,
+                path: basePath,
             });
         }
 
