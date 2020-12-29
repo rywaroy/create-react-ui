@@ -5,7 +5,8 @@ import traverse, { Visitor } from '@babel/traverse';
 import generate from '@babel/generator';
 import codeFormat from '../../../utils/codeFormat';
 import IContext from '../../../types/context';
-import { mockDataParams } from '../../../types/mockData';
+import { IMockDataParams } from '../../../types/mockData';
+import createMockFile from './createMockFile';
 
 export default async function createMock(ctx: IContext) {
     const {
@@ -18,19 +19,21 @@ export default async function createMock(ctx: IContext) {
         serverPath,
         mockObject,
         // @ts-ignore for travis
-    }: mockDataParams = ctx.request.body;
+    }: IMockDataParams = ctx.request.body;
 
     try {
         let p = '';
         if (fileName) {
-            p = path.join(process.cwd(), basePath, fileName);
-            const code = `import Mock from 'mock';
-
-            export default {
-                '${method} ${baseUrl}${url}': Mock.mock(${JSON.stringify(mockObject)}),
-            }
-            `;
-            fs.outputFileSync(p, codeFormat(code, 2));
+            createMockFile({
+                url,
+                baseUrl,
+                method,
+                path: basePath,
+                fileName,
+                serverName,
+                serverPath,
+                mockObject,
+            });
         } else {
             p = path.join(process.cwd(), basePath);
             const ast = parse(fs.readFileSync(p, 'utf-8'), {
