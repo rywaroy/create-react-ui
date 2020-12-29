@@ -8,6 +8,7 @@ import IContext from '../../../types/context';
 import { IMockDataParams } from '../../../types/mockData';
 import createMockFile from './createMockFile';
 import appendMock from './appendMock';
+import createServices from './createServices';
 
 export default async function createMock(ctx: IContext) {
     const {
@@ -23,7 +24,6 @@ export default async function createMock(ctx: IContext) {
     }: IMockDataParams = ctx.request.body;
 
     try {
-        const p = '';
         if (fileName) {
             createMockFile({
                 url,
@@ -31,8 +31,6 @@ export default async function createMock(ctx: IContext) {
                 method,
                 path: basePath,
                 fileName,
-                serverName,
-                serverPath,
                 mockObject,
             });
         } else {
@@ -41,9 +39,17 @@ export default async function createMock(ctx: IContext) {
                 baseUrl,
                 method,
                 path: basePath,
+                mockObject,
+            });
+        }
+
+        if (serverName && serverPath) {
+            createServices({
+                url,
+                baseUrl,
+                method,
                 serverName,
                 serverPath,
-                mockObject,
             });
         }
 
