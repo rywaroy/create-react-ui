@@ -7,6 +7,7 @@ import codeFormat from '../../../utils/codeFormat';
 import IContext from '../../../types/context';
 import { IMockDataParams } from '../../../types/mockData';
 import createMockFile from './createMockFile';
+import appendMock from './appendMock';
 
 export default async function createMock(ctx: IContext) {
     const {
@@ -22,7 +23,7 @@ export default async function createMock(ctx: IContext) {
     }: IMockDataParams = ctx.request.body;
 
     try {
-        let p = '';
+        const p = '';
         if (fileName) {
             createMockFile({
                 url,
@@ -35,44 +36,19 @@ export default async function createMock(ctx: IContext) {
                 mockObject,
             });
         } else {
-            p = path.join(process.cwd(), basePath);
-            const ast = parse(fs.readFileSync(p, 'utf-8'), {
-                sourceType: 'module',
+            appendMock({
+                url,
+                baseUrl,
+                method,
+                path: basePath,
+                serverName,
+                serverPath,
+                mockObject,
             });
-            const mockObjectAst = getMockObjectAst(`'${method} ${baseUrl}${url}': Mock.mock(${JSON.stringify(mockObject)})`);
-            // @ts-ignore
-            traverse(ast, createExportVisitor(mockObjectAst));
-            // @ts-ignore
-            const { code } = generate(ast);
-            fs.outputFileSync(p, codeFormat(code, 2));
         }
 
         ctx.success(200, '创建成功', null);
     } catch (err) {
         ctx.error(0, '系统错误', err);
     }
-}
-
-function createExportVisitor(mockObjectAst): Visitor {
-    const visitor = {
-        ExportDefaultDeclaration(path) {
-            // 导出对象
-            if (path.node.declaration.type === 'ObjectExpression') {
-                path.node.declaration.properties.push(mockObjectAst);
-            }
-        },
-    };
-
-    return visitor;
-}
-
-function getMockObjectAst(str: string) {
-    const code = `const obj = {
-        ${str}
-    }`;
-    const ast = parse(code, {
-        sourceType: 'module',
-    });
-    // @ts-ignore
-    return ast.program.body[0].declarations[0].init.properties[0];
 }
