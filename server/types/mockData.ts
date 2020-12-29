@@ -1,4 +1,4 @@
-export interface mockObject {
+export interface IMockObject {
     /**API url */
     url: string;
     /**项目的base URL */
@@ -15,6 +15,6 @@ export interface mockObject {
     serverPath?: string;
 }
 
-export interface mockDataParams extends mockObject {
+export interface IMockDataParams extends IMockObject {
     mockObject: Object
 }
