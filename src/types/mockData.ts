@@ -29,3 +29,8 @@ export interface mockObject {
 export interface mockDataParams extends mockObject {
     mockObject: Object
 }
+
+export interface IJsonValue {
+    value: string;
+    json: Object | string;
+}
