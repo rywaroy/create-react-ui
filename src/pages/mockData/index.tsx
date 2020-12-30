@@ -37,7 +37,7 @@ const MockData: React.FC = () => {
     /**
      * 渲染单条mock数据
      */
-    const renderMockItem = (item: mockData, index: number) => (
+    const renderMockItem = (item: mockData, len: number) => (
         <div className={styles.mockData} key={item.id}>
             <Input placeholder="value" value={item.label} style={{ width: '100px' }} onChange={e => onChangeLabel(e.target.value, item.id)} />
                 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -51,7 +51,7 @@ const MockData: React.FC = () => {
                 dataSource={valueData}
                 onChange={(value: string) => onChangeValue(value, item.id)} />
             {
-                index > 0 && <Button type="primary" icon="minus" size="small" onClick={() => deleteItem(item.id)} />
+                len > 1 && <Button type="primary" icon="minus" size="small" onClick={() => deleteItem(item.id)} />
             }
             {
                 item.value === 'objectValue' && renderObjectMockData(item.objectValue, item.id)
@@ -69,7 +69,7 @@ const MockData: React.FC = () => {
         <div className={styles.mockBlock} key={index}>
             <div className={styles.brackets}>{'{'} <Button type="primary" size="small" icon="plus" onClick={() => addItem(data)} /></div>
             {
-                data.map((item, index) => renderMockItem(item, index))
+                data.map((item) => renderMockItem(item, data.length))
             }
             <div className={styles.brackets}>{'}'}</div>
         </div>
