@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDebounceEffect } from 'ahooks';
 import Mock from 'mockjs';
-import { mockData } from '@/types/mockData';
+import { mockData, IJsonValue } from '@/types/mockData';
 import { getDataTree, getMockObjectText } from '../map';
 
 const initialValue: mockData[] = [
@@ -71,6 +71,22 @@ export default function useChangeMock() {
         setDataList(list);
     };
 
+    /**
+     * 导入json
+     */
+    const onInputJson = (values: IJsonValue) => {
+        const { value, json } = values;
+        const list = [...dataList];
+        if (Array.isArray(json)) {
+            json.forEach(item => {
+                if (item[value]) {
+                    list.push({ label: item[value], value: '@ctitle', id: Math.random(), pid: 5 });
+                }
+            });
+        }
+        setDataList(list);
+    };
+
     useEffect(() => {
         setDataListTree(getDataTree(dataList));
     }, [dataList]);
@@ -91,5 +107,6 @@ export default function useChangeMock() {
         onChangeLabelMin,
         onChangeLabelMax,
         onChangeValue,
+        onInputJson,
     };
 }
