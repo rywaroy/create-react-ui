@@ -22,6 +22,7 @@ const MockData: React.FC = () => {
         onChangeLabelMin,
         onChangeLabelMax,
         onChangeValue,
+        onInputJson,
     } = useChangeMock();
 
     // 添加/删除mock对象逻辑
@@ -89,7 +90,7 @@ const MockData: React.FC = () => {
 
     return (
         <div className={styles.mockWrap}>
-            <Button type="primary" onClick={toggle}>生成mock</Button>
+            <Button type="primary" onClick={toggle} style={{ marginRight: '10px' }}>生成mock</Button>
             <Button type="primary" onClick={jsonToggle}>导入JSON</Button>
             <div className={styles.mockBox}>
                 <div className={styles.mockTree}>
@@ -113,7 +114,8 @@ const MockData: React.FC = () => {
                 onOk={onCreate} />
 
             <JsonInputModal
-                {...jsonModalProps} />
+                {...jsonModalProps}
+                onOk={onInputJson} />
         </div>
     );
 };
