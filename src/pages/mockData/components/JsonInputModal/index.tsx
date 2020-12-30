@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Modal, Input } from 'antd';
+import { Form, Modal, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { IJsonValue } from '@/types/mockData';
 
@@ -11,12 +11,30 @@ interface IProps extends FormComponentProps {
 
 const JsonInputModal: React.FC<IProps> = (props) => {
     const { visible, onOk, onCancel, form } = props;
-    const { getFieldDecorator } = form;
+    const { getFieldDecorator, validateFields } = form;
+
+    const onSubmit = () => {
+        validateFields((err, values: IJsonValue) => {
+            if (!err) {
+                try {
+                    let json;
+                    eval(`json = ${(values.json as string).replace(/`|\$/g, $1 => `\\${$1}`)}`);
+                    values.json = json;
+                    onOk(values);
+                    onCancel();
+                } catch {
+                    message.error('json格式有误');
+                }
+            }
+        });
+    };
 
     return (
         <Modal
             title="导入json"
-            visible={visible}>
+            visible={visible}
+            onOk={onSubmit}
+            onCancel={onCancel}>
             <Form.Item label="value 值">
                 {
                     getFieldDecorator('value', {
