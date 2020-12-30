@@ -4,6 +4,7 @@ import { mockData } from '@/types/mockData';
 import useChangeMock from './hooks/useChangeMock';
 import useEditMock from './hooks/useEditMock';
 import useCreateMock from './hooks/useCreateMock';
+import useJsonInput from './hooks/useJsonInput';
 import CreateMockModal from './components/CreateMockModal';
 import { valueData } from './map';
 import styles from './index.less';
@@ -27,6 +28,9 @@ const MockData: React.FC = () => {
 
     // 打开生成mock弹窗
     const { toggle, modalProps, onCreate } = useCreateMock(mockObject);
+
+    // 打开导入json弹窗
+    const { jsonToggle, jsonModalProps } = useJsonInput();
 
     /**
      * 渲染单条mock数据
@@ -85,6 +89,7 @@ const MockData: React.FC = () => {
     return (
         <div className={styles.mockWrap}>
             <Button type="primary" onClick={toggle}>生成mock</Button>
+            <Button type="primary" onClick={toggle}>导入JSON</Button>
             <div className={styles.mockBox}>
                 <div className={styles.mockTree}>
                     {renderObjectMockData(dataListTree, 1)}
