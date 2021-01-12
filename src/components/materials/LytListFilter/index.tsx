@@ -373,8 +373,8 @@ export const LytListFilter = {
                 },
                 variableDeclarator: [
                     'const formRef = useRef(null);',
-                    `const [{{namespace}}] = store;
-                     const { formData } = {{namespace}};`,
+                    `const [state] = store;
+                     const { formData } = state;`,
                 ],
             },
             'map.js': {
