@@ -78,17 +78,9 @@ export const ModalMaterial: IMaterial = {
                     behooks: {
                         export: ['useModal'],
                     },
-                    react: {
-                        export: ['useRef'],
-                    },
                 },
-                variableDeclarator: [
-                    'const {{modalName}}Ref = useRef(null);',
-                ],
                 methods: [
-                    `const { toggle: {{modalName}}Toggle, modalProps: {{modalName}}Props } = useModal({
-                        form: {{modalName}}Ref.current ? {{modalName}}Ref.current.getForm() : false,
-                    });`,
+                    'const { toggle: {{modalName}}Toggle, modalProps: {{modalName}}Props } = useModal();',
                     `const {{modalName}}Submit = (values) => {
                         {{modalName}}Toggle();
                     }`,
