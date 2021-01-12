@@ -7,7 +7,7 @@ let server: Server;
 
 beforeAll(() => {
     server = app.listen();
-    fs.mkdirSync('test/mockData');
+    fs.outputFileSync('test/mockData/services.js', '');
 });
 
 afterAll(() => {
@@ -54,5 +54,27 @@ describe('测试mockData接口', () => {
                 baseUrl: '/marketingScoreNode/proxy/tradeManager',
             });
         expect(res.status).toBe(200);
+        expect(fs.readFileSync('test/mockData/a.js', 'utf-8')).toMatch('bbb');
+    });
+
+    it('测试添加services方法', async () => {
+        const res = await request(server)
+            .post('/api/mockData/createMock')
+            .send({
+                mockObject: {
+                    code: '200',
+                    count: '50',
+                    result: 'success',
+                    data: [{}],
+                },
+                url: '/ccc',
+                method: 'GET',
+                path: 'test/mockData/a.js',
+                serverName: 'getList',
+                serverPath: 'test/mockData/services.js',
+                baseUrl: '/marketingScoreNode/proxy/tradeManager',
+            });
+        expect(res.status).toBe(200);
+        expect(fs.readFileSync('test/mockData/services.js', 'utf-8')).toMatch('getList');
     });
 });
