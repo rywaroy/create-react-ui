@@ -11,7 +11,7 @@ beforeAll(() => {
 });
 
 afterAll(() => {
-    // fs.removeSync('test/mockData');
+    fs.removeSync('test/mockData');
     server.close();
 });
 
@@ -31,6 +31,26 @@ describe('测试mockData接口', () => {
                 path: 'test/mockData',
                 serverName: '',
                 fileName: 'a.js',
+                baseUrl: '/marketingScoreNode/proxy/tradeManager',
+            });
+        expect(res.status).toBe(200);
+        expect(fs.statSync('test/mockData/a.js').isFile()).toBeTruthy();
+    });
+
+    it('测试添加mock对象', async () => {
+        const res = await request(server)
+            .post('/api/mockData/createMock')
+            .send({
+                mockObject: {
+                    code: '200',
+                    count: '50',
+                    result: 'success',
+                    data: [{}],
+                },
+                url: '/bbb',
+                method: 'GET',
+                path: 'test/mockData/a.js',
+                serverName: '',
                 baseUrl: '/marketingScoreNode/proxy/tradeManager',
             });
         expect(res.status).toBe(200);
