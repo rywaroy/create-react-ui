@@ -1,10 +1,53 @@
+import fs from 'fs-extra';
+import path from 'path';
+import createMockFile from '../../mockData/create/createMockFile';
+import appendMock from '../../mockData/create/appendMock';
 import { IMaterial, IOpt } from '../../../types/making';
+import Generator from '../generator';
 
 /**
  * 处理Table组件
  */
-export default function table(material: IMaterial) {
+export default function table(material: IMaterial, generator: Generator) {
     if (material.tag === 'Table') {
+        // 创建mock
+        if (material.props.mock && generator.isCreate) {
+            const data = {};
+            material.props.columns.forEach(item => {
+                data[item.dataIndex] = '@ctitle';
+            });
+            const mockObject = {
+                code: '200',
+                count: '50',
+                result: 'success',
+                'data|10': [data],
+            };
+            const baseUrl = material.project === '陆运通后台' ? '/marketingScoreNode/proxy/tradeManager' : '/oilChainBoss';
+            const url = `/${generator.namespace}/list`;
+            const APIPath = path.join(process.cwd(), './mock/api.js');
+            fs.stat(APIPath, (err, stats) => {
+                if (!err && stats.isFile()) {
+                    appendMock({
+                        mockObject,
+                        method: 'GET',
+                        path: path.join('mock', 'api.js'),
+                        baseUrl,
+                        url,
+                    });
+                } else {
+                    createMockFile({
+                        mockObject,
+                        method: 'GET',
+                        path: 'mock',
+                        baseUrl,
+                        url,
+                        fileName: 'api.js',
+                    });
+                }
+            });
+        }
+        delete material.props.mock;
+
         delete material.props.dataSource;
         const last = material.props.columns[material.props.columns.length - 1];
         let methods = [];

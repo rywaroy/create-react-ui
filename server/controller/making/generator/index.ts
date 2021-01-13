@@ -13,6 +13,7 @@ interface IOption {
     name: string;
     namespace: string;
     tabWith?: number;
+    isCreate?: boolean;
 }
 
 export default class Generator {
@@ -32,14 +33,17 @@ export default class Generator {
         'index.js': {},
     };
 
+    isCreate: boolean;
+
     constructor(materials: IMaterial[], option: IOption) {
-        const { plugin, url, name, namespace, tabWith = 4 } = option;
+        const { plugin, url, name, namespace, tabWith = 4, isCreate = false } = option;
         this.materials = materials;
         this.plugin = plugin;
         this.url = url;
         this.files['index.js'].name = name;
         this.namespace = namespace;
         this.tabWith = tabWith;
+        this.isCreate = isCreate;
     }
 
     create() {

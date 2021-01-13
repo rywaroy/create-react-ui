@@ -5,6 +5,7 @@ import code from './code';
 import configlist from './configlist';
 import create from './create';
 import making from './making';
+import mockData from './mockData';
 
 const router = new Router();
 
@@ -22,5 +23,6 @@ router.use('/api/code', code.routes());
 router.use('/api/configlist', configlist.routes());
 router.use('/api/create', create.routes());
 router.use('/api/making', making.routes());
+router.use('/api/mockData', mockData.routes());
 
 export default router;

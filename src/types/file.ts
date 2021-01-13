@@ -48,4 +48,8 @@ interface IGetFolderReturnData {
 
 export type IIsFolderRetrun = AxiosResponseReturn<null>;
 
-export type IIsJsOrFolderRetrun = AxiosResponseReturn<null>;
+export type IIsJsOrFolderRetrun = AxiosResponseReturn<IIsJsOrFolderReturnData>;
+
+interface IIsJsOrFolderReturnData {
+  type: string;
+}

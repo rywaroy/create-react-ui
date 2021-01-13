@@ -43,6 +43,7 @@ export const LytTableMaterial: IMaterial = {
         { name: 'className' },
         { name: 'style' },
         { name: 'table' },
+        { name: 'prop', props: { propName: 'mock', propType: 'boolean' } },
     ],
     ext: {
         code: {
