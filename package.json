@@ -1,6 +1,6 @@
 {
   "name": "crui",
-  "version": "2.3.0",
+  "version": "2.6.0",
   "description": "react代码快速生成工具",
   "scripts": {
     "start": "umi dev",
@@ -10,7 +10,7 @@
     "precommit": "lint-staged",
     "commit": "git-cz",
     "dev:watch": "NODE_ENV=development npx nodemon server/index.js",
-    "dev": "ts-node server/index.ts",
+    "dev": "NODE_ENV=development node lib/index.js",
     "build:server": "tsc -p tsconfig.server.json"
   },
   "bin": {
@@ -23,6 +23,7 @@
     "ahooks": "^2.5.0",
     "antd": "^3.19.5",
     "axios": "^0.19.0",
+    "behooks": "^0.7.1",
     "chalk": "^4.0.0",
     "clipboard": "^2.0.4",
     "commander": "^4.0.1",
@@ -38,6 +39,7 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "loadsh": "^0.0.4",
+    "mockjs": "^1.1.0",
     "prettier": "^2.0.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -54,6 +56,7 @@
     "@types/koa-cors": "^0.0.0",
     "@types/koa-router": "^7.0.35",
     "@types/koa-static": "^4.0.1",
+    "@types/mockjs": "^1.0.3",
     "@types/node": "^14.0.13",
     "@types/socket.io": "^2.1.8",
     "@types/socket.io-client": "^1.4.33",

@@ -1,8 +1,8 @@
 import { IComponentOption } from '../types/making';
 import functionComponentImportTemplate from './function-component-import-template';
 
-export default function functionComponentIndex(values: IComponentOption) {
-    const { variableDeclarator, importDeclaration, destructuring, methods, useState, useEffect, jsx, name } = values;
+export default function functionComponentIndex(values: IComponentOption, namespace: string) {
+    const { variableDeclarator, importDeclaration, destructuring, methods, useState, useEffect, jsx, name, state } = values;
 
     // 组件名
     const functionName = name.charAt(0).toUpperCase() + name.slice(1);
@@ -42,6 +42,15 @@ export default function functionComponentIndex(values: IComponentOption) {
         useEffectString = useEffect.join('\n\n');
     }
 
+    // state
+    let stateString = '';
+    if (state) {
+        stateString = `const store = useStore({
+            namespace: '${namespace}',
+            state: ${JSON.stringify(state)},
+          });`;
+    }
+
     // export
     let exportDefaultName = functionName;
     if (importDeclaration && importDeclaration.antd) {
@@ -53,8 +62,10 @@ export default function functionComponentIndex(values: IComponentOption) {
     return `
         ${importString}
 
-        const ${functionName} = (props) => {
+        const ${functionName} = () => {
             ${useStateString}
+
+            ${stateString}
 
             ${variableString}
 

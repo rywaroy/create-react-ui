@@ -112,11 +112,13 @@ export const ListFilterMaterial: IMaterial = {
                     'const formRef = useRef(null);',
                 ],
             },
-            'map.js': [
-                `export function listFilters() {
-                    return {{JSON.stringify(filters)}};
-                }`,
-            ],
+            'map.js': {
+                codes: [
+                    `export function listFilters() {
+                        return {{JSON.stringify(filters)}};
+                    }`,
+                ],
+            },
         },
     },
 };

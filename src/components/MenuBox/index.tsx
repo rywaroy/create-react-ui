@@ -54,6 +54,12 @@ class MenuBox extends Component<any, IState> {
                     url: '/document',
                 },
                 {
+                    title: 'mock数据',
+                    key: 'mock',
+                    icon: 'api',
+                    url: '/mockData',
+                },
+                {
                     title: '配置',
                     key: 'configlist',
                     icon: 'key',

@@ -50,6 +50,9 @@ const mapTypeToComponent = {
     radio: {
         WrappedComponent: Radio.Group,
     },
+    datepicker: {
+        WrappedComponent: DatePicker,
+    },
 };
 
 interface IState {
@@ -61,7 +64,7 @@ interface IState {
 interface IProps extends FormComponentProps {
     isOpen: boolean;
     formSet: ISetFormValues[];
-    outherSet: ISetFormValues[];
+    otherSet: ISetFormValues[];
     resetBtn: boolean;
     formData: any;
     setOpen: (isOpen: boolean) => void;
@@ -120,7 +123,7 @@ class ListFilter extends Component<IProps, IState> {
   /**
    * 切换
    */
-  outherSetChange = () => {
+  otherSetChange = () => {
       setTimeout(() => {
           this.handleSubmit();
       });
@@ -154,7 +157,7 @@ class ListFilter extends Component<IProps, IState> {
 
   render() {
       const { needOpen, openCol } = this.state;
-      const { formSet, form, outherSet, resetBtn = true } = this.props;
+      const { formSet, form, otherSet, resetBtn = true } = this.props;
       const isOpen = openCol ? this.props.isOpen : this.state.isOpen;
       const { getFieldDecorator } = form;
       const Buttons = (
@@ -281,10 +284,10 @@ class ListFilter extends Component<IProps, IState> {
                       </Col>
                   </Row>
               )}
-              {outherSet.length > 0 && (
+              {otherSet.length > 0 && (
                   <div className={styles.otherForm}>
                       <div>
-                          {outherSet.map(item => {
+                          {otherSet.map(item => {
                               const {
                                   label, // ant design Form原生表单项label
                                   type, // 组件类型
@@ -315,7 +318,7 @@ class ListFilter extends Component<IProps, IState> {
                                           options,
                                       )(
                                           <WrappedComponent
-                                              onChange={this.outherSetChange}
+                                              onChange={this.otherSetChange}
                                               {...props}
                                               options={listOptions}
                                           />,
@@ -340,17 +343,18 @@ export const LytListFilter = {
     intro: '列表筛选表单组件',
     props: {
         formSet: [],
-        outherSet: [],
+        otherSet: [],
         refFS: 'formRef',
         onSearchFS: 'submit',
         onResetFS: 'reset',
+        formDataFS: 'formData',
     },
     haveChildren: false,
     editComponents: [
         { name: 'className' },
         { name: 'style' },
         { name: 'form', props: { propName: 'formSet', types: LYTTYPES } },
-        { name: 'form', props: { propName: 'outherSet', types: LYTTYPES } },
+        { name: 'form', props: { propName: 'otherSet', types: LYTTYPES } },
     ],
     project: '陆运通后台',
     ext: {
@@ -361,7 +365,7 @@ export const LytListFilter = {
                         export: ['useRef'],
                     },
                     './map': {
-                        export: ['listFilters', 'outherSet'],
+                        export: ['listFilters', 'otherSet'],
                     },
                     '@/components/ListFilter': {
                         default: 'ListFilter',
@@ -369,16 +373,20 @@ export const LytListFilter = {
                 },
                 variableDeclarator: [
                     'const formRef = useRef(null);',
+                    `const [state] = store;
+                     const { formData } = state;`,
                 ],
             },
-            'map.js': [
-                `export function listFilters() {
-                    return {{JSON.stringify(formSet)}};
-                }`,
-                `export function outherSet() {
-                    return {{JSON.stringify(outherSet)}};
-                }`,
-            ],
+            'map.js': {
+                codes: [
+                    `export function listFilters() {
+                        return {{JSON.stringify(formSet)}};
+                    }`,
+                    `export function otherSet() {
+                        return {{JSON.stringify(otherSet)}};
+                    }`,
+                ],
+            },
         },
     },
 };

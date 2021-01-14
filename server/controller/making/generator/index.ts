@@ -3,6 +3,7 @@ import GeneratorMaterial from './GeneratorMaterial';
 import codeFormat from '../../../utils/codeFormat';
 import functionComponentIndex from '../../../templateString/function-component-index';
 import functionComponentModel from '../../../templateString/function-component-model';
+import functionComponentPage from '../../../templateString/function-component-page';
 
 type IPlugin = ((material: IMaterial, generator?: Generator) => void)[]
 
@@ -12,6 +13,7 @@ interface IOption {
     name: string;
     namespace: string;
     tabWith?: number;
+    isCreate?: boolean;
 }
 
 export default class Generator {
@@ -31,14 +33,17 @@ export default class Generator {
         'index.js': {},
     };
 
+    isCreate: boolean;
+
     constructor(materials: IMaterial[], option: IOption) {
-        const { plugin, url, name, namespace, tabWith = 4 } = option;
+        const { plugin, url, name, namespace, tabWith = 4, isCreate = false } = option;
         this.materials = materials;
         this.plugin = plugin;
         this.url = url;
         this.files['index.js'].name = name;
         this.namespace = namespace;
         this.tabWith = tabWith;
+        this.isCreate = isCreate;
     }
 
     create() {
@@ -91,24 +96,22 @@ export default class Generator {
 
     createFunctionString(target: object | any[]) {
         return JSON.stringify(target)
-            .replace(/"(\(.*\).*\))"/g, (a, b) => b)
-            .replace(/\\"(opt-link|mr10|_blank|\/)\\"/g, (a, b) => `"${b}"`);
+            .replace(/"(\(.*\).*,)"/g, (a, b) => b)
+            .replace(/\\"(opt-link|mr10|_blank|link|\/)\\"/g, (a, b) => `"${b}"`);
     }
 
     making() {
         const files = {};
         Object.keys(this.files).forEach(file => {
-            if (Array.isArray(this.files[file])) {
-                files[file] = codeFormat(this.files[file].join('\n\n'), this.tabWith);
+            if (this.files[file].codes) {
+                // files[file] = codeFormat(this.files[file].join('\n\n'), this.tabWith);
+                files[file] = codeFormat(functionComponentPage(this.files[file]), this.tabWith);
             } else if (file === 'model.js') {
                 files[file] = codeFormat(functionComponentModel(this.files[file], this.namespace), this.tabWith);
             } else {
-                files[file] = codeFormat(functionComponentIndex(this.files[file]), this.tabWith);
+                files[file] = codeFormat(functionComponentIndex(this.files[file], this.namespace), this.tabWith);
             }
         });
-        if (!this.files['model.js']) {
-            files['model.js'] = codeFormat(functionComponentModel({}, this.namespace), this.tabWith);
-        }
         return files;
     }
 }

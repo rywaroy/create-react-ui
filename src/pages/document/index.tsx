@@ -129,15 +129,15 @@ class Doucument extends Component<IProps, IState> {
             wrapperCol: { span: 10 },
         };
 
-        const props = {
-            name: 'file',
-            action: 'http://localhost:2019/api/document/create',
-            data: {
-                output,
-            },
-            accept: '.jsx,.js',
-            beforeUpload: this.beforeUpload,
-        };
+        // const props = {
+        //     name: 'file',
+        //     action: 'http://localhost:2019/api/document/create',
+        //     data: {
+        //         output,
+        //     },
+        //     accept: '.jsx,.js',
+        //     beforeUpload: this.beforeUpload,
+        // };
 
         return (
             <div className="base-content">
@@ -195,7 +195,7 @@ class Doucument extends Component<IProps, IState> {
                             </Form.Item>
                         </Form>
                     </div>
-                    <div className={styles.upload}>
+                    {/* <div className={styles.upload}>
                         <Dragger {...props}>
                             <p className="ant-upload-drag-icon">
                                 <Icon type="inbox" />
@@ -203,7 +203,7 @@ class Doucument extends Component<IProps, IState> {
                             <p className="ant-upload-text">拖拽上传</p>
                             <p className="ant-upload-hint">只支持单文件，上传前先选择好输出目录</p>
                         </Dragger>
-                    </div>
+                    </div> */}
                 </div>
                 <div className={styles.terminalBox}>
                     <div className={styles.terminalTop}>

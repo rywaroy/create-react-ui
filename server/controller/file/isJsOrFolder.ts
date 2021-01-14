@@ -7,11 +7,12 @@ export default async function isJsOrFolder(ctx: IContext) {
     if (fs.existsSync(base)) {
         const stat = fs.statSync(base);
         if (stat.isDirectory()) {
-            ctx.success(200, '验证成功', null);
+            ctx.success(200, '验证成功', { type: 'folder' });
         }
         if (stat.isFile()) {
-            if (path.extname(base) === '.js' || path.extname(base) === '.jsx') {
-                ctx.success(200, '验证成功', null);
+            const extname = ['.js', '.jsx', '.ts', '.tsx'];
+            if (extname.indexOf(path.extname(base)) > -1) {
+                ctx.success(200, '验证成功', { type: path.extname(base) });
             } else {
                 ctx.error(-1, '不是js文件', null);
             }

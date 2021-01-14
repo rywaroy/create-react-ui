@@ -9,7 +9,7 @@ import createSocket from './socket';
 const server = http.createServer(app.callback());
 
 program
-    .version('2.0.0');
+    .version('2.5.2');
 
 // socket
 createSocket(server);
@@ -17,7 +17,7 @@ createSocket(server);
 const PORT = 2019;
 server.listen(PORT, () => {
     console.log('🚀  启动成功');
-    const url = `localhost:${PORT}/`;
+    const url = `http://localhost:${PORT}/`;
     if (process.env.NODE_ENV !== 'development') {
         switch (process.platform) {
         case 'darwin':

@@ -7,7 +7,7 @@ export default async function isjs(ctx: IContext) {
     if (fs.existsSync(base)) {
         const stat = fs.statSync(base);
         if (stat.isFile()) {
-            if (path.extname(base) === '.js' || path.extname(base) === '.jsx') {
+            if (path.extname(base) === '.js' || path.extname(base) === '.jsx' || path.extname(base) === '.ts' || path.extname(base) === '.tsx') {
                 ctx.success(200, '验证成功', null);
             } else {
                 ctx.error(-1, '不是js文件', null);

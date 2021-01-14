@@ -13,7 +13,7 @@ interface IBody {
     tabWith: number;
 }
 
-export default function preview(ctx: IContext) {
+export default function create(ctx: IContext) {
     // @ts-ignore for travis
     const { materials, url, name, namespace, tabWith }: IBody = ctx.request.body;
 
@@ -26,6 +26,7 @@ export default function preview(ctx: IContext) {
             name,
             namespace,
             tabWith,
+            isCreate: true,
         });
         const files = generator.create();
         Object.keys(files).forEach(item => {

@@ -1,25 +1,13 @@
 import { ICommentLine } from '../../types/document';
 
 const rules = {
-    '@version': {
-        name: 'version',
-        cn: '版本号',
-    },
     '@author': {
         name: 'author',
         cn: '作者',
     },
-    '@intro': {
-        name: 'intro',
-        cn: '介绍',
-    },
     '@url': {
         name: 'url',
         cn: '地址',
-    },
-    '@image': {
-        name: 'image',
-        cn: '图片',
     },
     '@txt': {
         name: 'txt',
@@ -36,25 +24,43 @@ interface IComment {
     value: string;
 }
 
+interface ICommentParseReturn {
+    commentArray: ICommentLine[];
+    example: string;
+}
+
 /**
  * 过滤注释，返回注释解析对象
  * @param {Array} comments - 注释数组
  * @returns {Object}
  */
-export default function commentParse(comments: IComment[]): ICommentLine[] {
+export default function commentParse(comments: IComment[]): ICommentParseReturn {
     const commentArray = [];
+    let example = '';
     comments.forEach(comment => {
         if (comment.type === 'CommentBlock') {
             const cb = filterCommentBlock(comment);
-            cb.forEach(line => {
-                commentArray.push(filterCommentLine(line));
-            });
+            for (let i = 0; i < cb.length; i++) {
+                if (cb[i].indexOf('@example') > -1) {
+                    i++;
+                    while (i < cb.length && cb[i].indexOf('@') === -1) {
+                        example += `${cb[i]}\n`;
+                        i++;
+                    }
+                    i--;
+                } else {
+                    commentArray.push(filterCommentLine(cb[i]));
+                }
+            }
         }
         if (comment.type === 'CommentLine') {
             commentArray.push(filterCommentLine(comment.value));
         }
     });
-    return commentArray;
+    return {
+        commentArray,
+        example,
+    };
 }
 
 /**
@@ -65,9 +71,14 @@ export default function commentParse(comments: IComment[]): ICommentLine[] {
 function filterCommentBlock(comment: IComment): string[] {
     const commentArray = [];
     comment.value.split('\n').forEach(item => {
-    // 去除星号、首尾空格 ' * abcd   ' -> 'abcd'
-        const str = item.replace(/(^\s*\*\s*)|(\s*$)/, '');
-
+        let str = '';
+        if (item.indexOf('@') > -1) {
+            // 去除星号、首尾空格 ' * abcd   ' -> 'abcd'
+            str = item.replace(/(^\s*\*\s*)|(\s*$)/, '');
+        } else {
+            // 去除星号、尾部空格，保留星号后的空格 ' * abcd   ' -> ' abcd'
+            str = item.replace(/(^\s*\*)|(\s*$)/, '');
+        }
         // 过滤空字符串
         if (str) {
             commentArray.push(str);
